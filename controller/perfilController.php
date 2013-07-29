@@ -6,7 +6,7 @@ class PerfilController extends Controller
 {
     var $cols = array(
                         1 => array('Name'=>'Codigo','NameDB'=>'s.idperfil','align'=>'center','width'=>'20'),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion'),
+                        2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','search'=>true),
                         3 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
                      );
    public function index() 
@@ -14,7 +14,8 @@ class PerfilController extends Controller
         $data = array();        
         $cols = array();        
         $data['colsNames'] = $this->getColsVal($this->cols);
-        $data['colsModels'] = $this->getColsModel($this->cols);        
+        $data['colsModels'] = $this->getColsModel($this->cols);
+        $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));        
         $data['controlador'] = "perfil";
         $view = new View();
         $view->setData($data);
@@ -22,18 +23,22 @@ class PerfilController extends Controller
         $view->setlayout('../template/layout.php');
         $view->render();
     }
+
     public function indexGrid() 
     {
-        $obj = new Perfil();
+        $obj = new Perfil();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
-        $sord = $_GET['sord'];
+        $sord = $_GET['sord'];                
+        $filtro = $this->getColNameDB($this->cols,(int)$_GET['f']);        
+        $query = $_GET['q'];
         if(!$sidx) $sidx = 1;
         if(!$limit) $limit = 10;
         if(!$page) $page = 1;
-        echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord));
+        echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord,$filtro,$query));
     }
+
     public function create()
     {
         $data = array();
@@ -44,6 +49,7 @@ class PerfilController extends Controller
         $view->setlayout( '../template/layout.php' );
         $view->render();
     }
+
     public function edit() {
         $obj = new Perfil();
         $data = array();
@@ -57,8 +63,9 @@ class PerfilController extends Controller
         
         $view->render();
     }
-   public function save()
-   {
+
+    public function save()
+    {
         $obj = new Perfil();
         if ($_POST['idperfil']=='') {
             $p = $obj->insert($_POST);
@@ -90,6 +97,7 @@ class PerfilController extends Controller
             }
         }
     }
+
     public function delete()
       {
         $obj = new Perfil();

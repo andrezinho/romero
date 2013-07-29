@@ -33,6 +33,7 @@ class Perfil extends Main
         }
         return $responce;
     }
+    
     function edit($id ) {
         $stmt = $this->db->prepare("SELECT * FROM perfil WHERE idperfil = :id");
         $stmt->bindParam(':id', $id , PDO::PARAM_STR);

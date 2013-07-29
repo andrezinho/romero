@@ -32,7 +32,7 @@
             <nav class="head_nav"></nav>
         </div>        
         <div id="barra-session">
-            <ul class="item-top">            
+            <!-- <ul class="item-top">            
                 <li>
                     <b><?php echo strtoupper($_SESSION['oficina']) ?></b>
                 </li>               
@@ -42,7 +42,7 @@
                 <li>
                     CAJA (<?php echo $_SESSION['name_turno'] ?>): <?php echo $_SESSION['fecha_caja'] ?> 
                </li>            
-            </ul>
+            </ul> -->
             <a href="#" class="box-item-notification notification-car-empty" title="Llegada de Vehiculos">
             </a>            
             <a href="#" class="box-item-notification notification-encomienda" title="Encomiendas Pendientes">
