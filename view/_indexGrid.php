@@ -147,8 +147,13 @@ function eliminar()
 
           <?php
           }
+<<<<<<< HEAD
            ?>           
 
+=======
+           ?>
+          
+>>>>>>> c26177998757bc20045f2adfc9cfb40124d935f0
           <span id="loader" style="float:right; display:none"><img src="images/loader.gif" /></span>
         </div>
 
