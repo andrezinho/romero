@@ -1,1 +1,1 @@
-<?php header('location:web/index.php'); ?>sas
+<?php header('location:web/index.php'); ?>
