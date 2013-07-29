@@ -161,7 +161,7 @@ function eliminar()
     </div>    
     <div>
       <table id="list" ></table>
-      <div id="pager"></div>
+      <div id="pager">Hola</div>
     </div>
   </div>
 </div>
