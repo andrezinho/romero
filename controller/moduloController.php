@@ -16,7 +16,7 @@ class ModuloController extends Controller
                         8 => array('Name'=>'Orden','NameDB'=>'m.orden','align'=>'center','width'=>'50')
                      );
     public function index() 
-    {        
+    {
         $data = array();                               
         $data['colsNames'] = $this->getColsVal($this->cols);
         $data['colsModels'] = $this->getColsModel($this->cols);        
@@ -50,20 +50,19 @@ class ModuloController extends Controller
     {
         $data = array();
         $view = new View();
-        $data['ModulosPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','table'=>'seguridad.vista_modulo'));
-        $data['more_options'] = $this->more_options('Modulo');
+        $data['ModulosPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','text_null'=>'Seleccione...','table'=>'seguridad.vista_modulo'));
         $view->setData($data);
         $view->setTemplate( '../view/modulo/_form.php' );
         echo $view->renderPartial();
     }
-    public function edit() {
+    public function edit() 
+    {
         $obj = new Modulo();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
         $data['obj'] = $obj;
         $data['ModulosPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','table'=>'seguridad.vista_modulo','code'=>$obj->idpadre));
-        $data['more_options'] = $this->more_options('Modulo');
         $view->setData($data);
         $view->setTemplate( '../view/modulo/_form.php' );
         echo $view->renderPartial();
@@ -83,22 +82,17 @@ class ModuloController extends Controller
         print_r(json_encode($result));
 
     }
-    public function delete(){
+    public function delete()
+    {
         $obj = new Modulo();
+        $result = array();        
         $p = $obj->delete($_GET['id']);
-        if ($p[0]){
-            header('Location: index.php?controller=modulo');
-        } else {
-        $data = array();
-        $view = new View();
-        $data['msg'] = $p[1];
-        $data['url'] =  'index.php?controller=modulo';
-        $view->setData($data);
-        $view->setTemplate( '../view/_error_app.php' );
-        $view->setlayout( '../template/layout.php' );
-        $view->render();
-        }
+        if ($p[0]) $result = array(1,$p[1]);
+        else $result = array(2,$p[1]);
+        print_r(json_encode($result));
+    }
+    
     }
  
-}
+
 ?>

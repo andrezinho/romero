@@ -1,5 +1,6 @@
 <?php  include("../lib/helpers.php"); 
        include("../view/header_form.php");
+       
 ?>
 <div style="padding:10px 20px">
 <form id="frm" >

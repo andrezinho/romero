@@ -3,12 +3,6 @@ $(function()
     $( "#idpadre" ).focus();
     $( "#idpadre" ).css({'width':'210px'});
     $("#div_activo").buttonset();
-/*    $( "#delete" ).click(function(){
-        if(confirm("Confirmar Eliminacion de Registro"))
-            {
-                $("#frm").submit();
-            }
-    });*/
 });
 function save()
 {

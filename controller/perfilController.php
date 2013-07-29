@@ -17,6 +17,7 @@ class PerfilController extends Controller
         $data['colsNames'] = $this->getColsVal($this->cols);
         $data['colsModels'] = $this->getColsModel($this->cols);
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));        
+                                            
         $data['controlador'] = "perfil";
         $view = new View();
         $view->setData($data);

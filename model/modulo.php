@@ -6,7 +6,6 @@ class Modulo extends Main
     {
         $offset = ($page-1)*$limit;
         $query = "%".$query."%";
-
         $sql = "SELECT m.idmodulo,
                        m.descripcion,
                        mm.descripcion,
@@ -21,7 +20,7 @@ class Modulo extends Main
 
         $sql .= " order by {$sidx} {$sord}
                  limit {$limit}
-                 offset  {$offset}"; 
+                 offset  {$offset} "; 
         
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':query',$query,PDO::PARAM_STR);
@@ -60,8 +59,7 @@ class Modulo extends Main
         $stmt->bindParam(':p6', $_P['orden'] , PDO::PARAM_INT);
         $stmt->bindParam(':p7', $_P['controlador'] , PDO::PARAM_STR);
         $stmt->bindParam(':p8', $_P['accion'] , PDO::PARAM_STR);
-        
-        
+                
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
         
