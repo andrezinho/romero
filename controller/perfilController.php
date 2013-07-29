@@ -2,6 +2,7 @@
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
 require_once '../model/perfil.php';
+
 class PerfilController extends Controller
 {
     var $cols = array(
@@ -43,25 +44,23 @@ class PerfilController extends Controller
     {
         $data = array();
         $view = new View();        
-        $data['more_options'] = $this->more_options('Perfil');
+        $data['more_options'] = $this->more_options('Perfil');        
         $view->setData($data);
-        $view->setTemplate( '../view/perfil/_form.php' );        
-        $view->setlayout( '../template/layout.php' );
-        $view->render();
+        $view->setTemplate( '../view/perfil/_form.php' );
+        echo $view->renderPartial();
     }
 
     public function edit() {
         $obj = new Perfil();
         $data = array();
-        $data['more_options'] = $this->more_options('Perfil');
         $view = new View();
         $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;      
+        $data['obj'] = $obj;        
+        $data['more_options'] = $this->more_options('Perfil');
         $view->setData($data);
         $view->setTemplate( '../view/perfil/_form.php' );
-        $view->setlayout( '../template/layout.php' );
+        echo $view->renderPartial();
         
-        $view->render();
     }
 
     public function save()

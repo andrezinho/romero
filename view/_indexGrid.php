@@ -114,10 +114,10 @@ function nuevo()
               <span class="box-boton boton-view"></span> 
               <label>Ver</label>
           </a>
-          <a id="btn-search" class="search" title="Buscar">            
+          <!-- <a id="btn-search" class="search" title="Buscar">            
               <span class="box-boton boton-search"></span> 
               <label>Buscar</label>
-          </a>   
+          </a>  -->  
           <span id="loader" style="float:right; display:none"><img src="images/loader.gif" /></span>
         </div>
 

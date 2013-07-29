@@ -47,6 +47,7 @@ class Modulo extends Main
         $stmt->execute();
         return $stmt->fetchObject();
     }
+    
     function insert($_P ) 
     {
         $stmt = $this->db->prepare("insert into seguridad.modulo(idpadre,descripcion,url,estado,orden,controlador,accion,attrid,attrclass)
