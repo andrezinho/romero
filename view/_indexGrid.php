@@ -90,6 +90,19 @@ function nuevo()
        $("#loader").css("display","none");
     });
 }
+function eliminar()
+{
+  var gr = $("#list").jqGrid('getGridParam','selrow');
+  if(gr!=null) 
+  {
+    if(confirm('Deseas eliminar el registro?'))
+    {
+       $.post('index.php?controller=<?php echo $controlador; ?>&action=delete&id='+gr,function(data){
+          alert(data);
+       });
+    }
+  }
+}
 </script>
 <div class="div_container">
 <h6 class="ui-widget-header ui-state-hover"><?php echo $controlador ?>  </h6>
@@ -98,22 +111,42 @@ function nuevo()
   <div style="padding:10px;">
     <div style="padding:10px; border-bottom:0 " class="ui-widget-content ui-corner-top">
         <div class="operaciones">   
+          <?php if($actions[0])
+          { ?>
           <a class="nuevo"  title="Nuevo Registro">            
               <span  class="box-boton boton-new"></span>
               <label>Nuevo</label>
           </a>
+          <?php 
+          }
+          if($actions[1])
+          {
+          ?>
           <a class="editar"  title="Editar Registro">            
               <span  class="box-boton boton-edit"></span> 
               <label>Editar</label>
           </a>
+          <?php 
+          }
+          if($actions[2])
+          {
+          ?>
           <a class="eliminar"  title="Eliminar Registro" style="color:red;">            
               <span  class="box-boton boton-delete"></span> 
               <label>Eliminar</label>
           </a>     
+          <?php
+          }
+          if($actions[3])
+          {
+          ?>
           <a class="ver" title="Ver Registro">            
               <span class="box-boton boton-view"></span> 
               <label>Ver</label>
           </a>
+          <?php
+          }
+           ?>
           <a id="btn-search" class="search" title="Buscar">            
               <span class="box-boton boton-search"></span> 
               <label>Buscar</label>

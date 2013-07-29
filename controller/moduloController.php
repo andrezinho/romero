@@ -22,6 +22,10 @@ class ModuloController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
+
+        //(nuevo,editar,eliminar,ver)
+        $data['actions'] = array(true,true,true,false);
+
         $view = new View();
         $view->setData($data);
         $view->setTemplate('../view/_indexGrid.php');
@@ -34,7 +38,7 @@ class ModuloController extends Controller
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
-        $sord = $_GET['sord'];                
+        $sord = $_GET['sord'];
         $filtro = $this->getColNameDB($this->cols,(int)$_GET['f']);        
         $query = $_GET['q'];
         if(!$sidx) $sidx = 1;
@@ -46,7 +50,7 @@ class ModuloController extends Controller
     {
         $data = array();
         $view = new View();
-        $data['ModulosPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','table'=>'vista_modulo'));
+        $data['ModulosPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','table'=>'seguridad.vista_modulo'));
         $data['more_options'] = $this->more_options('Modulo');
         $view->setData($data);
         $view->setTemplate( '../view/modulo/_form.php' );
@@ -69,23 +73,14 @@ class ModuloController extends Controller
         $obj = new Modulo();
         $result = array();        
         if ($_POST['idmodulo']=='') 
-        {
-            $p = $obj->insert($_POST);            
-            if ($p['res']=='1')                
-                $result = array(1,'',$p['ide'],$p['ce']);                
-            else                 
-                $result = array(2,$p['msg'],'');
-            print_r(json_encode($result));           
-        }
-        else 
-        {
-            $p = $obj->update($_POST);            
-            if ($p[0])                
-                $result = array(1,'',$p['ide']);                
-            else                 
-                $result = array(2,$p[1],'');
-            print_r(json_encode($result));    
-        }
+            $p = $obj->insert($_POST);                        
+        else         
+            $p = $obj->update($_POST);                                
+        if ($p[0])                
+            $result = array(1,'');                
+        else                 
+            $result = array(2,$p[1]);
+        print_r(json_encode($result));
 
     }
     public function delete(){

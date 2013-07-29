@@ -49,10 +49,9 @@ class Modulo extends Main
     }
     function insert($_P ) 
     {
-        $stmt = $this->db->prepare("insert into seguridad.modulo(idpadre,descripcion,url,estado,orden,controlador,accion,attrid,attrclass)
-                                    values(:p1,:p2,:p3,:p5,:p6,:p7,:p8,:p9,:p10)");
-        if($_P['idpadre']==""){$_P['idpadre']=null;}
-        
+        $stmt = $this->db->prepare("insert into seguridad.modulo(idpadre,descripcion,url,estado,orden,controlador,accion)
+                                    values(:p1,:p2,:p3,:p5,:p6,:p7,:p8)");
+        if($_P['idpadre']==""){$_P['idpadre']=null;}        
         $stmt->bindParam(':p1', $_P['idpadre'] , PDO::PARAM_INT);
         $stmt->bindParam(':p2', $_P['descripcion'] , PDO::PARAM_STR);
         $stmt->bindParam(':p3', $_P['url'] , PDO::PARAM_STR);        
@@ -60,8 +59,7 @@ class Modulo extends Main
         $stmt->bindParam(':p6', $_P['orden'] , PDO::PARAM_INT);
         $stmt->bindParam(':p7', $_P['controlador'] , PDO::PARAM_STR);
         $stmt->bindParam(':p8', $_P['accion'] , PDO::PARAM_STR);
-        $stmt->bindParam(':p9', $_P['attrid'] , PDO::PARAM_STR);
-        $stmt->bindParam(':p10', $_P['attrclass'] , PDO::PARAM_STR);
+        
         
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();

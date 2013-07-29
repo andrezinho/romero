@@ -1,6 +1,7 @@
 <?php  include("../lib/helpers.php"); 
        include("../view/header_form.php");
 ?>
+<div style="padding:10px 20px">
 <form id="frm" >
                 <input type="hidden" name="controller" value="Modulo" />
                 <input type="hidden" name="action" value="save" />             
@@ -37,4 +38,4 @@
                      activo('activo',$rep);
                 ?>
 </form>
-
+</div>
