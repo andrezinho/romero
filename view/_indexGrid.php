@@ -76,7 +76,7 @@ function editar()
     }
     else 
     {
-      alert("Seleccione un registro......");
+      alert("Seleccione un registro por favor.");
     }
 }
 function nuevo()
