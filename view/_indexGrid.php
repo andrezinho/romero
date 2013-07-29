@@ -144,13 +144,17 @@ function eliminar()
               <span class="box-boton boton-view"></span> 
               <label>Ver</label>
           </a>
+<<<<<<< HEAD
           <?php
           }
            ?>
           <a id="btn-search" class="search" title="Buscar">            
+=======
+          <!-- <a id="btn-search" class="search" title="Buscar">            
+>>>>>>> 3b60d9797b0074e011f7bcd4e033b225cbfb916a
               <span class="box-boton boton-search"></span> 
               <label>Buscar</label>
-          </a>   
+          </a>  -->  
           <span id="loader" style="float:right; display:none"><img src="images/loader.gif" /></span>
         </div>
 
