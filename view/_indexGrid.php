@@ -147,8 +147,7 @@ function eliminar()
 
           <?php
           }
-           ?>
-          
+          ?>           
           <span id="loader" style="float:right; display:none"><img src="images/loader.gif" /></span>
         </div>
 
