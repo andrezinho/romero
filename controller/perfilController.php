@@ -10,15 +10,17 @@ class PerfilController extends Controller
                         2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','search'=>true),
                         3 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
                      );
-   public function index() 
-   {
-        $data = array();        
-        $cols = array();        
+    public function index() 
+    {
+        $data = array();                               
         $data['colsNames'] = $this->getColsVal($this->cols);
-        $data['colsModels'] = $this->getColsModel($this->cols);
-        $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));        
-                                            
-        $data['controlador'] = "perfil";
+        $data['colsModels'] = $this->getColsModel($this->cols);        
+        //$data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
+        $data['controlador'] = $_GET['controller'];
+
+        //(nuevo,editar,eliminar,ver)
+        $data['actions'] = array(true,true,true,false);
+
         $view = new View();
         $view->setData($data);
         $view->setTemplate('../view/_indexGrid.php');
@@ -67,56 +69,29 @@ class PerfilController extends Controller
     public function save()
     {
         $obj = new Perfil();
-        if ($_POST['idperfil']=='') {
-            $p = $obj->insert($_POST);
-            if ($p[0]){
-                header('Location: index.php?controller=perfil');
-            } else {
-            $data = array();
-            $view = new View();
-            $data['msg'] = $p[1];
-            $data['url'] =  'index.php?controller=perfil';
-            $view->setData($data);
-            $view->setTemplate( '../view/_error_app.php' );
-            $view->setlayout( '../template/layout.php' );
-            $view->render();
-            }
-        } else {
-            $p = $obj->update($_POST);
-            if ($p[0]){
-                header('Location: index.php?controller=perfil');
-            } else {
-            $data = array();
-            $view = new View();
-            $data['msg'] = $p[1];
-            $data['url'] =  'index.php?controller=perfil';
-            $view->setData($data);
-            $view->setTemplate( '../view/_error_app.php' );
-            $view->setlayout( '../template/layout.php' );
-            $view->render();
-            }
-        }
-    }
+        $result = array();        
+        if ($_POST['idperfil']=='') 
+            $p = $obj->insert($_POST);                        
+        else         
+            $p = $obj->update($_POST);                                
+        if ($p[0])                
+            $result = array(1,'');                
+        else                 
+            $result = array(2,$p[1]);
+        print_r(json_encode($result));
 
+    }
     public function delete()
-      {
+    {
         $obj = new Perfil();
+        $result = array();        
         $p = $obj->delete($_GET['id']);
-        if ($p[0]){
-            header('Location: index.php?controller=perfil');
-        } 
-        else {
-            $data = array();
-            $view = new View();
-            $data['msg'] = $p[1];
-            $data['url'] =  'index.php?controller=perfil';
-            $view->setData($data);
-            $view->setTemplate( '../view/_error_app.php' );
-            $view->setlayout( '../template/layout.php' );
-            $view->render();
-        }
-      }
+        if ($p[0]) $result = array(1,$p[1]);
+        else $result = array(2,$p[1]);
+        print_r(json_encode($result));
+    }
    
    
 }
+
 ?>

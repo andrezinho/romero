@@ -4,6 +4,7 @@ $(function()
     $( "#idpadre" ).css({'width':'210px'});
     $("#div_activo").buttonset();
 });
+
 function save()
 {
   bval = true;        
