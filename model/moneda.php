@@ -54,7 +54,7 @@ class Moneda extends Main
         //if($_P['descripcion']==""){$_P['descripcion']=null;}        
         $stmt->bindParam(':p1', $_P['descripcion'] , PDO::PARAM_STR);       
         $stmt->bindParam(':p2', $_P['simbolo'] , PDO::PARAM_STR);
-        $stmt->bindParam(':p3', $_P['nacional'] , PDO::PARAM_INT);        
+        $stmt->bindParam(':p3', $_P['activo'] , PDO::PARAM_INT);        
         
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
@@ -62,20 +62,26 @@ class Moneda extends Main
         return array($p1 , $p2[2]);
         
     }
+
     function update($_P ) 
     {
-        $sql = "UPDATE moneda set  descripcion=:p1,
-                                   simbolo=:p2,
-                                   nacional=:p3
+        $sql = "UPDATE moneda 
+                set  descripcion=:p1,
+                    simbolo=:p2,
+                    nacional=:p3
                                    
-                       where idmoneda = :idmoneda";
+                WHERE idmoneda = :idmoneda";
         $stmt = $this->db->prepare($sql);
-        //if($_P['idpadre']==""){$_P['idpadre']=null;}        
+            
             $stmt->bindParam(':p1', $_P['descripcion'] , PDO::PARAM_STR);
             $stmt->bindParam(':p2', $_P['simbolo'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p3', $_P['nacional'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p3', $_P['activo'] , PDO::PARAM_INT);
             
+            $stmt->bindParam(':idmoneda', $_P['idmoneda'] , PDO::PARAM_INT);
+
+
         $p1 = $stmt->execute();
+
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
     }

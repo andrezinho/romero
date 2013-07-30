@@ -49,7 +49,7 @@ class Modulo extends Main
     
     function insert($_P ) 
     {
-        $stmt = $this->db->prepare("insert into seguridad.modulo(idpadre,descripcion,url,estado,orden,controlador,accion)
+        $stmt = $this->db->prepare("INSERT into seguridad.modulo(idpadre,descripcion,url,estado,orden,controlador,accion)
                                     values(:p1,:p2,:p3,:p5,:p6,:p7,:p8)");
         if($_P['idpadre']==""){$_P['idpadre']=null;}        
         $stmt->bindParam(':p1', $_P['idpadre'] , PDO::PARAM_INT);
@@ -68,7 +68,7 @@ class Modulo extends Main
     }
     function update($_P ) 
     {
-        $sql = "update seguridad.modulo set  idpadre=:p1,
+        $sql = "UPDATE seguridad.modulo set  idpadre=:p1,
                                    descripcion=:p2,
                                    url=:p3,
                                    estado=:p5,
@@ -91,6 +91,7 @@ class Modulo extends Main
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
     }
+    
     function delete($p) 
     {
         $stmt = $this->db->prepare("DELETE FROM seguridad.modulo WHERE idmodulo = :p1");

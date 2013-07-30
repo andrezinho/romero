@@ -1,20 +1,21 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/modulo.php';
+require_once '../model/personal.php';
 
-class ModuloController extends Controller 
+class PersonalController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'m.idmodulo','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'m.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Principal','NameDB'=>'mm.descripcion','search'=>true),
-                        4 => array('Name'=>'URL Link','NameDB'=>'m.url'),
-                        5 => array('Name'=>'Controlador','NameDB'=>'m.url'),
-                        6 => array('Name'=>'Accion','NameDB'=>'m.controlador','width'=>70),
-                        7 => array('Name'=>'Estado','NameDB'=>'m.estado','align'=>'center','width'=>70),
-                        8 => array('Name'=>'Orden','NameDB'=>'m.orden','align'=>'center','width'=>'50')
+                        1 => array('Name'=>'Codigo','NameDB'=>'p.dni','align'=>'center','width'=>80),
+                        2 => array('Name'=>'Nombres','NameDB'=>'p.nombres','width'=>150,'search'=>true),
+                        3 => array('Name'=>'Apellidos','NameDB'=>'p.apellidos','width'=>150,'search'=>true),
+                        4 => array('Name'=>'Telefono','NameDB'=>'p.telefono'),
+                        5 => array('Name'=>'Direccion','NameDB'=>'p.direccion'),
+                        6 => array('Name'=>'Sexo','NameDB'=>'p.sexo','width'=>70),
+                        7 => array('Name'=>'Estado Civil','NameDB'=>'p.estcivil','align'=>'left','width'=>80),
+                        8 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>'50')
                      );
+
     public function index() 
     {
         $data = array();                               
@@ -34,7 +35,7 @@ class ModuloController extends Controller
     }
     public function indexGrid() 
     {
-        $obj = new Modulo();        
+        $obj = new Personal();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
@@ -51,29 +52,29 @@ class ModuloController extends Controller
     {
         $data = array();
         $view = new View();
-        $data['ModulosPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','text_null'=>'Seleccione...','table'=>'seguridad.vista_modulo'));
+        //$data['PersonalsPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','text_null'=>'Seleccione...','table'=>'seguridad.vista_Personal'));
         $view->setData($data);
-        $view->setTemplate( '../view/modulo/_form.php' );
+        $view->setTemplate( '../view/personal/_form.php' );
         echo $view->renderPartial();
     }
 
     public function edit() 
     {
-        $obj = new Modulo();
+        $obj = new Personal();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
         $data['obj'] = $obj;
-        $data['ModulosPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','table'=>'seguridad.vista_modulo','code'=>$obj->idpadre));
+        //$data['PersonalsPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','table'=>'seguridad.vista_Personal','code'=>$obj->idpadre));
         $view->setData($data);
-        $view->setTemplate( '../view/modulo/_form.php' );
+        $view->setTemplate( '../view/personal/_form.php' );
         echo $view->renderPartial();
     }
     public function save()
     {
-        $obj = new Modulo();
+        $obj = new Personal();
         $result = array();        
-        if ($_POST['idmodulo']=='') 
+        if ($_POST['dni']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
@@ -86,7 +87,7 @@ class ModuloController extends Controller
     }
     public function delete()
     {
-        $obj = new Modulo();
+        $obj = new Personal();
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);
@@ -94,7 +95,7 @@ class ModuloController extends Controller
         print_r(json_encode($result));
     }
     
-    }
+}
  
 
 ?>

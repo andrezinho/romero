@@ -29,14 +29,14 @@
                 <label for="attrclass" class="labels">Attributo Clase:</label> 
                 <input id="attrclass" name="attrclass" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->attrclass; ?>" />
                 <label for="estado" class="labels">Activo:</label>
-                <?php                   
-                    if($obj->estado==true || $obj->estado==false)
-                            {
-                             if($obj->estado==true){$rep=1;}
-                                else {$rep=0;}
-                            }
-                     else {$rep = 1;}                    
-                     activo('activo',$rep);
-                ?>
+                    <?php                   
+                        if($obj->estado==true || $obj->estado==false)
+                                {
+                                 if($obj->estado==true){$rep=1;}
+                                    else {$rep=0;}
+                                }
+                         else {$rep = 1;}                    
+                         activo('activo',$rep);
+                    ?>
 </form>
 </div>

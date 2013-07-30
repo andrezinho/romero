@@ -68,6 +68,7 @@ class MonedaController extends Controller
         $view->setTemplate( '../view/moneda/_form.php' );
         echo $view->renderPartial();
     }
+
     public function save()
     {
         $obj = new Moneda();
@@ -83,6 +84,7 @@ class MonedaController extends Controller
         print_r(json_encode($result));
 
     }
+
     public function delete()
     {
         $obj = new Moneda();
@@ -94,4 +96,5 @@ class MonedaController extends Controller
     }
  
 }
+
 ?>

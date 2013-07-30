@@ -1,19 +1,15 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/modulo.php';
+require_once '../model/unidadmedida.php';
 
-class ModuloController extends Controller 
-{   
+class UnidadMedidaController extends Controller
+{
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'m.idmodulo','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'m.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Principal','NameDB'=>'mm.descripcion','search'=>true),
-                        4 => array('Name'=>'URL Link','NameDB'=>'m.url'),
-                        5 => array('Name'=>'Controlador','NameDB'=>'m.url'),
-                        6 => array('Name'=>'Accion','NameDB'=>'m.controlador','width'=>70),
-                        7 => array('Name'=>'Estado','NameDB'=>'m.estado','align'=>'center','width'=>70),
-                        8 => array('Name'=>'Orden','NameDB'=>'m.orden','align'=>'center','width'=>'50')
+                        1 => array('Name'=>'Codigo','NameDB'=>'s.idunidad_medida','align'=>'center','width'=>'20'),
+                        2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','search'=>true),
+                        3 => array('Name'=>'Simbolo','NameDB'=>'s.simbolo','search'=>true),
+                        4 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center')
                      );
     public function index() 
     {
@@ -32,13 +28,14 @@ class ModuloController extends Controller
         $view->setlayout('../template/layout.php');
         $view->render();
     }
+
     public function indexGrid() 
     {
-        $obj = new Modulo();        
+        $obj = new UnidadMedida();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
-        $sord = $_GET['sord'];
+        $sord = $_GET['sord'];                
         $filtro = $this->getColNameDB($this->cols,(int)$_GET['f']);        
         $query = $_GET['q'];
         if(!$sidx) $sidx = 1;
@@ -46,34 +43,35 @@ class ModuloController extends Controller
         if(!$page) $page = 1;
         echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord,$filtro,$query));
     }
-    
-    public function create() 
+
+    public function create()
     {
         $data = array();
-        $view = new View();
-        $data['ModulosPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','text_null'=>'Seleccione...','table'=>'seguridad.vista_modulo'));
+        $view = new View();        
+        //$data['more_options'] = $this->more_options('Perfil');        
         $view->setData($data);
-        $view->setTemplate( '../view/modulo/_form.php' );
+        $view->setTemplate( '../view/unidadmedida/_form.php' );
         echo $view->renderPartial();
     }
 
-    public function edit() 
-    {
-        $obj = new Modulo();
+    public function edit() {
+        $obj = new UnidadMedida();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;
-        $data['ModulosPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','table'=>'seguridad.vista_modulo','code'=>$obj->idpadre));
+        $data['obj'] = $obj;        
+        //$data['more_options'] = $this->more_options('Perfil');
         $view->setData($data);
-        $view->setTemplate( '../view/modulo/_form.php' );
+        $view->setTemplate( '../view/unidadmedida/_form.php' );
         echo $view->renderPartial();
+        
     }
+
     public function save()
     {
-        $obj = new Modulo();
+        $obj = new UnidadMedida();
         $result = array();        
-        if ($_POST['idmodulo']=='') 
+        if ($_POST['idunidad_medida']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
@@ -84,17 +82,18 @@ class ModuloController extends Controller
         print_r(json_encode($result));
 
     }
+
     public function delete()
     {
-        $obj = new Modulo();
+        $obj = new UnidadMedida();
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
-    
-    }
- 
+   
+   
+}
 
 ?>
