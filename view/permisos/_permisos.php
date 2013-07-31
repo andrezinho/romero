@@ -34,8 +34,8 @@
 <h6 class="ui-widget-header">Administracion de Accesos</h6>
 <div style="padding:10px; float: left; width: 100%;">
     <span>Seleccione un Perfil :</span>
-    <span><?php echo $perfiles; ?></span>
-    <span><a id="save" class="button">Guardar Cambios</a></span>
+    <span><?php echo $perfiles; ?></span>    
+    <a href="javascript:" id="save"  class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-search"></span>Guardar Cambios</a>
     <span id="result" style="display:none;color:green; font-weight: bold;">Sus Cambios Fueron Registrados</span>
 </div>
 <div style="clear:both"></div>
