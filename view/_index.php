@@ -3,7 +3,7 @@ $(document).ready(function(){
 	
 })
 </script>
-<h6 class="ui-widget-header">&nbsp;</h6>
+<h6 class="ui-widget-header ui-state-hover">&nbsp;</h6>
 <div>
 	<!-- <div style="width:400px; margin:50px auto; background:#dadada;">
 		<div style="padding:20px;">

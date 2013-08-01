@@ -13,5 +13,20 @@
         <label for="referencia" class="labels">Referencia:</label>
         <input type="text" name="referencia" id="referencia" class="ui-widget-content ui-corner-all text" style="width:500px" />
     </fieldset>
+    <fieldset class="ui-corner-all" style="padding: 2px 10px 7px">
+        <div>
+            <label class="labels">Tipo Material: </label>
+            <select class="ui-widget-content ui-corner-all text" name="tipo_producto" id="tipo_producto">
+                <option value="1">MADERA</option>
+                <option value="2">MELAMINA</option>
+            </select>
+        </div>
+        <div id="box-1">
+            <label class="labels">Tipo: </label>
+            <select class="ui-widget-content ui-corner-all text">
+                <option value="1">Cedro, Caoba, Ishpingo</option>                
+            </select>
+        </div>
+    </fieldset>
 </form>
 </div>

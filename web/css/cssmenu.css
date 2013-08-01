@@ -19,7 +19,7 @@
    
    nav.head_nav ul li.home a {
       text-shadow: 1px 1px 1px #333;
-      background: #11386E;
+      background: #8B261E;
       -moz-border-radius: 10px 10px 10px 0;
       -khtml-border-radius: 10px 10px 10px 0;
       -webkit-border-radius: 10px 10px 10px 0;
@@ -33,7 +33,7 @@
    
    nav.head_nav > ul > li:hover > a {
       text-shadow: 1px 1px 1px #333;
-      background: #11386E;
+      background: #8B261E;
       -moz-border-radius: 10px 10px 10px 0;
       -khtml-border-radius: 10px 10px 10px 0;
       -webkit-border-radius: 10px 10px 10px 0;
@@ -49,7 +49,7 @@
    display: none;
    position: absolute;
    padding: 2px 3px;
-   background: #11386E;
+   background: #8B261E;
    margin-top: 0px;
    z-index: 9999;
    -moz-box-shadow: inset 0px 0px 2px #fafafa;
@@ -67,7 +67,7 @@
 }
 .submenu li:hover 
 {
-   background:#ccc
+   background:#D4B193
 
 }
 .submenu li:hover > a { color:#000;text-shadow: 1px 1px 1px #fff;}
