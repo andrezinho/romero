@@ -1,7 +1,7 @@
 <script type="text/javascript">
 var timeoutHnd;
 var flAuto = true;
-var cNames = <?php   print_r(json_encode($colsNames)); ?>;
+var cNames = <?php print_r(json_encode($colsNames)); ?>;
 var cModel = <?php print_r(json_encode($colsModels)); ?>;
 $(document).ready(function()
 {
@@ -21,7 +21,7 @@ $(document).ready(function()
       sortorder: "desc",
       multiselect: false,
       rownumbers: true,
-      caption:"Lista de <?php echo $controlador; ?> Registrados"
+      caption:"Lista de <?php if($titulo!="") echo $titulo; else echo $controlador; ?> Registrados"
     });
     $("#fltr").change(function(){
         $("#qry").focus();
@@ -32,7 +32,7 @@ $(document).ready(function()
       width:'auto',
       height:'auto',
       resizing:true,
-      title:'Formulario de <?php echo $controlador; ?>',
+      title:'Formulario de <?php if($titulo!="") echo $titulo; else echo $controlador; ?>',
       buttons: {'Cerrar':function(){$(this).dialog('close');},
                 'Grabar':function(){save();}
                 }
@@ -105,7 +105,7 @@ function eliminar()
 }
 </script>
 <div class="div_container">
-<h6 class="ui-widget-header ui-state-hover"><?php echo $controlador ?>  </h6>
+<h6 class="ui-widget-header ui-state-hover"><?php if($titulo!="") echo $titulo; else echo $controlador; ?>  </h6>
 
 <div id="" class="cont-grid">
   <div style="padding:10px;">
