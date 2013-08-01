@@ -1,14 +1,16 @@
 $(function() 
 {    
-    $( "#descripcion" ).focus();    
+    $( "#tipoproducto" ).focus();   
+    $( "#idtipomadera" ).css({'width':'210px'});
+    $( "#idunidad_medida" ).css({'width':'210px'});
     $("#estados").buttonset();
 });
 
 function save()
 {
   bval = true;        
-  bval = bval && $( "#descripcion" ).required();        
-  //bval = bval && $( "#orden" ).required();
+  bval = bval && $( "#idtipomadera" ).required();        
+  bval = bval && $( "#idunidad_medida" ).required();
   var str = $("#frm").serialize();
   if ( bval ) 
   {
