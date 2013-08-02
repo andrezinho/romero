@@ -36,6 +36,7 @@
             <?php echo $idmadera; ?>
             <label for="idtipomadera" class="labels" style="width:70px">Cantidad: </label>
             <input type="text" name="cantidad" id="cantidad" value="0.00" class="ui-widget-content ui-corner-all text" style="width:50px; text-align:center" /> Pies
+            <label for="idtipomadera" class="labels" style="width:70px">Precio: </label>
             <a href="javascript:" id="addDetail" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset" style="margin-left:20px"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a> 
         </div>
     </fieldset>
