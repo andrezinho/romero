@@ -10,7 +10,7 @@ class ingresomController extends Controller
                         2 => array('Name'=>'Fecha','NameDB'=>'m.fecha','width'=>100,'search'=>true),
                         3 => array('Name'=>'Referencia','NameDB'=>'m.referencia','search'=>true),
                         4 => array('Name'=>'Estado','NameDB'=>'m.estado'),
-                        5 => array('Name'=>'Usuario','NameDB'=>'m.usuarioreg'),                        
+                        5 => array('Name'=>'Usuario','NameDB'=>'m.usuarioreg'),
                         6 => array('Name'=>'Impr.','NameDB'=>'-','align'=>'center','width'=>20),
                         7 => array('Name'=>'Anul.','NameDB'=>'-','align'=>'center','width'=>20)
                      );
@@ -21,7 +21,7 @@ class ingresomController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
-
+        $data['titulo'] = "Ingresos de Material";
         //(nuevo,editar,eliminar,ver)
         $data['actions'] = array(true,true,true,false);
 

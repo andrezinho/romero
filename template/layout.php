@@ -29,10 +29,11 @@
     ?>
     <header id="site_head">
         <div class="header_cont">
+            <h1><a href="#">Romero</a></h1>        
             <nav class="head_nav"></nav>
         </div>        
         <div id="barra-session">
-            <!-- <ul class="item-top">            
+             <ul class="item-top">            
                 <li>
                     <b><?php echo strtoupper($_SESSION['oficina']) ?></b>
                 </li>               
@@ -42,15 +43,15 @@
                 <li>
                     CAJA (<?php echo $_SESSION['name_turno'] ?>): <?php echo $_SESSION['fecha_caja'] ?> 
                </li>            
-            </ul> -->
-            <a href="#" class="box-item-notification notification-car-empty" title="Llegada de Vehiculos">
+            </ul> 
+            <!-- <a href="#" class="box-item-notification notification-car-empty" title="Llegada de Vehiculos">
             </a>            
             <a href="#" class="box-item-notification notification-encomienda" title="Encomiendas Pendientes">
                 <span class="indicator-notification">2</span>
             </a>
             <a href="#" class="box-item-notification notification-telegiro">
                 <span class="indicator-notification">1</span>
-            </a>
+            </a> -->
             <div id="barra-user">                   
                 <a href="#" class="login"><?php echo strtoupper($_SESSION['user']); ?></a>
                 <a href="index.php?controller=user&action=logout" class="logout">SALIR</a>                
@@ -64,8 +65,9 @@
             <?php echo $content; ?>
         </div>
         <div  class="spacer"></div>
-        <div id="foot" class="ui-corner-bottom ui-widget-header">
-            CORETEC <br/>2013
+        <div id="foot" class="ui-corner-bottom">
+            Sistema Administrativo de Muebleria
+            <br/>2013
         </div>
         <div  class="spacer"></div>        
     </div>
