@@ -1,0 +1,319 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"va",
+				"var_dump"
+			],
+			[
+				"vl",
+				"valor"
+			],
+			[
+				"fetchALL",
+				"fetchAll"
+			],
+			[
+				"fetch",
+				"fetchAll"
+			],
+			[
+				"ro",
+				"rows3"
+			],
+			[
+				"print",
+				"print_r"
+			],
+			[
+				"fech",
+				"fetchAll"
+			],
+			[
+				"la",
+				"label	Tag"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "lib/Spdo.php",
+			"settings":
+			{
+				"buffer_size": 724,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/xampp/htdocs/sismedic/config.php",
+		"/C/xampp/htdocs/sismedic/laboratorio/exaespecifico/mantenimiento.php",
+		"/C/xampp/htdocs/sismedic/hc/tipo_examen/mantenimiento.php",
+		"/C/xampp/htdocs/sismedic/laboratorio/exaespecifico/guardar.php",
+		"/C/xampp/htdocs/sismedic/hc/exa_derivado/save.php",
+		"/C/xampp/htdocs/sismedic/hc/exa_derivado/guardar.php",
+		"/C/xampp/htdocs/sismedic/laboratorio/reactivo/mantenimiento.php",
+		"/C/xampp/htdocs/sismedic/hc/exa_derivado/mantenimiento.php",
+		"/C/xampp/htdocs/romero/lib/Spdo.php",
+		"/C/xampp/htdocs/corpmedic/laboratorio/exaespecifico/index.php",
+		"/C/xampp/htdocs/corpmedic/laboratorio/exaespecifico/guardar.php",
+		"/C/xampp/htdocs/corpmedic/laboratorio/exaespecifico/mantenimiento.php",
+		"/C/xampp/htdocs/corpmedic/buscar/Receta.php",
+		"/C/xampp/htdocs/systramite/model/dependencia.php",
+		"/C/xampp/htdocs/tramite/config_db.php",
+		"/D/System & Programing/Tecnologia de emergentes/SISTEMA DE TRAMITE DOCUMENTARIO/sistema de tramite documentario/tramite/controllers/ccargo.php",
+		"/D/System & Programing/molino/dal/almacen.php",
+		"/D/System & Programing/molino/bll/almacen.php",
+		"/D/System & Programing/htdocs/cime/index.php",
+		"/C/xampp/htdocs/corpmedic/hc/hc/save.php",
+		"/C/xampp/htdocs/corpmedic/hc/hc/mantenimiento.php",
+		"/C/xampp/htdocs/corpmedic/hc/hc/script.js",
+		"/C/xampp/htdocs/corpmedic/hc/hc/imprimir_receta.php",
+		"/C/xampp/htdocs/corpmedic/hc/exa_derivado/Imprimir.php",
+		"/C/xampp/htdocs/corpmedic/hc/hc/Imprimirhc.php",
+		"/D/System & Programing/htdocs/eps/config.php",
+		"/D/System & Programing/htdocs/esigad/clases/config.php",
+		"/D/System & Programing/htdocs/esigad/conexion.php",
+		"/C/xampp/htdocs/corpmedic/css/template_css.css",
+		"/C/xampp/htdocs/corpmedic/public/unidadmedida/mantenimiento.php",
+		"/C/xampp/htdocs/santalucia/clases/config.php",
+		"/C/xampp/htdocs/santalucia/clases/cProvincia.php",
+		"/C/xampp/htdocs/consorcio/almacen/almacen/guardar.php",
+		"/C/xampp/htdocs/consorcio/almacen/vehiculo/guardar.php",
+		"/C/xampp/htdocs/consorcio/almacen/vehiculo/MantVehiculo.php",
+		"/C/xampp/htdocs/corpmedic/config.php",
+		"/C/xampp/htdocs/santalucia/clases/masterpage.php",
+		"/C/xampp/htdocs/Hosting/molino/santalucia/clases/config.php",
+		"/C/xampp/htdocs/corpmedic/public/unidadmedida/index.php",
+		"/C/xampp/htdocs/corpmedic/hc/tipo_examen/mantenimiento.php",
+		"/C/xampp/htdocs/corpmedic/public/unidadmedida/Guardar.php",
+		"/C/xampp/htdocs/corpmedic/login.php",
+		"/C/xampp/htdocs/corpmedic/farmacia/unidad_medidafr/guardar.php",
+		"/C/xampp/htdocs/corpmedic-copia/config.php",
+		"/C/xampp/htdocs/sismedic/hc/hc/mantenimiento.php",
+		"/C/xampp/htdocs/sismedic/hc/hc/script.js",
+		"/C/xampp/htdocs/sismedic/hc/hc/upload.php",
+		"/C/xampp/htdocs/sismedic/hc/hc/save.php",
+		"/C/xampp/htdocs/corpmedic/hc/hc/upload.php",
+		"/C/xampp/htdocs/corpmedic/hc/hc/check.php",
+		"/C/xampp/htdocs/sismedic/hc/hc/check.php",
+		"/C/xampp/htdocs/sismedic/hc/hc/process.php",
+		"/C/xampp/htdocs/sismedic/include/estado.php",
+		"/C/xampp/htdocs/sismedic/include/confirmar.php",
+		"/C/xampp/htdocs/mpb/clases/Config.php",
+		"/C/xampp/htdocs/syscs/conexion.php",
+		"/C/xampp/htdocs/emergentes/administrar/lib/ci-config.php",
+		"/C/xampp/htdocs/emergentes/tramite/model/config.php",
+		"/C/xampp/htdocs/emergentes/tramite/model/Main.php",
+		"/C/xampp/htdocs/sismedic/hc/exa_derivado/index.php",
+		"/C/xampp/htdocs/sismedic/hc/hc/index.php",
+		"/C/xampp/htdocs/sismedic/hc/hc/grid.php",
+		"/C/xampp/htdocs/sismedic/hc/evolucion/index.php",
+		"/C/xampp/htdocs/emergentes/administracion_/libs/configu.php",
+		"/C/xampp/htdocs/sismedic/buscar/Reactivo.php",
+		"/C/xampp/htdocs/sismedic/hc/exa_derivado/script.js",
+		"/C/xampp/htdocs/imi/caja/pagosxcaja/mantenimiento.php",
+		"/C/xampp/htdocs/sistemas_/config_db.php",
+		"/C/xampp/htdocs/sistemas_/gracesoft/config_db.php",
+		"/C/xampp/htdocs/imi/caja/pagosxcaja/guardar.php",
+		"/C/xampp/htdocs/imi/caja/caja/guardar.php",
+		"/C/xampp/htdocs/imi/caja/ingresos/guardar.php",
+		"/C/xampp/htdocs/sismedic/laboratorio/reactivo/guardar.php",
+		"/C/xampp/htdocs/sismedic/objetos/clsSql.php",
+		"/C/xampp/htdocs/sismedic/hc/hc/Imprimirhc.php",
+		"/C/xampp/htdocs/sismedic/buscar/Consultorio.php",
+		"/C/xampp/htdocs/sismedic/hc/examen_fisico/index.php",
+		"/C/xampp/htdocs/sismedic/laboratorio/clasificador/mantenimiento.php",
+		"/C/Users/NTC/Desktop/guardar.php",
+		"/C/xampp/htdocs/sismedic/buscar/Reactivo2.php",
+		"/C/xampp/htdocs/sismedic/hc/exa_derivado/ExaAux.php"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"IdDetDet",
+			"iddet_espec_dettpexa",
+			"idtipo_unidad",
+			"lapso",
+			"regresar",
+			"idhac",
+			"generar_tabla",
+			"imprimi",
+			"RecetLapso",
+			"id",
+			"idhc",
+			"iddhc",
+			"iddet_hc",
+			"].'",
+			")\n"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"idunidad_medida",
+			"cantidad",
+			"Cantidad"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "lib/Spdo.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 724,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								233,
+								233
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"project": "romero.sublime-project",
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 224.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
