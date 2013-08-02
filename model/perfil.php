@@ -10,19 +10,23 @@ class Perfil extends Main
         $sql = "SELECT s.idperfil,
                        s.descripcion,
                        case s.estado when true then 'ACTIVO' else 'INCANTIVO' end
-                from seguridad.perfil as s  where s.descripcion like :query                                
-                order by {$sidx} {$sord}
-                limit {$limit}
-                offset  {$offset}";    
+                from seguridad.perfil AS s";    
+        
+        if($filtro!="") 
+        $sql .= " where ".$filtro." ilike :query ";
+        $sql .= " order by {$sidx} {$sord}
+                 limit {$limit}
+                 offset  {$offset} "; 
         
         $stmt = $this->db->prepare($sql);
+        
+        if($filtro!="") 
         $stmt->bindParam(':query',$query,PDO::PARAM_STR);
         $stmt->execute();
         
         $responce->records = $stmt->rowCount();
         $responce->page = $page;
         $responce->total = "1";        
-
         $i = 0;
 
         foreach($stmt->fetchAll() as $i => $row)

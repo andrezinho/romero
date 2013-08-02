@@ -13,21 +13,23 @@ class Tipopago extends Main
             case t.estado when 1 then 'ACTIVO' else 'INACTIVO' end
             
             FROM
-            produccion.tipopago AS t
-                       
-            where t.descripcion like :query                                
-                order by {$sidx} {$sord}
-                limit {$limit}
-                offset  {$offset}";    
+            produccion.tipopago AS t ";    
+        
+        if($filtro!="") 
+        $sql .= " where ".$filtro." ilike :query ";
+        $sql .= " order by {$sidx} {$sord}
+                 limit {$limit}
+                 offset  {$offset} "; 
         
         $stmt = $this->db->prepare($sql);
+        
+        if($filtro!="") 
         $stmt->bindParam(':query',$query,PDO::PARAM_STR);
         $stmt->execute();
         
         $responce->records = $stmt->rowCount();
         $responce->page = $page;
         $responce->total = "1";        
-
         $i = 0;
 
         foreach($stmt->fetchAll() as $i => $row)

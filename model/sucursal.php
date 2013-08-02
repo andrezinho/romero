@@ -14,14 +14,15 @@ class Sucursal extends Main
                 FROM
                 public.sucursales AS s ";
         //print_r($sql);
-        if($filtro!="") //$sql .= " WHERE ".$filtro." ilike :query ";
-        $sql .= " where cast(".$filtro." as varchar) ilike :query ";
-
+        if($filtro!="") 
+        $sql .= " where ".$filtro." ilike :query ";
         $sql .= " order by {$sidx} {$sord}
                  limit {$limit}
                  offset  {$offset} "; 
         
         $stmt = $this->db->prepare($sql);
+        
+        if($filtro!="") 
         $stmt->bindParam(':query',$query,PDO::PARAM_STR);
         $stmt->execute();
         

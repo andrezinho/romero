@@ -10,13 +10,15 @@ class movimiento extends Main
         $sql = "SELECT *
                 from produccion.movimiento";
 
-        if($filtro!="") $sql .= " where ".$filtro." ilike :query ";
-
+        if($filtro!="") 
+        $sql .= " where ".$filtro." ilike :query ";
         $sql .= " order by {$sidx} {$sord}
                  limit {$limit}
                  offset  {$offset} "; 
         
         $stmt = $this->db->prepare($sql);
+        
+        if($filtro!="") 
         $stmt->bindParam(':query',$query,PDO::PARAM_STR);
         $stmt->execute();
         

@@ -11,21 +11,25 @@ class UnidadMedida extends Main
                        s.descripcion,
                        s.simbolo,
                        case s.estado WHEN 1 then 'ACTIVO' else 'INCANTIVO' end
-                FROM unidad_medida as s  WHERE s.descripcion like :query                                
-                order by {$sidx} {$sord}
-                limit {$limit}
-                offset  {$offset}";    
+                FROM unidad_medida as s  ";    
+        
+        if($filtro!="") 
+        $sql .= " where ".$filtro." ilike :query ";
+        $sql .= " order by {$sidx} {$sord}
+                 limit {$limit}
+                 offset  {$offset} "; 
         
         $stmt = $this->db->prepare($sql);
+        
+        if($filtro!="") 
         $stmt->bindParam(':query',$query,PDO::PARAM_STR);
         $stmt->execute();
         
         $responce->records = $stmt->rowCount();
         $responce->page = $page;
         $responce->total = "1";        
-
         $i = 0;
-
+        
         foreach($stmt->fetchAll() as $i => $row)
         {
             $responce->rows[$i]['id']=$row[0];
