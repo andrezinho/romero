@@ -8,18 +8,16 @@ class Madera extends Main
         $query = "%".$query."%";
         $sql = "SELECT
             m.idmadera,
-            t.descripcion,
+            m.descripcion,
             u.descripcion,
             m.precio_unitario,
             m.stock,
             case m.estado when 1 then 'ACTIVO' else 'INACTIVO' end ,
-            m.tipoproducto,
-            m.idtipomadera,      
+            m.tipoproducto,      
             m.idunidad_medida                     
             
             FROM
             produccion.madera AS m
-            INNER JOIN produccion.tipomadera AS t ON t.idtipomadera = m.idtipomadera
             INNER JOIN public.unidad_medida AS u ON u.idunidad_medida = m.idunidad_medida ";
 
         if($filtro!="") 

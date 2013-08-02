@@ -7,10 +7,10 @@ class MaderaController extends Controller
 {   
     var $cols = array(
                         1 => array('Name'=>'Codigo','NameDB'=>'m.idmadera','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'t.descripcion','width'=>250,'search'=>true),
+                        2 => array('Name'=>'Descripcion','NameDB'=>'m.descripcion','width'=>250,'search'=>true),
                         3 => array('Name'=>'Unidad Medida','NameDB'=>'u.descripcion','search'=>true),
-                        4 => array('Name'=>'Precio Unitario','NameDB'=>'m.precio_unitario'),
-                        5 => array('Name'=>'Stok','NameDB'=>'m.stock'),
+                        4 => array('Name'=>'Precio Unitario','NameDB'=>'m.precio_unitario','align'=>'right','width'=>100),
+                        5 => array('Name'=>'Stok','NameDB'=>'m.stock','align'=>'right','width'=>100),
                         6 => array('Name'=>'Estado','NameDB'=>'m.estado','align'=>'center','width'=>70)
                      );
     public function index() 
