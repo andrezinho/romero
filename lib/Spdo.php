@@ -1,7 +1,8 @@
 <?php
-class Spdo extends PDO {
+class Spdo extends PDO 
+{
     private static $instance = null;
-    protected  $host = 'localhost';
+    protected  $host = '192.168.1.4';
     protected $port = '5432';
     protected $dbname='bdromero';
     protected $user='postgres';
@@ -14,16 +15,13 @@ class Spdo extends PDO {
             $pass = $this->password;
             parent::__construct($dns,$user,$pass);
 	}
-
 	public static function singleton()
 	{
-            if( self::$instance == null )
-                {
-                    self::$instance = new self();
-                }
-             return self::$instance;
-            	
+        if( self::$instance == null )
+            {
+                self::$instance = new self();
+            }
+         return self::$instance;
 	}
-
 }
 ?>

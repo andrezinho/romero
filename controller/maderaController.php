@@ -42,7 +42,7 @@ class MaderaController extends Controller
         if(!$sidx) $sidx = 1;
         if(!$limit) $limit = 10;
         if(!$page) $page = 1;
-        echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord,$filtro,$query));
+        echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$this->getColsVal($this->cols)));
     }
     
     public function create() 
