@@ -49,7 +49,7 @@ class ingresomController extends Controller
     {
         $data = array();
         $view = new View();
-        $data['ModulosPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','text_null'=>'Seleccione...','table'=>'seguridad.vista_modulo'));
+        $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera'));
         $view->setData($data);
         $view->setTemplate( '../view/ingresosm/_form.php' );
         echo $view->renderPartial();
