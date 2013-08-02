@@ -10,8 +10,8 @@
         <label for="idmadera" class="labels">Codigo:</label>
         <input type="text" id="idmadera" name="idmadera" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idmadera; ?>" readonly />
         
-        <label for="idtipomadera" class="labels">Tipo Madera:</label>
-        <?php echo $idtipomadera; ?>
+        <label for="descripcion" class="labels">Descripcion:</label>
+        <input type="text" id="descripcion" name="descripcion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
         <br/>
 
         <label for="idunidad_medida" class="labels">Unidad Medida:</label>

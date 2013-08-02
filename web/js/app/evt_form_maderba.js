@@ -1,15 +1,14 @@
 $(function() 
 {    
-    $( "#tipoproducto" ).focus();       
-    $( "#idunidad_medida" ).css({'width':'210px'});
+    $( "#descripcion" ).focus();
     $("#estados").buttonset();
 });
 
 function save()
 {
   bval = true;        
-  bval = bval && $( "#idtipomadera" ).required();        
-  bval = bval && $( "#idunidad_medida" ).required();
+  bval = bval && $( "#descripcion" ).required();        
+
   var str = $("#frm").serialize();
   if ( bval ) 
   {

@@ -1,14 +1,15 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/perfil.php';
+require_once '../model/maderba.php';
 
-class PerfilController extends Controller
+class MaderbaController extends Controller
 {
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'s.idperfil','align'=>'center','width'=>'20'),
+                        1 => array('Name'=>'Codigo','NameDB'=>'s.idmaderba','align'=>'center','width'=>'20'),
                         2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','search'=>true),
-                        3 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
+                        3 => array('Name'=>'Espesor','NameDB'=>'s.espesor','search'=>true),
+                        4 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
                      );
     public function index() 
     {
@@ -18,7 +19,6 @@ class PerfilController extends Controller
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
 
-        //(nuevo,editar,eliminar,ver)
         $data['actions'] = array(true,true,true,false);
 
         $view = new View();
@@ -30,7 +30,7 @@ class PerfilController extends Controller
 
     public function indexGrid() 
     {
-        $obj = new Perfil();        
+        $obj = new Maderba();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
@@ -47,30 +47,29 @@ class PerfilController extends Controller
     {
         $data = array();
         $view = new View();        
-        $data['more_options'] = $this->more_options('Perfil');        
+               
         $view->setData($data);
-        $view->setTemplate( '../view/perfil/_form.php' );
+        $view->setTemplate( '../view/maderba/_form.php' );
         echo $view->renderPartial();
     }
 
     public function edit() {
-        $obj = new Perfil();
+        $obj = new Maderba();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;        
-        $data['more_options'] = $this->more_options('Perfil');
+        $data['obj'] = $obj;    
         $view->setData($data);
-        $view->setTemplate( '../view/perfil/_form.php' );
+        $view->setTemplate( '../view/maderba/_form.php' );
         echo $view->renderPartial();
         
     }
 
     public function save()
     {
-        $obj = new Perfil();
+        $obj = new Maderba();
         $result = array();        
-        if ($_POST['idperfil']=='') 
+        if ($_POST['idmaderba']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
@@ -83,7 +82,7 @@ class PerfilController extends Controller
     }
     public function delete()
     {
-        $obj = new Perfil();
+        $obj = new Maderba();
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);
