@@ -165,8 +165,6 @@ function eliminar()
     </div>
   </div>
 </div>
-  <div id="box-frm" class="ui-widget-content ui-corner-all" style="height:400px; width:890px; display:none; margin:5px auto">
-      
+  <div id="box-frm" class="ui-widget-content ui-corner-all" style="height:400px; width:890px; display:none; margin:5px auto">      
   </div>
 </div>
-
