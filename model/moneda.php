@@ -14,15 +14,15 @@ class Moneda extends Main
                 
                 FROM
                 moneda";
-        //print_r($sql);
-        if($filtro!="") //$sql .= " WHERE ".$filtro." ilike :query ";
-        $sql .= " where cast(".$filtro." as varchar) ilike :query ";
-
+        if($filtro!="") 
+        $sql .= " where ".$filtro." ilike :query ";
         $sql .= " order by {$sidx} {$sord}
                  limit {$limit}
                  offset  {$offset} "; 
         
         $stmt = $this->db->prepare($sql);
+        
+        if($filtro!="") 
         $stmt->bindParam(':query',$query,PDO::PARAM_STR);
         $stmt->execute();
         
@@ -30,6 +30,7 @@ class Moneda extends Main
         $responce->page = $page;
         $responce->total = "1";        
         $i = 0;
+        
         foreach($stmt->fetchAll() as $i => $row)
         {
             $responce->rows[$i]['id']=$row[0];

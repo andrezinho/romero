@@ -16,13 +16,15 @@ class Modulo extends Main
                        m.orden
                 from seguridad.modulo as m left outer join seguridad.modulo as mm on mm.idmodulo=m.idpadre";
 
-        if($filtro!="") $sql .= " where ".$filtro." ilike :query ";
-
+        if($filtro!="") 
+        $sql .= " where ".$filtro." ilike :query ";
         $sql .= " order by {$sidx} {$sord}
                  limit {$limit}
                  offset  {$offset} "; 
         
         $stmt = $this->db->prepare($sql);
+        
+        if($filtro!="") 
         $stmt->bindParam(':query',$query,PDO::PARAM_STR);
         $stmt->execute();
         
