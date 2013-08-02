@@ -8,14 +8,15 @@ class Madera extends Main
         $query = "%".$query."%";
         $sql = "SELECT
             m.idmadera,
+            t.descripcion,
+            u.descripcion,
+            m.precio_unitario,
             m.tipoproducto,
             m.idtipomadera,
-            m.precio_unitario,
-            m.idunidad_medida,
             m.stock,
-            case m.estado when 1 then 'ACTIVO' else 'INACTIVO' end,            
-            t.descripcion,
-            u.descripcion
+             case m.estado when 1 then 'ACTIVO' else 'INACTIVO' end ,
+            m.idunidad_medida                     
+            
             FROM
             produccion.madera AS m
             INNER JOIN produccion.tipomadera AS t ON t.idtipomadera = m.idtipomadera
