@@ -44,8 +44,7 @@ class ingresomController extends Controller
         if(!$limit) $limit = 10;
         if(!$page) $page = 1;
         echo json_encode($obj->indexGridi($page,$limit,$sidx,$sord,$filtro,$query));
-    }
-    
+    }    
     public function create() 
     {
         $data = array();
@@ -55,7 +54,6 @@ class ingresomController extends Controller
         $view->setTemplate( '../view/ingresosm/_form.php' );
         echo $view->renderPartial();
     }
-
     public function edit() 
     {
         $obj = new Modulo();

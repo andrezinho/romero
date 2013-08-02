@@ -23,7 +23,7 @@ class Modulo extends Main
                  offset  {$offset} "; 
         
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':query',$query,PDO::PARAM_STR);
+        if($filtro!="") $stmt->bindParam(':query',$query,PDO::PARAM_STR);
         $stmt->execute();
         
         $responce->records = $stmt->rowCount();
