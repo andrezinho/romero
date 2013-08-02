@@ -8,7 +8,7 @@ class MelaminaController extends Controller
     var $cols = array(
                         1 => array('Name'=>'Codigo','NameDB'=>'me.idmelamina','align'=>'center','width'=>50),
                         2 => array('Name'=>'Linea','NameDB'=>'li.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Maderba','NameDB'=>'ma.descripcion','search'=>true),
+                        3 => array('Name'=>'Maderba','NameDB'=>'ma.descripcion'),
                         4 => array('Name'=>'Medida','NameDB'=>'ma.mediad','align'=>'right','width'=>50),
                         5 => array('Name'=>'Peso Unitario','NameDB'=>'me.peso_unitario','align'=>'right','width'=>100),
                         6 => array('Name'=>'Precio Unitario','NameDB'=>'me.precio_unitario','align'=>'right','width'=>100),
@@ -45,7 +45,7 @@ class MelaminaController extends Controller
         if(!$sidx) $sidx = 1;
         if(!$limit) $limit = 10;
         if(!$page) $page = 1;
-        echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord,$filtro,$query));
+        echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$this->getColsVal($this->cols)));
     }
     
     public function create() 
