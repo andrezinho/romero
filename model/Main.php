@@ -7,12 +7,52 @@ class Main extends Spdo {
     protected $pag = 5;
     protected $exec;
     public $filtros;
-   
+
     public function __construct()
     {
         $this->db = Spdo::singleton();
         $this->db->query('SET NAMES UTF8');
     }
+
+    public function execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql)
+    {
+        $offset = ($page-1)*$limit;
+        $query = "%".$query."%";
+
+        $to = 0;
+        
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $c = $stmt->rowCount();    
+            $to = ceil($c/$limit);
+                
+        
+        if($filtro!="") $sql .= " where ".$filtro." ilike :query ";
+        $sql .= " order by {$sidx} {$sord}
+                 limit {$limit}
+                 offset  {$offset} ";
+        $stmt = $this->db->prepare($sql);
+        if($filtro!="") $stmt->bindParam(':query',$query,PDO::PARAM_STR);
+        $stmt->execute();        
+        $responce->records = $stmt->rowCount();
+        $responce->page = $page;
+        if($to==0) $responce->total = "1";
+            else $responce->total = $to;
+        $i = 0;
+
+        $cont = count($cols);
+        foreach($stmt->fetchAll() as $i => $row)
+        {
+            $responce->rows[$i]['id']=$row[0];
+            for($j=0;$j<$cont;$j++)
+            {
+                $responce->rows[$i]['cell'][] = $row[$j];
+            }
+            $i ++;
+        }
+        return $responce;
+    }
+
     function more_options($name_controller)
     {
         $sql = "select idpadre from modulo where controlador = :name ";

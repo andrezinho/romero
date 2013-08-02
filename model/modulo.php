@@ -2,10 +2,8 @@
 include_once("Main.php");
 class Modulo extends Main
 {    
-    function indexGrid($page,$limit,$sidx,$sord,$filtro,$query)
+    function indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$cols)
     {
-        $offset = ($page-1)*$limit;
-        $query = "%".$query."%";
         $sql = "SELECT m.idmodulo,
                        m.descripcion,
                        mm.descripcion,
@@ -15,27 +13,8 @@ class Modulo extends Main
                        case m.estado when true then 'ACTIVO' else 'INCANTIVO' end,
                        m.orden
                 from seguridad.modulo as m left outer join seguridad.modulo as mm on mm.idmodulo=m.idpadre";
-
-        if($filtro!="") $sql .= " where ".$filtro." ilike :query ";
-        $sql .= " order by {$sidx} {$sord}
-                 limit {$limit}
-                 offset  {$offset} "; 
-        
-        $stmt = $this->db->prepare($sql);
-        if($filtro!="") $stmt->bindParam(':query',$query,PDO::PARAM_STR);
-        $stmt->execute();
-        
-        $responce->records = $stmt->rowCount();
-        $responce->page = $page;
-        $responce->total = "1";        
-        $i = 0;
-        foreach($stmt->fetchAll() as $i => $row)
-        {
-            $responce->rows[$i]['id']=$row[0];
-            $responce->rows[$i]['cell']=array($row[0],$row[1],$row[2],$row[3],$row[4],$row[5],$row[6],$row[7]);
-            $i ++;
-        }
-        return $responce;
+                
+        return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
     function edit($id)

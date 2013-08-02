@@ -34,17 +34,19 @@ class ModuloController extends Controller
     }
     public function indexGrid() 
     {
-        $obj = new Modulo();        
+        $obj = new Modulo();  
+              
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
         $sord = $_GET['sord'];
-        $filtro = $this->getColNameDB($this->cols,(int)$_GET['f']);        
+        $filtro = $this->getColNameDB($this->cols,(int)$_GET['f']);
         $query = $_GET['q'];
         if(!$sidx) $sidx = 1;
         if(!$limit) $limit = 10;
         if(!$page) $page = 1;
-        echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord,$filtro,$query));
+
+        echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$this->getColsVal($this->cols)));
     }
     
     public function create() 
