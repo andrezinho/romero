@@ -42,8 +42,7 @@ class Controller  {
         $obj->table =  $p['table'];
         if(is_array($p['table']))
         {
-            $data['rows'] = $p['table'];               
-            //print_r($p['table']);
+            $data['rows'] = $p['table'];                           
         }
         else 
         {
@@ -53,7 +52,11 @@ class Controller  {
         $data['id'] = $p['id'];
         $data['code'] = $p['code'];
         $data['text_null'] = '....';
-        //if(isset($p['text_null'])&&$p['text_null']!='')
+        $data['width'] = "160px";
+        if(isset($data['width']))
+        {
+            $data['width'] = $p['width'];
+        }
         if(isset($p['text_null']))
         {
             $data['text_null'] = $p['text_null'];

@@ -12,31 +12,38 @@
         <br/>
         <label for="referencia" class="labels">Referencia:</label>
         <input type="text" name="referencia" id="referencia" class="ui-widget-content ui-corner-all text" style="width:500px" />
+        <!-- 
         <br/>
-        <label class="labels">Tipo Material: </label>
+        <label class="labels">Tipo Material: </label>        
         <select class="ui-widget-content ui-corner-all text" name="tipo_producto" id="tipo_producto">
             <option value="1">MADERA</option>
             <option value="2">MELAMINA</option>
-        </select>
+        </select> 
+        -->
     </fieldset>
     <fieldset class="ui-corner-all" style="padding: 2px 10px 7px">  
         <legend>Madera</legend>      
         <div id="box-1">
-            <label for="idmadera" class="labels">Tipo: </label>
+            <label for="idmadera" class="labels" style="width:80px">Tipo: </label>
             <?php echo $idmadera; ?>
             <label for="idtipomadera" class="labels" style="width:70px">Cantidad: </label>
             <input type="text" name="cantidad" id="cantidad" value="0.00" class="ui-widget-content ui-corner-all text" style="width:50px; text-align:center" /> Pies
+            <label for="idtipomadera" class="labels" style="width:70px">Precio: </label>
+            <input type="text" name="precio" id="precio" value="0.00" class="ui-widget-content ui-corner-all text" style="width:50px; text-align:center" />
             <a href="javascript:" id="addDetail" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset" style="margin-left:20px"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a> 
         </div>
     </fieldset>
     <fieldset class="ui-corner-all" style="padding: 2px 10px 7px">  
         <legend>Melamina</legend>      
         <div id="box-1">
-            <label for="idmadera" class="labels">Tipo: </label>
-            <?php echo $idmadera; ?>
-            <label for="idtipomadera" class="labels" style="width:70px">Cantidad: </label>
-            <input type="text" name="cantidad" id="cantidad" value="0.00" class="ui-widget-content ui-corner-all text" style="width:50px; text-align:center" /> Pies
+            <label for="idmadera" class="labels" style="width:80px">Tipo: </label>
+            <?php echo $idmelamina; ?>
+            <label for="idtipomadera" class="labels" style="width:90px">Cant (Piezas): </label>
+            <input type="text" name="cantidad" id="cantidad" value="0.00" class="ui-widget-content ui-corner-all text" style="width:50px; text-align:center" /> <label class="text-backinfo">PIES</label>
+            <label for="peso" class="labels" style="width:90px">Peso (Unit): </label>
+            <input type="text" name="peso" id="peso" value="0.00" class="ui-widget-content ui-corner-all text" style="width:50px; text-align:center" /> 
             <label for="idtipomadera" class="labels" style="width:70px">Precio: </label>
+            <input type="text" name="precio" id="precio" value="0.00" class="ui-widget-content ui-corner-all text" style="width:50px; text-align:center" /> 
             <a href="javascript:" id="addDetail" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset" style="margin-left:20px"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a> 
         </div>
     </fieldset>
@@ -45,52 +52,26 @@
         <table class=" ui-widget ui-widget-content" style="margin: 0 auto; width:100% " >
             <thead class="ui-widget ui-widget-content" >
                 <tr class="ui-widget-header" style="height: 23px">            
-                    <th >DESCRIPCION</th>            
-                    <th width="80px">PRECIO S/.</th>            
+                    <th width="80px">PRODUCTO</th>            
+                    <th >DESCRIPCION</th>         
+                    <th width="50px">UNIDAD</th>
                     <th width="80px">CANTIDAD</th>
+                    <th width="80px">PREC.UNIT S/.</th>            
                     <th width="80px">IMPORTE S/.</th>
                     <th width="20px">&nbsp;</th>
                  </tr>
                  </thead>  
                  <tbody>
-                    <?php 
-                        $c = 0;
-                        $t = 0;
-                        for($i=0;$i<$_SESSION['ventad']->item;$i++)
-                        {   
-                            if($_SESSION['ventad']->estado[$i])
-                            {
-                                $c +=1;
-                                $t += $_SESSION['ventad']->precio[$i]*$_SESSION['ventad']->cantidad[$i];
-                            ?>
-                            <tr id="<?php echo $i; ?>">
-                            
-                            <td><?php echo $_SESSION['ventad']->itinerario[$i]; ?></td>                    
-                            <td align="center" ><?php echo $_SESSION['ventad']->precio[$i]; ?></td>            
-                            <td align="center" >
-                                <?php echo number_format($_SESSION['ventad']->cantidad[$i],2); ?>
-                            </td>
-                            <td align="right" ><?php echo number_format($_SESSION['ventad']->precio[$i]*$_SESSION['ventad']->cantidad[$i],2); ?></td>                    
-                            <td width="20px" align="center"><a class="quit box-boton boton-anular" title="Eliminar item <?php echo ($c); ?>" href="javascript:"></a></td>
-                            </tr>
-                            <?php
-                            }
-                        }                
-                        for($i=0;$i<(2-$c);$i++)
-                        {
-                            ?>
-                            <tr >
-                                
-                                <td>&nbsp;</td>
-                                <td align="center" >&nbsp;</td>                                    
-                                <td align="right" >&nbsp;</td>
-                                <td align="right" >&nbsp;</td>                    
-                                <td width="20px" align="center">&nbsp;</td>
-                            </tr>
-                            <?php
-                        }
-                    ?>
-                </tbody>
+                   <tr>
+                        <td align="center">MADERA</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td align="center">PIES</td>
+                        <td></td>
+                        <td></td>
+                   </tr>
+                 </tbody>
                 <tfoot>
                     <tr>
                         <td colspan="3" align="right"><b>TOTAL S/.</b></td>

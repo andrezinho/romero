@@ -1,6 +1,6 @@
 $(function() 
-{   
-    
+{       
+    $("#bsdata").dialog('open');
 });
 
 function save()

@@ -49,7 +49,8 @@ class ingresomController extends Controller
     {
         $data = array();
         $view = new View();
-        $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera'));
+        $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'250px'));
+        $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'250px'));
         $view->setData($data);
         $view->setTemplate( '../view/ingresosm/_form.php' );
         echo $view->renderPartial();

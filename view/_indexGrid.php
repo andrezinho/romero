@@ -33,7 +33,7 @@ $(document).ready(function()
       height:'auto',
       resizing:true,
       title:'Formulario de <?php if($titulo!="") echo $titulo; else echo $controlador; ?>',
-      buttons: {'Cerrar':function(){$(this).dialog('close');},
+      buttons: {
                 'Grabar':function(){save();}
                 }
     });

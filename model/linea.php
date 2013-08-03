@@ -24,8 +24,16 @@ class Linea extends Main
         $stmt->bindParam(':p1', $_P['descripcion'] , PDO::PARAM_STR);
         $stmt->bindParam(':p2', $_P['activo'] , PDO::PARAM_INT);
         $p1 = $stmt->execute();
+        //$id = $stmt->lastInsertId('produccion.linea_idlinea_seq');
         $p2 = $stmt->errorInfo();
-        return array($p1 , $p2[2]);
+
+        $stmt = $this->db->prepare("SELECT max(idlinea) as cod from produccion.linea");
+        $stmt->execute();
+        $row = $stmt->fetchObject();
+
+        //$stmt
+
+        return array($p1 , $p2[2], $row->cod);
     }
 
     function update($_P ) {

@@ -41,6 +41,8 @@ class Modulo extends Main
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
         
+        
+
         return array($p1 , $p2[2]);
         
     }

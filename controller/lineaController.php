@@ -73,9 +73,9 @@ class LineaController extends Controller
         else         
             $p = $obj->update($_POST);                                
         if ($p[0])                
-            $result = array(1,'');                
+            $result = array(1,'',$p[2]);                
         else                 
-            $result = array(2,$p[1]);
+            $result = array(2,$p[1],'');
         print_r(json_encode($result));
 
     }

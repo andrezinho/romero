@@ -3,7 +3,7 @@
        
 ?>
 <div style="padding:10px 20px">
-<form id="frm" >
+<form id="frm_melamina" >
         <input type="hidden" name="controller" value="Melamina" />
         <input type="hidden" name="action" value="save" />
 
@@ -12,6 +12,7 @@
                 
         <label for="idmelamina" class="labels">Linea:</label>
         <?php echo $idlinea; ?>
+        <a id="newLine" href="javascript:"><span class="box-boton">&nbsp;</span></a>
         <br/>
 
         <label for="descripcion" class="labels">Maderba:</label>
@@ -54,4 +55,6 @@
             ?>
     </div>
 </form>
+</div>
+<div id="box-frm-linea">
 </div>
