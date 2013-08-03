@@ -26,7 +26,12 @@ class Maderba extends Main
         $stmt->bindParam(':p3', $_P['activo'] , PDO::PARAM_INT);
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
-        return array($p1 , $p2[2]);
+        
+        $stmt = $this->db->prepare("SELECT max(idmaderba) as cod from produccion.maderba");
+        $stmt->execute();
+        $row = $stmt->fetchObject();
+
+        return array($p1 , $p2[2], $row->cod, $_P['descripcion']. ' - '.$_P['espesor']);
     }
 
     function update($_P ) {

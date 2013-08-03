@@ -33,11 +33,11 @@ $(function()
       width:'auto',
       height:'auto',
       resizing:true,
-      title:'Formulario de Linea',
-      buttons: {'Registrar Linea':function(){save_linea();}}
+      title:'Formulario de Maderba',
+      buttons: {'Registrar Maderba':function(){save_maderba();}}
     });
     $("#frm_melamina").on('click','#newMaderba',function(){
-        $.get('index.php?controller=Linea&action=create',function(html)
+        $.get('index.php?controller=Maderba&action=create',function(html)
         {           
            $("#box-frm-maderba").empty().append(html);
            $("#box-frm-maderba").dialog("open");
@@ -49,6 +49,8 @@ $(function()
 
 
 });
+
+
 function save_linea()
 {
     bval = true;        
@@ -67,6 +69,26 @@ function save_linea()
        },'json');
     }
 }
+
+function save_maderba()
+{
+    bval = true;        
+    bval = bval && $( "#descripcion" ).required();
+    if(bval)    
+    {
+       var str = $("#frm_maderba").serialize();       
+       $.post('index.php',str,function(res)
+       {
+          if(res[0]==1)
+          {
+             $("#idmaderba").append('<option value="'+res[2]+'">'+res[3]+'</option>');
+             $("#box-frm-maderba").dialog('close');
+             $("#idmaderba").val(res[2]);
+          }
+       },'json');
+    }
+}
+
 function save()
 {
   bval = true;        

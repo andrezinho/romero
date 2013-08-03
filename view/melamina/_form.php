@@ -57,5 +57,9 @@
     </div>
 </form>
 </div>
+
 <div id="box-frm-linea">
+</div>
+
+<div id="box-frm-maderba">
 </div>
