@@ -3,7 +3,7 @@
 ?>
 
    
-<form id="frm" >
+<form id="frm_maderba" >
     <input type="hidden" name="controller" value="Maderba" />
 
     <input type="hidden" name="action" value="save" />

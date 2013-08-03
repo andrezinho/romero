@@ -2,9 +2,11 @@ $(function()
 {    
     $( "#tipoproducto" ).focus();       
     $( "#idlinea" ).css({'width':'210px'});
-    $( "#idmaderba" ).css({'width':'210px'});
+    $( "#idmaderba" ).css({'width':'180px'});
     $( "#idunidad_medida" ).css({'width':'210px'});
     $("#estados").buttonset();
+    
+    //Linea
     $("#box-frm-linea").dialog({
       modal:true,
       autoOpen:false,
@@ -20,9 +22,32 @@ $(function()
            $("#box-frm-linea").empty().append(html);
            $("#box-frm-linea").dialog("open");
            $("#descripcion").focus();
-           //$("#box-frm-linea").find("#estados").buttonset();
+           
         });
     })
+
+    //Madeba
+    $("#box-frm-maderba").dialog({
+      modal:true,
+      autoOpen:false,
+      width:'auto',
+      height:'auto',
+      resizing:true,
+      title:'Formulario de Linea',
+      buttons: {'Registrar Linea':function(){save_linea();}}
+    });
+    $("#frm_melamina").on('click','#newMaderba',function(){
+        $.get('index.php?controller=Linea&action=create',function(html)
+        {           
+           $("#box-frm-maderba").empty().append(html);
+           $("#box-frm-maderba").dialog("open");
+           $("#descripcion").focus();
+          
+        });
+    })
+
+
+
 });
 function save_linea()
 {

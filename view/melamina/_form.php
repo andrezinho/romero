@@ -17,6 +17,7 @@
 
         <label for="descripcion" class="labels">Maderba:</label>
         <?php echo $idmaderba; ?>        
+        <a id="newMaderba" href="javascript:"><span class="box-boton">&nbsp;</span></a>
 
         <label for="idunidad_medida" class="labels">Unidad Medida:</label>
         <?php echo $idunidad_medida; ?>

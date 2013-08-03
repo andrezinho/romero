@@ -9,7 +9,7 @@ function save()
   bval = true;        
   bval = bval && $( "#descripcion" ).required();        
 
-  var str = $("#frm").serialize();
+  var str = $("#frm_maderba").serialize();
   if ( bval ) 
   {
       $.post('index.php',str,function(res)
