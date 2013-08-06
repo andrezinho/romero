@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"ida",
+				"idarea"
+			],
+			[
+				"op",
+				"option	Tag"
+			],
+			[
+				"onk",
+				"onkeypress	Attr"
+			],
+			[
+				"h",
+				"href	Attr"
+			],
+			[
+				"on",
+				"onclick	Attr"
+			],
+			[
 				"va",
 				"var_dump"
 			],
@@ -40,10 +60,42 @@
 	"buffers":
 	[
 		{
-			"file": "lib/Spdo.php",
+			"file": "controller/proveedorController.php",
 			"settings":
 			{
-				"buffer_size": 724,
+				"buffer_size": 4231,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "web/js/app/evt_form_personal.js",
+			"settings":
+			{
+				"buffer_size": 876,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "model/proveedor.php",
+			"settings":
+			{
+				"buffer_size": 3780,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "view/proveedor/_form.php",
+			"settings":
+			{
+				"buffer_size": 5845,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/xampp/htdocs/corpmedic/hc/pacientes/mantenimiento.php",
+			"settings":
+			{
+				"buffer_size": 46127,
 				"line_ending": "Windows"
 			}
 		}
@@ -75,6 +127,71 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/romero/model/personal.php",
+		"/C/xampp/htdocs/romero/controller/personalController.php",
+		"/C/xampp/htdocs/romero/view/personal/_form.php",
+		"/C/xampp/htdocs/romero/view/melamina/_form.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_personal.js",
+		"/C/xampp/htdocs/romero/web/js/utiles.js",
+		"/C/xampp/htdocs/romero/web/js/required.js",
+		"/C/xampp/htdocs/romero/model/permisos.php",
+		"/C/xampp/htdocs/romero/controller/cargoController.php",
+		"/C/xampp/htdocs/romero/model/cargo.php",
+		"/C/xampp/htdocs/romero/view/cargo/_form.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_cargo.js",
+		"/C/xampp/htdocs/romero/controller/areaController.php",
+		"/C/xampp/htdocs/romero/model/area.php",
+		"/C/xampp/htdocs/romero/view/area/_form.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_area.js",
+		"/C/xampp/htdocs/romero/view/almacen/_form.php",
+		"/C/xampp/htdocs/romero/lib/Spdo.php",
+		"/C/xampp/htdocs/romero/view/productosemi/_form.php",
+		"/C/xampp/htdocs/romero/view/sucursal/_form.php",
+		"/C/xampp/htdocs/romero/view/tipomadera/_form.php",
+		"/C/xampp/htdocs/romero/view/tipopago/_form.php",
+		"/C/xampp/htdocs/romero/view/unidadmedida/_form.php",
+		"/C/xampp/htdocs/romero/view/linea/_form.php",
+		"/C/xampp/htdocs/romero/view/madera/_form.php",
+		"/C/xampp/htdocs/romero/view/maderba/_form.php",
+		"/C/xampp/htdocs/romero/view/materiales/_form.php",
+		"/C/xampp/htdocs/romero/view/modulo/_form.php",
+		"/C/xampp/htdocs/romero/view/moneda/_form.php",
+		"/C/xampp/htdocs/romero/view/movimientotipo/_form.php",
+		"/C/xampp/htdocs/romero/view/perfil/_form.php",
+		"/C/xampp/htdocs/romero/controller/materialesController.php",
+		"/C/xampp/htdocs/romero/model/materiales.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_materiales.js",
+		"/C/xampp/htdocs/romero/controller/melaminaController.php",
+		"/C/xampp/htdocs/romero/controller/almacenController.php",
+		"/C/xampp/htdocs/romero/controller/tipopagoController.php",
+		"/C/xampp/htdocs/romero/model/melamina.php",
+		"/C/xampp/htdocs/romero/model/maderba.php",
+		"/C/xampp/htdocs/romero/controller/maderbaController.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_madera.js",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_productosemi.js",
+		"/C/xampp/htdocs/romero/model/productosemi.php",
+		"/C/xampp/htdocs/romero/controller/productosemiController.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_melamina.js",
+		"/C/xampp/htdocs/romero/controller/lineaController.php",
+		"/C/xampp/htdocs/romero/controller/maderaController.php",
+		"/C/xampp/htdocs/romero/model/linea.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_maderba.js",
+		"/C/xampp/htdocs/romero/view/_indexGrid.php",
+		"/C/xampp/htdocs/romero/web/css/layout.css",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_linea.js",
+		"/C/xampp/htdocs/romero/model/almacen.php",
+		"/C/xampp/htdocs/romero/model/perfil.php",
+		"/C/xampp/htdocs/romero/model/madera.php",
+		"/C/xampp/htdocs/romero/controller/perfilController.php",
+		"/C/xampp/htdocs/romero/model/user.php",
+		"/C/xampp/htdocs/romero/model/modulo.php",
+		"/C/xampp/htdocs/romero/model/moneda.php",
+		"/C/xampp/htdocs/romero/model/movimiento.php",
+		"/C/xampp/htdocs/romero/model/sucursal.php",
+		"/C/xampp/htdocs/romero/model/tipomadera.php",
+		"/C/xampp/htdocs/romero/model/tipopago.php",
+		"/C/xampp/htdocs/romero/model/unidadmedida.php",
+		"/C/xampp/htdocs/romero/model/movimientotipo.php",
 		"/C/xampp/htdocs/sismedic/config.php",
 		"/C/xampp/htdocs/sismedic/laboratorio/exaespecifico/mantenimiento.php",
 		"/C/xampp/htdocs/sismedic/hc/tipo_examen/mantenimiento.php",
@@ -83,7 +200,6 @@
 		"/C/xampp/htdocs/sismedic/hc/exa_derivado/guardar.php",
 		"/C/xampp/htdocs/sismedic/laboratorio/reactivo/mantenimiento.php",
 		"/C/xampp/htdocs/sismedic/hc/exa_derivado/mantenimiento.php",
-		"/C/xampp/htdocs/romero/lib/Spdo.php",
 		"/C/xampp/htdocs/corpmedic/laboratorio/exaespecifico/index.php",
 		"/C/xampp/htdocs/corpmedic/laboratorio/exaespecifico/guardar.php",
 		"/C/xampp/htdocs/corpmedic/laboratorio/exaespecifico/mantenimiento.php",
@@ -138,24 +254,7 @@
 		"/C/xampp/htdocs/sismedic/hc/hc/index.php",
 		"/C/xampp/htdocs/sismedic/hc/hc/grid.php",
 		"/C/xampp/htdocs/sismedic/hc/evolucion/index.php",
-		"/C/xampp/htdocs/emergentes/administracion_/libs/configu.php",
-		"/C/xampp/htdocs/sismedic/buscar/Reactivo.php",
-		"/C/xampp/htdocs/sismedic/hc/exa_derivado/script.js",
-		"/C/xampp/htdocs/imi/caja/pagosxcaja/mantenimiento.php",
-		"/C/xampp/htdocs/sistemas_/config_db.php",
-		"/C/xampp/htdocs/sistemas_/gracesoft/config_db.php",
-		"/C/xampp/htdocs/imi/caja/pagosxcaja/guardar.php",
-		"/C/xampp/htdocs/imi/caja/caja/guardar.php",
-		"/C/xampp/htdocs/imi/caja/ingresos/guardar.php",
-		"/C/xampp/htdocs/sismedic/laboratorio/reactivo/guardar.php",
-		"/C/xampp/htdocs/sismedic/objetos/clsSql.php",
-		"/C/xampp/htdocs/sismedic/hc/hc/Imprimirhc.php",
-		"/C/xampp/htdocs/sismedic/buscar/Consultorio.php",
-		"/C/xampp/htdocs/sismedic/hc/examen_fisico/index.php",
-		"/C/xampp/htdocs/sismedic/laboratorio/clasificador/mantenimiento.php",
-		"/C/Users/NTC/Desktop/guardar.php",
-		"/C/xampp/htdocs/sismedic/buscar/Reactivo2.php",
-		"/C/xampp/htdocs/sismedic/hc/exa_derivado/ExaAux.php"
+		"/C/xampp/htdocs/emergentes/administracion_/libs/configu.php"
 	],
 	"find":
 	{
@@ -173,6 +272,65 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"personal",
+			"estcivil",
+			"sexo",
+			"direccion",
+			"telefono",
+			"nombres",
+			"idcargo",
+			"idarea",
+			"estcivil",
+			"sexo",
+			"apellidos",
+			"nombres",
+			"personal",
+			"\"p\"",
+			"idarea",
+			"area",
+			"idarea",
+			"idperfil",
+			"perfil",
+			"idperfil",
+			"seguridad.perfil",
+			"Materiales",
+			"telefono",
+			"direccion",
+			"idalmacen",
+			"Almacen",
+			"idalmacen",
+			"telefono",
+			"direccion",
+			"idalmacen",
+			"produccion.almacenes",
+			"\"m\"",
+			"idperfil",
+			"seguridad.perfil",
+			"();\n",
+			"Madera",
+			"idmadera",
+			"p5",
+			"peso_unitario",
+			"tario",
+			"stock",
+			"idunidad_medida",
+			"precio_unitario",
+			"descripcion",
+			"tipoproducto",
+			"idmadera",
+			"produccion.madera",
+			"linea",
+			"idtipomadera",
+			"idperfil",
+			"idlinea",
+			"produccion.linea",
+			"idperfil",
+			"descripcion",
+			"idlinea",
+			"perfil",
+			"$data['more_options'] = $this->more_options('Perfil');",
+			"idperfil",
+			"seguridad.perfil",
 			"IdDetDet",
 			"iddet_espec_dettpexa",
 			"idtipo_unidad",
@@ -195,6 +353,58 @@
 		"regex": false,
 		"replace_history":
 		[
+			"Proveedor",
+			"descripcion",
+			"direccion",
+			"telefono",
+			"replegal",
+			"ruc",
+			"obs",
+			"idubigeo",
+			"email",
+			"contacto",
+			"replegal",
+			"razonsocial",
+			"proveedor",
+			"p",
+			"idcargo",
+			"cargo",
+			"idcargo",
+			"idarea",
+			"area",
+			"idarea",
+			"area",
+			"stock",
+			"idunidad_medida",
+			"idmateriales",
+			"Materiales",
+			"idmateriales",
+			"idunidad_medida",
+			"stock",
+			"idmateriales",
+			"produccion.materiales",
+			"m",
+			"idproductos_semi",
+			"produccion.productos_semi",
+			"Melamina",
+			"idmelamina",
+			"precio_unitario",
+			"peso_unitario",
+			"medidas",
+			"idmaderba",
+			"idlinea",
+			"idmelamina",
+			"produccion.melamina",
+			"maderba",
+			"descripcion",
+			"idmaderba",
+			"produccion.maderba",
+			"idlinea",
+			"descripcion",
+			"linea",
+			"",
+			"idlinea",
+			"produccion.linea",
 			"idunidad_medida",
 			"cantidad",
 			"Cantidad"
@@ -208,24 +418,82 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "lib/Spdo.php",
+					"file": "controller/proveedorController.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 724,
+						"buffer_size": 4231,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								233,
-								233
+								2392,
+								2397
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 648.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "web/js/app/evt_form_personal.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 876,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								318,
+								324
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 54.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "model/proveedor.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3780,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								357,
+								368
 							]
 						],
 						"settings":
@@ -236,6 +504,63 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "view/proveedor/_form.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5845,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 54.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/C/xampp/htdocs/corpmedic/hc/pacientes/mantenimiento.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 46127,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								33399,
+								33409
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 946.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
