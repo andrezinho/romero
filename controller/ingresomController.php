@@ -2,7 +2,6 @@
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
 require_once '../model/movimiento.php';
-
 class ingresomController extends Controller 
 {   
     var $cols = array(
@@ -24,7 +23,6 @@ class ingresomController extends Controller
         $data['titulo'] = "Ingresos de Material";
         //(nuevo,editar,eliminar,ver)
         $data['actions'] = array(true,true,true,false);
-
         $view = new View();
         $view->setData($data);
         $view->setTemplate('../view/_indexGrid.php');
@@ -49,8 +47,9 @@ class ingresomController extends Controller
     {
         $data = array();
         $view = new View();
-        $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'250px'));
-        $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'250px'));
+        $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'220px'));
+        $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
+        $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));
         $view->setData($data);
         $view->setTemplate( '../view/ingresosm/_form.php' );
         echo $view->renderPartial();
@@ -91,8 +90,5 @@ class ingresomController extends Controller
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
-    
-    }
- 
-
+}
 ?>
