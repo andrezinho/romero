@@ -11,11 +11,11 @@
         <input id="idmoneda" name="idmoneda" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idmoneda; ?>" readonly />
         <br/>           
     <label for="descripcion" class="labels">Descripcion:</label>
-    <input type="text" id="descripcion" maxlength="100" name="descripcion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
+    <input type="text" id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
     <br/>
     
     <label for="simbolo" class="labels">Simbolo:</label>
-    <input type="text" id="simbolo" maxlength="100" name="simbolo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->simbolo; ?>" />
+    <input type="text" id="simbolo" maxlength="100" name="simbolo" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->simbolo; ?>" />
     <br/>
 
     <label for="estado" class="labels">Nacional:</label>

@@ -11,14 +11,14 @@
     <input id="idmateriales" name="idmateriales" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idmateriales; ?>" readonly />
       
     <label for="descripcion" class="labels">Descripcion:</label>
-    <input type="text" id="descripcion" maxlength="100" name="descripcion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
+    <input type="text" id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
     <br/>
     
     <label for="idunidad_medida" class="labels">Unidad medida:</label>
     <?php echo $idunidad_medida; ?>
    
     <label for="stock" class="labels">stock:</label>
-    <input type="text" id="stock" maxlength="100" name="stock" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->stock; ?>" />
+    <input type="text" id="stock" maxlength="100" name="stock" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->stock; ?>" />
     <br/>
 
     <label for="estado" class="labels">Estado:</label>

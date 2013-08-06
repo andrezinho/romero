@@ -3,7 +3,7 @@ function permite(elEvento, permitidos) {
 // Variables que definen los caracteres permitidos
 
 var numeros = "0123456789.,";
-var caracteres = " abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ-/";
+var caracteres = " abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ-/#*@()&$";
 var numeros_caracteres = numeros + caracteres;
 var teclas_especiales = [8, 37, 39, 46, 13, 9];
 // 8 = BackSpace, 46 = Supr, 37 = flecha izquierda, 39 = flecha derecha
@@ -144,6 +144,7 @@ function showboxmsg(text,tipo)
    {
        $('.box-msg').fadeOut();
    }
+   
    function esrucok(ruc)
    {
       return (!( esnulo(ruc) || !esnumero(ruc) || !eslongrucok(ruc) || !valruc(ruc) ));

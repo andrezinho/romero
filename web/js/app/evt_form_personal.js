@@ -1,8 +1,16 @@
 $(function() 
 {    
     $( "#nombres" ).focus();
-    //$( "#idpadre" ).css({'width':'210px'});
+    $( "#sexo" ).css({'width':'210px'});
+    $( "#idarea" ).css({'width':'210px'});
+    $( "#idcargo" ).css({'width':'210px'});
     $("#estados").buttonset();
+    $("#fechanaci").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
+    /*$("#ruc").change(function(){
+      esrucok($.(this).val());
+
+    });*/
+
 });
 
 function save()

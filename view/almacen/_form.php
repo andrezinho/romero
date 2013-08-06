@@ -9,18 +9,16 @@
 
     <label for="idalmacen" class="labels">Codigo:</label>
     <input id="idalmacen" name="idalmacen" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idalmacen; ?>" readonly />
-    <br/>    
 
     <label for="descripcion" class="labels">Descripcion:</label>
-    <input type="text" id="descripcion" maxlength="100" name="descripcion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
+    <input type="text" id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
     <br/>
     
-    <label for="direccion" class="labels">direccion:</label>
-    <input type="text" id="direccion" maxlength="100" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
-    <br/>
+    <label for="direccion" class="labels">Direccion:</label>
+    <input type="text" id="direccion" maxlength="100" name="direccion" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
 
-    <label for="telefono" class="labels">telefono:</label>
-    <input type="text" id="telefono" maxlength="100" name="telefono" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->telefono; ?>" />
+    <label for="telefono" class="labels">Telefono:</label>
+    <input type="text" id="telefono" maxlength="100" name="telefono" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->telefono; ?>" />
     <br/>
 
     <label for="estado" class="labels">Estado:</label>

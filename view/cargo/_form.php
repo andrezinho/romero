@@ -3,18 +3,18 @@
 ?>
 
    
-<form id="frm" >
-    <input type="hidden" name="controller" value="TipoMadera" />
+<form id="frm-cargo" >
+    <input type="hidden" name="controller" value="Cargo" />
 
     <input type="hidden" name="action" value="save" />
     
-        <label for="idtipomadera" class="labels">Codigo:</label>
-        <input id="idtipomadera" name="idtipomadera" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idtipomadera; ?>" readonly />
+        <label for="idcargo" class="labels">Codigo:</label>
+            <input id="idcargo" name="idcargo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idcargo; ?>" readonly />
         <br/>
         
         <label for="descripcion" class="labels">Descripcion:</label>
-        <input id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
-        <br>
+            <input id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
+            <br>
         
         <label for="estado" class="labels">Activo:</label>
         <div id="estados" style="display:inline">
@@ -27,6 +27,6 @@
                 else {$rep = 1;}                    
                     activo('activo',$rep);
             ?>
-        </div>   
+        </div>     
 
 </form>

@@ -27,9 +27,9 @@ class Personal extends Main
     
     function insert($_P ) 
     {
-        $stmt = $this->db->prepare("INSERT INTO personal(dni, nombres, apellidos, telefono, direccion, sexo, estcivil, estado)
-                                    values(:p1,:p2,:p3,:p5,:p6,:p7,:p8)");
-        //if($_P['dni']==""){$_P['dni']=null;}        
+        $stmt = $this->db->prepare("INSERT INTO personal(dni, nombres, apellidos, telefono, direccion, sexo, estcivil, estado,idarea,idcargo)
+                                    values(:p1,:p2,:p3,:p5,:p6,:p7,:p8,:p9,:p10)");
+             
         $stmt->bindParam(':p1', $_P['dni'] , PDO::PARAM_STR);
         $stmt->bindParam(':p2', $_P['nombres'] , PDO::PARAM_STR);
         $stmt->bindParam(':p3', $_P['apellidos'] , PDO::PARAM_STR);        
@@ -37,7 +37,9 @@ class Personal extends Main
         $stmt->bindParam(':p5', $_P['direccion'] , PDO::PARAM_STR);
         $stmt->bindParam(':p6', $_P['sexo'] , PDO::PARAM_STR);
         $stmt->bindParam(':p7', $_P['estcivil'] , PDO::PARAM_STR);
-        $stmt->bindParam(':p8', $_P['estado'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p8', $_P['activo'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p9', $_P['idarea'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p10', $_P['idcargo'] , PDO::PARAM_INT);
 
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
@@ -54,7 +56,9 @@ class Personal extends Main
                                    direccion=:p5,
                                    sexo=:p6,
                                    estcivil=:p7,
-                                   estado=:p8
+                                   estado=:p8,
+                                   idarea=:p9,
+                                   idcargo=:p10
                        where dni = :dni";
         $stmt = $this->db->prepare($sql);
                 
@@ -65,7 +69,10 @@ class Personal extends Main
             $stmt->bindParam(':p5', $_P['direccion'] , PDO::PARAM_STR);            
             $stmt->bindParam(':p6', $_P['sexo'] , PDO::PARAM_STR);
             $stmt->bindParam(':p7', $_P['estcivil'] , PDO::PARAM_STR);   
-            $stmt->bindParam(':p8', $_P['estado'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p8', $_P['activo'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p9', $_P['idarea'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p10', $_P['idcargo'] , PDO::PARAM_INT);
+
             $stmt->bindParam(':dni', $_P['dni'] , PDO::PARAM_STR);
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();

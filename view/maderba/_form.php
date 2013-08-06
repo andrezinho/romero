@@ -13,11 +13,11 @@
         <br/>
         
         <label for="descripcion" class="labels">Descripcion:</label>
-        <input id="descripcion" maxlength="100" name="descripcion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
+        <input id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
         <br>
         
         <label for="espesor" class="labels">Espesor:</label>
-        <input id="espesor" maxlength="100" name="espesor" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->espesor; ?>" />
+        <input id="espesor" maxlength="100" name="espesor" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->espesor; ?>" />
         <br>
 
         <label for="estado" class="labels">Activo:</label>

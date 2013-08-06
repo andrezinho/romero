@@ -11,7 +11,7 @@
         <input type="text" id="idmadera" name="idmadera" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idmadera; ?>" readonly />
         
         <label for="descripcion" class="labels">Descripcion:</label>
-        <input type="text" id="descripcion" name="descripcion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
+        <input type="text" id="descripcion" name="descripcion" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
         <br/>
 
         <label for="idunidad_medida" class="labels">Unidad Medida:</label>
@@ -22,10 +22,10 @@
         <br/>
 
         <label for="precio_unitario" class="labels">Precio Uunitario:</label>
-   		<input type="text" id="precio_unitario" name="precio_unitario" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->precio_unitario; ?>" />
+   		<input type="text" id="precio_unitario" name="precio_unitario" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->precio_unitario; ?>" />
         
         <label for="stock" class="labels">Stock:</label>
-   		<input type="text" id="stock" name="stock" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->stock; ?>" />
+   		<input type="text" id="stock" name="stock" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->stock; ?>" />
         <br/>
         
         <label for="estado" class="labels">Activo:</label>

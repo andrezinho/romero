@@ -1,21 +1,16 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/personal.php';
+require_once '../model/cargo.php';
 
-class PersonalController extends Controller 
-{   
+class CargoController extends Controller
+{
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'p.dni','align'=>'center','width'=>80),
-                        2 => array('Name'=>'Nombres','NameDB'=>'p.nombres','width'=>150,'search'=>true),
-                        3 => array('Name'=>'Apellidos','NameDB'=>'p.apellidos','width'=>150,'search'=>true),
-                        4 => array('Name'=>'Telefono','NameDB'=>'p.telefono'),
-                        5 => array('Name'=>'Direccion','NameDB'=>'p.direccion'),
-                        6 => array('Name'=>'Sexo','NameDB'=>'p.sexo','width'=>70),
-                        7 => array('Name'=>'Estado Civil','NameDB'=>'p.estcivil','align'=>'left','width'=>80),
-                        8 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>'50')
+                        1 => array('Name'=>'Codigo','NameDB'=>'s.idcargo','align'=>'center','width'=>'20'),
+                        2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','search'=>true),
+                        3 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
                      );
-
+    
     public function index() 
     {
         $data = array();                               
@@ -33,13 +28,14 @@ class PersonalController extends Controller
         $view->setlayout('../template/layout.php');
         $view->render();
     }
+
     public function indexGrid() 
     {
-        $obj = new Personal();        
+        $obj = new Cargo();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
-        $sord = $_GET['sord'];
+        $sord = $_GET['sord'];                
         $filtro = $this->getColNameDB($this->cols,(int)$_GET['f']);        
         $query = $_GET['q'];
         if(!$sidx) $sidx = 1;
@@ -47,36 +43,34 @@ class PersonalController extends Controller
         if(!$page) $page = 1;
         echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$this->getColsVal($this->cols)));
     }
-    
-    public function create() 
+
+    public function create()
     {
         $data = array();
-        $view = new View();
-        $data['idarea'] = $this->Select(array('id'=>'idarea','name'=>'idarea','text_null'=>'Seleccione...','table'=>'produccion.vista_area'));
-        $data['idcargo'] = $this->Select(array('id'=>'idcargo','name'=>'idcargo','text_null'=>'Seleccione...','table'=>'produccion.vista_cargo'));
+        $view = new View();                        
         $view->setData($data);
-        $view->setTemplate( '../view/personal/_form.php' );
+        $view->setTemplate( '../view/cargo/_form.php' );
         echo $view->renderPartial();
     }
 
-    public function edit() 
-    {
-        $obj = new Personal();
+    public function edit() {
+        $obj = new Cargo();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;
-        $data['idarea'] = $this->Select(array('id'=>'idarea','name'=>'idarea','text_null'=>'Seleccione...','table'=>'produccion.vista_area','code'=>$obj->idarea));
-        $data['idcargo'] = $this->Select(array('id'=>'idcargo','name'=>'idcargo','text_null'=>'Seleccione...','table'=>'produccion.vista_cargo','code'=>$obj->idcargo));
+        $data['obj'] = $obj;        
+        $data['more_options'] = $this->more_options('area');
         $view->setData($data);
-        $view->setTemplate( '../view/personal/_form.php' );
+        $view->setTemplate( '../view/cargo/_form.php' );
         echo $view->renderPartial();
+        
     }
+
     public function save()
     {
-        $obj = new Personal();
+        $obj = new Cargo();
         $result = array();        
-        if ($_POST['dni']=='') 
+        if ($_POST['idcargo']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
@@ -87,17 +81,18 @@ class PersonalController extends Controller
         print_r(json_encode($result));
 
     }
+
     public function delete()
     {
-        $obj = new Personal();
+        $obj = new Cargo();
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
-    
+   
+   
 }
- 
 
 ?>
