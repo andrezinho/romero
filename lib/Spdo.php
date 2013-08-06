@@ -6,7 +6,7 @@ class Spdo extends PDO
     protected $port = '5432';
     protected $dbname='bdromero';
     protected $user='postgres';
-    protected $password='torres04';
+    protected $password='12345678';
 
 	public function __construct()
 	{            
