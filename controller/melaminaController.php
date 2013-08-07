@@ -98,8 +98,12 @@ class MelaminaController extends Controller
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
-    
+    public function getList()
+    {
+        $obj = new Melamina();
+        $idlinea = (int)$_GET['idl'];
+        $rows = $obj->getList($idlinea);
+        print_r(json_encode($rows));
     }
- 
-
+}
 ?>
