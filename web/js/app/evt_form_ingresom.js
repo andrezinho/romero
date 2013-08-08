@@ -1,28 +1,43 @@
+var afecto = true;
 $(function() 
 {       
-    $("#referencia").focus();
+    $("#idtipodocumento").focus();
     $("#idmadera").change(function(){$("#cantidad_ma").focus();});
     $("#idmelamina").change(function(){$("#cantidad_me").focus();});
-    $("#idlinea").change(function(){load_melamina($(this).val()););
+    $("#idlinea").change(function(){load_melamina($(this).val());});
     $("#table-ma").on('click','#addDetail_ma',function(){addDetailMa();})
     $("#table-ma").on('keyup','#precio_ma,#cantidad_ma',function(){var st = calcSubTotalMa(); $("#total_ma").val(st);})
-    $("#fecha").datepicker({dateFormat:'dd/mm/yy'});
+    $("#fechae,#fechaguia").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
     $("#table-me").on('click','#addDetail_me',function(){addDetailMe();});
     $("#table-me").on('keyup','#precio_me,#cantidad_me,#peso_me',function(){
         var st = calcSubTotalMe(); $("#total_me").val(st);
         var tp = calcTotalPeso(); $("#peso_t_me").val(tp);
     });
     $("#table-detalle").on('click','.boton-delete',function(){var v = $(this).parent().parent().remove();caltotal();})
-
+    $("#box-tipo-ma").on('click','input[name|="tipo"]',function(){
+        valor = $("input[name='tipo']:checked").val();
+        if(valor==1){ $("#box-madera").css("display","block");$("#box-melamina").css("display","none"); }
+          else { $("#box-madera").css("display","none");$("#box-melamina").css("display","block"); }
+    });    
+    $("#aigv").click(function(){
+       if($(this).is(':checked')) afecto = true;
+        else afecto = false;       
+       caltotal();
+    });
 
 });
 function load_melamina(idl)
-{
+{ 
   if(idl!="")
-  {
-    $.get('index.php','controller=melamina&action=getList&idl='+idl,function(){    
-      
-    });
+  {    
+    $("#idmelamina").empty().append('<option value="">Cargando...</option>');
+    $.get('index.php','controller=melamina&action=getList&idl='+idl,function(r){    
+      html = '<option value="">Seleccione...</option>';
+      $.each(r,function(i,j){
+        html += '<option value="'+j.idmelamina+'">'+j.descripcion+'</option>';
+      });      
+      $("#idmelamina").empty().append(html);
+    },'json');
   }
 }
 function calcSubTotalMa()
@@ -76,7 +91,7 @@ function addDetailMe()
     if(!bval) return 0;
     var tipo=2,        
         idma=$("#idmelamina").val(),
-        made=$("#idmelamina option:selected").html(),
+        mela=$("#idlinea option:selected").html()+', '+$("#idmelamina option:selected").html(),
         cant=parseFloat($("#cantidad_me").val()),
         prec=parseFloat($("#precio_me").val()),
         total=calcSubTotalMe(),
@@ -84,7 +99,7 @@ function addDetailMe()
         pesot=calcTotalPeso();
     if(cant<=0) {alert('La cantidad debe ser mayor que 0'); $("#cantidad_me").focus(); return 0;}   
     if(prec<=0) {alert('La precio debe ser mayor que 0'); $("#precio_me").focus(); return 0;}
-    addDetalle(tipo,idma,made,cant,peso,pesot,prec,total);
+    addDetalle(tipo,idma,mela,cant,peso,pesot,prec,total);
     clearMe();    
 }
 function addDetalle(tipo,idtipo,dtipo,cant,peso,pesot,precio,total)
@@ -109,12 +124,29 @@ function addDetalle(tipo,idtipo,dtipo,cant,peso,pesot,precio,total)
 }
 function caltotal()
 {
-   var st = 0;
-   $("#table-detalle tbody tr").each(function(idx,j){
-      mont = parseFloat($(j).find('td:eq(6)').html());     
-      if(!isNaN(mont)) st += mont;      
+   var st = 0,
+       igv = $("#igv_val").val(),
+       tigv = 0,
+       t = 0;
+   $("#table-detalle tbody tr").each(function(idx,j)
+   {
+      mont = parseFloat($(j).find('td:eq(6)').html());
+      if(!isNaN(mont)) st += mont;
    });
-   $("#table-detalle tfoot td:eq(1)").empty().append('<b>'+st.toFixed(2)+'</b>');
+   if(afecto)
+   {
+      tigv = st*igv/100;
+      t = st-tigv;
+   }
+   else 
+   {
+      tigv = 0;
+      t = st-tigv;
+   }
+   
+   $("#table-detalle tfoot tr:eq(0) td:eq(1)").empty().append('<b>'+st.toFixed(2)+'</b>');
+   $("#table-detalle tfoot tr:eq(1) td:eq(1)").empty().append('<b>'+tigv.toFixed(2)+'</b>');
+   $("#table-detalle tfoot tr:eq(2) td:eq(1)").empty().append('<b>'+t.toFixed(2)+'</b>');
 }
 function clearMa()
 {
