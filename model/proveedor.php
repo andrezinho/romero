@@ -13,7 +13,7 @@ class Proveedor extends Main
             p.telefono,            
             p.direccion,
             u.descripcion,
-            p.estado,
+            case p.estado when 1 then 'ACTIVO' else 'INACTIVO' end,            
             p.email,
             p.obs,            
             p.contacto,
@@ -21,7 +21,7 @@ class Proveedor extends Main
             
             FROM
             public.proveedor AS p
-            INNER JOIN public.ubigeo AS u ON u.idubigeo = p.idubigeo ";
+            LEFT JOIN public.ubigeo AS u ON u.idubigeo = p.idubigeo ";
 
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
@@ -36,10 +36,13 @@ class Proveedor extends Main
     
     function insert($_P ) 
     {
-        $stmt = $this->db->prepare("INSERT INTO proveedor(dni, razonsocial, 
+        /*$stmt = $this->db->prepare("INSERT INTO proveedor(dni, razonsocial, 
                         replegal, telefono, direccion,contacto, email, estado,idubigeo,obs)
-                values(:p1,:p2,:p3,:p5,:p6,:p7,:p8,:p9,:p10)");
-             
+                values(:p1,:p2,:p3,:p5,:p6,:p7,:p8,:p9,:p10)");*/
+        $stmt = $this->db->prepare("INSERT INTO proveedor(dni, razonsocial, 
+                        replegal, telefono, direccion,contacto, email, estado,obs,ruc,idubigeo)
+                values(:p1,:p2,:p3,:p4,:p5,:p6,:p7,:p8,:p9,:p10,:p11)");
+       
         $stmt->bindParam(':p1', $_P['dni'] , PDO::PARAM_STR);
         $stmt->bindParam(':p2', $_P['razonsocial'] , PDO::PARAM_STR);
         $stmt->bindParam(':p3', $_P['replegal'] , PDO::PARAM_STR);        
@@ -48,9 +51,11 @@ class Proveedor extends Main
         $stmt->bindParam(':p6', $_P['contacto'] , PDO::PARAM_STR);
         $stmt->bindParam(':p7', $_P['email'] , PDO::PARAM_STR);
         $stmt->bindParam(':p8', $_P['activo'] , PDO::PARAM_INT);
-        $stmt->bindParam(':p9', $_P['idubigeo'] , PDO::PARAM_INT);
-        $stmt->bindParam(':p10', $_P['obs'] , PDO::PARAM_STR);
-
+        $stmt->bindParam(':p9', $_P['obs'] , PDO::PARAM_STR);
+        $stmt->bindParam(':p10', $_P['ruc'] , PDO::PARAM_STR);
+        $stmt->bindParam(':p11', $_P['iddistrito'] , PDO::PARAM_INT);
+        //print_r($stmt);
+        
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
         
@@ -68,9 +73,10 @@ class Proveedor extends Main
                             contacto=:p6,
                             email=:p7,
                             estado=:p8,
-                            idubigeo=:p9,
-                            obs=:p10
-                       where idproveedor = :idproveedor";
+                            ruc=:p9,
+                            obs=:p10,
+                            idubigeo= :p11
+                    WHERE   idproveedor = :idproveedor ";
         $stmt = $this->db->prepare($sql);
                 
         $stmt->bindParam(':p1', $_P['dni'] , PDO::PARAM_STR);
@@ -81,8 +87,9 @@ class Proveedor extends Main
         $stmt->bindParam(':p6', $_P['contacto'] , PDO::PARAM_STR);
         $stmt->bindParam(':p7', $_P['email'] , PDO::PARAM_STR);
         $stmt->bindParam(':p8', $_P['activo'] , PDO::PARAM_INT);
-        $stmt->bindParam(':p9', $_P['idubigeo'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p9', $_P['ruc'] , PDO::PARAM_INT);
         $stmt->bindParam(':p10', $_P['obs'] , PDO::PARAM_STR);
+        $stmt->bindParam(':p11', $_P['iddistrito'] , PDO::PARAM_INT);
 
         $stmt->bindParam(':idproveedor', $_P['idproveedor'] , PDO::PARAM_INT);
 

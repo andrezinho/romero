@@ -4,104 +4,56 @@
 ?>
 
 <div style="padding:10px 20px">
-<form id="frm" >
-        <input type="hidden" name="controller" value="Personal" />
+<form id="frm_proveedor" >
+        <input type="hidden" name="controller" value="Proveedor" />
         <input type="hidden" name="action" value="save" />
-        <!--             
-        <label for="idmodulo" class="labels">Codigo:</label>
-        <input type="text" id="idmodulo" name="idmodulo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idmodulo; ?>" readonly />
-        <label for="idpadre" class="labels">Padre:</label>
-        <?php echo $ModulosPadres; ?>
-        <br/>
-        -->
+                     
+        <label for="idproveedor" class="labels">Codigo:</label>
+        <input type="text" id="idproveedor" name="idproveedor" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idproveedor; ?>" readonly />
         
         <label for="dni" class="labels">DNI:</label>
-   		<input id="dni" name="dni" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
+        <input id="dni" name="dni" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
+        
+        <br/>
         
         <label for="ruc" class="labels">RUC:</label>
         <input id="ruc" name="ruc" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->ruc; ?>"  />
+        
+        <label for="razonsocial" class="labels">Razon Social:</label>
+   		<input id="razonsocial" name="razonsocial" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->razonsocial; ?>"  />
         <br/>
 
-        <label for="nombres" class="labels">Nombres:</label>
-        <input type="text" id="nombres" maxlength="100" name="nombres" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->nombres; ?>" />
+        <label for="replegal" class="labels">Rep. legal:</label>
+        <input type="text" id="replegal" maxlength="100" name="replegal" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->replegal; ?>" />
         
-        <label for="apellidos" class="labels">Apellidos:</label>
-        <input type="text" id="apellidos" name="apellidos" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->apellidos; ?>" />
+        <label for="direccion" class="labels">Dirección:</label>
+        <input id="direccion" name="direccion" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
         <br/>    
 
         <label for="telefono" class="labels">Telefono:</label>
         <input type="text" id="telefono" name="telefono" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->telefono; ?>" />
         
-        <label for="fechanaci" class="labels">Fecha Nac:</label>
-        <input type="text" id="fechanaci" maxlength="10" name="fechanaci" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" value="<?php if($obj->fechanaci=='') echo date('d/m/Y'); else echo fdate($obj->fechanaci,'ES'); ?>" />
+        <label for="contacto" class="labels">Contacto:</label>
+        <input type="text" id="contacto" name="contacto" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->contacto; ?>" />
         <br/>
-        <label for="direccion" class="labels">Dirección:</label>
-   		<input id="direccion" name="direccion" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
         
-        <label for="estcivil" class="labels">Estado civil:</label> 
-        <!-- <input id="estcivil" name="estcivil" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->estcivil; ?>" />
-         -->
-        <select id="estcivil" name="estcivil" class="ui-widget-content ui-corner-all">
-            <?php $var="";
-                if($obj->estcivil=='Ninguno')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="Ninguno">Ninguno</option>
-            
-            <?php $var="";
-                if($obj->estcivil=='Soltero')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="Soltero">Soltero(a)</option>
+        <label for="email" class="labels">Email:</label>
+   		<input id="email" name="email" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->email; ?>" />
+        
+        <label for="obs" class="labels">Observacion:</label>         
+        <input id="obs" name="obs" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->obs; ?>" />
+        <br/>
+        
+        <label for="Departamento" class="labels">Departamento:</label>
+        <?php echo $Departamento; ?>
 
-            <?php $var="";
-                if($obj->estcivil=='Conviviente')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="Conviviente">Conviviente</option>
-
-            <?php $var="";
-                if($obj->estcivil=='Casado')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="Casado">Casado(a)</option>
-
-            <?php $var="";
-                if($obj->estcivil=='Divorciado')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="Divorciado">Divorciado(a)</option>
-
-            <?php $var="";
-                if($obj->estcivil=='Viudo')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="Viudo">Viudo(a)</option>
+        <label for="Provincia" class="labels">Provincia:</label>
+        <select id="idprovincia" name="idprovincia" class="ui-widget-content ui-corner-all">            
         </select>
         <br/>
-        
-        <label for="idarea" class="labels">Area:</label>
-        <?php echo $idarea; ?>
 
-        <label for="idcargo" class="labels">Cargo:</label>
-        <?php echo $idcargo; ?>
-        <br/>
-
-        <label for="sexo" class="labels">Sexo:</label> 
-        <!-- <input id="sexo" name="sexo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->sexo; ?>" />
-         -->
-        <select id="sexo" name="sexo" class="ui-widget-content ui-corner-all">
-            <?php $var="";
-                if($obj->sexo=='M')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="M">Masculino</option>
-
-            <?php $var="";
-                if($obj->sexo=='F')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="F">Femenino</option>
+        <label for="distrito" class="labels">Distrito:</label>        
+        <select id="iddistrito" name="iddistrito" class="ui-widget-content ui-corner-all">            
         </select>
 
         <label for="estado" class="labels">Activo:</label>        

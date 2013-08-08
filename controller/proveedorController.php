@@ -6,15 +6,15 @@ require_once '../model/proveedor.php';
 class ProveedorController extends Controller 
 {   
     var $cols = array(
-                        
-                        1 => array('Name'=>'RUC','NameDB'=>'p.ruc','width'=>100,'search'=>true),
-                        2 => array('Name'=>'Razon Social','NameDB'=>'p.razonsocial','width'=>150,'search'=>true),
-                        3 => array('Name'=>'Codigo','NameDB'=>'p.dni','align'=>'center','width'=>80),
-                        4 => array('Name'=>'Replegal','NameDB'=>'p.replegal','width'=>120,'search'=>true),
-                        5 => array('Name'=>'Telefono','NameDB'=>'p.telefono','width'=>70),
-                        6 => array('Name'=>'Direccion','NameDB'=>'p.direccion','width'=>100),
-                        7 => array('Name'=>'Ubigeo','NameDB'=>'u.descripcion','width'=>100),
-                        8 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>50)
+                        1 => array('Name'=>'Codigo','NameDB'=>'p.idproveedor','width'=>60),
+                        2 => array('Name'=>'RUC','NameDB'=>'p.ruc','width'=>100,'search'=>true),
+                        3 => array('Name'=>'Razon Social','NameDB'=>'p.razonsocial','width'=>150,'search'=>true),
+                        4 => array('Name'=>'DNI','NameDB'=>'p.dni','align'=>'center','width'=>80),
+                        5 => array('Name'=>'Replegal','NameDB'=>'p.replegal','width'=>120,'search'=>true),
+                        6 => array('Name'=>'Telefono','NameDB'=>'p.telefono','width'=>70),
+                        7 => array('Name'=>'Direccion','NameDB'=>'p.direccion','width'=>100),
+                        8 => array('Name'=>'Ubigeo','NameDB'=>'u.descripcion','width'=>100),
+                        9 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>50)
                      );
 
     public function index() 
@@ -53,8 +53,8 @@ class ProveedorController extends Controller
     {
         $data = array();
         $view = new View();
-        $data['idarea'] = $this->Select(array('id'=>'idarea','name'=>'idarea','text_null'=>'Seleccione...','table'=>'produccion.vista_area'));
-        $data['idcargo'] = $this->Select(array('id'=>'idcargo','name'=>'idcargo','text_null'=>'Seleccione...','table'=>'produccion.vista_cargo'));
+        $data['Departamento'] = $this->Select(array('id'=>'Departamento','name'=>'Departamento','text_null'=>'Seleccione...','table'=>'vista_dep'));
+        //$data['idcargo'] = $this->Select(array('id'=>'idcargo','name'=>'idcargo','text_null'=>'Seleccione...','table'=>'produccion.vista_cargo'));
         $view->setData($data);
         $view->setTemplate( '../view/proveedor/_form.php' );
         echo $view->renderPartial();
@@ -67,8 +67,11 @@ class ProveedorController extends Controller
         $view = new View();
         $obj = $obj->edit($_GET['id']);
         $data['obj'] = $obj;
-        $data['idarea'] = $this->Select(array('id'=>'idarea','name'=>'idarea','text_null'=>'Seleccione...','table'=>'produccion.vista_area','code'=>$obj->idarea));
-        $data['idcargo'] = $this->Select(array('id'=>'idcargo','name'=>'idcargo','text_null'=>'Seleccione...','table'=>'produccion.vista_cargo','code'=>$obj->idcargo));
+        $var = $obj->idubigeo;
+        $IdDep = substr($var,0,2).'0000';        
+        $Idpro = substr($IdUbigeo,0,4).'00';
+        $data['Departamento'] = $this->Select(array('id'=>'Departamento','name'=>'Departamento','text_null'=>'Seleccione...','table'=>'vista_dep','code'=>$obj->IdDep));
+        $data['idprovincia'] = $this->Select(array('id'=>'idprovincia','name'=>'idprovincia','text_null'=>'Seleccione...','table'=>'produccion.vista_cargo','code'=>$obj->Idpro));
         $view->setData($data);
         $view->setTemplate( '../view/proveedor/_form.php' );
         echo $view->renderPartial();
@@ -77,7 +80,7 @@ class ProveedorController extends Controller
     {
         $obj = new Proveedor();
         $result = array();        
-        if ($_POST['dni']=='') 
+        if ($_POST['idproveedor']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                

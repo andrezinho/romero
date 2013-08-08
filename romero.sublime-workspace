@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"fun",
+				"function"
+			],
+			[
+				"for",
+				"foreach	foreach …"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
 				"ida",
 				"idarea"
 			],
@@ -63,39 +75,31 @@
 			"file": "controller/proveedorController.php",
 			"settings":
 			{
-				"buffer_size": 4231,
+				"buffer_size": 4452,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "web/js/app/evt_form_personal.js",
+			"file": "model/formapago.php",
 			"settings":
 			{
-				"buffer_size": 876,
+				"buffer_size": 1808,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "model/proveedor.php",
+			"file": "controller/formapagoController.php",
 			"settings":
 			{
-				"buffer_size": 3780,
+				"buffer_size": 3265,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "view/proveedor/_form.php",
+			"file": "view/formapago/_form.php",
 			"settings":
 			{
-				"buffer_size": 5845,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/xampp/htdocs/corpmedic/hc/pacientes/mantenimiento.php",
-			"settings":
-			{
-				"buffer_size": 46127,
+				"buffer_size": 1305,
 				"line_ending": "Windows"
 			}
 		}
@@ -127,34 +131,58 @@
 	},
 	"file_history":
 	[
-		"/C/xampp/htdocs/romero/model/personal.php",
-		"/C/xampp/htdocs/romero/controller/personalController.php",
+		"/C/xampp/htdocs/corpmedic - copia/ajax/provincia.php",
+		"/C/xampp/htdocs/romero/model/Ubigeo.php",
+		"/C/xampp/htdocs/romero/model/proveedor.php",
+		"/C/xampp/htdocs/romero/view/proveedor/_form.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_proveedor.js",
+		"/C/xampp/htdocs/corpmedic - copia/ajax/departamento.php",
+		"/C/xampp/htdocs/romero/controller/UbigeoController.php",
+		"/C/xampp/htdocs/corpmedic/ajax/departamento.php",
+		"/C/xampp/htdocs/corpmedic/ajax/distrito.php",
+		"/C/xampp/htdocs/systramite/controller/expedienteController.php",
+		"/C/xampp/htdocs/corpmedic/ajax/provincia.php",
+		"/C/xampp/htdocs/romero/view/formapago/_form.php",
+		"/C/xampp/htdocs/romero/controller/formapagoController.php",
+		"/C/xampp/htdocs/romero/model/formapago.php",
+		"/C/xampp/htdocs/romero/controller/subproductosemiController.php",
+		"/C/xampp/htdocs/romero/model/subproductosemi.php",
+		"/C/xampp/htdocs/romero/view/subproductosemi/_form.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_subproductosemi.js",
 		"/C/xampp/htdocs/romero/view/personal/_form.php",
-		"/C/xampp/htdocs/romero/view/melamina/_form.php",
+		"/C/xampp/htdocs/romero/controller/personalController.php",
+		"/C/xampp/htdocs/romero/model/personal.php",
+		"/C/xampp/htdocs/romero/view/modulo/_form.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_modulo.js",
+		"/C/xampp/htdocs/romero/view/cargo/_form.php",
+		"/C/xampp/htdocs/romero/controller/moduloController.php",
+		"/C/xampp/htdocs/romero/model/area.php",
+		"/C/xampp/htdocs/romero/view/linea/_form.php",
+		"/C/xampp/htdocs/romero/view/_Error.php",
+		"/C/xampp/htdocs/romero/controller/proveedorController.php",
+		"/C/xampp/htdocs/romero/model/moneda.php",
+		"/C/xampp/htdocs/corpmedic/hc/pacientes/mantenimiento.php",
+		"/C/xampp/htdocs/romero/lib/Spdo.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_personal.js",
+		"/C/xampp/htdocs/romero/view/melamina/_form.php",
 		"/C/xampp/htdocs/romero/web/js/utiles.js",
 		"/C/xampp/htdocs/romero/web/js/required.js",
 		"/C/xampp/htdocs/romero/model/permisos.php",
 		"/C/xampp/htdocs/romero/controller/cargoController.php",
 		"/C/xampp/htdocs/romero/model/cargo.php",
-		"/C/xampp/htdocs/romero/view/cargo/_form.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_cargo.js",
 		"/C/xampp/htdocs/romero/controller/areaController.php",
-		"/C/xampp/htdocs/romero/model/area.php",
 		"/C/xampp/htdocs/romero/view/area/_form.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_area.js",
 		"/C/xampp/htdocs/romero/view/almacen/_form.php",
-		"/C/xampp/htdocs/romero/lib/Spdo.php",
 		"/C/xampp/htdocs/romero/view/productosemi/_form.php",
 		"/C/xampp/htdocs/romero/view/sucursal/_form.php",
 		"/C/xampp/htdocs/romero/view/tipomadera/_form.php",
 		"/C/xampp/htdocs/romero/view/tipopago/_form.php",
 		"/C/xampp/htdocs/romero/view/unidadmedida/_form.php",
-		"/C/xampp/htdocs/romero/view/linea/_form.php",
 		"/C/xampp/htdocs/romero/view/madera/_form.php",
 		"/C/xampp/htdocs/romero/view/maderba/_form.php",
 		"/C/xampp/htdocs/romero/view/materiales/_form.php",
-		"/C/xampp/htdocs/romero/view/modulo/_form.php",
 		"/C/xampp/htdocs/romero/view/moneda/_form.php",
 		"/C/xampp/htdocs/romero/view/movimientotipo/_form.php",
 		"/C/xampp/htdocs/romero/view/perfil/_form.php",
@@ -185,7 +213,6 @@
 		"/C/xampp/htdocs/romero/controller/perfilController.php",
 		"/C/xampp/htdocs/romero/model/user.php",
 		"/C/xampp/htdocs/romero/model/modulo.php",
-		"/C/xampp/htdocs/romero/model/moneda.php",
 		"/C/xampp/htdocs/romero/model/movimiento.php",
 		"/C/xampp/htdocs/romero/model/sucursal.php",
 		"/C/xampp/htdocs/romero/model/tipomadera.php",
@@ -231,30 +258,7 @@
 		"/C/xampp/htdocs/Hosting/molino/santalucia/clases/config.php",
 		"/C/xampp/htdocs/corpmedic/public/unidadmedida/index.php",
 		"/C/xampp/htdocs/corpmedic/hc/tipo_examen/mantenimiento.php",
-		"/C/xampp/htdocs/corpmedic/public/unidadmedida/Guardar.php",
-		"/C/xampp/htdocs/corpmedic/login.php",
-		"/C/xampp/htdocs/corpmedic/farmacia/unidad_medidafr/guardar.php",
-		"/C/xampp/htdocs/corpmedic-copia/config.php",
-		"/C/xampp/htdocs/sismedic/hc/hc/mantenimiento.php",
-		"/C/xampp/htdocs/sismedic/hc/hc/script.js",
-		"/C/xampp/htdocs/sismedic/hc/hc/upload.php",
-		"/C/xampp/htdocs/sismedic/hc/hc/save.php",
-		"/C/xampp/htdocs/corpmedic/hc/hc/upload.php",
-		"/C/xampp/htdocs/corpmedic/hc/hc/check.php",
-		"/C/xampp/htdocs/sismedic/hc/hc/check.php",
-		"/C/xampp/htdocs/sismedic/hc/hc/process.php",
-		"/C/xampp/htdocs/sismedic/include/estado.php",
-		"/C/xampp/htdocs/sismedic/include/confirmar.php",
-		"/C/xampp/htdocs/mpb/clases/Config.php",
-		"/C/xampp/htdocs/syscs/conexion.php",
-		"/C/xampp/htdocs/emergentes/administrar/lib/ci-config.php",
-		"/C/xampp/htdocs/emergentes/tramite/model/config.php",
-		"/C/xampp/htdocs/emergentes/tramite/model/Main.php",
-		"/C/xampp/htdocs/sismedic/hc/exa_derivado/index.php",
-		"/C/xampp/htdocs/sismedic/hc/hc/index.php",
-		"/C/xampp/htdocs/sismedic/hc/hc/grid.php",
-		"/C/xampp/htdocs/sismedic/hc/evolucion/index.php",
-		"/C/xampp/htdocs/emergentes/administracion_/libs/configu.php"
+		"/C/xampp/htdocs/corpmedic/public/unidadmedida/Guardar.php"
 	],
 	"find":
 	{
@@ -272,6 +276,16 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Perfil",
+			"archivados",
+			"\"p\"",
+			"idproductos_semi",
+			"produccion.productos_semi",
+			"\"p\"",
+			"cProvincia",
+			"nombres",
+			"idmodulo",
+			"Proveedor",
 			"personal",
 			"estcivil",
 			"sexo",
@@ -353,6 +367,13 @@
 		"regex": false,
 		"replace_history":
 		[
+			"Ubigeo",
+			"p",
+			"idsubproductos_semi",
+			"produccion.subproductos_semi",
+			"p",
+			"replegal",
+			"idproveedor",
 			"Proveedor",
 			"descripcion",
 			"direccion",
@@ -418,7 +439,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -427,15 +448,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4231,
+						"buffer_size": 4452,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2392,
-								2397
+								3450,
+								3450
 							]
 						],
 						"settings":
@@ -445,76 +466,18 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 648.0,
+						"translation.y": 1140.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "web/js/app/evt_form_personal.js",
+					"file": "model/formapago.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 876,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								318,
-								324
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 54.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "model/proveedor.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3780,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								357,
-								368
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "view/proveedor/_form.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5845,
+						"buffer_size": 1808,
 						"regions":
 						{
 						},
@@ -532,35 +495,65 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 54.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "/C/xampp/htdocs/corpmedic/hc/pacientes/mantenimiento.php",
+					"buffer": 2,
+					"file": "controller/formapagoController.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 46127,
+						"buffer_size": 3265,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								33399,
-								33409
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 946.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "view/formapago/_form.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1305,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -636,7 +629,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 224.0,
+	"side_bar_width": 259.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
