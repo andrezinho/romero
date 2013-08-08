@@ -6,10 +6,11 @@ require_once '../model/area.php';
 class AreaController extends Controller
 {
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'s.idarea','align'=>'center','width'=>'20'),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','search'=>true),
-                        3 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
-                     );
+            1 => array('Name'=>'Codigo','NameDB'=>'s.idarea','align'=>'center','width'=>'20'),
+            2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','search'=>true),
+            3 => array('Name'=>'Sucursal','NameDB'=>'su.descripcion','search'=>true),
+            4 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center')
+        );
     
     public function index() 
     {
@@ -47,7 +48,8 @@ class AreaController extends Controller
     public function create()
     {
         $data = array();
-        $view = new View();                        
+        $view = new View();
+        $data['Sucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','text_null'=>'Seleccione...','table'=>'vista_sucursal'));                        
         $view->setData($data);
         $view->setTemplate( '../view/area/_form.php' );
         echo $view->renderPartial();
@@ -59,7 +61,7 @@ class AreaController extends Controller
         $view = new View();
         $obj = $obj->edit($_GET['id']);
         $data['obj'] = $obj;        
-        $data['more_options'] = $this->more_options('area');
+        $data['Sucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','table'=>'vista_sucursal','code'=>$obj->idsucursal));
         $view->setData($data);
         $view->setTemplate( '../view/area/_form.php' );
         echo $view->renderPartial();
@@ -68,7 +70,7 @@ class AreaController extends Controller
 
     public function save()
     {
-        $obj = new area();
+        $obj = new Area();
         $result = array();        
         if ($_POST['idarea']=='') 
             $p = $obj->insert($_POST);                        

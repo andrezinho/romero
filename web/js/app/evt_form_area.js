@@ -1,15 +1,16 @@
 $(function() 
 {    
     $( "#descripcion" ).focus();
-    /*$( "#idperfil" ).css({'width':'210px'});*/
-    $("#div_activo").buttonset();
+    $( "#idsucursal" ).css({'width':'210px'});
+    $("#estados").buttonset();
 });
 
 function save()
 {
   bval = true;        
   bval = bval && $( "#descripcion" ).required();        
-  //bval = bval && $( "#orden" ).required();
+  bval = bval && $( "#idsucursal" ).required();
+  
   var str = $("#frm-area").serialize();
   if ( bval ) 
   {
