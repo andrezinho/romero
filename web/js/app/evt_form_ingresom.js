@@ -1,4 +1,4 @@
-var afecto = true;
+var afecto = false;
 $(function() 
 {       
     $("#idtipodocumento").focus();
@@ -168,14 +168,12 @@ function nItems()
 }
 function save()
 {
-  bval = true;
-  bval = bval && $( "#fecha" ).required();
-  bval = bval && $( "#referencia" ).required();          
+  bval = validar_frm();  
   if ( bval ) 
   {
       var ni = nItems();
       if(ni<=0) { alert("Aun no a ingresado ningun tipo de producto al detalle"); return 0; }
-      var str = $("#frm-ingresom").serialize();
+      var str = $("#frm-ingresom").serialize();      
       $.post('index.php',str,function(res)
       {
         if(res[0]==1)
@@ -191,4 +189,25 @@ function save()
       },'json');
   }
   return false;
+}
+function validar_frm()
+{
+  var tipo = $("input[name='tipo']:checked").val(),
+      bval = true;
+  if(tipo==2)
+  {
+     bval = bval && $("#serie").required();
+     bval = bval && $("#numero").required();
+     bval = bval && $("#ruc").required();
+     if(bval)
+     {
+       if($("#idproveedor").val()!="") 
+       {
+         alert("Ingrese el proveedor correctamente");
+         $("#ruc").focus();
+         bval = false;
+       }
+     }     
+  }  
+  return bval;
 }
