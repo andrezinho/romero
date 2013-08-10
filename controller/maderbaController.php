@@ -9,7 +9,8 @@ class MaderbaController extends Controller
                         1 => array('Name'=>'Codigo','NameDB'=>'s.idmaderba','align'=>'center','width'=>'20'),
                         2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','search'=>true),
                         3 => array('Name'=>'Espesor','NameDB'=>'s.espesor','search'=>true),
-                        4 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
+                        4 => array('Name'=>'Linea','NameDB'=>'l.descripcion','search'=>true),
+                        5 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
                      );
     public function index() 
     {
@@ -47,7 +48,7 @@ class MaderbaController extends Controller
     {
         $data = array();
         $view = new View();        
-               
+        $data['idlinea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Seleccione...','table'=>'produccion.vista_linea'));       
         $view->setData($data);
         $view->setTemplate( '../view/maderba/_form.php' );
         echo $view->renderPartial();
@@ -58,7 +59,8 @@ class MaderbaController extends Controller
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;    
+        $data['obj'] = $obj; 
+        $data['idlinea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','table'=>'produccion.vista_linea','code'=>$obj->idlinea));   
         $view->setData($data);
         $view->setTemplate( '../view/maderba/_form.php' );
         echo $view->renderPartial();
