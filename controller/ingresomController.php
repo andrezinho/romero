@@ -76,12 +76,10 @@ class ingresomController extends Controller
         if ($_POST['idmovimiento']=='') 
             $p = $obj->insert($_POST);                        
         else         
-            $p = $obj->update($_POST);    
-
+            $p = $obj->update($_POST);
         if ($p[0]) $result = array(1,'');                
             else $result = array(2,$p[1]);
         print_r(json_encode($result));
-
     }
     public function delete()
     {

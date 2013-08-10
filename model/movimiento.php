@@ -4,7 +4,25 @@ class movimiento extends Main
 {   
     function indexGridi($page,$limit,$sidx,$sord,$filtro,$query,$cols)
     {
-        $sql = "SELECT * FROM produccion.movimiento";
+        $sql = "SELECT  m.idmovimiento,
+                        m.fecha,
+                        mt.descripcion,
+                        td.descripcion,
+                        m.serie,
+                        m.numero,
+                        m.fechae,
+                        p.razonsocial,
+                        p.ruc,
+                        case m.afecto when 1 then '18%' else '' end,
+                        t.total as subtotal,
+                        cast(t.total*m.igv/100+t.total as numeric(18,2)) as total
+                    FROM movimientos as m inner join movimientostipo as mt on
+                        mt.idmovimientostipo = m.idmovimientostipo
+                        inner join facturacion.tipodocumento as td on td.idtipodocumento = m.idtipodocumento
+                        inner join proveedor as p on p.idproveedor = m.idproveedor
+                        inner join (select idmovimiento,sum(precio) as total
+                                from movimientosdetalle 
+                                group by idmovimiento) as t on t.idmovimiento = m.idmovimiento";
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
     function edit($id)
