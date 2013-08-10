@@ -34,7 +34,8 @@ $(document).ready(function()
       resizing:true,
       title:'Formulario de <?php if($titulo!="") echo $titulo; else echo $controlador; ?>',
       buttons: {
-                'Grabar':function(){save();}
+                'Cancelar': function(){ $(this).dialog('close');},
+                'Confirmar':function(){save();}
                 }
     });
     $('.nuevo').click(function(){nuevo();});

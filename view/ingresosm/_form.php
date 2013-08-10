@@ -5,7 +5,7 @@
     <legend>Datos Compra - <b><?php echo date('d/m/Y'); ?></b></legend>
         <input type="hidden" name="controller" value="ingresom" />
         <input type="hidden" name="action" value="save" />             
-        <input type="hidden" id="idmodulo" name="idmodulo" class="text ui-widget-content ui-corner-all" style=" width: 50px; text-align: left;" value="<?php echo $obj->idmodulo; ?>" readonly />                
+        <input type="hidden" id="idmovimiento" name="idmovimiento" class="text ui-widget-content ui-corner-all" style=" width: 50px; text-align: left;" value="<?php echo $obj->idmodulo; ?>" readonly />                
         <input type="hidden" name="igv_val" id="igv_val" value="18" />
         <label for="idtipodocumento" class="labels">Documento:</label>
         <?php echo $tipodocumento; ?>        
@@ -56,9 +56,9 @@
                 </tr>
                 <tr>
                     <td><?php echo $idmadera; ?></td>
-                    <td><input type="text" name="cantidad_ma" id="cantidad_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" /> </td>                    
-                    <td><input type="text" name="precio_ma" id="precio_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" /> </td>                    
-                    <td><input type="text" name="total_ma" id="total_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" readonly=""/> </td>                    
+                    <td><input type="text" name="cantidad_ma" id="cantidad_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" /> </td>                    
+                    <td><input type="text" name="precio_ma" id="precio_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" /> </td>                    
+                    <td><input type="text" name="total_ma" id="total_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" readonly="" onkeypress="return permite(event,'num')"/> </td>                    
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                 </tr>
@@ -84,11 +84,11 @@
                         <option value="">Seleccione....</option>
                     </select>
                     </td>
-                    <td><input type="text" name="cantidad_me" id="cantidad_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" /> </td>                    
-                    <td><input type="text" name="precio_me" id="precio_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" /> </td>                                        
-                    <td><input type="text" name="peso_me" id="peso_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" /> </td>
-                    <td><input type="text" name="peso_t_me" id="peso_t_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" readonly="" /></td>
-                    <td><input type="text" name="total_me" id="total_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" readonly=""/> </td>                    
+                    <td><input type="text" name="cantidad_me" id="cantidad_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" /> </td>                    
+                    <td><input type="text" name="precio_me" id="precio_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" /> </td>                                        
+                    <td><input type="text" name="peso_me" id="peso_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" /> </td>
+                    <td><input type="text" name="peso_t_me" id="peso_t_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" readonly="" onkeypress="return permite(event,'num')" /></td>
+                    <td><input type="text" name="total_me" id="total_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" readonly="" onkeypress="return permite(event,'num')" /> </td>                    
                 </tr>
             </table>                        
         </div>
