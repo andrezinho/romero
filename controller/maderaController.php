@@ -6,12 +6,12 @@ require_once '../model/madera.php';
 class MaderaController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'m.idmadera','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'m.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Unidad Medida','NameDB'=>'u.descripcion','search'=>true),
-                        4 => array('Name'=>'Precio Unitario','NameDB'=>'m.precio_unitario','align'=>'right','width'=>100),
-                        5 => array('Name'=>'Stok','NameDB'=>'m.stock','align'=>'right','width'=>100),
-                        6 => array('Name'=>'Estado','NameDB'=>'m.estado','align'=>'center','width'=>70)
+                        1 => array('Name'=>'Codigo','NameDB'=>'p.idmadera','align'=>'center','width'=>50),
+                        2 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','width'=>250,'search'=>true),
+                        3 => array('Name'=>'Unidad Medida','NameDB'=>'u.simbolo','search'=>true),
+                        4 => array('Name'=>'Precio Unitario','NameDB'=>'u.precio_u','align'=>'right','width'=>100),
+                        5 => array('Name'=>'Stok','NameDB'=>'p.stock','align'=>'right','width'=>100),
+                        6 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>70)
                      );
     public function index() 
     {

@@ -13,7 +13,13 @@ class Main extends Spdo {
         $this->db = Spdo::singleton();
         $this->db->query('SET NAMES UTF8');
     }
-
+    public function lastInsertId($table,$id)
+    {
+        $stmt = $this->db->prepare("select max(".$id.") as codigo from ".$table);
+        $stmt->execute();
+        $r = $stmt->fetchObject();
+        return $r->codigo;
+    }
     public function execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql)
     {
         $offset = ($page-1)*$limit;

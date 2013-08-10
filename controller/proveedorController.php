@@ -100,8 +100,26 @@ class ProveedorController extends Controller
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
-    
-}
- 
+    public function get()
+    {
+        $obj = new proveedor();
+        $data = array();        
+        $field = "razonsocial";
+        if($_GET['tipo']==1) $field = "ruc";
+        $value = $obj->get($_GET["term"],$field);
 
+        $result = array();
+        foreach ($value as $key => $val) 
+        {
+              array_push($result, array(
+                                        "idproveedor"=>$val['idproveedor'], 
+                                        "ruc"=>$val['ruc'],
+                                        "razonsocial"=> strtoupper($val['razonsocial'])
+                                    )
+                        );
+              if ( $key > 7 ) { break; }
+        }
+        print_r(json_encode($result));
+    }
+}
 ?>

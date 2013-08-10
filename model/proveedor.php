@@ -106,5 +106,19 @@ class Proveedor extends Main
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
     }
+
+    function get($query,$field)
+    {
+        $query = "%".$query."%";
+        $statement = $this->db->prepare("SELECT idproveedor, 
+                                                razonsocial,
+                                                ruc
+                                         FROM proveedor
+                                         WHERE {$field} like :query and ruc <> ''
+                                         limit 10");
+        $statement->bindParam (":query", $query , PDO::PARAM_STR);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
 }
 ?>
