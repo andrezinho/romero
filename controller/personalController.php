@@ -96,6 +96,27 @@ class PersonalController extends Controller
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
+
+    public function get()
+    {
+        $obj = new Personal();
+        $data = array();        
+        $field = "nompersonal";
+        if($_GET['tipo']==1) $field = "dni";
+        $value = $obj->get($_GET["term"],$field);
+
+        $result = array();
+        foreach ($value as $key => $val) 
+        {
+              array_push($result, array(                                        
+                                        "dni"=>$val['dni'],
+                                        "nompersonal"=> strtoupper($val['nompersonal'])
+                                    )
+                        );
+              if ( $key > 7 ) { break; }
+        }
+        print_r(json_encode($result));
+    }
     
 }
  

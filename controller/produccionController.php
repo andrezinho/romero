@@ -5,13 +5,14 @@ require_once '../model/produccion.php';
 class ProduccionController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'m.idmovimiento','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Fecha','NameDB'=>'m.fecha','width'=>100,'search'=>true),
-                        3 => array('Name'=>'Referencia','NameDB'=>'m.referencia','search'=>true),
-                        4 => array('Name'=>'Estado','NameDB'=>'m.estado'),
-                        5 => array('Name'=>'Usuario','NameDB'=>'m.usuarioreg'),
-                        6 => array('Name'=>'Impr.','NameDB'=>'-','align'=>'center','width'=>20),
-                        7 => array('Name'=>'Anul.','NameDB'=>'-','align'=>'center','width'=>20)
+                        1 => array('Name'=>'Codigo','NameDB'=>'p.idproduccion','align'=>'center','width'=>50),
+                        2 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','width'=>280,'search'=>true),
+                        3 => array('Name'=>'Personal','NameDB'=>'personal','align'=>'left','width'=>180),
+                        4 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechai','align'=>'center','width'=>100),
+                        5 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechaf','align'=>'center','width'=>100),
+                        6 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>50)
+                        
+                        
                      );
     public function index() 
     {
@@ -60,7 +61,7 @@ class ProduccionController extends Controller
 
     public function edit() 
     {
-        $obj = new Modulo();
+        $obj = new Produccion();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
@@ -73,19 +74,16 @@ class ProduccionController extends Controller
 
     public function save()
     {
-        $obj = new Modulo();
+        $obj = new Produccion();
         $result = array();        
-        if ($_POST['idmodulo']=='') 
+        if ($_POST['idproduccion']=='') 
             $p = $obj->insert($_POST);                        
         else         
-            $p = $obj->update($_POST);                                
-        if ($p[0])                
-            $result = array(1,'');                
-        else                 
-            $result = array(2,$p[1]);
-        print_r(json_encode($result));
+            $p = $obj->update($_POST);    
+        print_r($p);
 
     }
+
     public function delete()
     {
         $obj = new Modulo();

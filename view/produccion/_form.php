@@ -23,8 +23,7 @@ include("../view/header_form.php");
         <br/>
         <!-- <label for="Sucursal" class="labels">Sucursal:</label>
         <?php echo $Sucursal; ?> -->
-        <label for="idpersonal" class="labels">Personal Enc.:</label>
-        <input type="hidden" name="idpersonal" id="idpersonal" value="1" />
+        <label for="idpersonal" class="labels">Personal Enc.:</label>        
         <input type="text" name="dni" id="dni" class="ui-widget-content ui-corner-all text" style="width:80px" value="" maxlength="11" onkeypress="return permite(event,'num')" />
         <input type="text" name="personal" id="personal" class="ui-widget-content ui-corner-all text" style="width:300px" value="" />
         
@@ -84,4 +83,8 @@ include("../view/header_form.php");
         </div>
         </div>
 </form>
+</div>
+
+<div id="dialogConf">
+
 </div>

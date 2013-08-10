@@ -7,27 +7,27 @@ $(function()
     $("#table-me").on('click','#addDetail_me',function(){addDetailMe();});
     $("#table-detalle").on('click','.boton-delete',function(){var v = $(this).parent().parent().remove();})
 
-    $("#dni").autocomplete({
-        source: "../../view/produccion/search.php",
-        minLength: 1
-    });   
-
-    /*$('#dni').autocomplete('../personal_dni.php', {
-      //autoFill: true,
-      width: 400,
-      selectFirst: true,
-      formatItem: FormatItemProvId, 
-      formatResult: FormatResult0
-      //mustMatch : true
-      
-    }).result(function(event, item) {
-       
-        !item?'':$("#nrodocumento").val(item[0]);
-        !item?'':$("#nompaciente").val(item[1]);
-        !item?'':$("#idpaciente").val(item[2]);                
-                !item?'':carg_paciente(item[2]);
-       
-      });*/
+    $("#dni").autocomplete({        
+        minLength: 0,
+        source: 'index.php?controller=personal&action=get&tipo=1',
+        focus: function( event, ui ) 
+        {
+            $( "#dni" ).val( ui.item.dni );
+            return false;
+        },
+        select: function( event, ui ) 
+        {
+            //$("#idpersonal").val(ui.item.idpersonal);
+            $( "#dni" ).val( ui.item.dni );
+            $( "#personal" ).val( ui.item.nompersonal );                                    
+            return false;
+        }
+    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
+        return $( "<li></li>" )
+            .data( "item.autocomplete", item )
+            .append( "<a>"+ item.dni +" - " + item.nompersonal + "</a>" )
+            .appendTo(ul);
+      };
 
 });
 
@@ -103,7 +103,13 @@ function save()
       {
         if(res[0]==1)
         {
-          $("#box-frm").dialog("close");
+          //$("#box-frm").dialog("close");
+          //alert();
+          if (confirm("Desea ingresar su materiales que utilizará en la produccion ")) {
+          // Respuesta afirmativa...
+            $('#dialogConf').dialog('open');
+          }
+          
           gridReload();
         }
         else
@@ -114,4 +120,5 @@ function save()
       },'json');
   }
   return false;
+
 }
