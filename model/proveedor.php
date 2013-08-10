@@ -114,7 +114,7 @@ class Proveedor extends Main
                                                 razonsocial,
                                                 ruc
                                          FROM proveedor
-                                         WHERE {$field} like :query and ruc <> ''
+                                         WHERE {$field} ilike :query and ruc <> ''
                                          limit 10");
         $statement->bindParam (":query", $query , PDO::PARAM_STR);
         $statement->execute();

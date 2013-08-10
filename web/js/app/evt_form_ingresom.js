@@ -46,6 +46,29 @@ $(function()
             .append( "<a>"+ item.ruc +" - " + item.razonsocial + "</a>" )
             .appendTo(ul);
       };
+
+    $( "#proveedor" ).autocomplete({
+        minLength: 0,
+        source: 'index.php?controller=proveedor&action=get&tipo=2',
+        focus: function( event, ui ) 
+        {
+            $( "#proveedor" ).val( ui.item.razonsocial );
+            return false;
+        },
+        select: function( event, ui ) 
+        {
+            $("#idproveedor").val(ui.item.idproveedor);
+            $( "#ruc" ).val( ui.item.ruc );
+            $( "#proveedor" ).val( ui.item.razonsocial );
+            return false;
+        }
+    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
+        return $( "<li></li>" )
+            .data( "item.autocomplete", item )
+            .append( "<a>"+ item.razonsocial + " - "+item.ruc+"</a>" )
+            .appendTo(ul);
+      };
+
 });
 function load_melamina(idl)
 { 
@@ -217,12 +240,13 @@ function validar_frm()
       bval = true;
   if(tipo==2)
   {
+     bval = bval && $("#idtipodocumento").required();
      bval = bval && $("#serie").required();
      bval = bval && $("#numero").required();
      bval = bval && $("#ruc").required();
      if(bval)
      {
-       if($("#idproveedor").val()!="") 
+       if($("#idproveedor").val()=="") 
        {
          alert("Ingrese el proveedor correctamente");
          $("#ruc").focus();

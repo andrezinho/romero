@@ -77,12 +77,10 @@ class ingresomController extends Controller
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);    
-        print_r($p);
-        /*if ($p[0])                
-            $result = array(1,'');                
-        else                 
-            $result = array(2,$p[1]);
-        print_r(json_encode($result));*/
+
+        if ($p[0]) $result = array(1,'');                
+            else $result = array(2,$p[1]);
+        print_r(json_encode($result));
 
     }
     public function delete()
