@@ -24,7 +24,28 @@ $(function()
         else afecto = false;       
        caltotal();
     });
-
+    
+    $( "#ruc" ).autocomplete({
+        minLength: 0,
+        source: 'index.php?controller=proveedor&action=get&tipo=1',
+        focus: function( event, ui ) 
+        {
+            $( "#ruc" ).val( ui.item.ruc );
+            return false;
+        },
+        select: function( event, ui ) 
+        {
+            $("#idproveedor").val(ui.item.idproveedor);
+            $( "#ruc" ).val( ui.item.ruc );
+            $( "#proveedor" ).val( ui.item.razonsocial );                                    
+            return false;
+        }
+    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
+        return $( "<li></li>" )
+            .data( "item.autocomplete", item )
+            .append( "<a>"+ item.ruc +" - " + item.razonsocial + "</a>" )
+            .appendTo(ul);
+      };
 });
 function load_melamina(idl)
 { 

@@ -4,19 +4,18 @@ class Madera extends Main
 {    
     function indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$cols)
     {
-        $sql = "SELECT
-            m.idmadera,
-            m.descripcion,
-            u.descripcion,
-            m.precio_unitario,
-            m.stock,
-            case m.estado when 1 then 'ACTIVO' else 'INACTIVO' end ,
-            m.tipoproducto,      
-            m.idunidad_medida                     
-            
-            FROM
-            produccion.madera AS m
-            INNER JOIN public.unidad_medida AS u ON u.idunidad_medida = m.idunidad_medida ";
+        $sql = "SELECT  p.idproducto,
+                    p.descripcion,
+                    u.simbolo,
+                    p.precio_u,
+                    p.stock,
+                    case p.estado when 1 then 'ACTIVO' else 'INACTIVO' end ,
+                    p.idtipoproducto,
+                    p.idunidad_medida
+                from produccion.producto as p 
+                    inner join produccion.maderba as m on p.idmaderba = m.idmaderba
+                    inner join unidad_medida as u on u.idunidad_medida = p.idunidad_medida
+                where p.idtipoproducto = 1  ";
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 

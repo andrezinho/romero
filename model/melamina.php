@@ -105,7 +105,7 @@ class Melamina extends Main
     
     function getList($idl=null)
     {
-        $sql = "SELECT idmelamina, descripcion from produccion.vista_melamina ";
+        $sql = "SELECT * from produccion.vista_melamina ";
         if($idl!=null)
         {
             $sql .= " WHERE idlinea = {$idl}";

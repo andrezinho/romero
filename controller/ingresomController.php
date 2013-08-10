@@ -59,34 +59,35 @@ class ingresomController extends Controller
     }
     public function edit() 
     {
-        $obj = new Modulo();
+        $obj = new movimiento();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
         $data['obj'] = $obj;
-        $data['ModulosPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','table'=>'seguridad.vista_modulo','code'=>$obj->idpadre));
+        $data['movimientosPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','table'=>'seguridad.vista_movimiento','code'=>$obj->idpadre));
         $view->setData($data);
         $view->setTemplate( '../view/ingresosm/_form.php' );
         echo $view->renderPartial();
     }
     public function save()
     {
-        $obj = new Modulo();
+        $obj = new movimiento();
         $result = array();        
         if ($_POST['idmovimiento']=='') 
             $p = $obj->insert($_POST);                        
         else         
-            $p = $obj->update($_POST);                                
-        if ($p[0])                
+            $p = $obj->update($_POST);    
+        print_r($p);
+        /*if ($p[0])                
             $result = array(1,'');                
         else                 
             $result = array(2,$p[1]);
-        print_r(json_encode($result));
+        print_r(json_encode($result));*/
 
     }
     public function delete()
     {
-        $obj = new Modulo();
+        $obj = new movimiento();
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);
