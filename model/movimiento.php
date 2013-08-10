@@ -2,12 +2,12 @@
 include_once("Main.php");
 class movimiento extends Main
 {   
-    function indexGridi($page,$limit,$sidx,$sord,$filtro,$query,$cols)
+    function indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$cols)
     {
         $sql = "SELECT  m.idmovimiento,
                         m.fecha,
-                        mt.descripcion,
-                        td.descripcion,
+                        m.referencia,
+                        td.abreviado,
                         m.serie,
                         m.numero,
                         m.fechae,
@@ -15,14 +15,31 @@ class movimiento extends Main
                         p.ruc,
                         case m.afecto when 1 then '18%' else '' end,
                         t.total as subtotal,
-                        cast(t.total*m.igv/100+t.total as numeric(18,2)) as total
+                        cast(t.total*m.igv/100+t.total as numeric(18,2)) as total,
+                        case m.estado when 1 then 'Activo'
+                                      when 2 then 'Anulado'
+                             else ''
+                        end,
+                        case m.estado when 1 then
+                           case m.usuarioreg when '".$_SESSION['dni']."' then
+                           '<a class=\"anular box-boton boton-anular\" id=\"v-'||m.idmovimiento||'\" href=\"#\" title=\"Anular\" ></a>'
+                           else
+                                case ".$_SESSION['id_perfil']." when 1 then
+                                '<a class=\"anular box-boton boton-anular\" id=\"v-'||m.idmovimiento||'\" href=\"#\" title=\"Anular\" ></a>'
+                                else '&nbsp;'
+                                end
+                           end
+                        else '&nbsp;'
+                        end
                     FROM movimientos as m inner join movimientostipo as mt on
                         mt.idmovimientostipo = m.idmovimientostipo
                         inner join facturacion.tipodocumento as td on td.idtipodocumento = m.idtipodocumento
                         inner join proveedor as p on p.idproveedor = m.idproveedor
                         inner join (select idmovimiento,sum(precio) as total
-                                from movimientosdetalle 
-                                group by idmovimiento) as t on t.idmovimiento = m.idmovimiento";
+                                    from movimientosdetalle 
+                                    group by idmovimiento) as t on t.idmovimiento = m.idmovimiento 
+                    WHERE mt.idmovimientostipo = 1 ";
+                   // echo $sql;
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
     function edit($id)
