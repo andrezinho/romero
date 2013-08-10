@@ -19,10 +19,9 @@ $(function()
         if(valor==1){ $("#box-madera").css("display","block");$("#box-melamina").css("display","none"); }
           else { $("#box-madera").css("display","none");$("#box-melamina").css("display","block"); }
     });    
+    verifAfecto();
     $("#aigv").click(function(){
-       if($(this).is(':checked')) afecto = true;
-        else afecto = false;       
-       caltotal();
+       verifAfecto();
     });
     
     $( "#ruc" ).autocomplete({
@@ -70,6 +69,12 @@ $(function()
       };
 
 });
+function verifAfecto()
+{
+  if($('#aigv').is(':checked')) afecto = true;
+   else afecto = false;       
+  caltotal();
+}
 function load_melamina(idl)
 { 
   if(idl!="")
@@ -174,7 +179,9 @@ function caltotal()
        t = 0;
    $("#table-detalle tbody tr").each(function(idx,j)
    {
-      mont = parseFloat($(j).find('td:eq(6)').html());
+      mont = $(j).find('td:eq(6)').html();
+      mont = mont.replace(",","");
+      mont = parseFloat(mont);
       if(!isNaN(mont)) st += mont;
    });
    if(afecto)
@@ -218,19 +225,22 @@ function save()
       var ni = nItems();
       if(ni<=0) { alert("Aun no a ingresado ningun tipo de producto al detalle"); return 0; }
       var str = $("#frm-ingresom").serialize();      
-      $.post('index.php',str,function(res)
+      if(confirm('Realmente deseas confirmar el registro de la compra?'))
       {
-        if(res[0]==1)
+        $.post('index.php',str,function(res)
         {
-          $("#box-frm").dialog("close");
-          gridReload();
-        }
-        else
-        {
-          alert(res[1]);
-        }
-        
-      },'json');
+          if(res[0]==1)
+          {
+            $("#box-frm").dialog("close");
+            gridReload();
+          }
+          else
+          {
+            alert(res[1]);
+          }
+          
+        },'json');
+      }
   }
   return false;
 }

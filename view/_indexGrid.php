@@ -105,6 +105,14 @@ function eliminar()
   }
 }
 </script>
+<?php 
+  if(isset($script)&&$script!="")
+  {
+    ?>
+    <script type="text/javascript" src="js/app/<?php echo $script; ?>" ></script>
+    <?php
+  }
+?>
 <div class="div_container">
 <h6 class="ui-widget-header ui-state-hover"><?php if($titulo!="") echo $titulo; else echo $controlador; ?>  </h6>
 
@@ -144,6 +152,26 @@ function eliminar()
           <a class="ver" title="Ver Registro">            
               <span class="box-boton boton-view"></span> 
               <label>Ver</label>
+          </a>
+
+          <?php
+          }
+          if($actions[4])
+          {
+          ?>
+          <a class="print" title="Anular">            
+              <span class="box-boton boton-anular"></span> 
+              <label>Anular</label>
+          </a>
+
+          <?php
+          }
+          if($actions[5])
+          {
+          ?>
+          <a class="print" title="Imprimir">            
+              <span class="box-boton boton-print"></span> 
+              <label>Imprimir</label>
           </a>
 
           <?php

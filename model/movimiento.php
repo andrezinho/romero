@@ -35,20 +35,38 @@ class movimiento extends Main
                         mt.idmovimientostipo = m.idmovimientostipo
                         inner join facturacion.tipodocumento as td on td.idtipodocumento = m.idtipodocumento
                         inner join proveedor as p on p.idproveedor = m.idproveedor
-                        inner join (select idmovimiento,sum(precio) as total
+                        inner join (select idmovimiento,sum(precio*cantidad) as total
                                     from movimientosdetalle 
                                     group by idmovimiento) as t on t.idmovimiento = m.idmovimiento 
-                    WHERE mt.idmovimientostipo = 1 ";
-                   // echo $sql;
+                    WHERE mt.idmovimientostipo = 1 ";                   
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
     function edit($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM seguridad.modulo WHERE idmodulo = :id");
+        $stmt = $this->db->prepare("SELECT m.*,p.ruc,p.razonsocial
+                                    FROM movimientos as m
+                                        inner join proveedor as p on p.idproveedor = m.idproveedor
+                                    WHERE idmovimiento = :id");
         $stmt->bindParam(':id', $id , PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchObject();
     }    
+    function getDetails($id)
+    {
+        $stmt = $this->db->prepare("SELECT mv.* ,
+                                            case mv.idtipoproducto when 1 then p.descripcion
+                                                        when 2 then l.descripcion||', '||ma.descripcion||' '||ma.espesor||' - '||p.medidas
+                                            else ''
+                                            end as descripcion
+                                        FROM movimientosdetalle as mv inner join produccion.producto as p on p.idproducto = mv.idproducto
+                                            inner join produccion.maderba as ma on ma.idmaderba = p.idmaderba
+                                            inner join produccion.linea as l on l.idlinea = ma.idlinea
+                                        WHERE idmovimiento = :id    
+                                        order by item ");
+        $stmt->bindParam(':id', $id , PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
     function insert($_P) 
     {
         $idmovimientostipo = 1; //Ingreso de Materia Prima
@@ -114,9 +132,9 @@ class movimiento extends Main
 
                 $stmt2  = $this->db->prepare('INSERT INTO movimientosdetalle(
                                                             idmovimiento, idalmacen, item, idproducto,
-                                                             idtipoproducto, cantidad, precio, estado) 
+                                                             idtipoproducto, cantidad, precio, estado, peso) 
                                                 values(:p1, :p2, :p3, :p4, :p5, :p6, 
-                                                       :p7, :p8);');                
+                                                       :p7, :p8, :p9);');                
                 
                 $stmt3 = $this->db->prepare('UPDATE produccion.producto 
                                                     set stock = stock + :cant
@@ -135,6 +153,7 @@ class movimiento extends Main
                     $stmt2->bindParam(':p6',$_P['cantd'][$i],PDO::PARAM_INT);
                     $stmt2->bindParam(':p7',$_P['preciod'][$i],PDO::PARAM_INT);
                     $stmt2->bindParam(':p8',$estado,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p9',$_P['pesod'][$i],PDO::PARAM_INT);
                     $stmt2->execute();
                     $item += 1;
 
