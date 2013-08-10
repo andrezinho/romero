@@ -92,7 +92,14 @@ class SubProductoSemiController extends Controller
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
-   
+
+    public function getList()
+    {
+        $obj = new SubProductoSemi();
+        $idproductos_semi = (int)$_GET['idl'];
+        $rows = $obj->getList($idproductos_semi);
+        print_r(json_encode($rows));
+    }
    
 }
 

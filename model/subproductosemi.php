@@ -62,5 +62,23 @@ class SubProductoSemi extends Main
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
     }
+
+    function getList($idl=null)
+    {
+        $sql = "SELECT idsubproductos_semi, descripcion from produccion.subproductos_semi ";
+        if($idl!=null)
+        {
+            $sql .= " WHERE idproductos_semi = {$idl}";
+        }
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $data = array();
+        foreach($stmt->fetchAll() as $r)
+        {
+            $data[] = array('idsubproductos_semi'=>$r[0],'descripcion'=>$r[1]);
+        }
+        return $data;
+    }
+
 }
 ?>

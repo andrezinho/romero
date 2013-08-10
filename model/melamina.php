@@ -102,6 +102,7 @@ class Melamina extends Main
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
     }
+    
     function getList($idl=null)
     {
         $sql = "SELECT idmelamina, descripcion from produccion.vista_melamina ";
