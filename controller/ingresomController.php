@@ -5,13 +5,20 @@ require_once '../model/movimiento.php';
 class ingresomController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'m.idmovimiento','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Fecha','NameDB'=>'m.fecha','width'=>100,'search'=>true),
+                        1 => array('Name'=>'Cod','NameDB'=>'m.idmovimiento','align'=>'center','width'=>50),
+                        2 => array('Name'=>'Fecha','NameDB'=>'m.fecha','width'=>100,'search'=>true,'align'=>'center'),
                         3 => array('Name'=>'Referencia','NameDB'=>'m.referencia','search'=>true),
-                        4 => array('Name'=>'Estado','NameDB'=>'m.estado'),
-                        5 => array('Name'=>'Usuario','NameDB'=>'m.usuarioreg'),
-                        6 => array('Name'=>'Impr.','NameDB'=>'-','align'=>'center','width'=>20),
-                        7 => array('Name'=>'Anul.','NameDB'=>'-','align'=>'center','width'=>20)
+                        4 => array('Name'=>'Doc.','NameDB'=>'td.descripcion','width'=>50,'align'=>'center'),
+                        5 => array('Name'=>'Serie','NameDB'=>'m.serie','align'=>'center','width'=>80),
+                        6 => array('Name'=>'Numero','NameDB'=>'m.numero','align'=>'center','width'=>90),
+                        7 => array('Name'=>'Fecha Doc','NameDB'=>'m.fechae','align'=>'center','width'=>100),
+                        8 => array('Name'=>'Razon Social','NameDB'=>'p.razonsocial','align'=>'left'),
+                        9 => array('Name'=>'RUC','NameDB'=>'p.ruc','align'=>'center','width'=>95),
+                        10 => array('Name'=>'IGV','NameDB'=>'-','align'=>'center','width'=>50),
+                        11 => array('Name'=>'Sub Total','NameDB'=>'-','align'=>'right','width'=>100),
+                        12 => array('Name'=>'Total','NameDB'=>'-','align'=>'right','width'=>100),
+                        13 => array('Name'=>'Estado','NameDB'=>'-','align'=>'center','width'=>60),
+                        14 => array('Name'=>'&nbsp','NameDB'=>'-','align'=>'center','width'=>30)
                      );
     public function index() 
     {
@@ -22,7 +29,7 @@ class ingresomController extends Controller
         $data['controlador'] = $_GET['controller'];
         $data['titulo'] = "Ingresos de Material";
         //(nuevo,editar,eliminar,ver)
-        $data['actions'] = array(true,true,true,false);
+        $data['actions'] = array(true,true,false,false);
         $view = new View();
         $view->setData($data);
         $view->setTemplate('../view/_indexGrid.php');
@@ -76,12 +83,10 @@ class ingresomController extends Controller
         if ($_POST['idmovimiento']=='') 
             $p = $obj->insert($_POST);                        
         else         
-            $p = $obj->update($_POST);    
-
+            $p = $obj->update($_POST);
         if ($p[0]) $result = array(1,'');                
             else $result = array(2,$p[1]);
         print_r(json_encode($result));
-
     }
     public function delete()
     {

@@ -180,12 +180,12 @@ function caltotal()
    if(afecto)
    {
       tigv = st*igv/100;
-      t = st-tigv;
+      t = st+tigv;
    }
    else 
    {
       tigv = 0;
-      t = st-tigv;
+      t = st+tigv;
    }
    
    $("#table-detalle tfoot tr:eq(0) td:eq(1)").empty().append('<b>'+st.toFixed(2)+'</b>');
@@ -252,7 +252,7 @@ function validar_frm()
          $("#ruc").focus();
          bval = false;
        }
-     }     
-  }  
+     }
+  }
   return bval;
 }

@@ -27,16 +27,22 @@ class Main extends Spdo {
 
         $to = 0;
         
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute();
-            $c = $stmt->rowCount();    
-            $to = ceil($c/$limit);
-                
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $c = $stmt->rowCount();    
+        $to = ceil($c/$limit);
         
-        if($filtro!="") $sql .= " where ".$filtro." ilike :query ";
+
+        if($filtro!="") 
+        {
+            if(stripos($sql," where ")!==false||stripos($sql," WHERE ")!==false) $sql .= " and ";
+            else $sql .= " WHERE ";
+            $sql .= " cast(".$filtro." as varchar) ilike :query ";
+        }
         $sql .= " order by {$sidx} {$sord}
                  limit {$limit}
                  offset  {$offset} ";
+        //echo $sql;
         $stmt = $this->db->prepare($sql);
         if($filtro!="") $stmt->bindParam(':query',$query,PDO::PARAM_STR);
         $stmt->execute();        
