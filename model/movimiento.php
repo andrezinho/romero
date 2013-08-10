@@ -14,9 +14,8 @@ class movimiento extends Main
         $stmt->execute();
         return $stmt->fetchObject();
     }    
-    function insert($_P ) 
+    function insert($_P) 
     {
-
         $idmovimientostipo = 1; //Ingreso de Materia Prima
         $idmoneda = 1; //Soles
         $fecha = date('Y-m-d');
@@ -36,6 +35,7 @@ class movimiento extends Main
         $guia_numero = $_P['guia_numero'];
         $fecha_guia =  $this->fdate($_P['fecha_guia'],'EN');
         if(isset($_P['afecto'])) $afecto = 1;
+            else $afecto=0;
         $idalmacen = $_P['idalmacen'];
         $igv = $_P['igv_val'];
 
@@ -83,7 +83,7 @@ class movimiento extends Main
                                                 values(:p1, :p2, :p3, :p4, :p5, :p6, 
                                                        :p7, :p8);');                
                 
-                $stmt3 = $this->db->preapre('UPDATE produccion.producto 
+                $stmt3 = $this->db->prepare('UPDATE produccion.producto 
                                                     set stock = stock + :cant
                                                  WHERE idproducto = :idp');
 
