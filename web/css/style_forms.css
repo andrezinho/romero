@@ -6,7 +6,7 @@
         Purpose of the stylesheet follows.
 */
 
-label { display: inline-block; font-size: 13px; }
+label { display: inline-block; font-size: 12px; }
 .labels { width: 100px; text-align: right; margin-right: 2px;color:#333;}
 .text {  padding: .15em;margin-top: 3px;margin-bottom: 3px; width:100px; } 
 table{   font-size: 11px !important;display: table; }

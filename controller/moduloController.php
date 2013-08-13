@@ -61,7 +61,6 @@ class ModuloController extends Controller
 
     public function edit() 
     {
-
         $obj = new Modulo();
         $data = array();
         $view = new View();
@@ -73,8 +72,7 @@ class ModuloController extends Controller
         echo $view->renderPartial();
     }
     public function save()
-    {
-        
+    {        
         $obj = new Modulo();
         $result = array();        
         if ($_POST['idmodulo']=='') 

@@ -171,20 +171,37 @@ class movimiento extends Main
             return array('2',$e->getMessage().$str,'');
         }        
     }
-    function update($_P ) 
-    {
-       
-    }
     
     function delete($p) 
     {
-        $stmt = $this->db->prepare("DELETE FROM seguridad.modulo WHERE idmodulo = :p1");
-        $stmt->bindParam(':p1', $p, PDO::PARAM_INT);
-        $p1 = $stmt->execute();
-        $p2 = $stmt->errorInfo();
-        return array($p1 , $p2[2]);
-    }
+        try 
+        {
+            $stmt = $this->db->prepare("UPDATE movimientos set estado = 2 WHERE idmovimiento = :p1 and estado = 1");            
+            $stmt->bindParam(':p1', $p, PDO::PARAM_INT);
+            $stmt->execute();
 
-    
+            $stmt2 = $this->db->prepare("SELECT idproducto,cantidad from movimientosdetalle where idmovimiento = :p1");
+            $stmt2->bindParam(':p1', $p, PDO::PARAM_INT);
+            $stmt2->execute();
+
+            $stmt3 = $this->db->prepare("UPDATE produccion.producto 
+                                                SET stock = stock - :cant 
+                                         WHERE idproducto = :idp");
+            foreach($stmt2->fetchAll() as $r)
+            {   
+                $stmt3->bindParam(':cant',$r['cantidad'],PDO::PARAM_INT);
+                $stmt3->bindParam(':idp',$r['idproducto'],PDO::PARAM_INT);
+                $stmt3->execute();
+            }
+
+            $this->db->commit();            
+            return array('1','Bien!');
+        }
+        catch(PDOException $e) 
+        {
+            $this->db->rollBack();
+            return array('2',$e->getMessage().$str);
+        }
+    }
 }
 ?>

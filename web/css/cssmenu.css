@@ -73,8 +73,8 @@
 .submenu li:hover > a { color:#000;text-shadow: 1px 1px 1px #fff;}
 .submenu li a 
 {
-   font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
-   font-size: 11px;
+   /*font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";*/
+   /*font-size: 11px;*/
    color:#ffffff;
    text-decoration: none;
    padding-top:2px;

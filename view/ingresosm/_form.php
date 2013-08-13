@@ -36,12 +36,15 @@
         <label for="referencia" class="labels">Referencia:</label>
         <input type="text" name="referencia" id="referencia" class="ui-widget-content ui-corner-all text" style="width:500px" value="<?php echo $obj->referencia; ?>" />        
     </fieldset>
+    <?php if($obj->idmovimiento=="") { ?>
     <div id="box-tipo-ma" class="ui-widget-header ui-state-hover" style="text-align:center">
         <label class="labels" for="tipo1" style="width:50px">Madera</label>
         <input class="tipo_material" type="radio" name="tipo" id="tipo1" value="1" checked="" />
         <label style="margin-left:20px;" for="tipo2">Melamina</label>
         <input class="tipo_material" type="radio" name="tipo" id="tipo2" value="2" />
     </div>
+    
+
     <fieldset id="box-madera" class="ui-corner-all" style="padding: 2px 10px 7px">  
         <legend>Madera</legend>      
         <div id="box-1">
@@ -94,6 +97,7 @@
             </table>                        
         </div>
     </fieldset>
+    <?php } ?>
     <div id="div-detalle">
     <div>
         <table id="table-detalle" class="ui-widget ui-widget-content" style="margin: 0 auto; width:100% " >

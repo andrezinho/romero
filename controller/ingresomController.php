@@ -65,7 +65,7 @@ class ingresomController extends Controller
         $view->setTemplate( '../view/ingresosm/_form.php' );
         echo $view->renderPartial();
     }
-    public function edit() 
+    public function view() 
     {
         $obj = new movimiento();
         $data = array();
@@ -75,9 +75,9 @@ class ingresomController extends Controller
         $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'220px'));
         $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
         $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));
-        $data['tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'...','table'=>'facturacion.vista_tipodocumento','width'=>'80px','code'=>$rows->idtipodocumento));
-        $data['almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$rows->idalmacen));        
-        $data['formapago'] = $this->Select(array('id'=>'idformapagao','name'=>'idformapago','text_null'=>'','table'=>'formapago','width'=>'120px','code'=>$rows->idformapago));        
+        $data['tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'...','table'=>'facturacion.vista_tipodocumento','width'=>'80px','code'=>$rows->idtipodocumento,'disabled'=>'disabled'));
+        $data['almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$rows->idalmacen,'disabled'=>'disabled'));        
+        $data['formapago'] = $this->Select(array('id'=>'idformapagao','name'=>'idformapago','text_null'=>'','table'=>'formapago','width'=>'120px','code'=>$rows->idformapago,'disabled'=>'disabled'));        
 
         $data['rowsd'] = $obj->getDetails($rows->idmovimiento);
 
@@ -93,18 +93,19 @@ class ingresomController extends Controller
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);
-        if ($p[0]) $result = array(1,'');                
+        if ($p[0]=="1") $result = array(1,'');                
             else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
-    public function delete()
+    public function anular()
     {
         $obj = new movimiento();
         $result = array();        
-        $p = $obj->delete($_GET['id']);
-        if ($p[0]) $result = array(1,$p[1]);
+        $p = $obj->delete($_POST['i']);
+        if ($p[0]=="1") $result = array(1,$p[1]);
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
+
 }
 ?>

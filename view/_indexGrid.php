@@ -32,11 +32,7 @@ $(document).ready(function()
       width:'auto',
       height:'auto',
       resizing:true,
-      title:'Formulario de <?php if($titulo!="") echo $titulo; else echo $controlador; ?>',
-      buttons: {
-                'Cancelar': function(){ $(this).dialog('close');},
-                'Confirmar':function(){save();}
-                }
+      title:'Formulario de <?php if($titulo!="") echo $titulo; else echo $controlador; ?>'      
     });
     $('.nuevo').click(function(){nuevo();});
     $('.editar').click(function(){editar();});
@@ -70,6 +66,32 @@ function editar()
         $.get('index.php?controller=<?php echo $controlador; ?>&action=edit&id='+gr,function(html)
         {
            $.getScript("js/app/evt_form_<?php echo strtolower($controlador); ?>.js");
+           $("#box-frm").dialog({buttons: {
+                  'Cancelar': function(){ $(this).dialog('close');},
+                  'Actualizar':function(){save();}
+                }});
+           $("#box-frm").empty().append(html);
+           $("#box-frm").dialog("open");
+           $("#loader").css("display","none");
+        });
+    }
+    else 
+    {
+      alert("Seleccione un registro por favor.");
+    }
+}
+function ver()
+{
+    var gr = $("#list").jqGrid('getGridParam','selrow');
+    if(gr!=null) 
+    {        
+        $("#loader").css("display","inline-block");
+        $.get('index.php?controller=<?php echo $controlador; ?>&action=view&id='+gr,function(html)
+        {
+           $.getScript("js/app/evt_form_<?php echo strtolower($controlador); ?>.js");
+           $("#box-frm").dialog({buttons: {
+                  'Cerrar': function(){ $(this).dialog('close');}                  
+                }});
            $("#box-frm").empty().append(html);
            $("#box-frm").dialog("open");
            $("#loader").css("display","none");
@@ -86,6 +108,10 @@ function nuevo()
     $.get('index.php?controller=<?php echo $controlador; ?>&action=create',function(html)
     {
        $.getScript("js/app/evt_form_<?php echo strtolower($controlador); ?>.js");
+       $("#box-frm").dialog({buttons: {
+                  'Cancelar': function(){ $(this).dialog('close');},
+                  'Confirmar Registro':function(){save();}
+                }});
        $("#box-frm").empty().append(html);
        $("#box-frm").dialog("open");
        $("#loader").css("display","none");
@@ -143,7 +169,7 @@ function eliminar()
           <a class="eliminar"  title="Eliminar Registro" style="color:red;">            
               <span  class="box-boton boton-delete"></span> 
               <label>Eliminar</label>
-          </a>     
+          </a>
           <?php
           }
           if($actions[3])
@@ -173,15 +199,13 @@ function eliminar()
               <span class="box-boton boton-print"></span> 
               <label>Imprimir</label>
           </a>
-
           <?php
           }
           ?>           
           <span id="loader" style="float:right; display:none"><img src="images/loader.gif" /></span>
         </div>
-
         <div style="padding:10px 0 0px; ">
-              <label>Buscar por :</label>              
+              <label>Buscar por :</label>
               <?php echo $cmb_search; ?>
               <input type="text" name="qry" id="qry" value="" class="ui-widget-content ui-corner-all text" style="width:250px" onkeydown="doSearch(arguments[0]||event)" />
               <a href="javascript:" id="submitButton" onclick="gridReload()" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-search"></span>Buscar</a>
