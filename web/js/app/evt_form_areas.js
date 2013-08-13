@@ -1,16 +1,16 @@
 $(function() 
 {    
-    $( "#idpadre" ).focus();
-    $( "#idpadre" ).css({'width':'210px'});
-    $("#div_activo").buttonset();
+    $( "#descripcion" ).focus();
+    $( "#idsucursal" ).css({'width':'210px'});
+    $("#estados").buttonset();
 });
 
 function save()
 {
   bval = true;        
   bval = bval && $( "#descripcion" ).required();        
-  bval = bval && $( "#orden" ).required();
-  var str = $("#frm").serialize();
+  bval = bval && $( "#idsucursal" ).required();
+  var str = $("#frm_area").serialize();
   if ( bval ) 
   {
       $.post('index.php',str,function(res)

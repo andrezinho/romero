@@ -2,11 +2,12 @@
 class Spdo extends PDO 
 {
     private static $instance = null;
-    protected  $host = '192.168.1.2';
+    protected  $host = '192.168.1.4';
+    //protected  $host = 'localhost';
     protected $port = '5432';
     protected $dbname='bdromero';
     protected $user='postgres';
-    protected $password='12345678';
+    protected $password='torres04';
 
 	public function __construct()
 	{            

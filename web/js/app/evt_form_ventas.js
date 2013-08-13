@@ -36,11 +36,11 @@ function load_correlativo(idtp)
   if(idtp!="")
   {    
     $.get('index.php','controller=tipodocumento&action=Correlativo&idtp='+idtp,function(r){
-          var html = '';
+          /*var html = '';
           $.each(r,function(i,j){
             html += '<option value="'+j.codigo+'">'+j.descripcion+'</option>'
             //alert(html);
-          })
+          })*/
           $("#iddistrito").empty().append(html);
 
       },'json');

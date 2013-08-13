@@ -1,19 +1,21 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/area.php';
+require_once '../model/almacen.php';
 
-class AreaController extends Controller
-{
+class AlmacenController extends Controller 
+{   
     var $cols = array(
-            1 => array('Name'=>'Codigo','NameDB'=>'s.idarea','align'=>'center','width'=>'20'),
-            2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','search'=>true),
-            3 => array('Name'=>'Sucursal','NameDB'=>'su.descripcion','search'=>true),
-            4 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center')
-        );
-    
+                        1 => array('Name'=>'Codigo','NameDB'=>'a.idalmacen','align'=>'center','width'=>50),
+                        2 => array('Name'=>'Descripcion','NameDB'=>'a.descripcion','width'=>250,'search'=>true),
+                        3 => array('Name'=>'Direccion','NameDB'=>'a.direccion','search'=>true),
+                        4 => array('Name'=>'Telefono','NameDB'=>'a.telefono','align'=>'center'),
+                        5 => array('Name'=>'Estado','NameDB'=>'a.estado','align'=>'center')
+                        
+                     );
+
     public function index() 
-    {
+    {        
         $data = array();                               
         $data['colsNames'] = $this->getColsVal($this->cols);
         $data['colsModels'] = $this->getColsModel($this->cols);        
@@ -32,11 +34,11 @@ class AreaController extends Controller
 
     public function indexGrid() 
     {
-        $obj = new Area();        
+        $obj = new Almacen();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
-        $sord = $_GET['sord'];                
+        $sord = $_GET['sord'];
         $filtro = $this->getColNameDB($this->cols,(int)$_GET['f']);        
         $query = $_GET['q'];
         if(!$sidx) $sidx = 1;
@@ -45,34 +47,32 @@ class AreaController extends Controller
         echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$this->getColsVal($this->cols)));
     }
 
-    public function create()
+    public function create() 
     {
         $data = array();
         $view = new View();
-        $data['Sucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','text_null'=>'Seleccione...','table'=>'vista_sucursal'));                        
         $view->setData($data);
-        $view->setTemplate( '../view/area/_form.php' );
+        $view->setTemplate( '../view/almacen/_form.php' );
         echo $view->renderPartial();
     }
 
-    public function edit() {
-        $obj = new Area();
+    public function edit() 
+    {
+        $obj = new Almacen();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;        
-        $data['Sucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','table'=>'vista_sucursal','code'=>$obj->idsucursal));
+        $data['obj'] = $obj;
         $view->setData($data);
-        $view->setTemplate( '../view/area/_form.php' );
+        $view->setTemplate( '../view/almacen/_form.php' );
         echo $view->renderPartial();
-        
     }
 
     public function save()
     {
-        $obj = new Area();
+        $obj = new Almacen();
         $result = array();        
-        if ($_POST['idarea']=='') 
+        if ($_POST['idalmacen']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
@@ -86,15 +86,14 @@ class AreaController extends Controller
 
     public function delete()
     {
-        $obj = new Area();
+        $obj = new Almacen();
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
-   
-   
+ 
 }
 
 ?>
