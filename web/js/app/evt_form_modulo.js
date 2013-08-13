@@ -10,7 +10,7 @@ function save()
   bval = true;        
   bval = bval && $( "#descripcion" ).required();        
   bval = bval && $( "#orden" ).required();
-  var str = $("#frm_ventas").serialize();
+  var str = $("#frm").serialize();
   if ( bval ) 
   {
       $.post('index.php',str,function(res)
