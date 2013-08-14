@@ -8,7 +8,8 @@ class SucursalController extends Controller
     var $cols = array(
                         1 => array('Name'=>'Codigo','NameDB'=>'s.idsucursal','align'=>'center','width'=>50),
                         2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>90)
+                        3 => array('Name'=>'Sede','NameDB'=>'se.descripcion','width'=>250,'search'=>true),
+                        4 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>90,'align'=>center)
                        
                      );
     public function index() 
@@ -48,7 +49,7 @@ class SucursalController extends Controller
     {
         $data = array();
         $view = new View();
-        
+        $data['idsede'] = $this->Select(array('id'=>'idsede','name'=>'idsede','text_null'=>'Seleccione...','table'=>'seguridad.vista_sedes'));              
         $view->setData($data);
         $view->setTemplate( '../view/sucursal/_form.php' );
         echo $view->renderPartial();
@@ -60,7 +61,8 @@ class SucursalController extends Controller
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;        
+        $data['obj'] = $obj;
+        $data['idsede'] = $this->Select(array('id'=>'idsede','name'=>'idsede','text_null'=>'Seleccione...','table'=>'seguridad.vista_sedes','code'=>$obj->idsede));               
         $view->setData($data);
         $view->setTemplate( '../view/sucursal/_form.php' );
         echo $view->renderPartial();

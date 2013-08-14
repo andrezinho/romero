@@ -1,18 +1,21 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/almacen.php';
+require_once '../model/correlativos.php';
 
-class AlmacenController extends Controller 
+class CorrelativosController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'a.idalmacen','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'a.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Direccion','NameDB'=>'a.direccion','search'=>true),
-                        4 => array('Name'=>'Telefono','NameDB'=>'a.telefono','align'=>'center'),
-                        5 => array('Name'=>'Estado','NameDB'=>'a.estado','align'=>'center')
                         
-                     );
+                1 => array('Name'=>'Codigo','NameDB'=>'c.idcorrelativo','width'=>80),
+                2 => array('Name'=>'Tipo Documento','NameDB'=>'t.descripcion','search'=>true),
+                3 => array('Name'=>'Serie','NameDB'=>'c.serie','align'=>'center'),
+                4 => array('Name'=>'Numero','NameDB'=>'c.numero','align'=>'center'),
+                5 => array('Name'=>'Valor Máximo','NameDB'=>'c.valormaximo','align'=>'center'),
+                6 => array('Name'=>'Valor Mínimo','NameDB'=>'c.valorminimo','align'=>'center'),
+                7 => array('Name'=>'Estado','NameDB'=>'c.estado','align'=>'center')
+                        
+            );
 
     public function index() 
     {        
@@ -34,7 +37,7 @@ class AlmacenController extends Controller
 
     public function indexGrid() 
     {
-        $obj = new Almacen();        
+        $obj = new Correlativos();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
@@ -51,28 +54,30 @@ class AlmacenController extends Controller
     {
         $data = array();
         $view = new View();
+        $data['Tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipodocumento'));
         $view->setData($data);
-        $view->setTemplate( '../view/almacen/_form.php' );
+        $view->setTemplate( '../view/correlativos/_form.php' );
         echo $view->renderPartial();
     }
 
     public function edit() 
     {
-        $obj = new Almacen();
+        $obj = new Correlativos();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
         $data['obj'] = $obj;
+        $data['Tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipodocumento','code'=>$obj->idtipodocumento));
         $view->setData($data);
-        $view->setTemplate( '../view/almacen/_form.php' );
+        $view->setTemplate( '../view/correlativos/_form.php' );
         echo $view->renderPartial();
     }
 
     public function save()
     {
-        $obj = new Almacen();
+        $obj = new Correlativos();
         $result = array();        
-        if ($_POST['idalmacen']=='') 
+        if ($_POST['idcorrelativo']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
@@ -86,7 +91,7 @@ class AlmacenController extends Controller
 
     public function delete()
     {
-        $obj = new Almacen();
+        $obj = new Correlativos();
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);

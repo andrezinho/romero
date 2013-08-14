@@ -1,8 +1,7 @@
 $(function() 
 {    
     $( "#descripcion" ).focus();
-    $( "#idsede" ).css({'width':'210px'});
-      
+    
     $("#estados").buttonset();
 });
 

@@ -8,10 +8,8 @@ class CajaController extends Controller
     var $cols = array(
                         1 => array('Name'=>'Codigo','NameDB'=>'c.idcaja','align'=>'center','width'=>'80'),
                         2 => array('Name'=>'Nombre','NameDB'=>'c.nombre','search'=>true),
-                        3 => array('Name'=>'Descripcion','NameDB'=>'c.descripcion','search'=>true),
-                        4 => array('Name'=>'Area','NameDB'=>'a.descripcion','search'=>true),
-                        5 => array('Name'=>'Sucursal','NameDB'=>'s.descripcion','search'=>true),
-                        6 => array('Name'=>'Estado','NameDB'=>'c.estado','width'=>'30','align'=>'center')
+                        3 => array('Name'=>'Descripcion','NameDB'=>'c.descripcion','search'=>true),                        
+                        4 => array('Name'=>'Estado','NameDB'=>'c.estado','width'=>'30','align'=>'center')
                      );
     public function index() 
     {

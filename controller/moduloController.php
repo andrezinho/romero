@@ -72,7 +72,7 @@ class ModuloController extends Controller
         echo $view->renderPartial();
     }
     public function save()
-    {
+    {        
         $obj = new Modulo();
         $result = array();        
         if ($_POST['idmodulo']=='') 
