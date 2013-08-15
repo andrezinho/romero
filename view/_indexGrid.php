@@ -124,9 +124,10 @@ function eliminar()
   {
     if(confirm('Deseas eliminar el registro?'))
     {
-       $.post('index.php?controller=<?php echo $controlador; ?>&action=delete&id='+gr,function(data){
-          alert(data);
-       });
+       $.get('index.php?controller=<?php echo $controlador; ?>&action=delete&id='+gr,function(data){
+          if(data[0]==1) gridReload();
+            else alert("Ha ocurrido un problema, por favor intentelo nuevamente.");
+       },'json');
     }
   }
 }

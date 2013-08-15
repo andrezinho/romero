@@ -6,9 +6,9 @@ require_once '../model/subproductosemi.php';
 class SubProductoSemiController extends Controller
 {
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'p.idsubproductos_semi','align'=>'center','width'=>40),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','align'=>'center','width'=>120,'search'=>true),
-                        3 => array('Name'=>'Producto Semi','NameDB'=>'ps.descripcion','width'=>120,'search'=>true),
+                        1 => array('Name'=>'Codigo','NameDB'=>'p.idsubproductos_semi','align'=>'center','width'=>20),
+                        2 => array('Name'=>'Producto Semi','NameDB'=>'ps.descripcion','width'=>50,'search'=>true),
+                        3 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','align'=>'left','search'=>true),                        
                         4 => array('Name'=>'Estado','NameDB'=>'p.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
                      );
     public function index() 

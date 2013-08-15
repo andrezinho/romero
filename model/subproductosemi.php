@@ -6,8 +6,8 @@ class SubProductoSemi extends Main
     {
         $sql = "SELECT
             p.idsubproductos_semi,
-            p.descripcion,
             ps.descripcion,
+            p.descripcion,            
             case p.estado when 1 then 'ACTIVO' else 'INCANTIVO' end,
             p.idproductos_semi
 
