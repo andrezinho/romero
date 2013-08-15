@@ -105,5 +105,11 @@ class MelaminaController extends Controller
         $rows = $obj->getList($idlinea);
         print_r(json_encode($rows));
     }
+    public function getPrice()
+    {
+        $obj = new Melamina();        
+        $p = $obj->getPrice($_GET['id']);
+        echo $p;
+    } 
 }
 ?>

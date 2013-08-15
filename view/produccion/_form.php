@@ -21,18 +21,11 @@ include("../view/header_form.php");
         <input type="text" name="fechaf" id="fechaf" class="ui-widget-content ui-corner-all text" value="<?php echo date('d/m/Y') ?>" style="width:70px; text-align:center" />
         
         <br/>
-        <!-- <label for="Sucursal" class="labels">Sucursal:</label>
-        <?php echo $Sucursal; ?> -->
         <label for="idpersonal" class="labels">Personal Enc.:</label>        
         <input type="text" name="dni" id="dni" class="ui-widget-content ui-corner-all text" style="width:80px" value="" maxlength="11" onkeypress="return permite(event,'num')" />
         <input type="text" name="personal" id="personal" class="ui-widget-content ui-corner-all text" style="width:300px" value="" />
-        
-        <br/>       
-        
+        <br/> 
     </fieldset>
-    <div id="box-tipo-ma" class="ui-widget-header ui-state-hover" style="color: #000000;text-align:center">
-        <label for="tipo1">FABRICACION DE MUEBLES</label>        
-    </div>
     
     <fieldset id="box-melamina" class="ui-corner-all" style="padding: 2px 10px 7px;">  
         <legend>Fabricacion</legend>      
@@ -59,11 +52,10 @@ include("../view/header_form.php");
         </div>
     </fieldset>
     <div id="div-detalle">
-    <div>
+    <div class="contain">
         <table id="table-detalle" class="ui-widget ui-widget-content" style="margin: 0 auto; width:100% " border="0" >
             <thead class="ui-widget ui-widget-content" >
-                <tr class="ui-widget-header" style="height: 23px">            
-                    <!-- <th width="80px">PRODUCTO</th> -->            
+                <tr class="ui-widget-header" style="height: 23px">                                
                     <th>DESCRIPCION</th>                             
                     <th width="80px">CANTIDAD</th>                    
                     <th width="20px">&nbsp;</th>

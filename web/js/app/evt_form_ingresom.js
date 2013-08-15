@@ -2,17 +2,14 @@ var afecto = false;
 $(function() 
 {       
     $("#idtipodocumento").focus();
-    $("#idmadera").change(function(){$("#cantidad_ma").focus();});
-    $("#idmelamina").change(function(){$("#cantidad_me").focus();});
+    $("#idmadera").change(function(){$("#largo_ma").focus();getPrice($(this).val(),1);});
+    $("#idmelamina").change(function(){$("#cantidad_me").focus();getPrice($(this).val(),2);});
     $("#idlinea").change(function(){load_melamina($(this).val());});
     $("#table-ma").on('click','#addDetail_ma',function(){addDetailMa();})
-    $("#table-ma").on('keyup','#precio_ma,#cantidad_ma',function(){var st = calcSubTotalMa(); $("#total_ma").val(st);})
+    $("#table-ma").on('keyup','.input_ma',function(){var st = calcSubTotalMa(); $("#total_ma").val(st);})
     $("#fechae,#fechaguia").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
     $("#table-me").on('click','#addDetail_me',function(){addDetailMe();});
-    $("#table-me").on('keyup','#precio_me,#cantidad_me,#peso_me',function(){
-        var st = calcSubTotalMe(); $("#total_me").val(st);
-        var tp = calcTotalPeso(); $("#peso_t_me").val(tp);
-    });
+    $("#table-me").on('keyup','.input_me',function(){var st = calcSubTotalMe(); $("#total_me").val(st);});
     $("#table-detalle").on('click','.boton-delete',function(){var v = $(this).parent().parent().remove();caltotal();})
     $("#box-tipo-ma").on('click','input[name|="tipo"]',function(){
         valor = $("input[name='tipo']:checked").val();
@@ -69,6 +66,15 @@ $(function()
       };
 
 });
+function getPrice(id,tipo)
+{   
+   var c = "madera";
+   if(tipo==2) c = "melamina";
+   $.get('index.php','controller='+c+'&action=getPrice&id='+id,function(p){
+      if(tipo==1) {$("#precio_ma").val(p);}
+        else {$("#precio_me").val(p);var tme = calcSubTotalMe(); $("#total_me").val(tme);}
+   })
+}
 function verifAfecto()
 {
   if($('#aigv').is(':checked')) afecto = true;
@@ -91,10 +97,19 @@ function load_melamina(idl)
 }
 function calcSubTotalMa()
 {
-    var cant=parseFloat($("#cantidad_ma").val()),
-        prec=parseFloat($("#precio_ma").val()),
-        total = 0;
-    total = cant*prec;
+    var largo = parseFloat($("#largo_ma").val()),
+        alto = parseFloat($("#alto_ma").val()),
+        espesor = parseFloat($("#espesor_ma").val()),
+        vol = largo*alto*espesor/12;        
+
+        $("#volumen_ma").val(vol.toFixed(2));
+
+        var prec=parseFloat($("#precio_ma").val()),
+            cant=parseFloat($("#cantidad_ma").val()),
+            total = 0;
+        var vt = vol*cant;
+        $("#volument_ma").val(vt.toFixed(2));
+    total = cant*prec*vol;
     return total.toFixed(2);
 }
 function calcSubTotalMe()
@@ -102,12 +117,12 @@ function calcSubTotalMe()
     var cant=parseFloat($("#cantidad_me").val()),
         prec=parseFloat($("#precio_me").val()),
         total = 0;
-    total = cant*prec;
+    total = cant*prec;    
     return total.toFixed(2);
 }
 function calcTotalPeso()
 {
-    var cant=parseFloat($("#cantidad_me").val()),
+    var cant=parseFloat($("#volumen_me").val()),
         peso=parseFloat($("#peso_me").val()),
         total = 0;
     total = cant*peso;
@@ -117,18 +132,28 @@ function addDetailMa()
 {
     bval = true;
     bval = bval && $("#idmadera").required();
-    bval = bval && $("#cantidad_ma").required();
+    bval = bval && $("#largo_ma").required();
+    bval = bval && $("#alto_ma").required();
+    bval = bval && $("#espesor_ma").required();
+    bval = bval && $("#cantidad_ma").required();    
+    bval = bval && $("#volumen_ma").required();
     bval = bval && $("#precio_ma").required();
     if(!bval) return 0;
     var tipo=1,        
         idma=$("#idmadera").val(),
         made=$("#idmadera option:selected").html(),
+        largo=parseFloat($("#largo_ma").val()),
+        alto=parseFloat($("#alto_ma").val()),
+        espesor=parseFloat($("#espesor_ma").val()),
+        vol=parseFloat($("#volumen_ma").val()),
         cant=parseFloat($("#cantidad_ma").val()),
+        volt=parseFloat($("#volument_ma").val()),
         prec=parseFloat($("#precio_ma").val()),
         total=calcSubTotalMa();
     if(cant<=0) {alert('La cantidad debe ser mayor que 0'); $("#cantidad_ma").focus(); return 0;}   
+    if(vol<=0) {alert('La Volumen debe ser mayor que 0'); $("#largo_ma").focus(); return 0;}   
     if(prec<=0) {alert('La precio debe ser mayor que 0'); $("#precio_ma").focus(); return 0;}
-    addDetalle(tipo,idma,made,cant,'','',prec,total);
+    addDetalle(tipo,idma,made,largo.toFixed(2),alto.toFixed(2),espesor.toFixed(2),vol.toFixed(2),cant,volt.toFixed(2),prec.toFixed(2),total);
     clearMa();
 }
 function addDetailMe()
@@ -143,15 +168,12 @@ function addDetailMe()
         mela=$("#idlinea option:selected").html()+', '+$("#idmelamina option:selected").html(),
         cant=parseFloat($("#cantidad_me").val()),
         prec=parseFloat($("#precio_me").val()),
-        total=calcSubTotalMe(),
-        peso=parseFloat($("#peso_me").val()),
-        pesot=calcTotalPeso();
-    if(cant<=0) {alert('La cantidad debe ser mayor que 0'); $("#cantidad_me").focus(); return 0;}   
-    if(prec<=0) {alert('La precio debe ser mayor que 0'); $("#precio_me").focus(); return 0;}
-    addDetalle(tipo,idma,mela,cant,peso,pesot,prec,total);
+        total=calcSubTotalMe();        
+    if(cant<=0) {alert('La cantidad debe ser mayor que 0'); $("#cantidad_me").focus(); return 0;}       
+    addDetalle(tipo,idma,mela,'','','','',cant,'',prec.toFixed(2),total);
     clearMe();    
 }
-function addDetalle(tipo,idtipo,dtipo,cant,peso,pesot,precio,total)
+function addDetalle(tipo,idtipo,dtipo,largo,alto,espesor,vol,cant,volt,precio,total)
 {
     ntipo = '';
     if(tipo==1) ntipo = 'MADERA'; 
@@ -159,12 +181,15 @@ function addDetalle(tipo,idtipo,dtipo,cant,peso,pesot,precio,total)
     var html = '';
     html += '<tr class="tr-detalle"><td align="left">'+ntipo+'<input type="hidden" name="tipod[]" value="'+tipo+'" /></td>';
     html += '<td>'+dtipo+'<input type="hidden" name="idtipod[]" value="'+idtipo+'" /></td>';
-    html += '<td align="center">'+cant.toFixed(2)+'<input type="hidden" name="cantd[]" value="'+cant+'" /></td>';
-    html += '<td align="right">'+precio.toFixed(2)+'<input type="hidden" name="preciod[]" value="'+precio+'" /></td>';
-    if(peso!="") html += '<td align="right">'+peso.toFixed(2)+'<input type="hidden" name="pesod[]" value="'+peso+'" /></td>';
-      else html += '<td>&nbsp;</td>';
-    if(peso!="") html += '<td align="right">'+pesot+'<input type="hidden" name="pesotd[]" value="'+pesot+'" /></td>';
-      else html += '<td>&nbsp;</td>'
+    
+    html += '<td align="center">'+largo+'<input type="hidden" name="largod[]" value="'+largo+'" /></td>';
+    html += '<td align="center">'+alto+'<input type="hidden" name="altod[]" value="'+alto+'" /></td>';
+    html += '<td align="center">'+espesor+'<input type="hidden" name="espesord[]" value="'+espesor+'" /></td>';
+    html += '<td align="center">'+vol+'</td>';
+
+    html += '<td align="center">'+cant+'<input type="hidden" name="cantd[]" value="'+cant+'" /></td>';
+    html += '<td align="center">'+volt+'</td>';
+    html += '<td align="right">'+precio+'<input type="hidden" name="preciod[]" value="'+precio+'" /></td>';    
     html += '<td align="right">'+total+'</td>';
     html += '<td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>';
     html += '</tr>';    
@@ -179,7 +204,7 @@ function caltotal()
        t = 0;
    $("#table-detalle tbody tr").each(function(idx,j)
    {
-      mont = $(j).find('td:eq(6)').html();
+      mont = $(j).find('td:eq(9)').html();
       mont = mont.replace(",","");
       mont = parseFloat(mont);
       if(!isNaN(mont)) st += mont;
@@ -202,7 +227,8 @@ function caltotal()
 function clearMa()
 {
   $("#idmadera").val("");
-  $("#cantidad_ma,#precio_ma,#total_ma").val("0.00");
+  $(".input_ma,#total_ma").val("0.00");
+  $("#cantidad_ma").val("1");
   $("#idmadera").focus();
 }
 function clearMe()

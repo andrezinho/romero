@@ -80,5 +80,13 @@ class Madera extends Main
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
     }
+    function getPrice($id)
+    {
+        $stmt = $this->db->prepare("SELECT precio_u from produccion.producto WHERE idproducto = :p1");
+        $stmt->bindParam(':p1', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $r = $stmt->fetchObject();
+        return $r->precio_u;
+    }
 }
 ?>

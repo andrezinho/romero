@@ -43,28 +43,32 @@
         <label style="margin-left:20px;" for="tipo2">Melamina</label>
         <input class="tipo_material" type="radio" name="tipo" id="tipo2" value="2" />
     </div>
-    
-
     <fieldset id="box-madera" class="ui-corner-all" style="padding: 2px 10px 7px">  
         <legend>Madera</legend>      
         <div id="box-1">
             <table id="table-ma" class="table-form" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                     <td><label for="idmadera" class="labels" style="width:auto">Tipo de Madera</label></td>
-                    <td><label for="cantidad_ma" class="labels" style="width:auto">Cant. <label class="text-backinfo">Pies</label></label></td>                    
+                    <td><label for="largo_ma" class="labels" style="width:auto">Largo <label class="text-backinfo">Pies</label></label></td>                    
+                    <td><label for="alto_ma" class="labels" style="width:auto">Alto <label class="text-backinfo">Pies</label></label></td>                    
+                    <td><label for="espesor_ma" class="labels" style="width:auto">Espesor <label class="text-backinfo">Pies</label></label></td>                    
+                    <td><label for="volumen_ma" class="labels" style="width:auto">Vol. <label class="text-backinfo">Pies</label></label></td>                    
+                    <td><label for="cantidad_ma" class="labels" style="width:auto">Cant. <label class="text-backinfo">Unid.</label></label></td>                 
+                    <td><label for="volumen_ma" class="labels" style="width:auto">Vol. T. <label class="text-backinfo">Pies</label></label></td>                                           
                     <td><label for="precio_ma" class="labels" style="width:auto">Precio <label class="text-backinfo">(S/.)</label></label></td>
                     <td><label for="total_ma" class="labels" style="width:auto">Total <label class="text-backinfo">(S/.)</label></label></td>
-                    <td style="width:84px">&nbsp;</td>
-                    <td style="width:70px">&nbsp;</td>
                     <td rowspan="2"><a href="javascript:" id="addDetail_ma" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a> </td>                    
                 </tr>
                 <tr>
                     <td><?php echo $idmadera; ?></td>
-                    <td><input type="text" name="cantidad_ma" id="cantidad_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" /> </td>                    
-                    <td><input type="text" name="precio_ma" id="precio_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" /> </td>                    
-                    <td><input type="text" name="total_ma" id="total_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" readonly="" onkeypress="return permite(event,'num')"/> </td>                    
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td><input type="text" name="largo_ma" id="largo_ma" value="0.00" class="ui-widget-content ui-corner-all text input_ma" style="width:55px; text-align:center" onkeypress="return permite(event,'num')" tabindex="1" /> </td>                    
+                    <td><input type="text" name="alto_ma" id="alto_ma" value="0.00" class="ui-widget-content ui-corner-all text input_ma" style="width:55px; text-align:center" onkeypress="return permite(event,'num')" tabindex="2" /> </td>                    
+                    <td><input type="text" name="espesor_ma" id="espesor_ma" value="0.00" class="ui-widget-content ui-corner-all text input_ma" style="width:55px; text-align:center" onkeypress="return permite(event,'num')" tabindex="3" /> </td>                    
+                    <td><input type="text" name="volumen_ma" id="volumen_ma" value="0.00" class="ui-widget-content ui-corner-all text input_ma" style="width:68px; text-align:center" readonly="" /></td>                    
+                    <td><input type="text" name="cantidad_ma" id="cantidad_ma" value="1" class="ui-widget-content ui-corner-all text input_ma" style="width:50px; text-align:center" onkeypress="return permite(event,'num')" tabindex="4" /> </td>                     
+                    <td><input type="text" name="volument_ma" id="volument_ma" value="0.00" class="ui-widget-content ui-corner-all text input_ma" style="width:68px; text-align:center" readonly="" /></td>                                       
+                    <td><input type="text" name="precio_ma" id="precio_ma" value="0.00" class="ui-widget-content ui-corner-all text input_ma" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" tabindex="5" /> </td>                    
+                    <td><input type="text" name="total_ma" id="total_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" readonly="" onkeypress="return permite(event,'num')"/> </td>                                 
                 </tr>
             </table>                        
         </div>
@@ -74,41 +78,50 @@
         <div id="box-1">
             <table id="table-me" class="table-form" border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td><label for="idmelamina" class="labels" style="width:auto">Tipo de Melamina</label></td>
-                    <td><label for="cantidad_me" class="labels" style="width:auto">Cant. <label class="text-backinfo">Pies</label></label></td>                    
+                    <td><label for="idmelamina" class="labels" style="width:auto">Tipo de Melamina</label></td>                    
+                    <td><label for="cantidad_me" class="labels" style="width:auto">Cant. <label class="text-backinfo">Unid.</label></label></td>                                     
                     <td><label for="precio_me" class="labels" style="width:auto">Precio <label class="text-backinfo">(S/.)</label></label></td>
-                    <td><label for="peso_me" class="labels" style="width:auto">Peso <label class="text-backinfo">(Unit)</label></label></td>
-                    <td><label for="peso_t_me" class="labels" style="width:auto">Peso <label class="text-backinfo">(Total)</label></label></td>
                     <td><label for="total_me" class="labels" style="width:auto">Total <label class="text-backinfo">(S/.)</label></label></td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
                     <td rowspan="2"><a href="javascript:" id="addDetail_me" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a> </td>                    
                 </tr>
                 <tr>
                     <td><?php echo $linea; ?>
-                    <select name="idmelamina" id="idmelamina" class="ui-widget-content ui-corner-all text" style="width:150px">
+                    <select name="idmelamina" id="idmelamina" class="ui-widget-content ui-corner-all text" style="width:200px">
                         <option value="">Seleccione....</option>
                     </select>
-                    </td>
-                    <td><input type="text" name="cantidad_me" id="cantidad_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" /> </td>                    
-                    <td><input type="text" name="precio_me" id="precio_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" /> </td>                                        
-                    <td><input type="text" name="peso_me" id="peso_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" /> </td>
-                    <td><input type="text" name="peso_t_me" id="peso_t_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" readonly="" onkeypress="return permite(event,'num')" /></td>
+                    </td>                    
+                    <td><input type="text" name="cantidad_me" id="cantidad_me" value="1" class="ui-widget-content ui-corner-all text input_me" style="width:50px; text-align:center" onkeypress="return permite(event,'num')" tabindex="14" /> </td>                                         
+                    <td><input type="text" name="precio_me" id="precio_me" value="0.00" class="ui-widget-content ui-corner-all text input_me" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" tabindex="15" /> </td>                                        
                     <td><input type="text" name="total_me" id="total_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" readonly="" onkeypress="return permite(event,'num')" /> </td>                    
+                    <td style="width:7px">&nbsp;</td>
+                    <td style="width:60px">&nbsp;</td>
+                    <td style="width:64px">&nbsp;</td>
+                    <td style="width:64px">&nbsp;</td>
+                    <td style="width:64px">&nbsp;</td>
                 </tr>
             </table>                        
         </div>
     </fieldset>
     <?php } ?>
     <div id="div-detalle">
-    <div>
+    <div class="contain">
         <table id="table-detalle" class="ui-widget ui-widget-content" style="margin: 0 auto; width:100% " >
                 <thead class="ui-widget ui-widget-content" >
                 <tr class="ui-widget-header" style="height: 23px">            
                     <th width="80px">PRODUCTO</th>            
                     <th>DESCRIPCION</th>                             
-                    <th width="80px">CANTIDAD</th>
-                    <th width="80px">PREC<label class="text-backinfo">(Unit S/.)</label></th>            
-                    <th width="80px">PESO<label class="text-backinfo">(Unit)</label></th>            
-                    <th width="80px">PESO<label class="text-backinfo">(Total)</label></th>            
+                    <th width="50px">LARGO</th>
+                    <th width="50px">ALTO</th>
+                    <th width="50px">ESPESOR</th>
+                    <th width="60px">VOL.</th>
+                    <th width="50px">CANT.</th>                    
+                    <th width="60px">VOL. T.</th>
+                    <th width="80px">PREC<label class="text-backinfo">(Unit S/.)</label></th>                                
                     <th width="80px">IMPORTE S/.</th>
                     <th width="20px">&nbsp;</th>
                  </tr>
@@ -139,17 +152,17 @@
                  </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="6" align="right"><b>SUB TOTAL S/.</b></td>
+                        <td colspan="9" align="right"><b>SUB TOTAL S/.</b></td>
                         <td align="right"><b>0.00</b></td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan="6" align="right"><b>IGV S/.</b></td>
+                        <td colspan="9" align="right"><b>IGV S/.</b></td>
                         <td align="right"><b>0.00</b></td>
                         <td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan="6" align="right"><b>TOTAL S/.</b></td>
+                        <td colspan="9" align="right"><b>TOTAL S/.</b></td>
                         <td align="right"><b>0.00</b></td>
                         <td>&nbsp;</td>
                     </tr>

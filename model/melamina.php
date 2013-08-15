@@ -119,5 +119,14 @@ class Melamina extends Main
         }
         return $data;
     }
+    
+    function getPrice($id)
+    {
+        $stmt = $this->db->prepare("SELECT precio_u from produccion.producto WHERE idproducto = :p1");
+        $stmt->bindParam(':p1', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $r = $stmt->fetchObject();
+        return $r->precio_u;
+    }
 }
 ?>
