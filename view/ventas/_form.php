@@ -7,8 +7,10 @@ include("../view/header_form.php");
 <table width="700px" border="0" cellspacing="0" cellpadding="0">  
   
       <tr>
-          <td colspan="2" align="left">
+          <td>
             <label for="idalmacen" class="labels">Almacen:</label>
+          </td>
+          <td>
             <?php echo $Almacen; ?>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             Fecha&nbsp;: &nbsp;<input type="text" class="ui-widget-content ui-corner-all text" name="Fecha" id="Fecha" value="<?php echo date('d/m/Y') ?>" />
@@ -18,7 +20,7 @@ include("../view/header_form.php");
          </td>
       </tr>
       <tr>
-        <td >Documento :</td>
+        <td ><label class="labels">Documento:</label></td>
         <td >
           <?php echo $tipodocumento; ?>
           <span class="ui-icon-refres" title="Refrescar Tipo Documento" onclick="RefreshTipoDocumento(this)"></span>
@@ -35,7 +37,7 @@ include("../view/header_form.php");
       </td>
       </tr>
       <tr>
-        <td >Cliente :</td>
+        <td ><label class="labels">Cliente:</label></td>
         <td >
           <input name="idcliente" type="hidden" id="idcliente" value="" />  
           <input type="text"  class="ui-widget-content ui-corner-all text" name="Ruc" id="Ruc" maxlength="11" size="11"  />
@@ -43,22 +45,22 @@ include("../view/header_form.php");
           <span class="ui-icon-add" title="Nuevo Cliente" onclick="AddCliente(this)"></span>
           <input type="text" class="ui-widget-content ui-corner-all text" title="Razon Social" id="Clientes" style="width:150px;" />
         
-          Forma de Pago :&nbsp;&nbsp;
+          <label for="idalmacen" class="labels">Forma de Pago :&nbsp;&nbsp;</label>          
           <?php echo $formapago; ?>    
               
       </td>
       </tr>
       <tr>
-        <td >Moneda :</td>
+        <td ><label class="labels">Moneda:</label></td>
         <td >
           <?php echo $moneda; ?>
           <div id="DivTipoCambio" style="display:inline">
-            &nbsp;&nbsp;&nbsp;&nbsp;Tipo de Cambio &nbsp; : &nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;<label class="labels">Tipo de Cambio &nbsp; : &nbsp;</label>
             <input name="0form1_tipocambio" value="" id="TipoCambio" title="Tipo de Cambio" type="text" class="ui-widget-content ui-corner-all text" style="width:40px;"  />
 
           </div>
           <div id="DivIgv" style="display:inline">
-            &nbsp;&nbsp;&nbsp;&nbsp; Afecto IGV &nbsp; : &nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;<label class="labels">Afecto IGV &nbsp; : &nbsp;</label>
             <div id="DivAfectoIgv" style="display:inline">
               <input type="radio" id="Aigv1" name="0form1_igv" value='1' onchange="CalcularTotal()"/>
               <label for="Aigv1"   >SI</label>
@@ -69,7 +71,7 @@ include("../view/header_form.php");
         </td>
       </tr>
      <tr>
-        <td >Observaciones :</td>
+        <td ><label class="labels">Observaciones:</label></td>
         <td >
           <textarea name="0form1_obs" class="ui-widget-content ui-corner-all text" id="Obs" title="Observaciones" ><?=$row['obs']?></textarea>
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Descuento &nbsp; : &nbsp;
@@ -77,7 +79,6 @@ include("../view/header_form.php");
           <div id="DivSave">sss</div>
         </td>
       </tr>
-
       <tr id="TrMotivoAnulacion" style="display:none">
         <td >Motivo Anulaci&oacute;n : </td>
         <td ><textarea style="width:400px" name="0form1_motivoanulacion" cols="60" class="ui-widget-content ui-corner-all text" id="MotivoAnulacion"  placeholder="Digite el Motivo de la Anulación">ssss</textarea></td>

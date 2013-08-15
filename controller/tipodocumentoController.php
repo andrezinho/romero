@@ -93,7 +93,14 @@ class TipodocumentoController extends Controller
         print_r(json_encode($result));
     }
    
-   
+   public function Correlativo()
+   {
+        $obj = new Tipodocumento();        
+        $rows = $obj->GCorrelativo($_GET['idtp']);                               
+        print_r(json_encode($rows));
+   }
+
+
 }
 
 ?>

@@ -57,9 +57,9 @@ class CajaController extends Controller
         $obj = new Caja();
         $data = array();
         $view = new View();
-        $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj; 
-        $data['Area'] = $this->Select(array('id'=>'idarea','name'=>'idarea','table'=>'vista_area','code'=>$obj->idarea));   
+        $rows = $obj->edit($_GET['id']);
+        $data['obj'] = $rows; 
+        $data['rowsd'] = $obj->getDetails($rows->idcaja);
         $view->setData($data);
         $view->setTemplate( '../view/caja/_form.php' );
         echo $view->renderPartial();

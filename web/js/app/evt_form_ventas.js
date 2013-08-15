@@ -2,9 +2,9 @@ $(function()
 {    
     $( "#idpadre" ).focus();
     $("#Fecha, #FechaDocumento").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
-    $( "#idpadre" ).css({'width':'210px'});
+    $( "#idalmacen" ).css({'width':'150px'});
     $("#div_activo").buttonset();
-
+    $("#idtipodocumento").css({'width':'150px'});
     $("#idtipodocumento").change(function(){load_correlativo($(this).val());});
 
     $("#Ruc").autocomplete({        
@@ -36,15 +36,16 @@ function load_correlativo(idtp)
   if(idtp!="")
   {    
     $.get('index.php','controller=tipodocumento&action=Correlativo&idtp='+idtp,function(r){
-          /*var html = '';
-          $.each(r,function(i,j){
-            html += '<option value="'+j.codigo+'">'+j.descripcion+'</option>'
-            //alert(html);
-          })*/
-          $("#iddistrito").empty().append(html);
+          
+          $("#Serie").val(r.serie);
+          $("#Numero").val(r.numero);
 
       },'json');
-  }
+  }else
+    {
+      $("#Serie").val('');
+      $("#Numero").val('');
+    }
 }
 
 function save()
