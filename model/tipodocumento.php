@@ -1,4 +1,5 @@
 <?php
+
 include_once("Main.php");
 
 class Tipodocumento extends Main
@@ -64,6 +65,30 @@ class Tipodocumento extends Main
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
+    }
+
+    public function GCorrelativo($idtp)
+    {
+        $sql = "SELECT            
+            c.serie,
+            c.numero            
+            FROM
+            facturacion.correlativo AS c
+            INNER JOIN facturacion.tipodocumento AS t ON t.idtipodocumento = c.idtipodocumento
+            WHERE c.idtipodocumento='$idtp' AND c.estado=1 ";    
+        $stmt=$this->db->prepare($sql);
+        $stmt->execute();
+        $data = array();
+        $row= $stmt->fetchObject();
+
+        $Serie = $row->serie;
+        $Serie= str_pad($Serie, 4, "000", STR_PAD_LEFT);
+
+        $Num =$row->numero;
+        $Num= str_pad($Num, 6,"00000", STR_PAD_LEFT);
+
+        $data = array('serie'=>$Serie,'numero'=>$Num);
+        return $data;
     }
 }
 ?>

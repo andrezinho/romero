@@ -77,7 +77,22 @@
                     </tr>
                 </thead>  
                 <tbody>
-                                      
+                    <?php 
+                        if(count($rowsd)>0)
+                        {    
+                            foreach ($rowsd as $i => $r) 
+                            {
+                                
+                                ?>
+                                <tr class="tr-detalle">
+                                    <td align="left"><?php echo $r['dni']; ?><input type="hidden" name="idcajaxpersonal[]" value="<?php echo $r['idcajaxpersonal']; ?>" /></td>
+                                    <td><?php echo $r['personal']; ?><input type="hidden" name="idpersonal[]" value="<?php echo $r['idpersonal']; ?>" /></td>                                    
+                                    <td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>
+                                </tr>
+                                <?php    
+                            }
+                        }
+                     ?>                      
                 </tbody>
                 <tfoot>
                     <tr>
