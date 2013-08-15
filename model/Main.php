@@ -13,7 +13,7 @@ class Main extends Spdo {
         $this->db = Spdo::singleton();
         $this->db->query('SET NAMES UTF8');
     }
-    public function lastInsertId($table,$id)
+    public function IdlastInsert($table,$id)
     {
         $stmt = $this->db->prepare("select max(".$id.") as codigo from ".$table);
         $stmt->execute();
@@ -45,11 +45,14 @@ class Main extends Spdo {
         //echo $sql;
         $stmt = $this->db->prepare($sql);
         if($filtro!="") $stmt->bindParam(':query',$query,PDO::PARAM_STR);
-        $stmt->execute();        
+        $stmt->execute();
+
+        $responce = new stdClass();
         $responce->records = $stmt->rowCount();
         $responce->page = $page;
         if($to==0) $responce->total = "1";
             else $responce->total = $to;
+
         $i = 0;
 
         $cont = count($cols);

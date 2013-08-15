@@ -18,10 +18,10 @@ class Spdo extends PDO
 	public static function singleton()
 	{
         if( self::$instance == null )
-            {
-                self::$instance = new self();
-            }
-         return self::$instance;
+        {
+            self::$instance = new self();
+        }
+        return self::$instance;
 	}
 }
 ?>

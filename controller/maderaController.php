@@ -82,8 +82,8 @@ class MaderaController extends Controller
         else                 
             $result = array(2,$p[1]);
         print_r(json_encode($result));
-
     }
+
     public function delete()
     {
         $obj = new Madera();
@@ -93,8 +93,12 @@ class MaderaController extends Controller
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
-    
-    }
- 
 
+    public function getPrice()
+    {
+        $obj = new Madera();        
+        $p = $obj->getPrice($_GET['id']);
+        echo $p;
+    }    
+}
 ?>

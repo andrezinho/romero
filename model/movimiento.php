@@ -127,14 +127,15 @@ class movimiento extends Main
                 $stmt->bindParam(':p19',$igv,PDO::PARAM_INT);
 
                 $stmt->execute();
-                $id =  $this->lastInsertId('movimientos','idmovimiento');
+                $id =  $this->IdlastInsert('movimientos','idmovimiento');
                 $row = $stmt->fetchAll();
 
                 $stmt2  = $this->db->prepare('INSERT INTO movimientosdetalle(
                                                             idmovimiento, idalmacen, item, idproducto,
-                                                             idtipoproducto, cantidad, precio, estado, peso) 
+                                                             idtipoproducto, cantidad, precio, estado, 
+                                                             largo,alto,espesor) 
                                                 values(:p1, :p2, :p3, :p4, :p5, :p6, 
-                                                       :p7, :p8, :p9);');                
+                                                       :p7, :p8, :p9,:p10,:p11);');                
                 
                 $stmt3 = $this->db->prepare('UPDATE produccion.producto 
                                                     set stock = stock + :cant
@@ -145,6 +146,13 @@ class movimiento extends Main
 
                 foreach($_P['idtipod'] as $i => $idproducto)
                 {
+                    $largo = 0;
+                    if($_P['largod'][$i]!="") $largo = $_P['largod'][$i];
+                    $alto = 0;
+                    if($_P['altod'][$i]!="") $alto = $_P['altod'][$i];
+                    $espesor = 0;
+                    if($_P['espesord'][$i]!="") $espesor = $_P['espesord'][$i];
+
                     $stmt2->bindParam(':p1',$id,PDO::PARAM_INT);
                     $stmt2->bindParam(':p2',$idalmacen,PDO::PARAM_INT);
                     $stmt2->bindParam(':p3',$item,PDO::PARAM_INT);
@@ -153,11 +161,16 @@ class movimiento extends Main
                     $stmt2->bindParam(':p6',$_P['cantd'][$i],PDO::PARAM_INT);
                     $stmt2->bindParam(':p7',$_P['preciod'][$i],PDO::PARAM_INT);
                     $stmt2->bindParam(':p8',$estado,PDO::PARAM_INT);
-                    $stmt2->bindParam(':p9',$_P['pesod'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p9',$largo,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p10',$alto,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p11',$espesor,PDO::PARAM_INT);
                     $stmt2->execute();
                     $item += 1;
 
-                    $stmt3->bindParam(':cant',$_P['cantd'][$i],PDO::PARAM_INT);
+                    if($_P['tipod'][$i]==1) $too = $_P['cantd'][$i]*$largo*$alto*$espesor/12;
+                        else $too = $_P['cantd'][$i];
+                    
+                    $stmt3->bindParam(':cant',$too,PDO::PARAM_INT);                    
                     $stmt3->bindParam(':idp',$idproducto,PDO::PARAM_INT);
                     $stmt3->execute();
                 }
