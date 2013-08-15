@@ -138,11 +138,19 @@
                                 <tr class="tr-detalle">
                                     <td align="left"><?php echo $tipo; ?><input type="hidden" name="tipod[]" value="<?php echo $r['idtipoproducto']; ?>" /></td>
                                     <td><?php echo $r['descripcion'] ?><input type="hidden" name="idtipod[]" value="<?php echo $r['idproducto']; ?>" /></td>
+                                    <td align="center"><?php echo number_format($r['largo'],2) ?><input type="hidden" name="largod[]" value="<?php echo $r['cantidad']; ?>" /></td>
+                                    <td align="center"><?php echo number_format($r['alto'],2) ?><input type="hidden" name="altod[]" value="<?php echo $r['largo']; ?>" /></td>
+                                    <td align="center"><?php echo number_format($r['espesor'],2) ?><input type="hidden" name="espesord[]" value="<?php echo $r['alto']; ?>" /></td>
+                                    <td align="center"><?php echo number_format($r['espesor']*$r['alto']*$r['largo']/12,2) ?></td>
+
                                     <td align="center"><?php echo number_format($r['cantidad'],2) ?><input type="hidden" name="cantd[]" value="<?php echo $r['cantidad']; ?>" /></td>
+
+                                    <td align="center"><?php echo number_format($r['espesor']*$r['alto']*$r['largo']/12*$r['cantidad'],2) ?></td>
+
                                     <td align="right"><?php echo number_format($r['precio'],2) ?><input type="hidden" name="preciod[]" value="<?php echo $r['precio']; ?>" /></td>
-                                    <td align="right"><?php echo number_format($r['peso'],2) ?><input type="hidden" name="pesod[]" value="<?php echo $r['peso']; ?>" /></td>
-                                    <td align="right"><?php echo number_format($r['peso']*$r['cantidad'],2) ?><input type="hidden" name="pesotd[]" value="<?php echo $r['peso']*$r['cantidad']; ?>" /></td>
-                                    <td align="right"><?php echo number_format($r['cantidad']*$r['precio'],2) ?></td>
+                                    <?php if($r['idtipoproducto']==1) $total = $r['espesor']*$r['alto']*$r['largo']/12*$r['cantidad']*$r['precio'];
+                                            else $total = $r['cantidad']*$r['precio']; ?>
+                                    <td align="right"><?php echo number_format($total,2) ?></td>
                                     <td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>
                                 </tr>
                                 <?php    
