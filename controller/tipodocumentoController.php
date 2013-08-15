@@ -6,9 +6,11 @@ require_once '../model/tipodocumento.php';
 class TipodocumentoController extends Controller
 {
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'t.idtipodocumento','align'=>'center','width'=>'20'),
+                        1 => array('Name'=>'Codigo','NameDB'=>'t.idtipodocumento','align'=>'center','width'=>'50'),
                         2 => array('Name'=>'Descripcion','NameDB'=>'t.descripcion','search'=>true),
-                        3 => array('Name'=>'Estado','NameDB'=>'t.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
+                        3 => array('Name'=>'Abreviatura','NameDB'=>'t.abreviado','search'=>true),
+                        4 => array('Name'=>'Tipo','NameDB'=>'tp.descripcion','search'=>true),
+                        5 => array('Name'=>'Estado','NameDB'=>'t.estado','width'=>'30','align'=>'center')
                      );
     public function index() 
     {
@@ -47,7 +49,7 @@ class TipodocumentoController extends Controller
     {
         $data = array();
         $view = new View();        
-        //$data['more_options'] = $this->more_options('Perfil');        
+        $data['Tipo'] = $this->Select(array('id'=>'idtipdoc','name'=>'idtipdoc','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipdoc'));       
         $view->setData($data);
         $view->setTemplate( '../view/tipodocumento/_form.php' );
         echo $view->renderPartial();
@@ -59,7 +61,7 @@ class TipodocumentoController extends Controller
         $view = new View();
         $obj = $obj->edit($_GET['id']);
         $data['obj'] = $obj;        
-        //$data['more_options'] = $this->more_options('Perfil');
+        $data['Tipo'] = $this->Select(array('id'=>'idtipdoc','name'=>'idtipdoc','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipdoc','code'=>$obj->idtipdoc));       
         $view->setData($data);
         $view->setTemplate( '../view/tipodocumento/_form.php' );
         echo $view->renderPartial();

@@ -9,13 +9,15 @@
     <input type="hidden" name="action" value="save" />
     
         <label for="idsucursal" class="labels">Codigo:</label>
-            <input id="idsucursal" name="idsucursal" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idsucursal; ?>" readonly />
+        <input id="idsucursal" name="idsucursal" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idsucursal; ?>" readonly />
+        
+        <label for="idsede" class="labels">Sede:</label>
+        <?php echo $idsede; ?>
         <br/>
         
         <label for="descripcion" class="labels">Descripcion:</label>
-            <input id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
-            <br>
-        
+        <input id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
+                
         <label for="estado" class="labels">Activo:</label>
         <div id="estados" style="display:inline">
             <?php                   

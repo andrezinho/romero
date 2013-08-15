@@ -108,11 +108,12 @@ class PersonalController extends Controller
         $result = array();
         foreach ($value as $key => $val) 
         {
-              array_push($result, array(                                        
-                                        "dni"=>$val['dni'],
-                                        "nompersonal"=> strtoupper($val['nompersonal'])
-                                    )
-                        );
+              array_push($result, array(
+                        "idpersonal"=>$val['idpersonal'],
+                        "dni"=>$val['dni'],
+                        "nompersonal"=> strtoupper($val['nompersonal'])
+                    )
+                );
               if ( $key > 7 ) { break; }
         }
         print_r(json_encode($result));

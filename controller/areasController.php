@@ -1,17 +1,16 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/area.php';
+require_once '../model/areas.php';
 
-class AreaController extends Controller
+class AreasController extends Controller
 {
     var $cols = array(
-            1 => array('Name'=>'Codigo','NameDB'=>'s.idarea','align'=>'center','width'=>'20'),
-            2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','search'=>true),
-            3 => array('Name'=>'Sucursal','NameDB'=>'su.descripcion','search'=>true),
-            4 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center')
-        );
-    
+                        1 => array('Name'=>'Codigo','NameDB'=>'a.idarea','align'=>'center','width'=>'20'),
+                        2 => array('Name'=>'Descripcion','NameDB'=>'a.descripcion','search'=>true),
+                        3 => array('Name'=>'Espesor','NameDB'=>'s.descripcion','search'=>true),
+                        4 => array('Name'=>'Estado','NameDB'=>'a.estado','width'=>'30','align'=>'center')
+                     );
     public function index() 
     {
         $data = array();                               
@@ -20,7 +19,6 @@ class AreaController extends Controller
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
 
-        //(nuevo,editar,eliminar,ver)
         $data['actions'] = array(true,true,true,false);
 
         $view = new View();
@@ -32,7 +30,7 @@ class AreaController extends Controller
 
     public function indexGrid() 
     {
-        $obj = new Area();        
+        $obj = new Areas();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
@@ -48,45 +46,44 @@ class AreaController extends Controller
     public function create()
     {
         $data = array();
-        $view = new View();
-        $data['Sucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','text_null'=>'Seleccione...','table'=>'vista_sucursal'));                        
+        $view = new View();        
+        $data['idsucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','text_null'=>'Seleccione...','table'=>'vista_sucursal'));       
         $view->setData($data);
-        $view->setTemplate( '../view/area/_form.php' );
+        $view->setTemplate( '../view/areas/_form.php' );
         echo $view->renderPartial();
     }
 
     public function edit() {
-        $obj = new Area();
+        $obj = new Areas();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;        
-        $data['Sucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','table'=>'vista_sucursal','code'=>$obj->idsucursal));
+        $data['obj'] = $obj; 
+        $data['idsucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','table'=>'vista_sucursal','code'=>$obj->idsucursal));   
         $view->setData($data);
-        $view->setTemplate( '../view/area/_form.php' );
+        $view->setTemplate( '../view/areas/_form.php' );
         echo $view->renderPartial();
         
     }
 
     public function save()
     {
-        $obj = new Area();
+        $obj = new Areas();
         $result = array();        
         if ($_POST['idarea']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
         if ($p[0])                
-            $result = array(1,'');                
+            $result = array(1,'',$p[2],$p[3]);                
         else                 
-            $result = array(2,$p[1]);
+            $result = array(2,$p[1],'','');
         print_r(json_encode($result));
 
     }
-
-    public function delete()
+    public function Areas()
     {
-        $obj = new Area();
+        $obj = new Maderba();
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);

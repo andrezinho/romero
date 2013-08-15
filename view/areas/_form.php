@@ -1,10 +1,9 @@
 <?php  include("../lib/helpers.php"); 
        include("../view/header_form.php");
 ?>
-
    
-<form id="frm-area" >
-    <input type="hidden" name="controller" value="Area" />
+<form id="frm_area" >
+    <input type="hidden" name="controller" value="Areas" />
 
     <input type="hidden" name="action" value="save" />
     
@@ -16,7 +15,7 @@
         <br>
         
         <label for="idsucursal" class="labels">Sucursal:</label>
-        <?php echo $Sucursal; ?>
+        <?php echo $idsucursal; ?>
 
         <label for="estado" class="labels">Activo:</label>
         <div id="estados" style="display:inline">

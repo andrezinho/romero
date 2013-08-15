@@ -1,8 +1,7 @@
 $(function() 
 {    
     $( "#descripcion" ).focus();
-    $( "#idsede" ).css({'width':'210px'});
-      
+    $( "#idtipodocumento" ).css({'width':'210px'});   
     $("#estados").buttonset();
 });
 
@@ -10,8 +9,8 @@ function save()
 {
   bval = true;        
   bval = bval && $( "#descripcion" ).required();        
-  //bval = bval && $( "#orden" ).required();
-  var str = $("#frm").serialize();
+  bval = bval && $( "#idtipodocumento" ).required();
+  var str = $("#frm_tipodoc").serialize();
   if ( bval ) 
   {
       $.post('index.php',str,function(res)

@@ -91,8 +91,10 @@ class Personal extends Main
     function get($query,$field)
     {
         $query = "%".$query."%";
-        $statement = $this->db->prepare("SELECT dni, 
-                                                nombres || ' ' || apellidos AS nompersonal
+        $statement = $this->db->prepare("SELECT 
+                                            idpersonal,
+                                            dni, 
+                                            nombres || ' ' || apellidos AS nompersonal
                                                 
                                          FROM personal
                                          WHERE {$field} like :query and dni <> ''

@@ -1,7 +1,7 @@
 $(function() 
 {    
     $( "#descripcion" ).focus();
-    $( "#idsucursal" ).css({'width':'210px'});
+    
     $("#estados").buttonset();
 });
 
@@ -9,9 +9,8 @@ function save()
 {
   bval = true;        
   bval = bval && $( "#descripcion" ).required();        
-  bval = bval && $( "#idsucursal" ).required();
-  
-  var str = $("#frm-area").serialize();
+  //bval = bval && $( "#orden" ).required();
+  var str = $("#frm").serialize();
   if ( bval ) 
   {
       $.post('index.php',str,function(res)
