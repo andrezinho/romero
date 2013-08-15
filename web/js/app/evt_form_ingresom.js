@@ -186,7 +186,7 @@ function addDetalle(tipo,idtipo,dtipo,largo,alto,espesor,vol,cant,volt,precio,to
     html += '<td align="center">'+alto+'<input type="hidden" name="altod[]" value="'+alto+'" /></td>';
     html += '<td align="center">'+espesor+'<input type="hidden" name="espesord[]" value="'+espesor+'" /></td>';
     html += '<td align="center">'+vol+'</td>';
-
+    
     html += '<td align="center">'+cant+'<input type="hidden" name="cantd[]" value="'+cant+'" /></td>';
     html += '<td align="center">'+volt+'</td>';
     html += '<td align="right">'+precio+'<input type="hidden" name="preciod[]" value="'+precio+'" /></td>';    
