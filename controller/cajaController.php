@@ -83,7 +83,7 @@ class CajaController extends Controller
         $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
-        if ($p[0])                
+        if ($p[0]==1)                
             $result = array(1,'',$p[2]);                
         else                 
             $result = array(2,$p[1],'');

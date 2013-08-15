@@ -52,7 +52,7 @@ class Produccion extends Main
                 $stmt->bindParam(':p5',$idpersonal,PDO::PARAM_STR);
 
             $stmt->execute();
-            $id =  $this->lastInsertId('produccion.produccion','idproduccion');
+            $id =  $this->IdlastInsert('produccion.produccion','idproduccion');
             $row = $stmt->fetchAll();
 
             $stmt2  = $this->db->prepare('INSERT INTO produccion.produccion_detalle(

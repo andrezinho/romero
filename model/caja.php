@@ -24,21 +24,48 @@ class Caja extends Main
     }
 
     function insert($_P ) {
-        $stmt = $this->db->prepare("INSERT INTO facturacion.caja (nombre,descripcion, estado) 
-                    VALUES(:p1,:p2,:p3)");
-        $stmt->bindParam(':p1', $_P['nombre'] , PDO::PARAM_STR);
-        $stmt->bindParam(':p2', $_P['descripcion'] , PDO::PARAM_STR);
-        $stmt->bindParam(':p3', $_P['activo'] , PDO::PARAM_INT);
-        //$stmt->bindParam(':p4', $_P['idarea'] , PDO::PARAM_INT);
 
-        $p1 = $stmt->execute();
-        $p2 = $stmt->errorInfo();
         
-        $stmt = $this->db->prepare("SELECT max(idcaja) as cod from facturacion.caja");
-        $stmt->execute();
-        $row = $stmt->fetchObject();
-        return array($p1 , $p2[2]);
-        //return array($p1 , $p2[2], $row->cod, $_P['nombre']. ' - '.$_P['descripcion']);
+        //$idpersonal=$_P['idpersonal'];
+
+        $sql="INSERT INTO facturacion.caja (nombre,descripcion, estado) 
+                    VALUES(:p1,:p2,:p3)" ;
+
+        $stmt = $this->db->prepare($sql);
+        try 
+        {
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->db->beginTransaction();
+
+            $stmt->bindParam(':p1', $_P['nombre'] , PDO::PARAM_STR);
+            $stmt->bindParam(':p2', $_P['descripcion'] , PDO::PARAM_STR);
+            $stmt->bindParam(':p3', $_P['activo'] , PDO::PARAM_INT);
+            $stmt->execute();
+            $id =  $this->IdlastInsert('facturacion.caja','idcaja');
+            $row = $stmt->fetchAll();
+
+            $stmt2  = $this->db->prepare("INSERT INTO facturacion.cajaxpersonal(
+                            idpersonal, idcaja)
+                        VALUES ( :p1, :p2) ");
+
+                foreach($_P['idpersonal'] as $i => $idpersonal)
+                {
+                    $stmt2->bindParam(':p1',$idpersonal,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p2',$id,PDO::PARAM_INT);                    
+                   
+                    $stmt2->execute();                
+
+                }
+
+            $this->db->commit();            
+            return array('1','Bien!',$id);
+
+        }
+            catch(PDOException $e) 
+            {
+                $this->db->rollBack();
+                return array('2',$e->getMessage().$str,'');
+            } 
     }
 
     function update($_P ) {

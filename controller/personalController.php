@@ -76,7 +76,7 @@ class PersonalController extends Controller
     {
         $obj = new Personal();
         $result = array();        
-        if ($_POST['dni']=='') 
+        if ($_POST['idpersonal']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
