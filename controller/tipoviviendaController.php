@@ -1,17 +1,14 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/madera.php';
+require_once '../model/tipovivienda.php';
 
-class MaderaController extends Controller 
-{   
+class TipoViviendaController extends Controller
+{
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'p.idproducto','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Unidad Medida','NameDB'=>'u.simbolo','search'=>true),
-                        4 => array('Name'=>'Precio Unitario','NameDB'=>'u.precio_u','align'=>'right','width'=>100),
-                        5 => array('Name'=>'Stok','NameDB'=>'p.stock','align'=>'right','width'=>100),
-                        6 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>70)
+                        1 => array('Name'=>'Codigo','NameDB'=>'idtipovivienda','align'=>'center','width'=>'20'),
+                        2 => array('Name'=>'Descripcion','NameDB'=>'descripcion','search'=>true),
+                        3 => array('Name'=>'Estado','NameDB'=>'estado','width'=>'30','align'=>'center')
                      );
     public function index() 
     {
@@ -33,11 +30,11 @@ class MaderaController extends Controller
 
     public function indexGrid() 
     {
-        $obj = new Madera();        
+        $obj = new TipoVivienda();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
-        $sord = $_GET['sord'];
+        $sord = $_GET['sord'];                
         $filtro = $this->getColNameDB($this->cols,(int)$_GET['f']);        
         $query = $_GET['q'];
         if(!$sidx) $sidx = 1;
@@ -45,35 +42,33 @@ class MaderaController extends Controller
         if(!$page) $page = 1;
         echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$this->getColsVal($this->cols)));
     }
-    
-    public function create() 
+
+    public function create()
     {
         $data = array();
-        $view = new View();
-        $data['idunidad_medida'] = $this->Select(array('id'=>'idunidad_medida','name'=>'idunidad_medida','table'=>'vista_unidadmedida','code'=>$obj->idunidad_medida));
+        $view = new View();        
         $view->setData($data);
-        $view->setTemplate( '../view/madera/_form.php' );
+        $view->setTemplate( '../view/tipovivienda/_form.php' );
         echo $view->renderPartial();
     }
 
-    public function edit() 
-    {
-        $obj = new Madera();
+    public function edit() {
+        $obj = new TipoVivienda();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;
-        $data['idunidad_medida'] = $this->Select(array('id'=>'idunidad_medida','name'=>'idunidad_medida','table'=>'vista_unidadmedida','code'=>$obj->idunidad_medida));
+        $data['obj'] = $obj;        
         $view->setData($data);
-        $view->setTemplate( '../view/madera/_form.php' );
+        $view->setTemplate( '../view/tipovivienda/_form.php' );
         echo $view->renderPartial();
+        
     }
 
     public function save()
     {
-        $obj = new Madera();
+        $obj = new TipoVivienda();
         $result = array();        
-        if ($_POST['idproducto']=='') 
+        if ($_POST['idtipovivienda']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
@@ -82,23 +77,19 @@ class MaderaController extends Controller
         else                 
             $result = array(2,$p[1]);
         print_r(json_encode($result));
-    }
 
+    }
     public function delete()
     {
-        $obj = new Madera();
+        $obj = new TipoVivienda();
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
-
-    public function getPrice()
-    {
-        $obj = new Madera();        
-        $p = $obj->getPrice($_GET['id']);
-        echo $p;
-    }    
+   
+   
 }
+
 ?>

@@ -15,33 +15,24 @@
         <a id="newLine" href="javascript:"><span class="box-boton">&nbsp;</span></a>
         <br/>
 
-        <label for="descripcion" class="labels">Maderba:</label>
-        <?php echo $idmaderba; ?>        
+        <label for="idmaderba" class="labels">Maderba:</label>
+        <select id="idmaderba" name="idmaderba">            
+        </select>        
         <a id="newMaderba" href="javascript:"><span class="box-boton">&nbsp;</span></a>
 
         <label for="idunidad_medida" class="labels">Unidad Medida:</label>
         <?php echo $idunidad_medida; ?>
         <br/>
-        <!--
-        <label for="tipoproducto" class="labels">Tipo Producto:</label>
-   		<input id="tipoproducto" name="tipoproducto" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->tipoproducto; ?>"  />
-        -->
-        <label for="precio_unitario" class="labels">Precio Uunitario:</label>
-   		<input type="text" id="precio_unitario" name="precio_unitario" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->precio_unitario; ?>" />
+        
+        <label for="precio_u" class="labels">Precio Uunitario:</label>
+   		<input type="text" id="precio_u" name="precio_u" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->precio_u; ?>" />
         
         <label for="stock" class="labels">Stock:</label>
    		<input type="text" id="stock" name="stock" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->stock; ?>" />
         <br/>
 
-        <label for="peso_unitario" class="labels">Peso Uunitario:</label>
-        <input type="text" id="peso_unitario" name="peso_unitario" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->peso_unitario; ?>" />
-        
         <label for="medidas" class="labels">Medidas:</label>
         <input type="text" id="medidas" name="medidas" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->medidas; ?>" />
-        <br/>
-
-        <label for="igv" class="labels">Igv:</label>
-        <input type="text" id="igv" name="igv" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->igv; ?>" />
         
         <label for="estado" class="labels">Activo:</label>
             <div id="estados" style="display:inline">

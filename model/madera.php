@@ -21,7 +21,7 @@ class Madera extends Main
 
     function edit($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM produccion.madera WHERE idmadera = :id");
+        $stmt = $this->db->prepare("SELECT * FROM produccion.producto WHERE idproducto = :id");
         $stmt->bindParam(':id', $id , PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchObject();
@@ -29,18 +29,20 @@ class Madera extends Main
     
     function insert($_P ) 
     {
-        $stmt = $this->db->prepare("INSERT into produccion.madera(tipoproducto,descripcion,
-                                    precio_unitario,idunidad_medida,stock,estado)
+        $tipopro=1;
+        $idmaderb= 1;
+        $stmt = $this->db->prepare("INSERT into produccion.producto(tipoproducto,descripcion,idmaderba,
+                                    precio_u,idunidad_medida,stock,estado)
                                     values(:p1,:p2,:p3,:p5,:p6,:p7)");
               
-        $stmt->bindParam(':p1', $_P['tipoproducto'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p1', $tipopro , PDO::PARAM_INT);
         $stmt->bindParam(':p2', $_P['descripcion'] , PDO::PARAM_STR);
-        $stmt->bindParam(':p3', $_P['precio_unitario'] , PDO::PARAM_INT);        
+        $stmt->bindParam(':p3', $idmaderb , PDO::PARAM_INT);        
+        $stmt->bindParam(':p4', $_P['precio_u'] , PDO::PARAM_INT);
         $stmt->bindParam(':p5', $_P['idunidad_medida'] , PDO::PARAM_INT);
         $stmt->bindParam(':p6', $_P['stock'] , PDO::PARAM_INT);
         $stmt->bindParam(':p7', $_P['activo'] , PDO::PARAM_INT);
         
-                
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
         
@@ -49,23 +51,24 @@ class Madera extends Main
     }
     function update($_P ) 
     {
-        $sql = "UPDATE produccion.madera 
-                    set     tipoproducto=:p1,
-                            descripcion=:p2,
-                            precio_unitario=:p3,
-                            idunidad_medida=:p5,
-                            stock=:p6,
-                            estado=:p7
+        $sql = "UPDATE produccion.producto 
+                    set     
+                        descripcion=:p2,
+                        precio_u=:p3,
+                        idunidad_medida=:p5,
+                        stock=:p6,
+                        estado=:p7
 
-                       where idmadera = :idmadera";
+                WHERE idproducto = :idproducto";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':p1', $_P['tipoproducto'] , PDO::PARAM_INT);
+        
         $stmt->bindParam(':p2', $_P['descripcion'] , PDO::PARAM_STR);
-        $stmt->bindParam(':p3', $_P['precio_unitario'] , PDO::PARAM_INT);        
+        $stmt->bindParam(':p3', $_P['precio_u'] , PDO::PARAM_INT);        
         $stmt->bindParam(':p5', $_P['idunidad_medida'] , PDO::PARAM_INT);
         $stmt->bindParam(':p6', $_P['stock'] , PDO::PARAM_INT);
         $stmt->bindParam(':p7', $_P['activo'] , PDO::PARAM_INT);
-        $stmt->bindParam(':idmadera', $_P['idmadera'] , PDO::PARAM_INT);            
+
+        $stmt->bindParam(':idproducto', $_P['idproducto'] , PDO::PARAM_INT);            
             
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
@@ -74,12 +77,13 @@ class Madera extends Main
     
     function delete($p) 
     {
-        $stmt = $this->db->prepare("DELETE FROM produccion.madera WHERE idmadera = :p1");
+        $stmt = $this->db->prepare("DELETE FROM produccion.producto WHERE idproducto = :p1");
         $stmt->bindParam(':p1', $p, PDO::PARAM_INT);
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
     }
+    
     function getPrice($id)
     {
         $stmt = $this->db->prepare("SELECT precio_u from produccion.producto WHERE idproducto = :p1");

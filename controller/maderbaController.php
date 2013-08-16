@@ -92,7 +92,13 @@ class MaderbaController extends Controller
         print_r(json_encode($result));
     }
    
-   
+    public function getList()
+    {
+        $obj = new Maderba();
+        $idmaderba = (int)$_GET['idmad'];
+        $rows = $obj->getList($idmaderba);
+        print_r(json_encode($rows));
+    }
 }
 
 ?>

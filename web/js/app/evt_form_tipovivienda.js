@@ -1,15 +1,15 @@
 $(function() 
 {    
-    $( "#descripcion" ).focus();       
-    $( "#idunidad_medida" ).css({'width':'210px'});
-    $("#estados").buttonset();
+    $( "#descripcion" ).focus();
+    $( "#idtipovivienda" ).css({'width':'210px'});
+    $("#div_activo").buttonset();
 });
 
 function save()
 {
   bval = true;        
   bval = bval && $( "#descripcion" ).required();        
-  bval = bval && $( "#idunidad_medida" ).required();
+  //bval = bval && $( "#orden" ).required();
   var str = $("#frm").serialize();
   if ( bval ) 
   {

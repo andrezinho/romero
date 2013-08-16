@@ -65,5 +65,22 @@ class Maderba extends Main
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
     }
+
+    function getList($idmad=null)
+    {
+        $sql = "SELECT idmaderba, descripcion from produccion.maderba ";
+        if($idmad!=null)
+        {
+            $sql .= " WHERE idlinea = {$idmad}";
+        }
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $data = array();
+        foreach($stmt->fetchAll() as $r)
+        {
+            $data[] = array('idmaderba'=>$r[0],'descripcion'=>$r[1]);
+        }
+        return $data;
+    }
 }
 ?>

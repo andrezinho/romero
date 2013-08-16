@@ -6,15 +6,14 @@ require_once '../model/melamina.php';
 class MelaminaController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'me.idmelamina','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Linea','NameDB'=>'li.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Maderba','NameDB'=>'ma.descripcion'),
-                        4 => array('Name'=>'Medida','NameDB'=>'ma.mediad','align'=>'right','width'=>50),
-                        5 => array('Name'=>'Peso Unitario','NameDB'=>'me.peso_unitario','align'=>'right','width'=>100),
-                        6 => array('Name'=>'Precio Unitario','NameDB'=>'me.precio_unitario','align'=>'right','width'=>100),
-                        7 => array('Name'=>'Stok','NameDB'=>'me.stock','align'=>'right','width'=>100),
-                        7 => array('Name'=>'Unidad Medida','NameDB'=>'un.simbolo','align'=>'center','width'=>100),
-                        9 => array('Name'=>'Estado','NameDB'=>'me.estado','align'=>'center','width'=>70)
+                        1 => array('Name'=>'Codigo','NameDB'=>'p.idproducto','align'=>'center','width'=>50),
+                        2 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','width'=>250,'search'=>true),
+                        3 => array('Name'=>'Maderba','NameDB'=>'carac','width'=>120),
+                        4 => array('Name'=>'Medida','NameDB'=>'p.medidas','align'=>'right','width'=>50),                        
+                        5 => array('Name'=>'Precio Unitario','NameDB'=>'p.precio_u','align'=>'right','width'=>100),
+                        6 => array('Name'=>'Stok','NameDB'=>'p.stock','align'=>'right','width'=>100),
+                        7 => array('Name'=>'Unidad Medida','NameDB'=>'u.simbolo','align'=>'center','width'=>100),
+                        9 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>70)
                      );
     public function index() 
     {

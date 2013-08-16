@@ -2,8 +2,10 @@ $(function()
 {    
     $( "#tipoproducto" ).focus();       
     $( "#idlinea" ).css({'width':'210px'});
+    load_maderba($('#idlinea').val());
     $( "#idmaderba" ).css({'width':'180px'});
     $( "#idunidad_medida" ).css({'width':'210px'});
+    $("#idlinea").change(function(){load_maderba($(this).val());});
     $("#estados").buttonset();
     
     //Linea
@@ -16,6 +18,7 @@ $(function()
       title:'Formulario de Linea',
       buttons: {'Registrar Linea':function(){save_linea();}}
     });
+    
     $("#frm_melamina").on('click','#newLine',function(){
         $.get('index.php?controller=Linea&action=create',function(html)
         {           
@@ -36,6 +39,7 @@ $(function()
       title:'Formulario de Maderba',
       buttons: {'Registrar Maderba':function(){save_maderba();}}
     });
+
     $("#frm_melamina").on('click','#newMaderba',function(){
         $.get('index.php?controller=Maderba&action=create',function(html)
         {           
@@ -50,6 +54,20 @@ $(function()
 
 });
 
+function load_maderba(idmad)
+{
+  if(idmad!="")
+  {    
+    $("#idmaderba").empty().append('<option value="">Cargando...</option>');
+    $.get('index.php','controller=maderba&action=getList&idmad='+idmad,function(r){    
+      html = '<option value="">Seleccione...</option>';
+      $.each(r,function(i,j){
+        html += '<option value="'+j.idmaderba+'">'+j.descripcion+'</option>';
+      });      
+      $("#idmaderba").empty().append(html);
+    },'json');
+  }
+}
 
 function save_linea()
 {
@@ -64,7 +82,7 @@ function save_linea()
           {
              $("#idlinea").append('<option value="'+res[2]+'">'+$("#descripcion").val()+'</option>');
              $("#box-frm-linea").dialog('close');
-             $("#idlinea").val(res[2]);
+             $("#idmadinea").val(res[2]);
           }
        },'json');
     }

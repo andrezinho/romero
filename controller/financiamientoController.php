@@ -1,17 +1,14 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/madera.php';
+require_once '../model/financiamiento.php';
 
-class MaderaController extends Controller 
-{   
+class FinanciamientoController extends Controller
+{
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'p.idproducto','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Unidad Medida','NameDB'=>'u.simbolo','search'=>true),
-                        4 => array('Name'=>'Precio Unitario','NameDB'=>'u.precio_u','align'=>'right','width'=>100),
-                        5 => array('Name'=>'Stok','NameDB'=>'p.stock','align'=>'right','width'=>100),
-                        6 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>70)
+                        1 => array('Name'=>'Codigo','NameDB'=>'idfinanciamiento','align'=>'center','width'=>'80'),
+                        2 => array('Name'=>'Descripcion','NameDB'=>'descripcion','search'=>true),                        
+                        3 => array('Name'=>'Estado','NameDB'=>'estado','width'=>'30','align'=>'center')
                      );
     public function index() 
     {
@@ -21,7 +18,6 @@ class MaderaController extends Controller
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
 
-        //(nuevo,editar,eliminar,ver)
         $data['actions'] = array(true,true,true,false);
 
         $view = new View();
@@ -33,11 +29,11 @@ class MaderaController extends Controller
 
     public function indexGrid() 
     {
-        $obj = new Madera();        
+        $obj = new Financiamiento();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
-        $sord = $_GET['sord'];
+        $sord = $_GET['sord'];                
         $filtro = $this->getColNameDB($this->cols,(int)$_GET['f']);        
         $query = $_GET['q'];
         if(!$sidx) $sidx = 1;
@@ -45,60 +41,65 @@ class MaderaController extends Controller
         if(!$page) $page = 1;
         echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$this->getColsVal($this->cols)));
     }
-    
-    public function create() 
+
+    public function create()
     {
         $data = array();
-        $view = new View();
-        $data['idunidad_medida'] = $this->Select(array('id'=>'idunidad_medida','name'=>'idunidad_medida','table'=>'vista_unidadmedida','code'=>$obj->idunidad_medida));
+        $view = new View();        
+        $data['Area'] = $this->Select(array('id'=>'idarea','name'=>'idarea','text_null'=>'Seleccione...','table'=>'vista_area'));       
         $view->setData($data);
-        $view->setTemplate( '../view/madera/_form.php' );
+        $view->setTemplate( '../view/financiamiento/_form.php' );
         echo $view->renderPartial();
     }
 
-    public function edit() 
-    {
-        $obj = new Madera();
+    public function edit() {
+        $obj = new Financiamiento();
         $data = array();
         $view = new View();
-        $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;
-        $data['idunidad_medida'] = $this->Select(array('id'=>'idunidad_medida','name'=>'idunidad_medida','table'=>'vista_unidadmedida','code'=>$obj->idunidad_medida));
+        $rows = $obj->edit($_GET['id']);
+        $data['obj'] = $rows; 
+        $data['rowsd'] = $obj->getDetails($rows->idfinanciamiento);
         $view->setData($data);
-        $view->setTemplate( '../view/madera/_form.php' );
+        $view->setTemplate( '../view/financiamiento/_form.php' );
         echo $view->renderPartial();
+        
     }
 
     public function save()
     {
-        $obj = new Madera();
+        $obj = new Financiamiento();
         $result = array();        
-        if ($_POST['idproducto']=='') 
-            $p = $obj->insert($_POST);                        
+        if ($_POST['idfinanciamiento']=='') 
+            /*$p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
         if ($p[0])                
-            $result = array(1,'');                
+            $result = array(1,'',$p[2],$p[3]);                
         else                 
-            $result = array(2,$p[1]);
-        print_r(json_encode($result));
-    }
+            $result = array(2,$p[1],'','');
+        print_r(json_encode($result));*/
 
+        $p = $obj->insert($_POST);                        
+        else         
+            $p = $obj->update($_POST);                                
+        if ($p[0]==1)                
+            $result = array(1,'',$p[2]);                
+        else                 
+            $result = array(2,$p[1],'');
+        print_r(json_encode($result));
+
+    }
     public function delete()
     {
-        $obj = new Madera();
+        $obj = new Financiamiento();
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
-
-    public function getPrice()
-    {
-        $obj = new Madera();        
-        $p = $obj->getPrice($_GET['id']);
-        echo $p;
-    }    
+   
+   
 }
+
 ?>
