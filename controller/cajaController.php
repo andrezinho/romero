@@ -47,7 +47,7 @@ class CajaController extends Controller
     {
         $data = array();
         $view = new View();        
-        $data['Area'] = $this->Select(array('id'=>'idarea','name'=>'idarea','text_null'=>'Seleccione...','table'=>'vista_area'));       
+        //$data['Area'] = $this->Select(array('id'=>'idarea','name'=>'idarea','text_null'=>'Seleccione...','table'=>'vista_area'));       
         $view->setData($data);
         $view->setTemplate( '../view/caja/_form.php' );
         echo $view->renderPartial();
@@ -58,7 +58,7 @@ class CajaController extends Controller
         $data = array();
         $view = new View();
         $rows = $obj->edit($_GET['id']);
-        $data['obj'] = $rows; 
+        $data['obj'] = $rows;
         $data['rowsd'] = $obj->getDetails($rows->idcaja);
         $view->setData($data);
         $view->setTemplate( '../view/caja/_form.php' );
@@ -70,16 +70,8 @@ class CajaController extends Controller
     {
         $obj = new Caja();
         $result = array();        
-        if ($_POST['idcaja']=='') 
-            /*$p = $obj->insert($_POST);                        
-        else         
-            $p = $obj->update($_POST);                                
-        if ($p[0])                
-            $result = array(1,'',$p[2],$p[3]);                
-        else                 
-            $result = array(2,$p[1],'','');
-        print_r(json_encode($result));*/
-
+        if ($_POST['idcaja']=='')
+            
         $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
@@ -90,6 +82,7 @@ class CajaController extends Controller
         print_r(json_encode($result));
 
     }
+    
     public function delete()
     {
         $obj = new Caja();

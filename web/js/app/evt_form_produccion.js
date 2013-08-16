@@ -17,7 +17,7 @@ $(function()
         },
         select: function( event, ui ) 
         {
-            //$("#idpersonal").val(ui.item.idpersonal);
+            $("#idpersonal").val(ui.item.idpersonal);
             $( "#dni" ).val( ui.item.dni );
             $( "#personal" ).val( ui.item.nompersonal );                                    
             return false;
@@ -66,7 +66,7 @@ function addDetalle(idtipo,dtipo,cant)
     
     var html = '';
     html += '<tr class="tr-detalle">';
-    html += '<td>'+dtipo+'<input type="hidden" name="idtipod[]" value="'+idtipo+'" /></td>';
+    html += '<td>'+dtipo+'<input type="hidden" name="idsubproductos_semi[]" value="'+idtipo+'" /></td>';
     html += '<td align="center">'+cant.toFixed(2)+'<input type="hidden" name="cantd[]" value="'+cant+'" /></td>';    
     html += '<td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>';
     html += '</tr>';    

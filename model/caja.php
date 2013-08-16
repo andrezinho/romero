@@ -116,8 +116,6 @@ class Caja extends Main
             $stmt->bindParam(':idcaja', $idcaja , PDO::PARAM_INT);
             $stmt->execute();
             
-
-
             $stmt2  = $this->db->prepare("INSERT INTO facturacion.cajaxpersonal(
                             idpersonal, idcaja)
                         VALUES ( :p1, :p2) ");

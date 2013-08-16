@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"str_",
+				"str_pad"
+			],
+			[
+				"seri",
+				"Serie"
+			],
+			[
+				"pu",
+				"public"
+			],
+			[
+				"id",
+				"idcaja"
+			],
+			[
 				"in",
 				"input"
 			],
@@ -92,34 +108,50 @@
 	"buffers":
 	[
 		{
-			"file": "lib/Spdo.php",
+			"file": "controller/ventasController.php",
 			"settings":
 			{
-				"buffer_size": 691,
+				"buffer_size": 4311,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "controller/personalController.php",
+			"file": "model/ventas.php",
 			"settings":
 			{
-				"buffer_size": 4835,
+				"buffer_size": 3364,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "model/personal.php",
+			"file": "view/ventas/_form.php",
 			"settings":
 			{
-				"buffer_size": 4342,
+				"buffer_size": 9134,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "view/personal/_form.php",
+			"file": "web/js/app/evt_form_ventas.js",
 			"settings":
 			{
-				"buffer_size": 5845,
+				"buffer_size": 1950,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "controller/tipodocumentoController.php",
+			"settings":
+			{
+				"buffer_size": 3905,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "model/tipodocumento.php",
+			"settings":
+			{
+				"buffer_size": 3240,
 				"line_ending": "Windows"
 			}
 		}
@@ -151,17 +183,33 @@
 	},
 	"file_history":
 	[
-		"/C/xampp/htdocs/romero/web/js/app/evt_form_ingresom.js",
+		"/C/xampp/htdocs/romero/web/css/cssmenu.css",
+		"/C/xampp/htdocs/romero/model/Ubigeo.php",
+		"/C/xampp/htdocs/romero/controller/UbigeoController.php",
 		"/C/xampp/htdocs/romero/controller/ingresomController.php",
+		"/C/xampp/htdocs/romero/controller/personalController.php",
+		"/C/xampp/htdocs/romero/controller/produccionController.php",
+		"/C/xampp/htdocs/romero/controller/formapagoController.php",
+		"/C/xampp/htdocs/romero/controller/perfilController.php",
+		"/C/xampp/htdocs/romero/controller/maderbaController.php",
+		"/C/xampp/htdocs/romero/controller/lineaController.php",
+		"/C/xampp/htdocs/romero/model/linea.php",
+		"/C/xampp/htdocs/romero/model/maderba.php",
+		"/C/xampp/htdocs/romero/model/proveedor.php",
+		"/C/xampp/htdocs/romero/model/produccion.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_produccion.js",
 		"/C/xampp/htdocs/romero/controller/cajaController.php",
 		"/C/xampp/htdocs/romero/model/caja.php",
-		"/C/xampp/htdocs/romero/model/produccion.php",
 		"/C/xampp/htdocs/romero/view/caja/_form.php",
+		"/C/xampp/htdocs/romero/view/ingresosm/_form.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_caja.js",
-		"/C/xampp/htdocs/romero/model/proveedor.php",
-		"/C/xampp/htdocs/romero/web/js/app/evt_form_produccion.js",
-		"/C/xampp/htdocs/romero/controller/personalController.php",
+		"/C/xampp/htdocs/romero/model/movimiento.php",
+		"/C/xampp/htdocs/romero/controller/userController.php",
+		"/C/xampp/htdocs/romero/lib/Spdo.php",
+		"/C/xampp/htdocs/romero/model/cargo.php",
 		"/C/xampp/htdocs/romero/model/personal.php",
+		"/C/xampp/htdocs/romero/view/personal/_form.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_ingresom.js",
 		"/C/xampp/htdocs/romero/controller/proveedorController.php",
 		"/C/xampp/htdocs/romero/view/produccion/_form.php",
 		"/C/xampp/htdocs/romero/model/areas.php",
@@ -183,27 +231,19 @@
 		"/C/xampp/htdocs/romero/model/tipodocumento.php",
 		"/C/xampp/htdocs/romero/view/tipodocumento/_form.php",
 		"/C/xampp/htdocs/romero/view/modulo/_form.php",
-		"/C/xampp/htdocs/romero/lib/Spdo.php",
 		"/C/xampp/htdocs/romero/controller/almacenController.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_modulo.js",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_areas.js",
 		"/C/xampp/htdocs/romero/view/areas/_form.php",
-		"/C/xampp/htdocs/romero/model/cargo.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_cargo.js",
-		"/C/xampp/htdocs/romero/model/maderba.php",
 		"/C/xampp/htdocs/romero/controller/cargoController.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_area.js",
 		"/C/xampp/htdocs/romero/view/area/_form.php",
 		"/C/xampp/htdocs/romero/model/area.php",
 		"/C/xampp/htdocs/romero/controller/areaController.php",
 		"/C/xampp/htdocs/romero/controller/moduloController.php",
-		"/C/xampp/htdocs/romero/model/linea.php",
-		"/C/xampp/htdocs/romero/controller/lineaController.php",
-		"/C/xampp/htdocs/romero/controller/maderbaController.php",
 		"/C/xampp/htdocs/romero/controller/maderaController.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_proveedor.js",
-		"/C/xampp/htdocs/romero/controller/UbigeoController.php",
-		"/C/xampp/htdocs/romero/model/Ubigeo.php",
 		"/C/xampp/htdocs/romero/model/tipopago.php",
 		"/C/xampp/htdocs/romero/model/clientes.php",
 		"/C/xampp/htdocs/romero/controller/clientesController.php",
@@ -212,17 +252,13 @@
 		"/C/xampp/htdocs/corpmedic/include/php/ext/Swift-4.2.1/test-suite/lib/Sweety/Reporter.php",
 		"/C/xampp/htdocs/corpmedic/include/php/ext/Swift-4.2.1/test-suite/config.php",
 		"/C/xampp/htdocs/romero/view/maderba/_form.php",
-		"/C/xampp/htdocs/romero/controller/produccionController.php",
-		"/C/xampp/htdocs/romero/model/movimiento.php",
 		"/C/xampp/htdocs/romero/model/subproductosemi.php",
 		"/C/xampp/htdocs/romero/controller/subproductosemiController.php",
 		"/C/xampp/htdocs/romero/model/permisos.php",
 		"/C/xampp/htdocs/romero/controller/melaminaController.php",
 		"/C/xampp/htdocs/romero/model/melamina.php",
-		"/C/xampp/htdocs/romero/view/ingresosm/_form.php",
 		"/C/xampp/htdocs/romero/controller/tipomaderaController.php",
 		"/C/xampp/htdocs/romero/controller/productosemiController.php",
-		"/C/xampp/htdocs/romero/controller/formapagoController.php",
 		"/C/xampp/htdocs/romero/model/formapago.php",
 		"/C/xampp/htdocs/romero/view/formapago/_form.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_formapago.js",
@@ -236,7 +272,6 @@
 		"/C/xampp/htdocs/corpmedic/ajax/provincia.php",
 		"/C/xampp/htdocs/romero/view/subproductosemi/_form.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_subproductosemi.js",
-		"/C/xampp/htdocs/romero/view/personal/_form.php",
 		"/C/xampp/htdocs/romero/view/linea/_form.php",
 		"/C/xampp/htdocs/romero/view/_Error.php",
 		"/C/xampp/htdocs/romero/model/moneda.php",
@@ -269,16 +304,13 @@
 		"/C/xampp/htdocs/romero/model/almacen.php",
 		"/C/xampp/htdocs/romero/model/perfil.php",
 		"/C/xampp/htdocs/romero/model/madera.php",
-		"/C/xampp/htdocs/romero/controller/perfilController.php",
 		"/C/xampp/htdocs/romero/model/user.php",
 		"/C/xampp/htdocs/romero/model/tipomadera.php",
 		"/C/xampp/htdocs/romero/model/unidadmedida.php",
 		"/C/xampp/htdocs/romero/model/movimientotipo.php",
 		"/C/xampp/htdocs/sismedic/config.php",
 		"/C/xampp/htdocs/sismedic/laboratorio/exaespecifico/mantenimiento.php",
-		"/C/xampp/htdocs/sismedic/hc/tipo_examen/mantenimiento.php",
-		"/C/xampp/htdocs/sismedic/laboratorio/exaespecifico/guardar.php",
-		"/C/xampp/htdocs/sismedic/hc/exa_derivado/save.php"
+		"/C/xampp/htdocs/sismedic/hc/tipo_examen/mantenimiento.php"
 	],
 	"find":
 	{
@@ -296,6 +328,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\"t\"",
+			"\"c\"",
+			"\"p\"",
+			"getDetails",
 			"nompersonal",
 			"idtipopago",
 			"produccion.tipopago",
@@ -419,11 +455,7 @@
 			"idlinea",
 			"perfil",
 			"$data['more_options'] = $this->more_options('Perfil');",
-			"idperfil",
-			"seguridad.perfil",
-			"IdDetDet",
-			"iddet_espec_dettpexa",
-			"idtipo_unidad"
+			"idperfil"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -431,6 +463,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"t",
+			"c",
+			"p",
 			"personal",
 			"idtipodocumento",
 			"facturacion.tipodocumento",
@@ -549,24 +584,24 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "lib/Spdo.php",
+					"file": "controller/ventasController.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 691,
+						"buffer_size": 4311,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								2471,
+								2471
 							]
 						],
 						"settings":
@@ -575,85 +610,114 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.x": 519.0,
+						"translation.y": 594.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "controller/personalController.php",
+					"file": "model/ventas.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4835,
+						"buffer_size": 3364,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3522,
-								3532
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 4,
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 918.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "model/personal.php",
+					"file": "view/ventas/_form.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4342,
+						"buffer_size": 9134,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								3181,
+								3181
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 4,
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 378.0,
+						"translation.y": 918.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "view/personal/_form.php",
+					"file": "web/js/app/evt_form_ventas.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5845,
+						"buffer_size": 1950,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								194,
+								194
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "controller/tipodocumentoController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3905,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3816,
+								3820
 							]
 						],
 						"settings":
@@ -663,7 +727,36 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1404.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "model/tipodocumento.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3240,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3127,
+								3127
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1134.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
