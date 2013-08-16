@@ -6,7 +6,7 @@ $(function()
     $("#fechai,#fechaf").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
     $("#table-me").on('click','#addDetail_me',function(){addDetailMe();});
     $("#table-detalle").on('click','.boton-delete',function(){var v = $(this).parent().parent().remove();})
-
+    $("#tabs").tabs();    
     $("#dni").autocomplete({        
         minLength: 0,
         source: 'index.php?controller=personal&action=get&tipo=1',
@@ -28,7 +28,6 @@ $(function()
             .append( "<a>"+ item.dni +" - " + item.nompersonal + "</a>" )
             .appendTo(ul);
       };
-
 });
 
 function load_subproducto(idl)
