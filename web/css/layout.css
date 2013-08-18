@@ -260,7 +260,7 @@ a.comp-t { background: #EBC513 !important; }
 .ui-state-error-adz {border: 1px solid #cd0a0a; background: #EF6756; font-weight: bold; color: #ffffff; }
 .lnk-results {margin-left: 10px; border: 1px dotted blue; padding: 0 3px 0;}
 
-.cont-grid {width:920px; margin:0 auto; background:#fafafa}
+.cont-grid {width:920px; margin:0 auto; background:#fafafa;}
 
 .operaciones { padding: 2px 0 10px; border-bottom: 1px dotted #dadada;}
 .operaciones label, .operaciones a { margin-left: 5px; cursor: pointer;}

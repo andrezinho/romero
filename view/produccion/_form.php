@@ -43,7 +43,8 @@ include("../view/header_form.php");
                 </tr>
             </table>                        
             <div class="ui-widget-content ui-corner-all" style="padding:10px">
-                <h4 style="text-align:center">Materia Prima a Usar</h4>
+                <h4 id="title-produccion" style="text-align:center">Materia Prima a Usar</h4>
+                <br/>
                 <div id="tabs">
                     <ul style="background:#DADADA !important; border:0 !important">
                         <li><a href="#tabs-1">Madera</a></li>
@@ -62,8 +63,24 @@ include("../view/header_form.php");
                         </p>
                     </div>
                     <div id="tabs-2">
-                        <p>Agregar la el tipo y la cantidad e Madera a emplear para la produccion.</p>
+                        <p>Agregar la el tipo y la cantidad e Melamina a emplear para la produccion.</p>
                     </div>
+                </div>
+                <div>
+                    <div class="contain">
+                        <table id="table-detalle-materia" class="ui-widget ui-widget-content" style="margin: 0 auto; width:100% " border="0" >
+                            <thead>
+                                <tr>                                
+                                    <td width="100px" align="center">Tipo</td>                             
+                                    <td >Descripcion de Materia Prima</td>
+                                    <td width="100px" align="center">Cant. (Pies)</td>
+                                    <td width="20px">&nbsp;</td>
+                                </tr>
+                            </thead> 
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div> 
                 </div>
             </div>
             <div style="padding:5px; text-align:right">

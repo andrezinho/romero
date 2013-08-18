@@ -1,9 +1,4 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of view
  *
@@ -11,7 +6,8 @@
  */
 
 class ViewException extends Exception{}
-class View {
+class View 
+{
     private $data;
     private $template;
     private $layout;
@@ -20,24 +16,20 @@ class View {
 
     public function setData( $data ) 
     {
-        if( !is_array( $data ) ) {
-            throw new ViewException('$data se esperaba fuera un arreglo, se envio un ' . gettype( $data ));
-        }
+        if( !is_array( $data ) )
+            throw new ViewException('$data se esperaba fuera un arreglo, se envio un ' . gettype( $data ));        
         $this->data = $data;
     }
     public function setLayout( $layout ) 
     {
-        if( !file_exists( $layout ) ) {
-            throw new ViewException("$layout  no es un archivo existente");
-        }
+        if( !file_exists( $layout ) )
+            throw new ViewException("$layout  no es un archivo existente");        
         $this->layout = $layout;
     }
     public function setTemplate($template) 
     {
-        if( !file_exists( $template ) ) 
-        {
-            throw new ViewException("$template no es un archivo existente");
-        }
+        if( !file_exists( $template ) )         
+            throw new ViewException("$template no es un archivo existente");        
         $this->template = $template;
     }
     public function render() 

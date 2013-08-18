@@ -133,13 +133,31 @@ class movimiento extends Main
                 $stmt2  = $this->db->prepare('INSERT INTO movimientosdetalle(
                                                             idmovimiento, idalmacen, item, idproducto,
                                                              idtipoproducto, cantidad, precio, estado, 
-                                                             largo,alto,espesor) 
+                                                             largo,alto,espesor,ctotal,ctotal_current) 
                                                 values(:p1, :p2, :p3, :p4, :p5, :p6, 
-                                                       :p7, :p8, :p9,:p10,:p11);');                
-                
-                $stmt3 = $this->db->prepare('UPDATE produccion.producto 
+                                                       :p7, :p8, :p9,:p10,:p11,:p12,:p13);');                
+                if($idmovimientostipo==1)
+                {
+                    //ingresos
+                    $stmt3 = $this->db->prepare('UPDATE produccion.producto 
                                                     set stock = stock + :cant
                                                  WHERE idproducto = :idp');
+                }
+                else
+                {
+                    //salidas
+                    $stmt3 = $this->db->prepare('UPDATE produccion.producto 
+                                                    set stock = stock - :cant
+                                                 WHERE idproducto = :idp');
+                }
+
+
+                $stmt4 = $this->db->prepare('SELECT max(idmovimiento) as idm ,ctotal_current as c
+                                            FROM movimientosdetalle
+                                            where idtipoproducto = :idtp and idalmacen = :ida and idproducto = :idp
+                                            group by ctotal_current,item
+                                            order by item desc
+                                            limit 1');
 
                 $estado = 1;
                 $item = 1;
@@ -153,6 +171,19 @@ class movimiento extends Main
                     $espesor = 0;
                     if($_P['espesord'][$i]!="") $espesor = $_P['espesord'][$i];
 
+                    if($_P['tipod'][$i]==1) $too = $_P['cantd'][$i]*$largo*$alto*$espesor/12;
+                        else $too = $_P['cantd'][$i];
+
+                    $stmt4->bindParam(':idtp',$idproducto,PDO::PARAM_INT);
+                    $stmt4->bindParam(':ida',$idalmacen,PDO::PARAM_INT);
+                    $stmt4->bindParam(':idp',$idproducto,PDO::PARAM_INT);
+                    $stmt4->execute();
+                    $row4 = $stmt4->fetchObject();
+                    if($idmovimientostipo==1) 
+                        $too_current = (float)$row4->c + $too;
+                    else 
+                        $too_current = (float)$row4->c - $too;
+
                     $stmt2->bindParam(':p1',$id,PDO::PARAM_INT);
                     $stmt2->bindParam(':p2',$idalmacen,PDO::PARAM_INT);
                     $stmt2->bindParam(':p3',$item,PDO::PARAM_INT);
@@ -164,11 +195,11 @@ class movimiento extends Main
                     $stmt2->bindParam(':p9',$largo,PDO::PARAM_INT);
                     $stmt2->bindParam(':p10',$alto,PDO::PARAM_INT);
                     $stmt2->bindParam(':p11',$espesor,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p12',$too,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p13',$too_current,PDO::PARAM_INT);
                     $stmt2->execute();
                     $item += 1;
 
-                    if($_P['tipod'][$i]==1) $too = $_P['cantd'][$i]*$largo*$alto*$espesor/12;
-                        else $too = $_P['cantd'][$i];
                     
                     $stmt3->bindParam(':cant',$too,PDO::PARAM_INT);                    
                     $stmt3->bindParam(':idp',$idproducto,PDO::PARAM_INT);

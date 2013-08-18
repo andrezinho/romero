@@ -92,5 +92,14 @@ class Madera extends Main
         $r = $stmt->fetchObject();
         return $r->precio_u;
     }
+
+    function getStock($id,$a=null)
+    {
+        $sql = "SELECT ctotal_current from movimientosdetalle";
+        if($a!=null)
+        {
+
+        }
+    }
 }
 ?>

@@ -1,13 +1,22 @@
 $(function() 
 {       
     $("#descripcion").focus();    
-    $("#idsubproductos_semi").change(function(){$("#cantidad_me").focus();});
+
+    $("#idsubproductos_semi").change(function(){$("#cantidad_me").focus(); load_title_produccion();});
+
     $("#idproductos_semi").change(function(){load_subproducto($(this).val());});
+
     $("#fechai,#fechaf").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
+
     $("#table-me").on('click','#addDetail_me',function(){addDetailMe();});
+
     $("#table-detalle").on('click','.boton-delete',function(){var v = $(this).parent().parent().remove();})
-    $("#tabs").tabs();    
-    $("#dni").autocomplete({        
+
+    $("#tabs").tabs();
+
+    $("#idmadera").change(function(){$("#cant_ma").focus();getStock($(this).val(),1);});
+
+    $("#dni").autocomplete({
         minLength: 0,
         source: 'index.php?controller=personal&action=get&tipo=1',
         focus: function( event, ui ) 
@@ -29,7 +38,32 @@ $(function()
             .appendTo(ul);
       };
 });
+function getStock(id,tipo)
+{   
+   var c = "madera",
+       a = $("#idalmacenm").val();
+   if(tipo==2) c = "melamina";
+   $.get('index.php','controller='+c+'&action=getStock&id='+id+'&a='+a,function(p){
+      if(tipo==1) { }
+        else {}
+   })
+}
 
+function load_title_produccion()
+{
+  var p = $("#idsubproductos_semi").val();
+  if(p!="")
+  {
+    var t1 = $("#idproductos_semi option:selected").html(),
+        t2 = $("#idsubproductos_semi option:selected").html();
+    $("#title-produccion").empty().append("Materia Prima a usar para la produccion de  "+t1+" "+t2);
+  }
+  else
+  {
+    $("#title-produccion").empty().append("Materia Prima a usar para la produccion" ); 
+  }
+
+}
 function load_subproducto(idl)
 { 
   if(idl!="")
