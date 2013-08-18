@@ -21,8 +21,8 @@ class FrontController
             default:
                 break;
         }        
-        if(!self::urlReferer()) die("wtf!");            
-        if( empty( $controller ) )     
+        if(!self::urlReferer()) die;
+        if( empty( $controller ))
             $controller = "index";    
         else 
             $controller = mb_strtolower($controller);
@@ -53,8 +53,8 @@ class FrontController
     }
     public static function urlReferer()
     {
-        $urlRef = $_SERVER['HTTP_REFERER'];
-        $urlRef = explode("http://", $urlRef);
+        $urlRef_ = $_SERVER['HTTP_REFERER'];        
+        $urlRef = explode("http://", $urlRef_);
         $c = count($urlRef);
         if($c>1)
         { 
@@ -62,7 +62,11 @@ class FrontController
             if(strtolower($urlRef[0])=="localhost") return true;
                 else return false;
         }
-        else return false;
+        else 
+        {            
+            if($urlRef_=="") return true;
+                else return false;
+        }
     }
 }
 ?>
