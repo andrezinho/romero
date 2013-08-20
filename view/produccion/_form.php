@@ -1,7 +1,12 @@
 <?php  
-include("../lib/helpers.php"); 
-include("../view/header_form.php"); 
+    include("../lib/helpers.php"); 
+    include("../view/header_form.php"); 
 ?>
+<style>
+    .link-oper { margin-left: 10px; color: green !important; }
+    span.title-head { text-transform: uppercase; display: block; padding: 5px}
+
+</style>
 <div style="padding:10px 20px; width:950px">
 <form id="frm-produccion" >
     <fieldset class="ui-corner-all" style="padding: 2px 10px 7px">
@@ -25,7 +30,7 @@ include("../view/header_form.php");
         <input type="text" name="personal" id="personal" class="ui-widget-content ui-corner-all text" style="width:250px" value="<?php echo $obj->personal; ?>" />
         <br/> 
     </fieldset>    
-    <fieldset id="box-melamina" class="ui-corner-all" style="padding: 2px 10px 7px;">  
+    <fieldset id="box-melamina" class="ui-corner-all ui-widget-content" style="padding: 2px 10px 7px;">  
         <legend>Produccion</legend>      
         <div id="box-1">
             <table id="table-me" class="table-form" border="0" cellpadding="0" cellspacing="0">
@@ -39,12 +44,11 @@ include("../view/header_form.php");
                         <option value="">Seleccione....</option>
                     </select>
                     </td>
-                    <td><input type="text" name="cantidad_me" id="cantidad_me" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" /> </td>                    
+                    <td><input type="text" name="cantidad" id="cantidad" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" /> </td>
                 </tr>
             </table>                        
-            <div class="ui-widget-content ui-corner-all" style="padding:10px">
-                <h4 id="title-produccion" style="text-align:center">Materia Prima a Usar</h4>
-                <br/>
+            <div class=" ui-corner-all" style="padding:10px">
+                <h4 id="title-produccion" style="text-align:center">Materia Prima a Usar</h4>                
                 <div id="tabs">
                     <ul style="background:#DADADA !important; border:0 !important">
                         <li><a href="#tabs-1">Madera</a></li>
@@ -56,10 +60,10 @@ include("../view/header_form.php");
                             <label>Almacen: </label> 
                             <?php echo $almacenma; ?>
                             <?php echo $idmadera; ?>
-                            <span class="box-info">Stock Max: 20 pies</span>
+                            <span id="label-stock-ma" class="box-info">Stock Max: * pies</span>
                             <input type="hidden" name="stock_ma" id="stock_ma" value="0" />
-                            <input type="text" name="cant_ma" id="cant_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="text-align:center; width:50px" maxlength="7" />
-                            <a href="javascript:" id="" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a> 
+                            <input type="text" name="cant_ma" id="cant_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="text-align:center; width:50px" maxlength="7" onkeypress="enter(event);return permite(event,'num');" />
+                            <a href="javascript:" id="btn-add-ma" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar Madera</a> 
                         </p>
                     </div>
                     <div id="tabs-2">
@@ -73,8 +77,9 @@ include("../view/header_form.php");
                                 <tr>                                
                                     <td width="100px" align="center">Tipo</td>                             
                                     <td >Descripcion de Materia Prima</td>
+                                    <td width="100px" align="center">Almacen</td>
                                     <td width="100px" align="center">Cant. (Pies)</td>
-                                    <td width="20px">&nbsp;</td>
+                                    <td width="30px">&nbsp;</td>
                                 </tr>
                             </thead> 
                             <tbody>
@@ -83,54 +88,45 @@ include("../view/header_form.php");
                     </div> 
                 </div>
             </div>
-            <div style="padding:5px; text-align:right">
-                <a href="javascript:" id="" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Limpiar</a> 
-                <a href="javascript:" id="addDetail_me" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset ui-state-active"><span class="ui-icon ui-icon-plusthick"></span>Agregar al Detalle</a> 
+            <div style="padding:5px; text-align:right;">
+                <a href="javascript:" id="btn-clear-detalle-prod" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-minus"></span>Limpiar</a> 
+                <a href="javascript:" id="btn-add-detalle-prod" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset ui-state-active"><span class="ui-icon ui-icon-plusthick"></span>Agregar a Produccion</a> 
             </div>
         </div>
     </fieldset>
-    <div id="div-detalle">
-    <div class="contain">
-        <table id="table-detalle" class="ui-widget ui-widget-content" style="margin: 0 auto; width:100% " border="0" >
-            <thead class="ui-widget ui-widget-content" >
-                <tr class="ui-widget-header" style="height: 23px">                                
-                    <th>DESCRIPCION</th>                             
-                    <th width="80px">CANTIDAD</th>                    
-                    <th width="20px">&nbsp;</th>
-                </tr>
-            </thead>  
-            <tbody>
-                <?php 
-                    
-                    if(count($rowsd)>0)
-                        {    
-                            foreach ($rowsd as $i => $r) 
-                            {
-                                
-                                ?>
-                                <tr class="tr-detalle">
-                                    <td align="left"><?php echo $r['descripcion']; ?><input type="hidden" name="idsubproductos_semi[]" value="<?php echo $r['idsubproductos_semi']; ?>" /></td>
-                                    <td><?php echo $r['cantidad']; ?><input type="hidden" name="cantd[]" value="<?php echo $r['cantidad']; ?>" /></td>                                    
-                                    <td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>
-                                </tr>
-                                <?php    
-                            }
-                        }
-                ?>                     
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td align="right">&nbsp;</td>
-                    <td align="right">&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>               
-            </tfoot>
-        </table>
-        </div>
-        </div>
+    <div id="div-detalle" class="ui-corner-all" style="background:#FAFAFA; padding: 10px 15px">
+        <div class="box-item">
+            <span class="title-head"><strong>100 Sillas Talladas </strong><a href="" class="link-oper">Ver Materiales</a> <a href="" class="link-oper">Editar</a> <a href="" class="link-oper">Eliminar</a></span>
+            <div id="materia-">
+                <ul class="ul-items">
+                    <li>(Almacen: Tarapoto Norte) Madera Caoba, 100pies <a href="" class="link-oper">Quitar</a></li>
+                    <li>(Almacen: Tarapoto Norte) Madera Caoba, 100pies <a href="" class="link-oper">Quitar</a></li>
+                </ul>
+            </div>
+        </div>    
+        <div class="box-item">
+            <span class="title-head"><strong>100 Sillas Talladas </strong><a href="" class="link-oper">Ver Materiales</a> <a href="" class="link-oper">Editar</a> <a href="" class="link-oper">Eliminar</a></span>
+            <div id="materia-">
+                <ul class="ul-items">
+                    <li>(Almacen: Tarapoto Norte) Madera Caoba, 100pies <a href="" class="link-oper">Quitar</a></li>
+                    <li>(Almacen: Tarapoto Norte) Madera Caoba, 100pies <a href="" class="link-oper">Quitar</a></li>
+                </ul>
+            </div>
+        </div>  
+        <div class="box-item">
+            <span class="title-head"><strong>100 Sillas Talladas </strong><a href="" class="link-oper">Ver Materiales</a> <a href="" class="link-oper">Editar</a> <a href="" class="link-oper">Eliminar</a></span>
+            <div id="materia-">
+                <ul class="ul-items">
+                    <li>(Almacen: Tarapoto Norte) Madera Caoba, 100pies <a href="" class="link-oper">Quitar</a></li>
+                    <li>(Almacen: Tarapoto Norte) Madera Caoba, 100pies <a href="" class="link-oper">Quitar</a></li>
+                </ul>
+            </div>
+        </div>  
+    </div>
 </form>
 </div>
 
 <div id="dialogConf">
 
 </div>
+<div id="box-add-mp"></div>

@@ -32,6 +32,7 @@ $(document).ready(function()
       width:'auto',
       height:'auto',
       resizing:true,
+      // maxHeight: 600,
       title:'Formulario de <?php if($titulo!="") echo $titulo; else echo $controlador; ?>'      
     });
     $('.nuevo').click(function(){nuevo();});

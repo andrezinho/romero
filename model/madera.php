@@ -93,13 +93,23 @@ class Madera extends Main
         return $r->precio_u;
     }
 
-    function getStock($id,$a=null)
+    function getStock($id,$a)
     {
-        $sql = "SELECT ctotal_current from movimientosdetalle";
-        if($a!=null)
-        {
-
-        }
+        $sql = "SELECT max(idmovimiento) as idm ,ctotal_current as c
+                FROM movimientosdetalle
+                where idtipoproducto = 1 and idproducto = :idp and idalmacen = :ida 
+                group by ctotal_current,item
+                order by item desc
+                limit 1 ";
+        //echo $sql;
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':idp',$id,PDO::PARAM_INT);
+        $stmt->bindParam(':ida',$a,PDO::PARAM_INT); 
+        $stmt->execute();
+        $row = $stmt->fetchObject();
+        if($row->c>0)
+            return $row->c;
+        else return '0.000';
     }
 }
 ?>

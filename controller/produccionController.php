@@ -99,5 +99,11 @@ class ProduccionController extends Controller
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
+
+    public function test()
+    {
+        $a = json_decode($_GET['m']);        
+        echo $a->descripcion[0];
+    }
 }
 ?>

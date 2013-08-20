@@ -273,3 +273,6 @@ table.table-form td { padding: 0 2px 0 4px; margin: 0;}
 .tr-detalle td {border-bottom: 1px dotted #dadada;}
 
 .box-info { padding: 3px 4px; border:1px dotted #CCC; color: #666; font-style: italic;}
+.ul-items { list-style: disc; margin-left: 25px;}
+.ul-items li { margin: 3px 0;}
+.box-item { border-bottom: 1px dotted #dadada; padding: 3px 0;}

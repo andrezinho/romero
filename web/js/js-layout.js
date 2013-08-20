@@ -1,7 +1,8 @@
        $(document).ready(function() {           
            str = 'controller=config&action=get';
            $("#title-banner").css("display","none");
-           $("#title-banner").show("slide",750);                 
+           $("#title-banner").show("slide",750); 
+                           
            $.get('index.php','controller=index&action=Menu',function(menu){
                 $("#menu").empty();                    
                 var opciones_menu = menu;

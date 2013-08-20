@@ -105,7 +105,7 @@ class MaderaController extends Controller
         $obj = new Madera();
         $idmadera = (int)$_GET['id'];
         $idalmacen = (int)$_GET['a'];
-        $p = $obj->getPrice($idmadera,$idalmacen);
+        $p = $obj->getStock($idmadera,$idalmacen);
         echo $p;
     }    
 }
