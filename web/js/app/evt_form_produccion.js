@@ -51,15 +51,15 @@ var materia =
                     },
       limpiar     : function()
                     {                       
-                       this.tipo        = new Array();
-                       this.idalmacen   = new Array();
-                       this.almacen     = new Array();
-                       this.idproducto  = new Array();
-                       this.descripcion = new Array();
-                       this.stock       = new Array();
-                       this.cantidad    = new Array();
-                       this.estado      = new Array();
-                       this.nitem       = 0;
+                       this.tipo.clear();
+                       this.idalmacen.clear();
+                       this.almacen.clear();
+                       this.idproducto.clear();
+                       this.descripcion.clear();
+                       this.stock.clear();
+                       this.cantidad.clear();
+                       this.estado.clear();
+                       this.nitem = 0;
                     },
       //Obtenemos la cantidad total agregada en el detalle por producto
       getTotalP   : function(idproducto,idalmacen)
@@ -99,22 +99,79 @@ var produccion = {
                       this.idsps[this.item] = idsp;
                       this.descripcion[this.item] = descripcion;
                       this.cantidad[this.item] = cantidad;
+                      this.materiap[this.item] = new Object();
                       this.materiap[this.item] = materia;
+                      this.estado[this.item] = true;
+                      this.item += 1;                                            
+                      return true;
                     },
-    listar        : function()
+     listar         : function()
                     {
-                      html = '';
-                      for(i=0;i<this.item;i++)
+                      html = '';                     
+                      for(ii=0;ii<this.item;ii++)
                       {
-                         if(this.estado[i])
-                         {
-                            html += '';
+                         if(this.estado[ii])
+                         {                            
+                            html += '<div class="box-item">';
+                            html += '<span class="title-head"><strong>'+this.cantidad[ii]+' '+this.descripcion[ii]+' </strong><a href="javascript:" class="view-detalle-mp link-oper">Ver Materia Prima</a> <a id="item-prod-'+ii+'-edit" href="javascript:" class="edit-produccion link-oper">Editar</a> <a id="item-prod-'+ii+'-delete" href="javascript:" class="delete-produccion link-oper">Eliminar</a></span>';
+                            html += '<div id="materia-'+ii+'">';                            
+                            var ni = this.materiap[ii].getNumItems();                            
+                            if(ni>0)
+                              {                                
+                                 html += '<ul class="ul-items">';
+                                 ni = this.materiap[ii].nitem;
+                                 for(j=0;j<ni;j++)
+                                  {
+                                     estado = this.materiap[ii].estado[j];
+                                     if(estado)
+                                     {
+                                        html += '<li>(Almacen: '+this.materiap[ii].almacen[j]+') '+this.materiap[ii].tipo[j]+' '+this.materiap[ii].descripcion[j]+', '+this.materiap[ii].cantidad[j]+'pies <a href="" class="link-oper">Quitar</a></li>';
+                                     }                                  
+                                  }
+                                 html += '</ul>';
+                              }                              
+                            html += '</div>';
+                            html += '</div>';
                          }
                       }
+                      $("#div-detalle").empty().append(html);
+                    },
+    getTotalP   : function(idproducto,almacen)
+                  {
+                      var t = 0;
+                      for(ii=0;ii<this.item;ii++)
+                      {
+                        if(this.estado[ii])
+                        {
+                           for(k=0;k<this.materiap[ii].nitem;k++)
+                           {                              
+                              if(this.materiap[ii].estado[k]&&this.materiap[ii].idproducto[k]==idproducto&&this.materiap[ii].idalmacen[k]==almacen)
+                              {
+                                 t += parseFloat(this.materiap[ii].cantidad[k]);
+                              }
+                            }                          
+                        }
+                      }
+                      return t;
+                  },
+    edit        : function(itm)
+                  {
+                    $("#idproductos_semi").val(this.idps[itm]);
+                    load_subproducto(this.idps[i],this.idsps[itm]);
+                    $("#cantidad").val(this.cantidad[itm]);                    
+                  },
+    getMateriaPrimaP : function(itm)
+                  {                     
+                     return this.materiap[itm];
+                  },
+    eliminar    : function(i)
+                    {
+                      this.estado[i] = false;                        
                     }
 }
 $(function() 
 {     
+    //Basic events
     $("input[type=text]").focus(function(){this.select();});
     $("#descripcion").focus();
     $("#fechai,#fechaf").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
@@ -130,44 +187,6 @@ $(function()
                   'Cerrar': function(){ $(this).dialog('close');}                  
                 }  
     });
-
-    //*
-    //Events change
-    //*
-    //Actualizamos el titulo de la cabecera de materia prima a usar
-      $("#idsubproductos_semi").change(function(){$("#cantidad_me").focus(); load_title_produccion();});
-    //Obtener los sub productos
-      $("#idproductos_semi").change(function(){load_subproducto($(this).val()); $("#idsubproductos_semi").focus();});
-    //Obtenemos el stock de la madera
-      $("#idalmacenma,#idmadera").change(function(){getStock($("#idmadera").val(),1);});          
-    //Validar la cantidad con el stock disponible de la madera
-      $("#cant_ma").change(function(){valida_cant($(this).val(),1)});
-    
-    //*
-    //Events On 
-    //*
-    //Agregar al detalle de produccion
-      $("#table-me").on('click','#addDetail_me',function(){addDetailMe();});
-    //Quitar del detalle de produccion
-      $("#table-detalle").on('click','.boton-delete',function(){var v = $(this).parent().parent().remove();})
-    //Agregar madera al detalle de Materia prima a usar
-      $("#tabs-1").on('click','#btn-add-ma',function(){addNewMadera();});
-    //Quitar del detalle de materia prima a usar
-      $("#table-detalle-materia").on('click','.item-mp',function(){
-        var i = $(this).attr("id");
-        i = i.split("-");
-        materia.eliminar(i[1]);
-        materia.listar();        
-      })
-    
-    $("#btn-add-detalle-prod").click(function(){
-       // m = json_encode(materia);
-       // $.get('index.php','controller=produccion&action=test&m='+m,function(data){
-       //    alert(data);
-       // })
-       addDetalleProd();
-    })
-
     $("#dni").autocomplete({
         minLength: 0,
         source: 'index.php?controller=personal&action=get&tipo=1',
@@ -189,7 +208,45 @@ $(function()
             .append( "<a>"+ item.dni +" - " + item.nompersonal + "</a>" )
             .appendTo(ul);
       };
+
+    //Eventos dentro de fildset produccion
+    $("#btn-add-mp").click(function(){ $("#box-add-mp").dialog("open");});
+    $("#idsubproductos_semi").change(function(){$("#cantidad").focus(); load_title_produccion();});    
+    $("#idproductos_semi").change(function(){load_subproducto($(this).val()); $("#idsubproductos_semi").focus();});    
+    $("#idalmacenma,#idmadera").change(function(){getStock($("#idmadera").val(),1);});              
+    $("#cant_ma").change(function(){valida_cant($(this).val(),1)});
+    $("#table-me").on('click','#addDetail_me',function(){addDetailMe();});    
+    $("#table-detalle").on('click','.boton-delete',function(){var v = $(this).parent().parent().remove();})    
+    $("#tabs-1").on('click','#btn-add-ma',function(){addNewMadera();});    
+    $("#table-detalle-materia").on('click','.item-mp',function(){
+      var i = $(this).attr("id");
+      i = i.split("-");
+      materia.eliminar(i[1]);
+      materia.listar();        
+    });
+    $("#btn-add-detalle-prod").click(function(){addDetalleProd();});
+
+    //Eventos para detalle produccion
+    $("#div-detalle").on('click','.edit-produccion',function(){
+        var i = $(this).attr("id"); i = i.split("-");
+        editProduccion(i[2]);
+    });
+    $("#div-detalle").on('click','.delete-produccion',function(){
+        var i = $(this).attr("id"); i = i.split("-");
+        produccion.eliminar(i[2]);
+        produccion.listar();
+    })    
 });
+
+function editProduccion(i)
+{
+   materia.limpiar();
+   produccion.eliminar(i);   
+   produccion.edit(i);
+   produccion.listar();
+   materia = clone(produccion.getMateriaPrimaP(i));
+   materia.listar();
+}
 
 function addDetalleProd()
 {
@@ -200,14 +257,20 @@ function addDetalleProd()
   {
       var idps = $("#idproductos_semi").val(),
           idsps = $("#idsubproductos_semi").val(),
-          desc  = $("#idproductos_semi option:selected").html()+' '+$("#idsubproductos_semi option:selected").html(),
+          desc = $("#idproductos_semi option:selected").html()+' '+$("#idsubproductos_semi option:selected").html(),
           cant = $("#cantidad").val(),
           items = materia.getNumItems();
       if(cant>0)
       {
         if(items>0)
         {
-           produccion.nuevo(idps,idsps,desc,cant,materia);
+           //clonamos materia para enviar para enviar una copia más nó una referencia
+           var clon_materia = clone(materia);
+           produccion.nuevo(idps,idsps,desc,cant,clon_materia);
+           materia.limpiar();
+           materia.listar();
+           produccion.listar();
+           limpiar_ps(); //Limpiamos cabecera de produccion
         }
         else
         {
@@ -239,14 +302,17 @@ function addNewMadera()
           stk = $("#stock_ma").val(),
             c = $("#cant_ma").val();
 
-      valida_cant(c,1);            
-      if(c>0)
+      if(valida_cant(c,1))
       {
-        materia.nuevo(1,ida,a,idm,m,stk,c);
-        materia.listar();
-        getStock(idm,1);
-        $("#cant_ma").val('0.00').focus();
+        if(c>0)
+        {
+          materia.nuevo(1,ida,a,idm,m,stk,c);
+          materia.listar();                        
+          getStock(idm,1);
+          $("#cant_ma").val('0.00').focus();
+        }
       }
+      
 
   }
 }
@@ -266,15 +332,16 @@ function valida_cant(v,type)
       {
          alert("Alerta: La cantidad supera el stock maximo.");
          $("#cant_ma").focus();
-         return 0;
+         return false;
       }
   }
   else 
   {
      alert("La cantidad debe ser mayo que cero (0)");
      $("#cant_ma").focus();
-     return 0;
+     return false;
   }
+  return true;
   
 }
 
@@ -287,7 +354,8 @@ function getStock(id,tipo)
    $("#cant_ma").val('0.00');
    $.get('index.php','controller='+c+'&action=getStock&id='+id+'&a='+a,function(stk){
       total_reservado = materia.getTotalP(id,a);
-      stk = stk - total_reservado;
+      total_reservado_p = produccion.getTotalP(id,a);
+      stk = stk - total_reservado - total_reservado_p;
       if(tipo==1) 
       { 
         $("#label-stock-ma").empty().append('Stock Max: '+stk+' pies'); 
@@ -327,6 +395,21 @@ function load_subproducto(idl)
         html += '<option value="'+j.idsubproductos_semi+'">'+j.descripcion+'</option>';
       });      
       $("#idsubproductos_semi").empty().append(html);
+    },'json');
+  }
+}
+function load_subproducto(idl,idsps)
+{ 
+  if(idl!="")
+  {    
+    $("#idsubproductos_semi").empty().append('<option value="">Cargando...</option>');
+    $.get('index.php','controller=subproductosemi&action=getList&idl='+idl,function(r){    
+      html = '<option value="">Seleccione...</option>';
+      $.each(r,function(i,j){
+        html += '<option value="'+j.idsubproductos_semi+'">'+j.descripcion+'</option>';
+      });      
+      $("#idsubproductos_semi").empty().append(html);
+      $("#idsubproductos_semi").val(idsps);
     },'json');
   }
 }
@@ -415,4 +498,11 @@ function enter(evt)
     {
         addNewMadera();
     }
+}
+
+function limpiar_ps()
+{  
+  $("#idsubproductos_semi").val("");
+  $("#cantidad").val('0.00');
+  $("#idsubproductos_semi").focus();
 }
