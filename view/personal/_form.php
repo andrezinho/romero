@@ -38,9 +38,7 @@
         <label for="direccion" class="labels">Dirección:</label>
    		<input id="direccion" name="direccion" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
         
-        <label for="estcivil" class="labels">Estado civil:</label> 
-        <!-- <input id="estcivil" name="estcivil" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->estcivil; ?>" />
-         -->
+        <label for="estcivil" class="labels">Estado civil:</label>        
         <select id="estcivil" name="estcivil" class="ui-widget-content ui-corner-all">
             <?php $var="";
                 if($obj->estcivil=='Ninguno')
@@ -87,9 +85,7 @@
         <?php echo $idcargo; ?>
         <br/>
 
-        <label for="sexo" class="labels">Sexo:</label> 
-        <!-- <input id="sexo" name="sexo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->sexo; ?>" />
-         -->
+        <label for="sexo" class="labels">Sexo:</label>        
         <select id="sexo" name="sexo" class="ui-widget-content ui-corner-all">
             <?php $var="";
                 if($obj->sexo=='M')

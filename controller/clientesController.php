@@ -105,17 +105,19 @@ class ClientesController extends Controller
     {
         $obj = new Clientes();
         $data = array();        
-        $field = "razonsocial";
-        if($_GET['tipo']==1) $field = "ruc";
+        $field = "c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno";
+        if($_GET['tipo']==1) $field = "dni";
         $value = $obj->get($_GET["term"],$field);
 
         $result = array();
         foreach ($value as $key => $val) 
         {
               array_push($result, array(
-                                        "idclientes"=>$val['idcliente'], 
-                                        "ruc"=>$val['ruc'],
-                                        "razonsocial"=> strtoupper($val['razonsocial'])
+                                        "idcliente"=>$val['idcliente'], 
+                                        "dni"=>$val['dni'],
+                                        "direccion"=>$val['direccion'],
+                                        "telefono"=>$val['telefono'],
+                                        "nomcliente"=> strtoupper($val['nomcliente'])
                                     )
                         );
               if ( $key > 7 ) { break; }

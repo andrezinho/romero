@@ -110,12 +110,16 @@ class Clientes extends Main
     function get($query,$field)
     {
         $query = "%".$query."%";
-        $statement = $this->db->prepare("SELECT idcliente, 
-                                                razonsocial,
-                                                ruc
-                                         FROM cliente
-                                         WHERE {$field} ilike :query and ruc <> ''
-                                         limit 10");
+        $statement = $this->db->prepare("SELECT
+                            c.idcliente,
+                            c.dni,
+                            c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS nomcliente,
+                            c.direccion,
+                            c.telefono
+                            FROM
+                            cliente AS c
+                        WHERE {$field} ilike :query and dni <> ''
+                        limit 10");
         $statement->bindParam (":query", $query , PDO::PARAM_STR);
         $statement->execute();
         return $statement->fetchAll();
