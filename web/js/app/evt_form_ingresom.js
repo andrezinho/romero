@@ -274,6 +274,7 @@ function validar_frm()
 {
   var tipo = $("input[name='tipo']:checked").val(),
       bval = true;
+  bval = bval && $("#idmovimientosubtipo").required();  
   if(tipo==2)
   {
      bval = bval && $("#idtipodocumento").required();

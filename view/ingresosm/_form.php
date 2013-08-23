@@ -14,6 +14,8 @@
         <input type="text" id="numero" name="numero" class="text ui-widget-content ui-corner-all" style=" width: 80px; text-align: left;" value="<?php echo $obj->numero; ?>" />                
         <label for="fecha" class="labels">Fecha Emision:</label>
         <input type="text" name="fechae" id="fechae" class="ui-widget-content ui-corner-all text" value="<?php if($obj->fechae!=""){echo fdate($obj->fechae,'ES');} else {echo date('d/m/Y');} ?>" style="width:70px; text-align:center" />
+        <label for="fecha" class="labels">Tipo Ingreso:</label>
+        <?php echo $tipomov; ?>
         <br/>
         <label for="idproveedor" class="labels">Proveedor:</label>
         <input type="hidden" name="idproveedor" id="idproveedor" value="<?php echo $obj->idproveedor ?>" />
