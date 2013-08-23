@@ -199,7 +199,6 @@ class movimiento extends Main
                     $stmt2->bindParam(':p13',$too_current,PDO::PARAM_INT);
                     $stmt2->execute();
                     $item += 1;
-
                     
                     $stmt3->bindParam(':cant',$too,PDO::PARAM_INT);                    
                     $stmt3->bindParam(':idp',$idproducto,PDO::PARAM_INT);

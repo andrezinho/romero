@@ -77,13 +77,14 @@ class ProduccionController extends Controller
     public function save()
     {
         $obj = new Produccion();
-        $result = array();        
+        
+                
         if ($_POST['idproduccion']=='') 
-            $p = $obj->insert($_POST);                        
+            $p = $obj->insert($_POST);
         else         
-            $p = $obj->update($_POST);                                
-        if ($p[0]==1)                
-            $result = array(1,'',$p[2]);                
+            $p = $obj->update($_POST);
+        if ($p[0]==1)
+            $result = array(1,'',$p[2]);
         else                 
             $result = array(2,$p[1],'');
         print_r(json_encode($result));

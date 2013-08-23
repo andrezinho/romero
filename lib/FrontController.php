@@ -53,20 +53,21 @@ class FrontController
     }
     public static function urlReferer()
     {
-        $urlRef_ = $_SERVER['HTTP_REFERER'];        
-        $urlRef = explode("http://", $urlRef_);
-        $c = count($urlRef);
-        if($c>1)
-        { 
-            $urlRef = explode("/", $urlRef[1]);
-            if(strtolower($urlRef[0])=="localhost") return true;
-                else return false;
-        }
-        else 
-        {            
-            if($urlRef_=="") return true;
-                else return false;
-        }
+        // $urlRef_ = $_SERVER['HTTP_REFERER'];        
+        // $urlRef = explode("http://", $urlRef_);
+        // $c = count($urlRef);
+        // if($c>1)
+        // { 
+        //     $urlRef = explode("/", $urlRef[1]);
+        //     if(strtolower($urlRef[0])=="localhost") return true;
+        //         else return false;
+        // }
+        // else 
+        // {            
+        //     if($urlRef_=="") return true;
+        //         else return false;
+        // }
+        return true;
     }
 }
 ?>

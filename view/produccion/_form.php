@@ -46,14 +46,35 @@
                     </select>
                     </td>
                     <td><input type="text" name="cantidad" id="cantidad" value="0.00" class="ui-widget-content ui-corner-all text" style="width:68px; text-align:center" onkeypress="return permite(event,'num')" /> </td>                    
-                    <td><a href="javascript:" id="btn-add-mp" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Ingresar la materia Prima a Usar</a> </td>
+                    <td><!-- <a href="javascript:" id="btn-add-mp" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Ingresar la materia Prima a Usar</a>  --></td>
                 </tr>
             </table>                        
 
             <div class=" ui-corner-all" style="padding:10px">
-                
-                <div>
-                    <div class="contain">
+                <h4 id="title-produccion" style="text-align:center">Materia Prima a Usar</h4>                
+                <div id="tabs">
+                    <ul style="background:#DADADA !important; border:0 !important">
+                        <li><a href="#tabs-1">Madera</a></li>
+                        <li><a href="#tabs-2">Melamina</a></li>
+                    </ul>
+                    <div id="tabs-1">
+                        <p id="">Agregar la el tipo y la cantidad de <b>Madera</b> a emplear para la produccion.
+                            <br/>
+                            <label>Almacen: </label> 
+                            <?php echo $almacenma; ?>
+                            <?php echo $idmadera; ?>
+                            <span id="label-stock-ma" class="box-info">Stock Max: * pies</span>
+                            <input type="hidden" name="stock_ma" id="stock_ma" value="0" />
+                            <input type="text" name="cant_ma" id="cant_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="text-align:center; width:50px" maxlength="7" onkeypress="enter(event);return permite(event,'num');" />
+                            <a href="javascript:" id="btn-add-ma" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar Madera</a> 
+                        </p>
+                    </div>
+                    <div id="tabs-2">
+                        <p>Agregar la el tipo y la cantidad e Melamina a emplear para la produccion.</p>
+                    </div>
+                </div>
+                <div style="padding:3px 0 0 0">
+                    <div class="contain" style="width:600px; float:left;">
                         <table id="table-detalle-materia" class="ui-widget ui-widget-content" style="margin: 0 auto; width:100% " border="0" >
                             <thead>
                                 <tr>                                
@@ -68,11 +89,11 @@
                             </tbody>
                         </table>
                     </div> 
+                    <div style="text-align:right; width:290px; float:left">
+                        <a href="javascript:" id="btn-clear-detalle-prod" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-minus"></span>Limpiar</a> 
+                        <a href="javascript:" id="btn-add-detalle-prod" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset ui-state-active"><span class="ui-icon ui-icon-plusthick"></span>Agregar a Produccion</a> 
+                    </div>
                 </div>
-            </div>
-            <div style="padding:5px; text-align:right;">
-                <a href="javascript:" id="btn-clear-detalle-prod" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-minus"></span>Limpiar</a> 
-                <a href="javascript:" id="btn-add-detalle-prod" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset ui-state-active"><span class="ui-icon ui-icon-plusthick"></span>Agregar a Produccion</a> 
             </div>
         </div>
     </fieldset>
@@ -95,26 +116,5 @@
 
 </div>
 <div id="box-add-mp">
-    <h4 id="title-produccion" style="text-align:center">Materia Prima a Usar</h4>                
-                <div id="tabs">
-                    <ul style="background:#DADADA !important; border:0 !important">
-                        <li><a href="#tabs-1">Madera</a></li>
-                        <li><a href="#tabs-2">Melamina</a></li>
-                    </ul>
-                    <div id="tabs-1">
-                        <p id="">Agregar la el tipo y la cantidad de <b>Madera</b> a emplear para la produccion.
-                            <br/>
-                            <label>Almacen: </label> 
-                            <?php echo $almacenma; ?>
-                            <?php echo $idmadera; ?>
-                            <span id="label-stock-ma" class="box-info">Stock Max: * pies</span>
-                            <input type="hidden" name="stock_ma" id="stock_ma" value="0" />
-                            <input type="text" name="cant_ma" id="cant_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="text-align:center; width:50px" maxlength="7" onkeypress="enter(event);return permite(event,'num');" />
-                            <a href="javascript:" id="btn-add-ma" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar Madera</a> 
-                        </p>
-                    </div>
-                    <div id="tabs-2">
-                        <p>Agregar la el tipo y la cantidad e Melamina a emplear para la produccion.</p>
-                    </div>
-                </div>
+    
 </div>

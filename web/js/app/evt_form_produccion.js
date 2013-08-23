@@ -113,7 +113,7 @@ var produccion = {
                          if(this.estado[ii])
                          {                            
                             html += '<div class="box-item">';
-                            html += '<span class="title-head"><strong>'+this.cantidad[ii]+' '+this.descripcion[ii]+' </strong><a href="javascript:" class="view-detalle-mp link-oper">Ver Materia Prima</a> <a id="item-prod-'+ii+'-edit" href="javascript:" class="edit-produccion link-oper">Editar</a> <a id="item-prod-'+ii+'-delete" href="javascript:" class="delete-produccion link-oper">Eliminar</a></span>';
+                            html += '<span class="title-head"><strong>'+this.cantidad[ii]+' '+this.descripcion[ii]+' </strong><a id="item-prod-'+ii+'-edit" href="javascript:" class="edit-produccion link-oper">Editar</a> <a id="item-prod-'+ii+'-delete" href="javascript:" class="delete-produccion link-oper">Eliminar</a></span>';
                             html += '<div id="materia-'+ii+'">';                            
                             var ni = this.materiap[ii].getNumItems();                            
                             if(ni>0)
@@ -125,7 +125,7 @@ var produccion = {
                                      estado = this.materiap[ii].estado[j];
                                      if(estado)
                                      {
-                                        html += '<li>(Almacen: '+this.materiap[ii].almacen[j]+') '+this.materiap[ii].tipo[j]+' '+this.materiap[ii].descripcion[j]+', '+this.materiap[ii].cantidad[j]+'pies <a href="" class="link-oper">Quitar</a></li>';
+                                        html += '<li>(Almacen: '+this.materiap[ii].almacen[j]+') '+this.materiap[ii].tipo[j]+' '+this.materiap[ii].descripcion[j]+', '+this.materiap[ii].cantidad[j]+'pies <a href="javascript:" id="item-prod-'+ii+'-'+j+'-mp" class="delete-produccion-mp link-oper">Quitar</a></li>';
                                      }                                  
                                   }
                                  html += '</ul>';
@@ -167,6 +167,20 @@ var produccion = {
     eliminar    : function(i)
                     {
                       this.estado[i] = false;                        
+                    },
+    eliminar_mp : function(i,j)
+                    {
+                      this.materiap[i].estado[j] = false;
+                    },
+    getNumItems : function()
+                    {
+                      var n = 0;
+                      for(i=0;i<this.item;i++)
+                      {
+                        if(this.estado[i])
+                          n += 1;
+                      }
+                      return n;
                     }
 }
 $(function() 
@@ -222,7 +236,7 @@ $(function()
       var i = $(this).attr("id");
       i = i.split("-");
       materia.eliminar(i[1]);
-      materia.listar();        
+      materia.listar();
     });
     $("#btn-add-detalle-prod").click(function(){addDetalleProd();});
 
@@ -235,7 +249,12 @@ $(function()
         var i = $(this).attr("id"); i = i.split("-");
         produccion.eliminar(i[2]);
         produccion.listar();
-    })    
+    });
+    $("#div-detalle").on('click','.delete-produccion-mp',function(){
+        var i = $(this).attr("id"); i = i.split("-");
+        produccion.eliminar_mp(i[2],i[3]);
+        produccion.listar();
+    });
 });
 
 function editProduccion(i)
@@ -414,33 +433,33 @@ function load_subproducto(idl,idsps)
   }
 }
 
-function addDetailMe()
-{
-    bval = true;
-    bval = bval && $("#idsubproductos_semi").required();
-    bval = bval && $("#cantidad_me").required();    
-    if(!bval) return 0;         
-        idma=$("#idsubproductos_semi").val(),
-        mela=$("#idproductos_semi option:selected").html()+', '+$("#idsubproductos_semi option:selected").html(),
-        cant=parseFloat($("#cantidad_me").val())
+// function addDetailMe()
+// {
+//     bval = true;
+//     bval = bval && $("#idsubproductos_semi").required();
+//     bval = bval && $("#cantidad_me").required();    
+//     if(!bval) return 0;         
+//         idma=$("#idsubproductos_semi").val(),
+//         mela=$("#idproductos_semi option:selected").html()+', '+$("#idsubproductos_semi option:selected").html(),
+//         cant=parseFloat($("#cantidad_me").val())
         
-    if(cant<=0) {alert('La cantidad debe ser mayor que 0'); $("#cantidad_me").focus(); return 0;}
-    addDetalle(idma,mela,cant);
-    clearMe();    
-}
+//     if(cant<=0) {alert('La cantidad debe ser mayor que 0'); $("#cantidad_me").focus(); return 0;}
+//     addDetalle(idma,mela,cant);
+//     clearMe();    
+// }
 
-function addDetalle(idtipo,dtipo,cant)
-{
+// function addDetalle(idtipo,dtipo,cant)
+// {
     
-    var html = '';
-    html += '<tr class="tr-detalle">';
-    html += '<td>'+dtipo+'<input type="hidden" name="idsubproductos_semi[]" value="'+idtipo+'" /></td>';
-    html += '<td align="center">'+cant.toFixed(2)+'<input type="hidden" name="cantd[]" value="'+cant+'" /></td>';    
-    html += '<td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>';
-    html += '</tr>';    
-    $("#table-detalle").find('tbody').append(html);
-    //caltotal();
-}
+//     var html = '';
+//     html += '<tr class="tr-detalle">';
+//     html += '<td>'+dtipo+'<input type="hidden" name="idsubproductos_semi[]" value="'+idtipo+'" /></td>';
+//     html += '<td align="center">'+cant.toFixed(2)+'<input type="hidden" name="cantd[]" value="'+cant+'" /></td>';    
+//     html += '<td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>';
+//     html += '</tr>';    
+//     $("#table-detalle").find('tbody').append(html);
+//     //caltotal();
+// }
 
 function clearMe()
 {
@@ -450,34 +469,25 @@ function clearMe()
   $("#idproductos_semi").focus();
 }
 
-function nItems()
-{
-  var c = 0;
-  $("#table-detalle tbody tr").each(function(idx,j){c += 1;});
-  return c;
-}
 
 function save()
 {
   bval = true;
+  bval = bval && $( "#descripcion" ).required();
   bval = bval && $( "#fechai" ).required();
-  bval = bval && $( "#fechaf" ).required();          
+  bval = bval && $( "#fechaf" ).required();
+  bval = bval && $( "#dni" ).required();  
   if ( bval ) 
   {
-      var ni = nItems();
-      if(ni<=0) { alert("Aun no a ingresado ningun tipo de producto al detalle"); return 0; }
+      var ni = produccion.getNumItems();
+      if(ni<=0) { alert("Aun no a ingresado ninguna produccion al detalle"); return 0; }
       var str = $("#frm-produccion").serialize();
-      $.post('index.php',str,function(res)
+      var prod = json_encode(produccion);
+      $.post('index.php',str+'&prod='+prod,function(res)
       {
         if(res[0]==1)
-        {
-          //$("#box-frm").dialog("close");
-          //alert();
-          if (confirm("Desea ingresar su materiales que utilizará en la produccion ")) {
-          // Respuesta afirmativa...
-            $('#dialogConf').dialog('open');
-          }
-          
+        { 
+          $('#dialogConf').dialog('open');          
           gridReload();
         }
         else
