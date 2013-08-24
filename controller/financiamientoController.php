@@ -70,15 +70,7 @@ class FinanciamientoController extends Controller
         $obj = new Financiamiento();
         $result = array();        
         if ($_POST['idfinanciamiento']=='') 
-            /*$p = $obj->insert($_POST);                        
-        else         
-            $p = $obj->update($_POST);                                
-        if ($p[0])                
-            $result = array(1,'',$p[2],$p[3]);                
-        else                 
-            $result = array(2,$p[1],'','');
-        print_r(json_encode($result));*/
-
+        
         $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
@@ -99,7 +91,13 @@ class FinanciamientoController extends Controller
         print_r(json_encode($result));
     }
    
-   
+    public function RecFinanciamiento()
+    {
+        $obj = new Financiamiento();        
+        $rows = $obj->RFinanciamiento($_GET['idfinanc']);                               
+        print_r(json_encode($rows));
+    }
+
 }
 
 ?>

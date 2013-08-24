@@ -6,11 +6,13 @@ require_once '../model/proformas.php';
 class ProformasController extends Controller
 {
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'c.idcaja','align'=>'center','width'=>'80'),
-                        2 => array('Name'=>'Nombre','NameDB'=>'c.nombre','search'=>true),
-                        3 => array('Name'=>'Descripcion','NameDB'=>'c.descripcion','search'=>true),                        
-                        4 => array('Name'=>'Estado','NameDB'=>'c.estado','width'=>'30','align'=>'center')
+                        1 => array('Name'=>'Codigo','NameDB'=>'p.idproforma','align'=>'center','width'=>'60'),
+                        2 => array('Name'=>'Cliente','NameDB'=>'c.nombres','search'=>true),
+                        3 => array('Name'=>'Sucursal','NameDB'=>'s.descripcion','search'=>true), 
+                        4 => array('Name'=>'Fecha','NameDB'=>'p.fecha','width'=>'70'),                       
+                        5 => array('Name'=>'Estado','NameDB'=>'p.estado','width'=>'50','align'=>'center')
                      );
+
     public function index() 
     {
         $data = array();                               
@@ -61,7 +63,7 @@ class ProformasController extends Controller
         $view = new View();
         $rows = $obj->edit($_GET['id']);
         $data['obj'] = $rows;
-        $data['rowsd'] = $obj->getDetails($rows->idcaja);
+        $data['rowsd'] = $obj->getDetails($rows->idproforma);
         $view->setData($data);
         $view->setTemplate( '../view/Proformas/_form.php' );
         echo $view->renderPartial();
@@ -72,7 +74,7 @@ class ProformasController extends Controller
     {
         $obj = new Proformas();
         $result = array();        
-        if ($_POST['idcaja']=='')
+        if ($_POST['idproforma']=='')
             
         $p = $obj->insert($_POST);                        
         else         
