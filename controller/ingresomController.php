@@ -60,7 +60,8 @@ class ingresomController extends Controller
         $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));
         $data['tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'...','table'=>'facturacion.vista_tipodocumento','width'=>'80px'));
         $data['almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px'));        
-        $data['formapago'] = $this->Select(array('id'=>'idformapagao','name'=>'idformapago','text_null'=>'','table'=>'formapago','width'=>'120px'));        
+        $data['formapago'] = $this->Select(array('id'=>'idformapagao','name'=>'idformapago','text_null'=>'--Seleccione--','table'=>'produccion.tipopago','width'=>'120px'));        
+        $data['tipomov'] = $this->Select(array('id'=>'idmovimientosubtipo','name'=>'idmovimientosubtipo','text_null'=>'--Seleccione--','table'=>'vista_tipoingresos','width'=>'200px'));        
         $view->setData($data);
         $view->setTemplate( '../view/ingresosm/_form.php' );
         echo $view->renderPartial();
@@ -77,7 +78,7 @@ class ingresomController extends Controller
         $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));
         $data['tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'...','table'=>'facturacion.vista_tipodocumento','width'=>'80px','code'=>$rows->idtipodocumento,'disabled'=>'disabled'));
         $data['almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$rows->idalmacen,'disabled'=>'disabled'));        
-        $data['formapago'] = $this->Select(array('id'=>'idformapagao','name'=>'idformapago','text_null'=>'','table'=>'formapago','width'=>'120px','code'=>$rows->idformapago,'disabled'=>'disabled'));        
+        $data['formapago'] = $this->Select(array('id'=>'idformapagao','name'=>'idformapago','text_null'=>'','table'=>'produccion.tipopago','width'=>'120px','code'=>$rows->idformapago,'disabled'=>'disabled'));        
 
         $data['rowsd'] = $obj->getDetails($rows->idmovimiento);
 

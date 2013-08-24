@@ -69,7 +69,7 @@ class movimiento extends Main
     }
     function insert($_P) 
     {
-        $idmovimientostipo = 1; //Ingreso de Materia Prima
+        $idmovimientostipo = $_P['idmovimientosubtipo']; //Ingreso de Materia Prima
         $idmoneda = 1; //Soles
         $fecha = date('Y-m-d');
         $referencia = $_P['referencia'];
@@ -92,7 +92,14 @@ class movimiento extends Main
         $idalmacen = $_P['idalmacen'];
         $igv = $_P['igv_val'];
 
-        $sql = "INSERT INTO movimientos(idmovimientostipo, idmoneda, fecha, referencia, 
+        $stmt = $this->db->prepare("SELECT idmovimientostipo from movimientosubtipo
+                                    where idmovimientosubtipo = :id");
+        $stmt->bindParam(':id',$idmovimientosubtipo,PDO::PARAM_INT);
+        $stmt->execute();
+        $r = $stmt->fetchObject();
+        $idmovimientostipo = $r->idmovimientostipo;
+
+        $sql = "INSERT INTO movimientos(idmovimientosubtipo, idmoneda, fecha, referencia, 
                                         estado, idsucursal, usuarioreg, idtipodocumento, serie, numero, 
                                         fechae, idproveedor, idformapago, guia_serie, guia_numero, 
                                         fecha_guia, afecto, idalmacen, igv) 
