@@ -95,13 +95,15 @@ class Madera extends Main
 
     function getStock($id,$a)
     {
-        $sql = "SELECT max(idmovimiento) as idm ,ctotal_current as c
+        $sql = "SELECT t.idm,t.c,t.item
+                from (
+                SELECT max(idmovimiento) as idm ,ctotal_current as c, item
                 FROM movimientosdetalle
                 where idtipoproducto = 1 and idproducto = :idp and idalmacen = :ida 
-                group by ctotal_current,item
-                order by item desc
-                limit 1 ";
-        //echo $sql;
+                group by ctotal_current,item,idmovimiento
+                order by idmovimiento desc
+                limit 1) as t
+                order by t.item desc";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':idp',$id,PDO::PARAM_INT);
         $stmt->bindParam(':ida',$a,PDO::PARAM_INT); 

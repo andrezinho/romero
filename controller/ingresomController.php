@@ -10,15 +10,14 @@ class ingresomController extends Controller
                         3 => array('Name'=>'Referencia','NameDB'=>'m.referencia','search'=>true),
                         4 => array('Name'=>'Doc.','NameDB'=>'td.descripcion','width'=>50,'align'=>'center'),
                         5 => array('Name'=>'Serie','NameDB'=>'m.serie','align'=>'center','width'=>80),
-                        6 => array('Name'=>'Numero','NameDB'=>'m.numero','align'=>'center','width'=>90),
-                        7 => array('Name'=>'Fecha Doc','NameDB'=>'m.fechae','align'=>'center','width'=>100),
-                        8 => array('Name'=>'Razon Social','NameDB'=>'p.razonsocial','align'=>'left'),
-                        9 => array('Name'=>'RUC','NameDB'=>'p.ruc','align'=>'center','width'=>95),
-                        10 => array('Name'=>'IGV','NameDB'=>'-','align'=>'center','width'=>50),
-                        11 => array('Name'=>'Sub Total','NameDB'=>'-','align'=>'right','width'=>100),
-                        12 => array('Name'=>'Total','NameDB'=>'-','align'=>'right','width'=>100),
-                        13 => array('Name'=>'Estado','NameDB'=>'-','align'=>'center','width'=>60),
-                        14 => array('Name'=>'&nbsp','NameDB'=>'-','align'=>'center','width'=>30)
+                        6 => array('Name'=>'Numero','NameDB'=>'m.numero','align'=>'center','width'=>90),                        
+                        7 => array('Name'=>'Razon Social','NameDB'=>'p.razonsocial','align'=>'left'),
+                        8 => array('Name'=>'RUC','NameDB'=>'p.ruc','align'=>'center','width'=>95),
+                        9 => array('Name'=>'IGV','NameDB'=>'-','align'=>'center','width'=>50),
+                        10 => array('Name'=>'Sub Total','NameDB'=>'-','align'=>'right','width'=>100),
+                        11 => array('Name'=>'Total','NameDB'=>'-','align'=>'right','width'=>100),
+                        12 => array('Name'=>'Estado','NameDB'=>'-','align'=>'center','width'=>60),
+                        13 => array('Name'=>'&nbsp','NameDB'=>'-','align'=>'center','width'=>30)
                      );
     public function index() 
     {

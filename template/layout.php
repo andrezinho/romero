@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
-    <title>SISTEMA DE CONTROL DE TRANSPORTE</title>
+    <title>SISTEMA DE CONTROL DE MUEBLERIA</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="expires" content="0" />
     <link type="text/css" href="css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
@@ -20,8 +20,7 @@
     <script type="text/javascript" src="js/pag.js"></script>
     <script type="text/javascript" src="js/jquery.jqGrid.min.js"></script> 
     <!-- <script type="text/javascript" src="js/jquery.jqGrid.src.js"></script> -->
-    <script type="text/javascript" src="js/grid.locale-es.js"></script>
-    
+    <script type="text/javascript" src="js/grid.locale-es.js"></script>    
 </head>
 <body>
     <?php 

@@ -1,7 +1,4 @@
-<?php  
-    include("../lib/helpers.php"); 
-    include("../view/header_form.php"); 
-?>
+<?php  include("../lib/helpers.php");     ?>
 <style>
     .link-oper { margin-left: 10px; color: green !important; }
     span.title-head { text-transform: uppercase; display: block; padding: 5px}

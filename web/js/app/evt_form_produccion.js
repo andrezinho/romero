@@ -92,7 +92,7 @@ var produccion = {
     descripcion   : new Array(),
     cantidad      : new Array(),
     materiap      : new Array(),
-    estado        : new Array(),
+    estado        : new Array(),    
     nuevo         : function(idps,idsp,descripcion,cantidad,materia)
                     {
                       this.idps[this.item] = idps;
@@ -433,34 +433,6 @@ function load_subproducto(idl,idsps)
   }
 }
 
-// function addDetailMe()
-// {
-//     bval = true;
-//     bval = bval && $("#idsubproductos_semi").required();
-//     bval = bval && $("#cantidad_me").required();    
-//     if(!bval) return 0;         
-//         idma=$("#idsubproductos_semi").val(),
-//         mela=$("#idproductos_semi option:selected").html()+', '+$("#idsubproductos_semi option:selected").html(),
-//         cant=parseFloat($("#cantidad_me").val())
-        
-//     if(cant<=0) {alert('La cantidad debe ser mayor que 0'); $("#cantidad_me").focus(); return 0;}
-//     addDetalle(idma,mela,cant);
-//     clearMe();    
-// }
-
-// function addDetalle(idtipo,dtipo,cant)
-// {
-    
-//     var html = '';
-//     html += '<tr class="tr-detalle">';
-//     html += '<td>'+dtipo+'<input type="hidden" name="idsubproductos_semi[]" value="'+idtipo+'" /></td>';
-//     html += '<td align="center">'+cant.toFixed(2)+'<input type="hidden" name="cantd[]" value="'+cant+'" /></td>';    
-//     html += '<td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>';
-//     html += '</tr>';    
-//     $("#table-detalle").find('tbody').append(html);
-//     //caltotal();
-// }
-
 function clearMe()
 {
   $("#idproductos_semi").val("");
@@ -487,7 +459,7 @@ function save()
       {
         if(res[0]==1)
         { 
-          $('#dialogConf').dialog('open');          
+          $("#box-frm").dialog("close");          
           gridReload();
         }
         else
@@ -498,7 +470,6 @@ function save()
       },'json');
   }
   return false;
-
 }
 
 function enter(evt)
