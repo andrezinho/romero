@@ -110,5 +110,13 @@ class MelaminaController extends Controller
         $p = $obj->getPrice($_GET['id']);
         echo $p;
     } 
+    public function getStock()
+    {
+        $obj = new Melamina();
+        $idmelamina = (int)$_GET['id'];
+        $idalmacen = (int)$_GET['a'];
+        $p = $obj->getStock($idmelamina,$idalmacen);
+        echo $p;
+    }    
 }
 ?>

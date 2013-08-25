@@ -2,7 +2,6 @@
 <style>
     .link-oper { margin-left: 10px; color: green !important; }
     span.title-head { text-transform: uppercase; display: block; padding: 5px}
-
 </style>
 <div style="padding:10px 20px; width:950px">
 <form id="frm-produccion" >
@@ -55,18 +54,24 @@
                         <li><a href="#tabs-2">Melamina</a></li>
                     </ul>
                     <div id="tabs-1">
-                        <p id="">Agregar la el tipo y la cantidad de <b>Madera</b> a emplear para la produccion.
-                            <br/>
-                            <label>Madera: </label>                             
-                            <?php echo $idmadera; ?>
-                            <span id="label-stock-ma" class="box-info">Stock Max: * pies</span>
-                            <input type="hidden" name="stock_ma" id="stock_ma" value="0" />
-                            <input type="text" name="cant_ma" id="cant_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="text-align:center; width:50px" maxlength="7" onkeypress="enter(event);return permite(event,'num');" />
-                            <a href="javascript:" id="btn-add-ma" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar Madera</a> 
-                        </p>
+                        <div>Agregar la el tipo y la cantidad de <b>Madera</b> a emplear para la produccion.</div>
+                        <label>Madera: </label>                             
+                        <?php echo $idmadera; ?>
+                        <span id="label-stock-ma" class="box-info">Stock Max: * pies</span>
+                        <input type="hidden" name="stock_ma" id="stock_ma" value="0" />
+                        <input type="text" name="cant_ma" id="cant_ma" value="0.00" class="ui-widget-content ui-corner-all text" style="text-align:center; width:50px" maxlength="7" onkeypress="enter(event);return permite(event,'num');" />
+                        <a href="javascript:" id="btn-add-ma" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar Madera</a>                         
                     </div>
                     <div id="tabs-2">
-                        <p>Agregar la el tipo y la cantidad e Melamina a emplear para la produccion.</p>
+                        <div>Agregar la el tipo y la cantidad de <b>Melamina</b> a emplear para la produccion.</div                    
+                        <label>Melamina: </label> <?php echo $linea; ?>
+                        <select name="idmelamina" id="idmelamina" class="ui-widget-content ui-corner-all text" style="width:200px">
+                            <option value="">Seleccione....</option>
+                        </select>
+                        <span id="label-stock-me" class="box-info">Stock Max: * Unid.</span>
+                        <input type="hidden" name="stock_me" id="stock_me" value="0" />
+                        <input type="text" name="cant_me" id="cant_me" value="0.00" class="ui-widget-content ui-corner-all text" style="text-align:center; width:50px" maxlength="7" onkeypress="enter(event);return permite(event,'num');" />
+                        <a href="javascript:" id="btn-add-me" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar Melamina</a> 
                     </div>
                 </div>
                 <div style="padding:3px 0 0 0">
