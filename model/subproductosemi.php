@@ -7,9 +7,9 @@ class SubProductoSemi extends Main
         $sql = "SELECT
             p.idsubproductos_semi,
             ps.descripcion,
-            p.descripcion,            
-            case p.estado when 1 then 'ACTIVO' else 'INCANTIVO' end,
-            p.idproductos_semi
+            p.descripcion,
+            p.precio,            
+            case p.estado when 1 then 'ACTIVO' else 'INCANTIVO' end            
 
             FROM
             produccion.subproductos_semi AS p
@@ -27,11 +27,12 @@ class SubProductoSemi extends Main
 
     function insert($_P ) {
         $stmt = $this->db->prepare("INSERT INTO produccion.subproductos_semi 
-                        (descripcion,idproductos_semi, estado) 
-                        VALUES(:p1,:p2,:p3)");
+                        (descripcion,idproductos_semi, estado, precio) 
+                        VALUES(:p1,:p2,:p3,:p4)");
         $stmt->bindParam(':p1', $_P['descripcion'] , PDO::PARAM_STR);
         $stmt->bindParam(':p2', $_P['idproductos_semi'] , PDO::PARAM_INT);
         $stmt->bindParam(':p3', $_P['activo'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p4', $_P['precio'] , PDO::PARAM_INT);
 
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
@@ -42,12 +43,15 @@ class SubProductoSemi extends Main
         $stmt = $this->db->prepare("UPDATE produccion.subproductos_semi 
                 set descripcion = :p1,
                     idproductos_semi = :p2,
-                    estado= :p3
+                    estado= :p3,
+                    precio= :p4
+
                 WHERE idsubproductos_semi = :idsubproductos_semi ");
         
         $stmt->bindParam(':p1', $_P['descripcion'] , PDO::PARAM_STR);
         $stmt->bindParam(':p2', $_P['idproductos_semi'] , PDO::PARAM_INT);
         $stmt->bindParam(':p3', $_P['activo'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p4', $_P['precio'] , PDO::PARAM_INT);
 
         $stmt->bindParam(':idsubproductos_semi', $_P['idsubproductos_semi'] , PDO::PARAM_INT);
         $p1 = $stmt->execute();
@@ -80,5 +84,22 @@ class SubProductoSemi extends Main
         return $data;
     }
 
+    function get($query,$field)
+    {
+        $query = "%".$query."%";
+        $statement = $this->db->prepare("SELECT
+                sps.idsubproductos_semi,
+                ps.descripcion || ' ' || sps.descripcion AS producto,
+                sps.precio
+                FROM
+                produccion.productos_semi AS ps
+                INNER JOIN produccion.subproductos_semi AS sps ON ps.idproductos_semi = sps.idproductos_semi
+                
+                WHERE {$field} ilike :query and ps.descripcion || ' ' || sps.descripcion <> ''
+                limit 10");
+        $statement->bindParam (":query", $query , PDO::PARAM_STR);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
 }
 ?>

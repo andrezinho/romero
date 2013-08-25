@@ -17,6 +17,10 @@
         <label for="productos_semi" class="labels">Producto Semi</label>
         <?php echo $productos_semi; ?>
 
+        <label for="precio" class="labels">Precio:</label>
+        <input id="precio" maxlength="100" name="precio" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" value="<?php echo $obj->precio; ?>" />
+        <br>
+
         <label for="estado" class="labels">Activo:</label>
         <div id="estados" style="display:inline">
             <?php                   

@@ -6,10 +6,11 @@ require_once '../model/subproductosemi.php';
 class SubProductoSemiController extends Controller
 {
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'p.idsubproductos_semi','align'=>'center','width'=>20),
-                        2 => array('Name'=>'Producto Semi','NameDB'=>'ps.descripcion','width'=>50,'search'=>true),
-                        3 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','align'=>'left','search'=>true),                        
-                        4 => array('Name'=>'Estado','NameDB'=>'p.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
+                        1 => array('Name'=>'Codigo','NameDB'=>'p.idsubproductos_semi','align'=>'center','width'=>40),
+                        2 => array('Name'=>'Productos','NameDB'=>'ps.descripcion','width'=>100,'search'=>true),
+                        3 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','align'=>'left','search'=>true),
+                        4 => array('Name'=>'Precio','NameDB'=>'p.precio','align'=>'rigth'),                        
+                        5 => array('Name'=>'Estado','NameDB'=>'p.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
                      );
     public function index() 
     {
@@ -60,7 +61,7 @@ class SubProductoSemiController extends Controller
         $view = new View();
         $obj = $obj->edit($_GET['id']);
         $data['obj'] = $obj;
-        $data['productos_semi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi'));
+        $data['productos_semi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','code'=>$obj->idproductos_semi));
         $view->setData($data);
         $view->setTemplate( '../view/subproductosemi/_form.php' );
         echo $view->renderPartial();
@@ -100,7 +101,28 @@ class SubProductoSemiController extends Controller
         $rows = $obj->getList($idproductos_semi);
         print_r(json_encode($rows));
     }
-   
+    
+    public function get()
+    {
+        $obj = new SubProductoSemi();
+        $data = array();        
+        $field = "ps.descripcion || ' ' || sps.descripcion";
+        if($_GET['tipo']==1) $field = "idsubproductos_semi";
+        $value = $obj->get($_GET["term"],$field);
+
+        $result = array();
+        foreach ($value as $key => $val) 
+        {
+            array_push($result, array(
+                        "idsubproductos_semi"=>$val['idsubproductos_semi'],                                         
+                        "producto"=> strtoupper($val['producto']),
+                        "precio"=>$val['precio']
+                    )
+                );
+            if ( $key > 7 ) { break; }
+        }
+        print_r(json_encode($result));
+    }
 }
 
 ?>

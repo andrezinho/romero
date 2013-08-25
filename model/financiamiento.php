@@ -145,5 +145,36 @@ class Financiamiento extends Main
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
     }
+
+    public function RFinanciamiento($idfinanc)
+    {
+        $sql = "SELECT
+            f.idfinanciamiento,
+            f.descripcion,
+            f.adicional,
+            f.inicial,
+            ff.meses,
+            ff.factor
+            FROM
+            facturacion.financiamiento AS f
+            INNER JOIN facturacion.financiamientofactor AS ff ON f.idfinanciamiento = ff.idfinanciamiento
+
+            WHERE ff.idfinanciamiento='$idfinanc' AND f.estado=1 ";    
+        $stmt=$this->db->prepare($sql);
+        $stmt->execute();       
+        $data = array();
+        foreach ($stmt->fetchAll() as $row) {
+            $data[] = array(
+                    'codigo'=>$row[0],
+                    'descripcion'=>$row[1],
+                    'adicional'=>$row[2],
+                    'inicial'=>$row[3],
+                    'meses'=>$row[4],
+                    'factor'=>$row[5]
+                );
+        }
+        return $data;
+    }
+
 }
 ?>

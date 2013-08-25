@@ -173,7 +173,6 @@
                         <td align="right"><b>0.00</b></td>
                         <td>&nbsp;</td>
                     </tr>
-
                 </tfoot>
         </table>
         </div>

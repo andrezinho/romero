@@ -49,9 +49,6 @@ $(function()
           
         });
     })
-
-
-
 });
 
 function load_maderba(idmad)
