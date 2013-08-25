@@ -6,16 +6,15 @@ class Produccion extends Main
     function indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$cols)
     {
         $sql = "SELECT
-        p.idproduccion,
-        upper(p.descripcion),
-        upper(pe.nombres || ' ' || pe.apellidos) AS personal,
-        p.fechaini,
-        p.fechafin,
-        case p.estado when 1 then 'ACTIVO' else 'INCANTIVO' end
-        
-        FROM
-        produccion.produccion AS p
-        INNER JOIN public.personal AS pe ON pe.idpersonal = p.idpersonal ";
+                    p.idproduccion,
+                    upper(p.descripcion),
+                    upper(pe.nombres || ' ' || pe.apellidos) AS personal,
+                    p.fechaini,
+                    p.fechafin,
+                    case p.estado when 1 then 'ACTIVO' else 'INCANTIVO' end
+                FROM
+                produccion.produccion AS p
+                INNER JOIN public.personal AS pe ON pe.idpersonal = p.idpersonal ";
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
@@ -26,6 +25,7 @@ class Produccion extends Main
             p.descripcion,
             p.fechaini,
             p.fechafin,
+            p.fecha,
             case p.estado when 1 then 'ACTIVO' else 'INCANTIVO' end,
             p.estado,
             p.idpersonal,
@@ -43,18 +43,16 @@ class Produccion extends Main
     function getDetails($id)
     {
         $stmt = $this->db->prepare("SELECT
-            d.idproduccion,
-            d.idsubproductos_semi,
-            d.cantidad,
-            pr.descripcion || ', ' || spr.descripcion AS descripcion
-            FROM
-            produccion.produccion AS p
-            INNER JOIN produccion.produccion_detalle AS d ON p.idproduccion = d.idproduccion
-            INNER JOIN produccion.subproductos_semi AS spr ON spr.idsubproductos_semi = d.idsubproductos_semi
-            INNER JOIN produccion.productos_semi AS pr ON pr.idproductos_semi = spr.idproductos_semi
-
-            WHERE d.idproduccion = :id    
-            ORDER BY d.idproduccion ");
+                                        d.idproduccion,
+                                        d.idsubproductos_semi,
+                                        d.cantidad,
+                                        pr.descripcion || ', ' || spr.descripcion AS descripcion
+                                    FROM produccion.produccion AS p
+                                        INNER JOIN produccion.produccion_detalle AS d ON p.idproduccion = d.idproduccion
+                                        INNER JOIN produccion.subproductos_semi AS spr ON spr.idsubproductos_semi = d.idsubproductos_semi
+                                        INNER JOIN produccion.productos_semi AS pr ON pr.idproductos_semi = spr.idproductos_semi
+                                    WHERE d.idproduccion = :id    
+                                        ORDER BY d.idproduccion ");
 
         $stmt->bindParam(':id', $id , PDO::PARAM_STR);
         $stmt->execute();
@@ -63,22 +61,30 @@ class Produccion extends Main
 
     function insert($_P ) 
     {
-        // $prod = json_decode($_P['prod']);
-        // $item = $prod->item;
-        // for($i=0;$i<$item;$i++)
-        // {
-        //     echo $prod->descripcion[$i]."<br/>";
-        //     $items = $prod->materiap[$i]->nitem;
-        //     for($j=0;$j<$items;$j++)
-        //     {
-        //         print_r($prod->materiap[$i]);
-        //         echo "<br/>";
-        //         $cant = $prod->materiap[$i]->cantidad->{$j};
-        //         echo $cant;
-        //         echo "<br/>";
-        //     }
-        // }
-        // die;
+         //echo $_P['prod'];
+         $prod = json_decode($_P['prod']);
+         print_r($prod);
+         $item = $prod->item;
+         for($i=0;$i<$item;$i++)
+         {
+            echo "K";
+              echo $prod->descripcion[$i]."<br/>";
+              /*if($prod->estado[$i])
+              {
+                  echo "Siipi<br/>";
+              }
+            echo $prod->descripcion[$i]."<br/>";
+            $items = $prod->materiap[$i]->nitem;
+            for($j=0;$j<$items;$j++)
+            {
+                print_r($prod->materiap[$i]);
+                echo "<br/>";
+                $cant = $prod->materiap[$i]->cantidad->{$j};
+                echo $cant;
+                echo "<br/>";
+            }*/
+         }
+        die("SSS");
         $idmovimientostipo = 12; //Salida por produccion
         $idmoneda = 1; //Soles
         $fecha = date('Y-m-d');

@@ -6,7 +6,7 @@
 <div style="padding:10px 20px; width:950px">
 <form id="frm-produccion" >
     <fieldset class="ui-corner-all" style="padding: 2px 10px 7px">
-    <legend>Datos - <b><?php echo date('d/m/Y'); ?></b></legend>
+    <legend>Datos - <b><?php if($obj->fecha!="") echo fdate($obj->fecha,'ES'); else echo date('d/m/Y'); ?></b></legend>
         <input type="hidden" name="controller" value="Produccion" />
         <input type="hidden" name="action" value="save" />             
         <input type="hidden" id="idproduccion" name="idproduccion" class="text ui-widget-content ui-corner-all" style=" width: 50px; text-align: left;" value="<?php echo $obj->idproduccion; ?>" readonly />                
@@ -16,27 +16,28 @@
         <br/>
 
         <label for="fechai" class="labels">Fecha, desde:</label>
-        <input type="text" name="fechai" id="fechai" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fechaini)?$obj->fechaini:  date('d/m/Y')); ?>" style="width:70px; text-align:center" />        
-        Hasta <input type="text" name="fechaf" id="fechaf" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fechafin)?$obj->fechafin:  date('d/m/Y')); ?>" style="width:70px; text-align:center" />
-        
+        <input type="text" name="fechai" id="fechai" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fechaini)?fdate($obj->fechaini,'ES'):date('d/m/Y')); ?>" style="width:70px; text-align:center" />        
+        Hasta <input type="text" name="fechaf" id="fechaf" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fechafin)?fdate($obj->fechafin,'ES'):date('d/m/Y')); ?>" style="width:70px; text-align:center" />
         
         <label for="idpersonal" class="labels">Personal Enc.:</label>
         <input type="hidden" name="idpersonal" id="idpersonal" value="<?php echo $obj->idpersonal; ?>" />        
         <input type="text" name="dni" id="dni" class="ui-widget-content ui-corner-all text" style="width:80px" value="<?php echo $obj->dni; ?>" maxlength="11" onkeypress="return permite(event,'num')" />
         <input type="text" name="personal" id="personal" class="ui-widget-content ui-corner-all text" style="width:250px" value="<?php echo $obj->personal; ?>" />
         <br/> 
+        <label for="idpersonal" class="labels">Almacen:</label>
+        <?php echo $almacenma; ?>
     </fieldset>    
     <fieldset id="box-melamina" class="ui-corner-all ui-widget-content" style="padding: 2px 10px 7px;">  
         <legend>Produccion</legend>      
         <div id="box-1">
             <table id="table-me" class="table-form" border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                    <td>Almacen</td>
+                    
                     <td><label for="idmelamina" class="labels" style="width:auto">Seleccion el tipo de Producto a Producir</label></td>
                     <td><label for="cantidad_me" class="labels" style="width:auto">Cant. <label class="text-backinfo">Unid</label></label></td>                    
                 </tr>
                 <tr>
-                    <td><?php echo $almacenma; ?></td>
+                    
                     <td><?php echo $ProductoSemi; ?>
                     <select name="idsubproductos_semi" id="idsubproductos_semi" class="ui-widget-content ui-corner-all text" style="width:150px">
                         <option value="">Seleccione....</option>
