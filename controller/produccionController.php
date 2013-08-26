@@ -69,7 +69,7 @@ class ProduccionController extends Controller
         $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$obj->idalmacen,'disabled'=>'disabled'));                
         $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'220px'));
         $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
-        $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));
+        $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));        
         $data['rowsd'] = $obj->getDetails($rows->idproduccion);
         $view->setData($data);
         $view->setTemplate( '../view/produccion/_form.php' );
@@ -78,8 +78,7 @@ class ProduccionController extends Controller
 
     public function save()
     {
-        $obj = new Produccion();
-        
+        $obj = new Produccion();        
                 
         if ($_POST['idproduccion']=='') 
             $p = $obj->insert($_POST);

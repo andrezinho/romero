@@ -21,20 +21,20 @@ class Produccion extends Main
     function edit($id)
     {
         $stmt = $this->db->prepare("SELECT
-            p.idproduccion,
-            p.descripcion,
-            p.fechaini,
-            p.fechafin,
-            p.fecha,
-            case p.estado when 1 then 'ACTIVO' else 'INCANTIVO' end,
-            p.estado,
-            p.idpersonal,
-            pe.nombres || ' ' || pe.apellidos AS personal,
-            pe.dni
-            FROM
-            produccion.produccion AS p
-            INNER JOIN public.personal AS pe ON pe.idpersonal = p.idpersonal
-            WHERE idproduccion = :id");
+                                    p.idproduccion,
+                                    p.descripcion,
+                                    p.fechaini,
+                                    p.fechafin,
+                                    p.fecha,
+                                    case p.estado when 1 then 'ACTIVO' else 'INCANTIVO' end,
+                                    p.estado,
+                                    p.idpersonal,
+                                    pe.nombres || ' ' || pe.apellidos AS personal,
+                                    pe.dni
+                                    FROM
+                                    produccion.produccion AS p
+                                    INNER JOIN public.personal AS pe ON pe.idpersonal = p.idpersonal
+                                    WHERE idproduccion = :id");
         $stmt->bindParam(':id', $id , PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchObject();
@@ -51,40 +51,64 @@ class Produccion extends Main
                                         INNER JOIN produccion.produccion_detalle AS d ON p.idproduccion = d.idproduccion
                                         INNER JOIN produccion.subproductos_semi AS spr ON spr.idsubproductos_semi = d.idsubproductos_semi
                                         INNER JOIN produccion.productos_semi AS pr ON pr.idproductos_semi = spr.idproductos_semi
-                                    WHERE d.idproduccion = :id    
-                                        ORDER BY d.idproduccion ");
-
-        $stmt->bindParam(':id', $id , PDO::PARAM_STR);
+                                    WHERE d.idproduccion = :id
+                                    ORDER BY d.idproduccion");
+        $stmt->bindParam(':id', $id , PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll();
+
+        $stmt2 = $this->db->prepare("SELECT p.descripcion,md.ctotal,a.descripcion as almacen
+                                    from produccion.movim_proddet as mp
+                                        inner join produccion.produccion_detalle as pd
+                                        on mp.idproduccion_detalle = pd.idproduccion_detalle
+                                        inner join movimientosdetalle as md on md.idmovimiento = mp.idmovimiento
+                                            inner join produccion.producto as p on p.idproducto = md.idproducto
+                                            inner join produccion.almacenes as a on a.idalmacen = md.idalmacen
+                                    where pd.idproduccion = :id");
+
+        $data = array();
+        foreach($stmt->fetchAll() as $row)
+        {
+            $stmt2->bindParam(':id',$row['idproduccion'],PDO::PARAM_INT);
+            $stmt2->execute();
+            $data2 = array();
+            foreach($stmt2->fetchAll() as $r)
+            {
+                $data2[] = array('descripcion'=>$r['descripcion'],'cantidad'=>$r['ctotal'],'almacen'=>$r['almacen']);
+            }
+            $data[] = array('descripcion'=>$row['descripcion'],'cantidad'=>$row['cantidad'],'det'=>$data2);
+        }
+        return $data;
     }
 
     function insert($_P ) 
-    {
-         //echo $_P['prod'];
-         $prod = json_decode($_P['prod']);
-         print_r($prod);
-         $item = $prod->item;
-         for($i=0;$i<$item;$i++)
-         {
-            echo "K";
-              echo $prod->descripcion[$i]."<br/>";
-              /*if($prod->estado[$i])
-              {
-                  echo "Siipi<br/>";
-              }
-            echo $prod->descripcion[$i]."<br/>";
-            $items = $prod->materiap[$i]->nitem;
-            for($j=0;$j<$items;$j++)
-            {
-                print_r($prod->materiap[$i]);
-                echo "<br/>";
-                $cant = $prod->materiap[$i]->cantidad->{$j};
-                echo $cant;
-                echo "<br/>";
-            }*/
-         }
-        die("SSS");
+    {         
+        //  $prod = json_decode($_P['prod']);         
+        //  $item = $prod->item;
+        //  for($i=0;$i<$item;$i++)
+        //  {            
+        //       echo $prod->descripcion[$i]."<br/>";
+        //       if($prod->estado[$i])
+        //       {
+        //           echo "Siipi<br/>";
+        //       }
+            
+        //     echo $prod->descripcion[$i]."<br/>";
+        //     $items = $prod->materiap[$i]->nitem;
+        //     for($j=0;$j<$items;$j++)
+        //     {
+        //         print_r($prod->materiap[$i]);
+        //         echo "<br/>";
+        //         $cant = $prod->materiap[$i]->cantidad->{$j};
+        //         echo $cant;
+        //         echo "<br/>";
+        //     }
+        //  }
+        // die;
+        $prod = json_decode($_P['prod']);
+        $item = $prod->item;
+        if($item==0)        
+            return array('2','No se agregado ningun item al detalle de produccion. Por favor ingresarlos.','');        
+
         $idmovimientostipo = 12; //Salida por produccion
         $idmoneda = 1; //Soles
         $fecha = date('Y-m-d');
@@ -165,8 +189,7 @@ class Produccion extends Main
             $estado = 1;
             $items = 1;
 
-            $prod = json_decode($_P['prod']);
-            $item = $prod->item;        
+                  
             for($i=0;$i<$item;$i++)
             {
                 $ite = $prod->materiap[$i]->nitem;
@@ -288,11 +311,6 @@ class Produccion extends Main
         $idpersonal=$_P['idpersonal'];
         $idproduccion= $_P['idproduccion'];
 
-        $del="DELETE FROM produccion.produccion_detalle
-                    WHERE idproduccion='$idproduccion' ";
-                    
-            $res = $this->db->prepare($del);
-            $res->execute();
 
         $sql = "UPDATE produccion.produccion 
                     set 
@@ -303,6 +321,7 @@ class Produccion extends Main
                         idpersonal=:p5
 
                 WHERE   idproduccion = :idproduccion";
+
         $stmt = $this->db->prepare($sql);
         try 
         {
@@ -318,24 +337,6 @@ class Produccion extends Main
             $stmt->bindParam(':idproduccion', $idproduccion , PDO::PARAM_INT);
             $stmt->execute();
 
-            $stmt2  = $this->db->prepare('INSERT INTO produccion.produccion_detalle(
-            idproduccion, idsubproductos_semi, cantidad, stock, estado)
-                VALUES (:p1, :p2, :p3, :p4, :p5) ');
-
-            $estado = 1;
-
-                foreach($_P['idsubproductos_semi'] as $i => $idsubproducto)
-                {
-                    $stmt2->bindParam(':p1',$idproduccion,PDO::PARAM_INT);
-                    $stmt2->bindParam(':p2',$idsubproducto,PDO::PARAM_INT);                    
-                    $stmt2->bindParam(':p3',$_P['cantd'][$i],PDO::PARAM_INT);
-                    $stmt2->bindParam(':p4',$_P['cantd'][$i],PDO::PARAM_INT);
-                    $stmt2->bindParam(':p5',$estado,PDO::PARAM_INT);
-                    
-                    $stmt2->execute();                
-
-                }
-
             $this->db->commit();            
             return array('1','Bien!',$idproduccion);
 
@@ -348,13 +349,14 @@ class Produccion extends Main
 
     }
     
-    function delete($p) 
+    function anular($p) 
     {
-        $stmt = $this->db->prepare("DELETE FROM produccion.produccion WHERE idproduccion = :p1");
-        $stmt->bindParam(':p1', $p, PDO::PARAM_INT);
-        $p1 = $stmt->execute();
-        $p2 = $stmt->errorInfo();
-        return array($p1 , $p2[2]);
+
+        // $stmt = $this->db->prepare("DELETE FROM produccion.produccion WHERE idproduccion = :p1");
+        // $stmt->bindParam(':p1', $p, PDO::PARAM_INT);
+        // $p1 = $stmt->execute();
+        // $p2 = $stmt->errorInfo();
+        // return array($p1 , $p2[2]);
     }
 }
 ?>

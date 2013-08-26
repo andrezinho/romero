@@ -26,7 +26,12 @@
         <br/> 
         <label for="idpersonal" class="labels">Almacen:</label>
         <?php echo $almacenma; ?>
-    </fieldset>    
+    </fieldset> 
+    <?php 
+        $c = count($rowsd);
+        if($c==0)
+        {
+    ?>   
     <fieldset id="box-melamina" class="ui-corner-all ui-widget-content" style="padding: 2px 10px 7px;">  
         <legend>Produccion</legend>      
         <div id="box-1">
@@ -99,17 +104,34 @@
             </div>
         </div>
     </fieldset>
+    <?php } ?>
     <div id="div-detalle" class="ui-corner-all" style="background:#FAFAFA; padding: 10px 15px">
-        <!-- <div class="box-item">
-            <span class="title-head"><strong>100 Sillas Talladas </strong><a href="" class="link-oper">Ver Materiales</a> <a href="" class="link-oper">Editar</a> <a href="" class="link-oper">Eliminar</a></span>
-            <div id="materia-">
-                <ul class="ul-items">
-                    <li>(Almacen: Tarapoto Norte) Madera Caoba, 100pies <a href="" class="link-oper">Quitar</a></li>
-                    <li>(Almacen: Tarapoto Norte) Madera Caoba, 100pies <a href="" class="link-oper">Quitar</a></li>
-                </ul>
-            </div>
-        </div>    --> 
-         
+        <?php             
+            if($c>0)
+            {
+                
+                foreach ($rowsd as $i => $v) 
+                {
+                    ?>
+                    <div class="box-item">
+                        <span class="title-head"><strong><?php echo number_format($v['cantidad'],2); ?> <?php echo $v['descripcion'] ?> </strong></span>
+                        <div id="materia-">
+                            <ul class="ul-items">
+                                <?php 
+                                    foreach($v['det'] as $d)
+                                    {
+                                        ?>
+                                        <li>(Almacen: <?php echo $d['almacen'] ?>) <?php echo $d['descripcion'] ?>, <?php echo number_format($d['cantidad'],2) ?>pies </li>
+                                        <?php
+                                    }
+                                ?>                                
+                            </ul>
+                        </div>
+                    </div>
+                    <?php
+                }
+            }            
+        ?>
     </div>
 </form>
 </div>

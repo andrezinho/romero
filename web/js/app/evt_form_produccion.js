@@ -489,8 +489,11 @@ function save()
   bval = bval && $( "#dni" ).required();  
   if ( bval ) 
   {
-      var ni = produccion.getNumItems();
-      if(ni<=0) { alert("Aun no a ingresado ninguna produccion al detalle"); return 0; }
+      if($("#idproduccion").val()=="")
+      {
+          var ni = produccion.getNumItems();
+          if(ni<=0) { alert("Aun no a ingresado ninguna produccion al detalle"); return 0; }
+      }      
       var str = $("#frm-produccion").serialize();
       var prod = json_encode(produccion);
       $.post('index.php',str+'&prod='+prod,function(res)
