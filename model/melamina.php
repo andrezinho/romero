@@ -140,5 +140,26 @@ class Melamina extends Main
         $r = $stmt->fetchObject();
         return $r->precio_u;
     }
+
+    function getStock($id,$a)
+    {
+        $sql = "SELECT t.idm,t.c,t.item
+                from (
+                SELECT max(idmovimiento) as idm ,ctotal_current as c, item
+                FROM movimientosdetalle
+                where idtipoproducto = 2 and idproducto = :idp and idalmacen = :ida 
+                group by ctotal_current,item,idmovimiento
+                order by idmovimiento desc
+                limit 1) as t
+                order by t.item desc ";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':idp',$id,PDO::PARAM_INT);
+        $stmt->bindParam(':ida',$a,PDO::PARAM_INT); 
+        $stmt->execute();
+        $row = $stmt->fetchObject();
+        if($row->c>0)
+            return $row->c;
+        else return '0.000';
+    }
 }
 ?>

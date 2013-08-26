@@ -92,7 +92,7 @@ var produccion = {
     descripcion   : new Array(),
     cantidad      : new Array(),
     materiap      : new Array(),
-    estado        : new Array(),
+    estado        : new Array(),    
     nuevo         : function(idps,idsp,descripcion,cantidad,materia)
                     {
                       this.idps[this.item] = idps;
@@ -216,7 +216,7 @@ $(function()
             $( "#personal" ).val( ui.item.nompersonal );                                    
             return false;
         }
-    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
+     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
         return $( "<li></li>" )
             .data( "item.autocomplete", item )
             .append( "<a>"+ item.dni +" - " + item.nompersonal + "</a>" )
@@ -231,7 +231,7 @@ $(function()
     $("#cant_ma").change(function(){valida_cant($(this).val(),1)});
     $("#table-me").on('click','#addDetail_me',function(){addDetailMe();});    
     $("#table-detalle").on('click','.boton-delete',function(){var v = $(this).parent().parent().remove();})    
-    $("#tabs-1").on('click','#btn-add-ma',function(){addNewMadera();});    
+    $("#tabs-1").on('click','#btn-add-ma',function(){addNewMadera();});
     $("#table-detalle-materia").on('click','.item-mp',function(){
       var i = $(this).attr("id");
       i = i.split("-");
@@ -239,7 +239,10 @@ $(function()
       materia.listar();
     });
     $("#btn-add-detalle-prod").click(function(){addDetalleProd();});
-
+    $("#idlinea").change(function(){load_melamina($(this).val());});
+    $("#idmelamina").change(function(){getStock($("#idmelamina").val(),2);});
+    $("#cant_me").change(function(){valida_cant($(this).val(),2)});
+    $("#tabs-2").on('click','#btn-add-me',function(){addNewMelamina();});
     //Eventos para detalle produccion
     $("#div-detalle").on('click','.edit-produccion',function(){
         var i = $(this).attr("id"); i = i.split("-");
@@ -305,6 +308,34 @@ function addDetalleProd()
       }
   }
 }
+function addNewMelamina()
+{
+
+  bval = true;
+  bval = bval && $("#idmelamina").required();
+  bval = bval && $("#cant_me").required();
+  bval = bval && $("#stock_me").required();
+  if(bval) 
+  {
+      var ida = $("#idalmacenma").val(),
+            a = $("#idalmacenma option:selected").html(),
+          idm = $("#idmelamina").val(),
+            m = $("#idlinea option:selected").html()+', '+$("#idmelamina option:selected").html(),
+          stk = $("#stock_me").val(),
+            c = $("#cant_me").val();
+
+      if(valida_cant(c,2))
+      {
+        if(c>0)
+        {
+          materia.nuevo(2,ida,a,idm,m,stk,c);
+          materia.listar();                        
+          getStock(idm,2);
+          $("#cant_me").val('0.00').focus();
+        }
+      }
+  }
+}
 function addNewMadera()
 {
   bval = true;
@@ -331,8 +362,6 @@ function addNewMadera()
           $("#cant_ma").val('0.00').focus();
         }
       }
-      
-
   }
 }
 
@@ -350,14 +379,21 @@ function valida_cant(v,type)
       if(v>stk)
       {
          alert("Alerta: La cantidad supera el stock maximo.");
-         $("#cant_ma").focus();
+         if(type==1)  
+          $("#cant_ma").focus();
+         else 
+          $("#cant_me").focus();         
          return false;
       }
   }
   else 
   {
      alert("La cantidad debe ser mayo que cero (0)");
-     $("#cant_ma").focus();
+     if(type==1)  
+      $("#cant_ma").focus();
+     else 
+      $("#cant_me").focus();
+     
      return false;
   }
   return true;
@@ -367,7 +403,7 @@ function valida_cant(v,type)
 function getStock(id,tipo)
 {   
    var c = "madera",
-       a = $("#idalmacenma").val();
+       a = $("#idalmacenma").val();   
    if(tipo==2) c = "melamina";   
    $("#label-stock-ma").empty().append("Obteniendo Stock...");
    $("#cant_ma").val('0.00');
@@ -383,7 +419,9 @@ function getStock(id,tipo)
       }
       else 
       {
-        //Melamina
+        $("#label-stock-me").empty().append('Stock Max: '+stk+' pies'); 
+        $("#stock_me").val(stk);
+        $("#cant_me").focus();
       }
    })
 }
@@ -433,34 +471,6 @@ function load_subproducto(idl,idsps)
   }
 }
 
-// function addDetailMe()
-// {
-//     bval = true;
-//     bval = bval && $("#idsubproductos_semi").required();
-//     bval = bval && $("#cantidad_me").required();    
-//     if(!bval) return 0;         
-//         idma=$("#idsubproductos_semi").val(),
-//         mela=$("#idproductos_semi option:selected").html()+', '+$("#idsubproductos_semi option:selected").html(),
-//         cant=parseFloat($("#cantidad_me").val())
-        
-//     if(cant<=0) {alert('La cantidad debe ser mayor que 0'); $("#cantidad_me").focus(); return 0;}
-//     addDetalle(idma,mela,cant);
-//     clearMe();    
-// }
-
-// function addDetalle(idtipo,dtipo,cant)
-// {
-    
-//     var html = '';
-//     html += '<tr class="tr-detalle">';
-//     html += '<td>'+dtipo+'<input type="hidden" name="idsubproductos_semi[]" value="'+idtipo+'" /></td>';
-//     html += '<td align="center">'+cant.toFixed(2)+'<input type="hidden" name="cantd[]" value="'+cant+'" /></td>';    
-//     html += '<td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>';
-//     html += '</tr>';    
-//     $("#table-detalle").find('tbody').append(html);
-//     //caltotal();
-// }
-
 function clearMe()
 {
   $("#idproductos_semi").val("");
@@ -479,15 +489,18 @@ function save()
   bval = bval && $( "#dni" ).required();  
   if ( bval ) 
   {
-      var ni = produccion.getNumItems();
-      if(ni<=0) { alert("Aun no a ingresado ninguna produccion al detalle"); return 0; }
+      if($("#idproduccion").val()=="")
+      {
+          var ni = produccion.getNumItems();
+          if(ni<=0) { alert("Aun no a ingresado ninguna produccion al detalle"); return 0; }
+      }      
       var str = $("#frm-produccion").serialize();
       var prod = json_encode(produccion);
       $.post('index.php',str+'&prod='+prod,function(res)
       {
         if(res[0]==1)
         { 
-          $('#dialogConf').dialog('open');          
+          $("#box-frm").dialog("close");          
           gridReload();
         }
         else
@@ -498,7 +511,6 @@ function save()
       },'json');
   }
   return false;
-
 }
 
 function enter(evt)
@@ -515,4 +527,18 @@ function limpiar_ps()
   $("#idsubproductos_semi").val("");
   $("#cantidad").val('0.00');
   $("#idsubproductos_semi").focus();
+}
+function load_melamina(idl)
+{ 
+  if(idl!="")
+  {    
+    $("#idmelamina").empty().append('<option value="">Cargando...</option>');
+    $.get('index.php','controller=melamina&action=getList&idl='+idl,function(r){    
+      html = '<option value="">Seleccione...</option>';
+      $.each(r,function(i,j){
+        html += '<option value="'+j.idproducto+'">'+j.descripcion+'</option>';
+      });      
+      $("#idmelamina").empty().append(html);
+    },'json');
+  }
 }

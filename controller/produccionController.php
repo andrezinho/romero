@@ -11,8 +11,6 @@ class ProduccionController extends Controller
                         4 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechai','align'=>'center','width'=>100),
                         5 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechaf','align'=>'center','width'=>100),
                         6 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>50)
-                        
-                        
                      );
     public function index() 
     {
@@ -67,7 +65,11 @@ class ProduccionController extends Controller
         $view = new View();
         $rows = $obj->edit($_GET['id']);
         $data['obj'] = $rows;
-        $data['ProductoSemi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','width'=>'120px'));
+        $data['ProductoSemi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','width'=>'120px'));        
+        $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$obj->idalmacen,'disabled'=>'disabled'));                
+        $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'220px'));
+        $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
+        $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));        
         $data['rowsd'] = $obj->getDetails($rows->idproduccion);
         $view->setData($data);
         $view->setTemplate( '../view/produccion/_form.php' );
@@ -76,8 +78,7 @@ class ProduccionController extends Controller
 
     public function save()
     {
-        $obj = new Produccion();
-        
+        $obj = new Produccion();        
                 
         if ($_POST['idproduccion']=='') 
             $p = $obj->insert($_POST);

@@ -51,9 +51,9 @@
             <table id="table-ma" class="table-form" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                     <td><label for="idmadera" class="labels" style="width:auto">Tipo de Madera</label></td>
-                    <td><label for="largo_ma" class="labels" style="width:auto">Largo <label class="text-backinfo">Pies</label></label></td>                    
-                    <td><label for="alto_ma" class="labels" style="width:auto">Alto <label class="text-backinfo">Pies</label></label></td>                    
-                    <td><label for="espesor_ma" class="labels" style="width:auto">Espesor <label class="text-backinfo">Pies</label></label></td>                    
+                    <td><label for="largo_ma" class="labels" style="width:auto">Largo <label class="text-backinfo">Pul</label></label></td>                    
+                    <td><label for="alto_ma" class="labels" style="width:auto">Ancho <label class="text-backinfo">Pul</label></label></td>                    
+                    <td><label for="espesor_ma" class="labels" style="width:auto">Espesor <label class="text-backinfo">Pul</label></label></td>                    
                     <td><label for="volumen_ma" class="labels" style="width:auto">Vol. <label class="text-backinfo">Pies</label></label></td>                    
                     <td><label for="cantidad_ma" class="labels" style="width:auto">Cant. <label class="text-backinfo">Unid.</label></label></td>                 
                     <td><label for="volumen_ma" class="labels" style="width:auto">Vol. T. <label class="text-backinfo">Pies</label></label></td>                                           
@@ -144,11 +144,8 @@
                                     <td align="center"><?php echo number_format($r['alto'],2) ?><input type="hidden" name="altod[]" value="<?php echo $r['largo']; ?>" /></td>
                                     <td align="center"><?php echo number_format($r['espesor'],2) ?><input type="hidden" name="espesord[]" value="<?php echo $r['alto']; ?>" /></td>
                                     <td align="center"><?php echo number_format($r['espesor']*$r['alto']*$r['largo']/12,2) ?></td>
-
                                     <td align="center"><?php echo number_format($r['cantidad'],2) ?><input type="hidden" name="cantd[]" value="<?php echo $r['cantidad']; ?>" /></td>
-
                                     <td align="center"><?php echo number_format($r['espesor']*$r['alto']*$r['largo']/12*$r['cantidad'],2) ?></td>
-
                                     <td align="right"><?php echo number_format($r['precio'],2) ?><input type="hidden" name="preciod[]" value="<?php echo $r['precio']; ?>" /></td>
                                     <?php if($r['idtipoproducto']==1) $total = $r['espesor']*$r['alto']*$r['largo']/12*$r['cantidad']*$r['precio'];
                                             else $total = $r['cantidad']*$r['precio']; ?>

@@ -1,6 +1,7 @@
 var afecto = false;
 $(function() 
 {       
+    $("input[type=text]").focus(function(){this.select();});
     $("#idtipodocumento").focus();
     $("#idmadera").change(function(){$("#largo_ma").focus();getPrice($(this).val(),1);});
     $("#idmelamina").change(function(){$("#cantidad_me").focus();getPrice($(this).val(),2);});
@@ -16,6 +17,9 @@ $(function()
         if(valor==1){ $("#box-madera").css("display","block");$("#box-melamina").css("display","none"); }
           else { $("#box-madera").css("display","none");$("#box-melamina").css("display","block"); }
     });    
+    $("#idtipodocumento").change(function(){
+      $("#serie").focus();
+    });
     verifAfecto();
     $("#aigv").click(function(){
        verifAfecto();
@@ -89,7 +93,7 @@ function load_melamina(idl)
     $.get('index.php','controller=melamina&action=getList&idl='+idl,function(r){    
       html = '<option value="">Seleccione...</option>';
       $.each(r,function(i,j){
-        html += '<option value="'+j.idmelamina+'">'+j.descripcion+'</option>';
+        html += '<option value="'+j.idproducto+'">'+j.descripcion+'</option>';
       });      
       $("#idmelamina").empty().append(html);
     },'json');
@@ -169,7 +173,7 @@ function addDetailMe()
         cant=parseFloat($("#cantidad_me").val()),
         prec=parseFloat($("#precio_me").val()),
         total=calcSubTotalMe();        
-    if(cant<=0) {alert('La cantidad debe ser mayor que 0'); $("#cantidad_me").focus(); return 0;}       
+    if(cant<=0) {alert('La cantidad debe ser mayor que 0'); $("#cantidad_me").focus(); return 0;}
     addDetalle(tipo,idma,mela,'','','','',cant,'',prec.toFixed(2),total);
     clearMe();    
 }

@@ -6,12 +6,11 @@ class movimiento extends Main
     {
         $sql = "SELECT  m.idmovimiento,
                         m.fecha,
-                        m.referencia,
+                        upper(m.referencia),
                         td.abreviado,
                         m.serie,
-                        m.numero,
-                        m.fechae,
-                        p.razonsocial,
+                        m.numero,                        
+                        upper(p.razonsocial),
                         p.ruc,
                         case m.afecto when 1 then '18%' else '' end,
                         t.total as subtotal,
@@ -31,14 +30,15 @@ class movimiento extends Main
                            end
                         else '&nbsp;'
                         end
-                    FROM movimientos as m inner join movimientostipo as mt on
-                        mt.idmovimientostipo = m.idmovimientostipo
-                        inner join facturacion.tipodocumento as td on td.idtipodocumento = m.idtipodocumento
-                        inner join proveedor as p on p.idproveedor = m.idproveedor
-                        inner join (select idmovimiento,sum(precio*cantidad) as total
-                                    from movimientosdetalle 
-                                    group by idmovimiento) as t on t.idmovimiento = m.idmovimiento 
-                    WHERE mt.idmovimientostipo = 1 ";                   
+                    FROM movimientos as m 
+                         inner join movimientosubtipo as mst on mst.idmovimientosubtipo = m.idmovimientosubtipo
+                         inner join movimientostipo as mt on mt.idmovimientostipo = mst.idmovimientostipo
+                         inner join facturacion.tipodocumento as td on td.idtipodocumento = m.idtipodocumento
+                         inner join proveedor as p on p.idproveedor = m.idproveedor
+                         inner join (select idmovimiento,sum(precio*cantidad) as total
+                                    from movimientosdetalle
+                                    group by idmovimiento) as t on t.idmovimiento = m.idmovimiento
+                    WHERE mt.idmovimientostipo = 1 ";
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
@@ -71,7 +71,8 @@ class movimiento extends Main
     }
     function insert($_P) 
     {
-        $idmovimientostipo = $_P['idmovimientosubtipo']; //Ingreso de Materia Prima
+        $idmovimientosubtipo = $_P['idmovimientosubtipo']; //Ingreso de Materia Prima
+        //die($idmovimientosubtipo."SS");
         $idmoneda = 1; //Soles
         $fecha = date('Y-m-d');
         $referencia = $_P['referencia'];
@@ -115,7 +116,7 @@ class movimiento extends Main
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->beginTransaction();
 
-                $stmt->bindParam(':p1',$idmovimientostipo,PDO::PARAM_INT);
+                $stmt->bindParam(':p1',$idmovimientosubtipo,PDO::PARAM_INT);
                 $stmt->bindParam(':p2',$idmoneda,PDO::PARAM_INT);
                 $stmt->bindParam(':p3',$fecha,PDO::PARAM_STR);
                 $stmt->bindParam(':p4',$referencia,PDO::PARAM_STR);
