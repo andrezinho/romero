@@ -144,6 +144,14 @@
 	"buffers":
 	[
 		{
+			"file": "view/proformas/_form.php",
+			"settings":
+			{
+				"buffer_size": 8730,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "controller/proformasController.php",
 			"settings":
 			{
@@ -155,15 +163,15 @@
 			"file": "model/proformas.php",
 			"settings":
 			{
-				"buffer_size": 5409,
+				"buffer_size": 6355,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "view/proformas/_form.php",
+			"file": "model/movimiento.php",
 			"settings":
 			{
-				"buffer_size": 8730,
+				"buffer_size": 12865,
 				"line_ending": "Windows"
 			}
 		},
@@ -171,15 +179,7 @@
 			"file": "web/js/app/evt_form_proformas.js",
 			"settings":
 			{
-				"buffer_size": 11448,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "web/js/app/evt_form_ingresom.js",
-			"settings":
-			{
-				"buffer_size": 10319,
+				"buffer_size": 13972,
 				"line_ending": "Windows"
 			}
 		}
@@ -211,7 +211,9 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/romero/model/caja.php",
 		"/C/xampp/htdocs/romero/view/ingresosm/_form.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_ingresom.js",
 		"/C/xampp/htdocs/romero/model/movimiento.php",
 		"/C/xampp/htdocs/romero/controller/ingresomController.php",
 		"/C/xampp/htdocs/romero/model/subproductosemi.php",
@@ -238,7 +240,6 @@
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_tipomadera.js",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_maderba.js",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_formapago.js",
-		"/C/xampp/htdocs/romero/web/js/app/evt_form_ingresom.js",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_financiamiento.js",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_caja.js",
 		"/C/xampp/htdocs/romero/controller/UbigeoController.php",
@@ -272,7 +273,6 @@
 		"/C/xampp/htdocs/romero/view/ventas/_form.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_areas.js",
 		"/C/xampp/htdocs/romero/controller/cargoController.php",
-		"/C/xampp/htdocs/romero/model/caja.php",
 		"/C/xampp/htdocs/romero/controller/cajaController.php",
 		"/C/xampp/htdocs/romero/controller/melaminaController.php",
 		"/C/xampp/htdocs/romero/model/melamina.php",
@@ -356,6 +356,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"idpro",
+			"calcSubTotalMa",
+			"input_ma",
 			"CalcularFinanc",
 			"Calcular2",
 			"calcSubTotalcre",
@@ -480,10 +483,7 @@
 			"direccion",
 			"telefono",
 			"nombres",
-			"idcargo",
-			"idarea",
-			"estcivil",
-			"sexo"
+			"idcargo"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -629,69 +629,11 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "controller/proformasController.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3884,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								569,
-								569
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "model/proformas.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5409,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								38,
-								47
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "view/proformas/_form.php",
 					"semi_transient": false,
 					"settings":
@@ -703,8 +645,66 @@
 						"selection":
 						[
 							[
-								4673,
-								4681
+								3351,
+								3370
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 45.0,
+						"translation.y": 594.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "controller/proformasController.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3884,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								348,
+								348
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 111.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "model/proformas.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6355,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								318,
+								318
 							]
 						],
 						"settings":
@@ -714,55 +714,55 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1134.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "web/js/app/evt_form_proformas.js",
+					"file": "model/movimiento.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11448,
+						"buffer_size": 12865,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5870,
-								5870
+								10275,
+								10293
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3546.0,
+						"translation.y": 3078.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "web/js/app/evt_form_ingresom.js",
+					"file": "web/js/app/evt_form_proformas.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10319,
+						"buffer_size": 13972,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4248,
-								4259
+								11473,
+								11481
 							]
 						],
 						"settings":
@@ -772,7 +772,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1620.0,
+						"translation.y": 5853.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -50,7 +50,7 @@ class ProformasController extends Controller
         $data = array();
         $view = new View();        
         $data['tipopago'] = $this->Select(array('id'=>'idtipopago','name'=>'idtipopago','text_null'=>'Seleccione...','table'=>'produccion.vista_tipopago'));       
-        $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));       
+        $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));
         $data['Sucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','text_null'=>'Seleccione...','table'=>'vista_sucursal'));       
         $view->setData($data);
         $view->setTemplate( '../view/Proformas/_form.php' );
@@ -63,6 +63,9 @@ class ProformasController extends Controller
         $view = new View();
         $rows = $obj->edit($_GET['id']);
         $data['obj'] = $rows;
+        $data['tipopago'] = $this->Select(array('id'=>'idtipopago','name'=>'idtipopago','text_null'=>'Seleccione...','table'=>'produccion.vista_tipopago'));       
+        $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));       
+        $data['Sucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','text_null'=>'Seleccione...','table'=>'vista_sucursal','code'=>$rows->idsucursal));
         $data['rowsd'] = $obj->getDetails($rows->idproforma);
         $view->setData($data);
         $view->setTemplate( '../view/Proformas/_form.php' );

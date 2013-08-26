@@ -339,7 +339,7 @@ function addDetalleCre(id,desc,idfinan,pro,idprod,prec,ini,mes,men,can,total)
 {
     if(idprod!='')
       {
-        idprod=0;
+        
         html += '<tr class="tr-detalle">';
         html += '<td>'+desc+'<input type="hidden" name="idtipopago[]" value="'+id+'" /></td>';   
         html += '<td>'+pro+'<input type="hidden" name="idfinanciamiento[]" value="'+idfinan+'" />';
@@ -357,6 +357,7 @@ function addDetalleCre(id,desc,idfinan,pro,idprod,prec,ini,mes,men,can,total)
         caltotal();
       }else
         {
+          idprod=0;
           var html = '';
           html += '<tr class="tr-detalle">';
           html += '<td>'+desc+'<input type="hidden" name="idtipopago[]" value="'+id+'" /></td>';   

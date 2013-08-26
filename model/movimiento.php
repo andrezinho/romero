@@ -41,6 +41,7 @@ class movimiento extends Main
                     WHERE mt.idmovimientostipo = 1 ";                   
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
+
     function edit($id)
     {
         $stmt = $this->db->prepare("SELECT m.*,p.ruc,p.razonsocial
@@ -50,7 +51,8 @@ class movimiento extends Main
         $stmt->bindParam(':id', $id , PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchObject();
-    }    
+    }
+    
     function getDetails($id)
     {
         $stmt = $this->db->prepare("SELECT mv.* ,

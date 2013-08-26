@@ -111,15 +111,69 @@
                         {    
                             foreach ($rowsd as $i => $r) 
                             {
-                                
+                                $tipop=$r['idtipopago'];
+                                $pre= $r['precio'];
+                                $cant= $r['cantidad'];
+                                $subt= floatval($pre) * floatval($cant);
+                                //if($tipop!=2)
+                                //{
                                 ?>
                                 <tr class="tr-detalle">
-                                    <td align="left"><?php echo $r['dni']; ?><input type="hidden" name="idproformaxcliente[]" value="<?php echo $r['idproformaxcliente']; ?>" /></td>
-                                    <td><?php echo $r['cliente']; ?><input type="hidden" name="idcliente[]" value="<?php echo $r['idcliente']; ?>" /></td>                                    
+                                    <td align="left"><?php echo $r['descripcion']; ?><input type="hidden" name="idtipopago[]" value="<?php echo $r['idtipopago']; ?>" /></td>
+                                    <td><?php echo $r['producto']; ?>
+                                        <input type="hidden" name="idproducto[]" value="<?php echo $r['idproducto']; ?>" />
+                                        <input type="hidden" name="producto[]" value="<?php echo $r['producto']; ?>" />
+                                        <input type="hidden" name="idfinanciamiento[]" value="<?php echo $r['idfinanciamiento']; ?>" />
+                                    </td>
+                                    <td align="rigth">
+                                        <?php echo $r['preciocash']; ?><input type="hidden" name="precio[]" value="<?php echo $r['preciocash']; ?>" />
+                                    </td>
+                                    <td align="rigth">
+                                        <?php echo $r['cantidad']; ?><input type="hidden" name="cantidad[]" value="<?php echo $r['cantidad']; ?>" />
+                                    </td>
+                                    <td>
+                                        <?php echo $r['inicial']; ?><input type="hidden" name="inicial[]" value="<?php echo $r['inicial']; ?>" />
+                                    </td>
+                                    <td>
+                                        <?php echo $r['cuota']; ?><input type="hidden" name="mensual[]" value="<?php echo $r['cuota']; ?>" />
+                                    </td>
+                                    <td>
+                                        <?php echo $r['nromeses']; ?><input type="hidden" name="nromeses[]" value="<?php echo $r['nromeses']; ?>" />
+                                    </td>
+                                    <td><?php echo $subt; ?></td>
                                     <td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>
                                 </tr>
                                 <?php    
-                            }
+                                }  /*else {
+                                ?>
+                                <tr class="tr-detalle">
+                                    <td align="left"><?php echo $r['descripcion']; ?><input type="hidden" name="idtipopago[]" value="<?php echo $r['idtipopago']; ?>" /></td>
+                                    <td><?php echo $r['producto']; ?>
+                                        <input type="hidden" name="idproducto[]" value="<?php echo $r['idproducto']; ?>" />
+                                        <input type="hidden" name="producto[]" value="<?php echo $r['producto']; ?>" />
+                                        <input type="hidden" name="idfinanciamiento[]" value="<?php echo $r['idfinanciamiento']; ?>" />
+                                    </td>
+                                    <td align="rigth">
+                                        <?php echo $r['preciocash']; ?><input type="hidden" name="precio[]" value="<?php echo $r['preciocash']; ?>" />
+                                    </td>
+                                    <td align="rigth">
+                                        <?php echo $r['cantidad']; ?><input type="hidden" name="cantidad[]" value="<?php echo $r['cantidad']; ?>" />
+                                    </td>
+                                    <td>
+                                        <?php echo $r['inicial']; ?><input type="hidden" name="inicial[]" value="<?php echo $r['inicial']; ?>" />
+                                    </td>
+                                    <td>
+                                        <?php echo $r['cuota']; ?><input type="hidden" name="mensual[]" value="<?php echo $r['cuota']; ?>" />
+                                    </td>
+                                    <td>
+                                        <?php echo $r['nromeses']; ?><input type="hidden" name="nromeses[]" value="<?php echo $r['nromeses']; ?>" />
+                                    </td>
+                                    <td><?php echo $subt; ?></td>
+                                    <td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>
+                                </tr>
+                                <?php
+                                }
+                            }*/
                         }
                      ?>                      
                 </tbody>

@@ -19,7 +19,20 @@ class Proformas extends Main
     }
 
     function edit($id ) {
-        $stmt = $this->db->prepare("SELECT * FROM facturacion.caja WHERE idproforma = :id");
+        $stmt = $this->db->prepare("SELECT
+            p.idproforma,
+            c.dni,
+            c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS cliente,
+            p.idsucursal,
+            p.idcliente,
+            p.fecha,
+            p.estado,
+            p.hora,
+            p.observacion
+            FROM
+            cliente AS c
+            INNER JOIN facturacion.proforma AS p ON c.idcliente = p.idcliente 
+            WHERE idproforma = :id ");
         $stmt->bindParam(':id', $id , PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchObject();
@@ -28,18 +41,26 @@ class Proformas extends Main
     function getDetails($id)
     {
         $stmt = $this->db->prepare("SELECT
-            d.idproformaxpersonal,
-            d.idpersonal,
-            p.dni,
-            p.nombres || ' ' || p.apellidos AS personal
-
+            p.idproforma,
+            dp.idproforma,
+            dp.idproducto,
+            dp.tipo,
+            tp.descripcion,
+            dp.preciocash,
+            dp.inicial,
+            dp.nromeses,
+            dp.cuota,
+            dp.cantidad,
+            dp.idfinanciamiento,
+            dp.producto
             FROM
-            facturacion.cajaxpersonal AS d
-            INNER JOIN facturacion.caja AS c ON c.idproforma = d.idproforma
-            INNER JOIN personal AS p ON p.idpersonal = d.idpersonal
+            facturacion.proforma AS p
+            INNER JOIN facturacion.proformadetalle AS dp ON p.idproforma = dp.idproforma
+            INNER JOIN produccion.tipopago AS tp ON tp.idtipopago = dp.tipo
+            LEFT JOIN produccion.subproductos_semi AS pr ON pr.idsubproductos_semi = dp.idproducto
 
-            WHERE d.idproforma = :id    
-            ORDER BY d.idpersonal ");
+            WHERE dp.idproforma = :id    
+            ORDER BY dp.iddet_proforma ");
 
         $stmt->bindParam(':id', $id , PDO::PARAM_STR);
         $stmt->execute();
@@ -108,17 +129,22 @@ class Proformas extends Main
     function update($_P ) {
 
         $idproforma= $_P['idproforma'];
-        
-         $del="DELETE FROM facturacion.cajaxpersonal
+        $idvendedor=1;
+
+        $del="DELETE FROM facturacion.proformadetalle
                     WHERE idproforma='$idproforma' ";
                     
-            $res = $this->db->prepare($del);
-            $res->execute();
+        $res = $this->db->prepare($del);
+        $res->execute();
             
-        $sql="UPDATE facturacion.caja 
-                set nombre = :p1, 
-                descripcion= :p2, 
-                estado = :p3              
+        $sql="UPDATE facturacion.proforma 
+            set 
+                idsucursal = :p1, 
+                idcliente = :p2, 
+                fecha =:p3,
+                hora = :p4,
+                observacion = :p5,
+                idvendedor= :p6                         
                 
                 WHERE idproforma = :idproforma";
         $stmt = $this->db->prepare($sql);
@@ -128,23 +154,35 @@ class Proformas extends Main
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->beginTransaction();
 
-            $stmt->bindParam(':p1', $_P['nombre'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p2', $_P['descripcion'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p3', $_P['activo'] , PDO::PARAM_INT);
-           
+            $stmt->bindParam(':p1', $_P['idsucursal'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p2', $_P['idcliente'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p3', $_P['fecha'] , PDO::PARAM_STR);
+            $stmt->bindParam(':p4', $_P['hora'] , PDO::PARAM_STR);
+            $stmt->bindParam(':p5', $_P['observacion'] , PDO::PARAM_STR);
+            $stmt->bindParam(':p6', $idvendedor , PDO::PARAM_STR);
+                       
             $stmt->bindParam(':idproforma', $idproforma , PDO::PARAM_INT);
             $stmt->execute();
             
-            $stmt2  = $this->db->prepare("INSERT INTO facturacion.cajaxpersonal(
-                            idpersonal, idproforma)
-                        VALUES ( :p1, :p2) ");
+            $stmt2  = $this->db->prepare("INSERT INTO facturacion.proformadetalle(
+            idproforma, idsucursal, tipo, preciocash, inicial, 
+            nromeses, cuota, idfinanciamiento, producto,cantidad,idproducto)
+                VALUES ( :p1, :p2,:p3, :p4,:p5, :p6,:p7, :p8,:p9,:p10,:p11) ");
 
-                foreach($_P['idpersonal'] as $i => $idpersonal)
-                {
-                    $stmt2->bindParam(':p1',$idpersonal,PDO::PARAM_INT);
-                    $stmt2->bindParam(':p2',$idproforma,PDO::PARAM_INT);                    
-                   
-                    $stmt2->execute();                
+                foreach($_P['idtipopago'] as $i => $idtipopago)
+                {                    
+                    $stmt2->bindParam(':p1',$id,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p2',$_P['idsucursal'],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p3',$idtipopago,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p4',$_P['precio'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p5',$_P['inicial'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p6',$_P['nromeses'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p7',$_P['mensual'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p8',$_P['idfinanciamiento'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p9',$_P['producto'][$i],PDO::PARAM_STR);
+                    $stmt2->bindParam(':p10',$_P['cantidad'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p11',$_P['idproducto'][$i],PDO::PARAM_INT);
+                    $stmt2->execute();          
 
                 }
 
