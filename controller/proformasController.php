@@ -6,11 +6,11 @@ require_once '../model/proformas.php';
 class ProformasController extends Controller
 {
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'p.idproforma','align'=>'center','width'=>'60'),
+                        1 => array('Name'=>'Codigo','NameDB'=>'p.idproforma','align'=>'center','width'=>'40'),
                         2 => array('Name'=>'Cliente','NameDB'=>'c.nombres','search'=>true),
                         3 => array('Name'=>'Sucursal','NameDB'=>'s.descripcion','search'=>true), 
-                        4 => array('Name'=>'Fecha','NameDB'=>'p.fecha','width'=>'70'),                       
-                        5 => array('Name'=>'Estado','NameDB'=>'p.estado','width'=>'50','align'=>'center')
+                        4 => array('Name'=>'Fecha','NameDB'=>'p.fecha','width'=>'50','align'=>'center'),                       
+                        5 => array('Name'=>'Estado','NameDB'=>'p.estado','width'=>'60','align'=>'center')
                      );
 
     public function index() 
@@ -20,8 +20,8 @@ class ProformasController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
-
-        $data['actions'] = array(true,true,true,false);
+        //(nuevo,editar,eliminar,ver,anular,imprimir)
+        $data['actions'] = array(true,true,false,false,true,true);
 
         $view = new View();
         $view->setData($data);

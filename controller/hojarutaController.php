@@ -6,11 +6,12 @@ require_once '../model/hojaruta.php';
 class HojaRutaController extends Controller
 {
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'c.idcaja','align'=>'center','width'=>'80'),
-                        2 => array('Name'=>'Nombre','NameDB'=>'c.nombre','search'=>true),
-                        3 => array('Name'=>'Descripcion','NameDB'=>'c.descripcion','search'=>true),                        
-                        4 => array('Name'=>'Estado','NameDB'=>'c.estado','width'=>'30','align'=>'center')
-                     );
+                    1 => array('Name'=>'Codigo','NameDB'=>'h.idhojarutas','align'=>'center','width'=>'50'),
+                    2 => array('Name'=>'Nombre','NameDB'=>'h.descripcion','search'=>true),
+                    3 => array('Name'=>'Personal','NameDB'=>" 'p.nombres' || ' ' || 'p.apellidos' ",'search'=>true),                        
+                    4 => array('Name'=>'Zona','NameDB'=>"'z.descripcion || ' - ' || u.descripcion' ",'width'=>'120','align'=>'center'),
+                    5 => array('Name'=>'Fecha','NameDB'=>'h.fechareg','width'=>'50','align'=>'center')
+        );
     public function index() 
     {
         $data = array();                               
@@ -59,7 +60,9 @@ class HojaRutaController extends Controller
         $view = new View();
         $rows = $obj->edit($_GET['id']);
         $data['obj'] = $rows;
-        $data['rowsd'] = $obj->getDetails($rows->idcaja);
+        $data['Distrito'] = $this->Select(array('id'=>'idubigeo','name'=>'idubigeo','text_null'=>'Seleccione...','table'=>'vista_distrito','code'=>$rows->idubigeo));
+        $data['idzona'] = $this->Select(array('id'=>'idzona','name'=>'idzona','text_null'=>'Seleccione...','table'=>'vista_zona','code'=>$rows->idzona));
+        $data['rowsd'] = $obj->getDetails($rows->idhojarutas);
         $view->setData($data);
         $view->setTemplate( '../view/hojaruta/_form.php' );
         echo $view->renderPartial();
@@ -70,7 +73,7 @@ class HojaRutaController extends Controller
     {
         $obj = new HojaRuta();
         $result = array();        
-        if ($_POST['idcaja']=='')
+        if ($_POST['idhojarutas']=='')
             
         $p = $obj->insert($_POST);                        
         else         

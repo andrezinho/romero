@@ -57,6 +57,29 @@ $(function()
             .append( "<a>"+ item.dni +" - " + item.nomcliente + "</a>" )
             .appendTo(ul);
       };
+      
+      //buscar prodcto
+      $("#producto").autocomplete({        
+        minLength: 0,
+        source: 'index.php?controller=subproductosemi&action=get&tipo=2',
+        focus: function( event, ui ) 
+        {
+            $( "#producto" ).val( ui.item.producto );
+            return false;
+        },
+        select: function( event, ui ) 
+        {
+            $("#idsubproductos_semi").val(ui.item.idsubproductos_semi);           
+            $( "#producto" ).val( ui.item.producto );
+            //$( "#precio" ).val( ui.item.precio );                                    
+            return false;
+        }
+    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
+        return $( "<li></li>" )
+            .data( "item.autocomplete", item )
+            .append( "<a>"+ item.producto + "</a>" )
+            .appendTo(ul);
+      };
 });
 
 function load_zona(IdZo)
@@ -78,23 +101,26 @@ function addDetail()
 {
     
     bval = true;
-    bval = bval && $("#dni").required();
+    bval = bval && $("#dnicli").required();
     bval = bval && $("#cliente").required();
-    bval = bval && $("#producto").required();  
+    bval = bval && $("#producto").required();
+    bval = bval && $("#cantidad").required();
     if(!bval) return 0;
       id= $("#idcliente").val(),
-      dni= $("#dni").val(),
+      dni= $("#dnicli").val(),
       nomcli=$("#cliente").val(),
       dir=$("#direccion").val(),
       tel=$("#telefono").val(),
       prod=$("#producto").val(),
-      obs=$("#observacion").val()
+      idprod= $("#idsubproductos_semi").val(),
+      obs=$("#observacion").val(),
+      cant=$("#cantidad").val()
     
-    addDetalle(dni,id,nomcli,dir, tel, prod, obs);
+    addDetalle(dni,id,nomcli,dir, tel, prod, idprod, obs,cant);
     clearPer();    
 }
 
-function addDetalle(dni,id,nomcli,dir, tel, prod, obs)
+function addDetalle(dni,id,nomcli,dir, tel, prod, idprod, obs,cant)
 {
     
     var html = '';
@@ -103,7 +129,8 @@ function addDetalle(dni,id,nomcli,dir, tel, prod, obs)
     html += '<td>'+nomcli+'<input type="hidden" name="idcliente[]" value="'+id+'" /></td>';
     html += '<td>'+dir+'</td>';
     html += '<td>'+tel+'</td>';
-    html += '<td>'+prod+'<input type="hidden" name="producto[]" value="'+prod+'" /></td>';
+    html += '<td>'+prod+'<input type="hidden" name="idsubproductos_semi[]" value="'+idprod+'" /></td>';
+    html += '<td>'+cant+'<input type="hidden" name="cantidad[]" value="'+cant+'" /></td>';
     html += '<td>'+obs+'<input type="hidden" name="observacion[]" value="'+obs+'" /></td>';   
     html += '<td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>';
     html += '</tr>';  
@@ -115,6 +142,7 @@ function clearPer()
 {
   $("#idcliente").val(''),
   $("#dnicli").val(''),
+  $("#cantidad").val(''),
   $("#cliente").val(''),
   $("#direccion").val(''),
   $("#telefono").val(''),
@@ -135,7 +163,7 @@ function save()
   bval = true;        
   bval = bval && $( "#descripcion" ).required();        
 
-  var str = $("#frm_maderba").serialize();
+  var str = $("#frm_hojaruta").serialize();
   if ( bval ) 
   {
       $.post('index.php',str,function(res)

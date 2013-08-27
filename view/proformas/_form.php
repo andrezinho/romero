@@ -111,15 +111,22 @@
                         {    
                             foreach ($rowsd as $i => $r) 
                             {
-                                $tipop=$r['idtipopago'];
-                                $pre= $r['precio'];
-                                $cant= $r['cantidad'];
-                                $subt= floatval($pre) * floatval($cant);
-                                //if($tipop!=2)
-                                //{
+                                $tipop=$r['tipo'];
+                                if($tipop==1)
+                                {                                    
+                                    $pre= $r['preciocash'];
+                                    $cant= $r['cantidad'];
+                                    $subt= floatval($pre) * floatval($cant);
+                                }else
+                                    {
+                                        $nro= $r['nromeses'];
+                                        $men= $r['cuota'];                                        
+                                        $ini= $r['inicial'];
+                                        $subt= (floatval($nro) * floatval($men))+ $ini;
+                                    }
                                 ?>
                                 <tr class="tr-detalle">
-                                    <td align="left"><?php echo $r['descripcion']; ?><input type="hidden" name="idtipopago[]" value="<?php echo $r['idtipopago']; ?>" /></td>
+                                    <td align="left"><?php echo $r['descripcion']; ?><input type="hidden" name="idtipopago[]" value="<?php echo $r['tipo']; ?>" /></td>
                                     <td><?php echo $r['producto']; ?>
                                         <input type="hidden" name="idproducto[]" value="<?php echo $r['idproducto']; ?>" />
                                         <input type="hidden" name="producto[]" value="<?php echo $r['producto']; ?>" />

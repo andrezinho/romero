@@ -5,19 +5,38 @@ class HojaRuta extends Main
     function indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$cols)
     {
         $sql = "SELECT
-            c.idcaja,
-            c.nombre,
-            c.descripcion,
-            case c.estado when 1 then 'ACTIVO' else 'INCANTIVO' end          
-            
+            h.idhojarutas,
+            h.descripcion,
+            p.nombres || ' ' || p.apellidos AS personal,
+            z.descripcion || ' - ' || u.descripcion AS zonas,
+            h.fechareg
+
             FROM
-            facturacion.caja AS c ";    
+            public.hojarutas AS h
+            INNER JOIN public.personal AS p ON p.idpersonal = h.idpersonal
+            INNER JOIN public.zona AS z ON z.idzona = h.idzona
+            INNER JOIN public.ubigeo AS u ON u.idubigeo = z.idubigeo ";    
             
             return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
     function edit($id ) {
-        $stmt = $this->db->prepare("SELECT * FROM facturacion.caja WHERE idcaja = :id");
+        $stmt = $this->db->prepare("SELECT
+            h.idhojarutas,
+            h.descripcion,
+            h.idpersonal,
+            p.dni,
+            p.nombres || ' ' || p.apellidos AS personal,
+            z.idubigeo,
+            h.idzona,
+            h.fechareg
+
+            FROM
+            hojarutas AS h
+            INNER JOIN personal AS p ON p.idpersonal = h.idpersonal
+            INNER JOIN zona AS z ON z.idzona = h.idzona
+            INNER JOIN ubigeo AS u ON u.idubigeo = z.idubigeo
+            WHERE idhojarutas = :id ");
         $stmt->bindParam(':id', $id , PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchObject();
@@ -26,18 +45,23 @@ class HojaRuta extends Main
     function getDetails($id)
     {
         $stmt = $this->db->prepare("SELECT
-            d.idcajaxpersonal,
-            d.idpersonal,
-            p.dni,
-            p.nombres || ' ' || p.apellidos AS personal
+            dh.idcliente,
+            dh.idsubproductos_semi,
+            c.dni,
+            c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno as cliente,
+            c.direccion,
+            c.telefono,
+            sp.descripcion || ' '|| sps.descripcion as producto,
+            dh.cantidad,
+            dh.observacion
 
             FROM
-            facturacion.cajaxpersonal AS d
-            INNER JOIN facturacion.caja AS c ON c.idcaja = d.idcaja
-            INNER JOIN personal AS p ON p.idpersonal = d.idpersonal
-
-            WHERE d.idcaja = :id    
-            ORDER BY d.idpersonal ");
+            public.hojarutas_detalle AS dh
+            INNER JOIN public.cliente AS c ON c.idcliente = dh.idcliente
+            INNER JOIN produccion.subproductos_semi AS sps ON sps.idsubproductos_semi = dh.idsubproductos_semi
+            INNER JOIN produccion.productos_semi AS sp ON sp.idproductos_semi = sps.idproductos_semi
+            WHERE dh.idhojarutas = :id    
+            ORDER BY dh.idsubproductos_semi ");
 
         $stmt->bindParam(':id', $id , PDO::PARAM_STR);
         $stmt->execute();
@@ -46,31 +70,35 @@ class HojaRuta extends Main
 
     function insert($_P ) {
 
-        $sql="INSERT INTO facturacion.caja (nombre,descripcion, estado) 
-                    VALUES(:p1,:p2,:p3)" ;
+        $sql="INSERT INTO hojarutas(
+            descripcion, idpersonal, idzona, fechareg) 
+                    VALUES(:p1,:p2,:p3,:p4)" ;
 
         $stmt = $this->db->prepare($sql);
         try 
         {
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->beginTransaction();
-
-            $stmt->bindParam(':p1', $_P['nombre'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p2', $_P['descripcion'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p3', $_P['activo'] , PDO::PARAM_INT);
+            $_P['fechareg']=$this->fdate($_P['fechareg'], 'EN');
+            $stmt->bindParam(':p1', $_P['descripcion'] , PDO::PARAM_STR);
+            $stmt->bindParam(':p2', $_P['idpersonal'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p3', $_P['idzona'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p4', $_P['fechareg'], PDO::PARAM_INT);
             $stmt->execute();
-            $id =  $this->IdlastInsert('facturacion.caja','idcaja');
+            $id =  $this->IdlastInsert('hojarutas','idhojarutas');
             $row = $stmt->fetchAll();
 
-            $stmt2  = $this->db->prepare("INSERT INTO facturacion.cajaxpersonal(
-                            idpersonal, idcaja)
-                        VALUES ( :p1, :p2) ");
+            $stmt2  = $this->db->prepare("INSERT INTO hojarutas_detalle(
+            idhojarutas, idcliente, idsubproductos_semi,observacion, cantidad)
+                VALUES ( :p1, :p2,:p3, :p4,:p5) ");
 
-                foreach($_P['idpersonal'] as $i => $idpersonal)
-                {
-                    $stmt2->bindParam(':p1',$idpersonal,PDO::PARAM_INT);
-                    $stmt2->bindParam(':p2',$id,PDO::PARAM_INT);                    
-                   
+                foreach($_P['idcliente'] as $i => $idcliente)
+                {                    
+                    $stmt2->bindParam(':p1',$id,PDO::PARAM_INT);                    
+                    $stmt2->bindParam(':p2',$idcliente,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p3',$_P['idsubproductos_semi'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p4',$_P['observacion'][$i],PDO::PARAM_STR);
+                    $stmt2->bindParam(':p5',$_P['cantidad'][$i],PDO::PARAM_INT);                    
                     $stmt2->execute();                
 
                 }
@@ -88,20 +116,21 @@ class HojaRuta extends Main
 
     function update($_P ) {
 
-        $idcaja= $_P['idcaja'];
+        $idhojarutas= $_P['idhojarutas'];
         
-         $del="DELETE FROM facturacion.cajaxpersonal
-                    WHERE idcaja='$idcaja' ";
+        $del="DELETE FROM hojarutas_detalle
+             WHERE idhojarutas='$idhojarutas' ";
                     
             $res = $this->db->prepare($del);
             $res->execute();
             
-        $sql="UPDATE facturacion.caja 
-                set nombre = :p1, 
-                descripcion= :p2, 
-                estado = :p3              
+        $sql="UPDATE hojarutas 
+                set descripcion = :p1, 
+                    idpersonal= :p2, 
+                    idzona = :p3,
+                    fechareg= :p4
                 
-                WHERE idcaja = :idcaja";
+                WHERE idhojarutas = :idhojarutas";
         $stmt = $this->db->prepare($sql);
 
         try 
@@ -109,28 +138,33 @@ class HojaRuta extends Main
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->beginTransaction();
 
-            $stmt->bindParam(':p1', $_P['nombre'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p2', $_P['descripcion'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p3', $_P['activo'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p1', $_P['descripcion'] , PDO::PARAM_STR);
+            $stmt->bindParam(':p2', $_P['idpersonal'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p3', $_P['idzona'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p4', $_P['fechareg'] , PDO::PARAM_INT);
            
-            $stmt->bindParam(':idcaja', $idcaja , PDO::PARAM_INT);
+            $stmt->bindParam(':idhojarutas', $idhojarutas , PDO::PARAM_INT);
             $stmt->execute();
+            $id =  $this->IdlastInsert('hojarutas','idhojarutas');
+            $row = $stmt->fetchAll();
             
-            $stmt2  = $this->db->prepare("INSERT INTO facturacion.cajaxpersonal(
-                            idpersonal, idcaja)
-                        VALUES ( :p1, :p2) ");
+            $stmt2  = $this->db->prepare("INSERT INTO hojarutas_detalle(
+            idhojarutas, idcliente, idsubproductos_semi,observacion, cantidad)
+                VALUES ( :p1, :p2,:p3, :p4,:p5) ");
 
-                foreach($_P['idpersonal'] as $i => $idpersonal)
-                {
-                    $stmt2->bindParam(':p1',$idpersonal,PDO::PARAM_INT);
-                    $stmt2->bindParam(':p2',$idcaja,PDO::PARAM_INT);                    
-                   
-                    $stmt2->execute();                
+                foreach($_P['idcliente'] as $i => $idcliente)
+                {                    
+                    $stmt2->bindParam(':p1',$id,PDO::PARAM_INT);                    
+                    $stmt2->bindParam(':p2',$idcliente,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p3',$_P['idsubproductos_semi'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p4',$_P['observacion'][$i],PDO::PARAM_STR);
+                    $stmt2->bindParam(':p5',$_P['cantidad'][$i],PDO::PARAM_INT);                    
+                    $stmt2->execute();             
 
                 }
 
             $this->db->commit();            
-            return array('1','Bien!',$idcaja);
+            return array('1','Bien!',$idhojarutas);
 
         }
         catch(PDOException $e) 
@@ -142,7 +176,7 @@ class HojaRuta extends Main
     }
     
     function delete($_P ) {
-        $stmt = $this->db->prepare("DELETE FROM facturacion.caja WHERE idcaja = :p1");
+        $stmt = $this->db->prepare("DELETE FROM hojarutas WHERE idhojarutas = :p1");
         $stmt->bindParam(':p1', $_P , PDO::PARAM_INT);
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
