@@ -12,16 +12,16 @@ class UserController extends Controller {
         if ($obj->login != '') 
         {
             //Datos del usuario logueado
+            $_SESSION['idusuario'] = $obj->idpersonal;
             $_SESSION['dni'] = $obj->dni;   
             $_SESSION['user'] = $obj->login;
             $_SESSION['name'] = $obj->nombres;            
             $_SESSION['id_perfil'] = $obj->idperfil;
             $_SESSION['perfil'] = $obj->perfil;
-            $_SESSION['turno'] = $obj->turno;
-            
-            header('location:index.php');            
+            $_SESSION['turno'] = $obj->turno;            
+            header('location:index.php');
         }
-        else 
+        else
         {
             header('location:login.php');
             print_r(json_encode(array("resp"=>"0","msg"=>"Sus datos son incorrectos")));

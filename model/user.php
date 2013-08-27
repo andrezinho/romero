@@ -16,7 +16,8 @@ class User extends Main {
                                                 '' as idoficina,
                                                 '' as sucursal,
                                                 '' as idsucursal,
-                                                '' as turno
+                                                '' as turno,
+                                                personal.idpersonal
                                         FROM personal inner join seguridad.perfil as p on personal.idperfil = p.idperfil 
                                         WHERE personal.usuario = :user AND personal.clave = :password ");
         $statement->bindParam (":user", $_POST['usuario'] , PDO::PARAM_STR);

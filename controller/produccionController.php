@@ -8,9 +8,12 @@ class ProduccionController extends Controller
                         1 => array('Name'=>'Codigo','NameDB'=>'p.idproduccion','align'=>'center','width'=>50),
                         2 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','width'=>280,'search'=>true),
                         3 => array('Name'=>'Personal','NameDB'=>'personal','align'=>'left','width'=>180),
-                        4 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechai','align'=>'center','width'=>100),
-                        5 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechaf','align'=>'center','width'=>100),
-                        6 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>80)
+                        4 => array('Name'=>'Fecha Reg.','NameDB'=>'p.fecha','align'=>'center','width'=>80),
+                        5 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechai','align'=>'center','width'=>80),
+                        6 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechaf','align'=>'center','width'=>80),
+                        7 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>80),
+                        8 => array('Name'=>'','NameDB'=>'','align'=>'center','width'=>20),
+                        9 => array('Name'=>'','NameDB'=>'','align'=>'center','width'=>20)
                      );
     public function index() 
     {
@@ -20,7 +23,7 @@ class ProduccionController extends Controller
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
         $data['titulo'] = "Produccion";        
-        $data['actions'] = array(true,true,false,false,true);
+        $data['actions'] = array(true,true,false,false,false);
         $view = new View();
         $view->setData($data);
         $view->setTemplate('../view/_indexGrid.php');
@@ -65,11 +68,16 @@ class ProduccionController extends Controller
         $rows = $obj->edit($_GET['id']);
         $data['obj'] = $rows;
         $data['ProductoSemi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','width'=>'120px'));        
-        $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$obj->idalmacen,'disabled'=>'disabled'));                
+        
         $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'220px'));
         $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
         $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));        
         $data['rowsd'] = $obj->getDetails($rows->idproduccion);
+        if(count($data['rowsd'])>0)        
+            $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$obj->idalmacen,'disabled'=>'disabled'));                        
+        else 
+            $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$obj->idalmacen));                
+        
         $view->setData($data);
         $view->setTemplate( '../view/produccion/_form.php' );
         echo $view->renderPartial();

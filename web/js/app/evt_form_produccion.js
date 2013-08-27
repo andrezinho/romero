@@ -483,6 +483,7 @@ function clearMe()
 function save()
 {
   bval = true;
+  fl = true;
   bval = bval && $( "#descripcion" ).required();
   bval = bval && $( "#fechai" ).required();
   bval = bval && $( "#fechaf" ).required();
@@ -492,23 +493,33 @@ function save()
       if($("#idproduccion").val()=="")
       {
           var ni = produccion.getNumItems();
-          if(ni<=0) { alert("Aun no a ingresado ninguna produccion al detalle"); return 0; }
+          if(ni<=0)
+          { 
+            var fl = false;
+            if(confirm("Aun no a ingresado ninguna produccion al detalle, deseas continuar de todas formas?"))
+            {
+              fl = true;
+            }
+          }
       }      
-      var str = $("#frm-produccion").serialize();
-      var prod = json_encode(produccion);
-      $.post('index.php',str+'&prod='+prod,function(res)
+      if(fl)
       {
-        if(res[0]==1)
-        { 
-          $("#box-frm").dialog("close");          
-          gridReload();
-        }
-        else
+        var str = $("#frm-produccion").serialize();
+        var prod = json_encode(produccion);
+        $.post('index.php',str+'&prod='+prod,function(res)
         {
-          alert(res[1]);
-        }
-        
-      },'json');
+          if(res[0]==1)
+          { 
+            $("#box-frm").dialog("close");          
+            gridReload();
+          }
+          else
+          {
+            alert(res[1]);
+          }
+          
+        },'json');
+      }
   }
   return false;
 }
@@ -535,7 +546,8 @@ function load_melamina(idl)
     $("#idmelamina").empty().append('<option value="">Cargando...</option>');
     $.get('index.php','controller=melamina&action=getList&idl='+idl,function(r){    
       html = '<option value="">Seleccione...</option>';
-      $.each(r,function(i,j){
+      $.each(r,function(i,j)
+      {
         html += '<option value="'+j.idproducto+'">'+j.descripcion+'</option>';
       });      
       $("#idmelamina").empty().append(html);

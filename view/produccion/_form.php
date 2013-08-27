@@ -9,16 +9,13 @@
     <legend>Datos - <b><?php if($obj->fecha!="") echo fdate($obj->fecha,'ES'); else echo date('d/m/Y'); ?></b></legend>
         <input type="hidden" name="controller" value="Produccion" />
         <input type="hidden" name="action" value="save" />             
-        <input type="hidden" id="idproduccion" name="idproduccion" class="text ui-widget-content ui-corner-all" style=" width: 50px; text-align: left;" value="<?php echo $obj->idproduccion; ?>" readonly />                
-        
+        <input type="hidden" id="idproduccion" name="idproduccion" class="text ui-widget-content ui-corner-all" style=" width: 50px; text-align: left;" value="<?php echo $obj->idproduccion; ?>" readonly />                        
         <label for="descripcion" class="labels">Descripcion:</label>
         <input type="text" name="descripcion" id="descripcion" class="ui-widget-content ui-corner-all text" style="width:635px" value="<?php echo $obj->descripcion; ?>" />
         <br/>
-
         <label for="fechai" class="labels">Fecha, desde:</label>
         <input type="text" name="fechai" id="fechai" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fechaini)?fdate($obj->fechaini,'ES'):date('d/m/Y')); ?>" style="width:70px; text-align:center" />        
-        Hasta <input type="text" name="fechaf" id="fechaf" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fechafin)?fdate($obj->fechafin,'ES'):date('d/m/Y')); ?>" style="width:70px; text-align:center" />
-        
+        Hasta <input type="text" name="fechaf" id="fechaf" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fechafin)?fdate($obj->fechafin,'ES'):date('d/m/Y')); ?>" style="width:70px; text-align:center" />        
         <label for="idpersonal" class="labels">Personal Enc.:</label>
         <input type="hidden" name="idpersonal" id="idpersonal" value="<?php echo $obj->idpersonal; ?>" />        
         <input type="text" name="dni" id="dni" class="ui-widget-content ui-corner-all text" style="width:80px" value="<?php echo $obj->dni; ?>" maxlength="11" onkeypress="return permite(event,'num')" />
