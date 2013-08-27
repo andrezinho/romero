@@ -118,7 +118,7 @@
                                     foreach($v['det'] as $d)
                                     {
                                         ?>
-                                        <li>(Almacen: <?php echo $d['almacen'] ?>) <?php echo $d['descripcion'] ?>, <?php echo number_format($d['cantidad'],2) ?>pies </li>
+                                        <li>(Almacen: <?php echo $d['almacen'] ?>) <?php echo $d['descripcion'] ?>, <?php echo number_format($d['cantidad'],2); if($d['tipo']==1) echo "pies"; else echo "Und."; ?> </li>
                                         <?php
                                     }
                                 ?>                                

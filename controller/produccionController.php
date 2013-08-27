@@ -10,7 +10,7 @@ class ProduccionController extends Controller
                         3 => array('Name'=>'Personal','NameDB'=>'personal','align'=>'left','width'=>180),
                         4 => array('Name'=>'Fecha Reg.','NameDB'=>'p.fecha','align'=>'center','width'=>80),
                         5 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechai','align'=>'center','width'=>80),
-                        6 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechaf','align'=>'center','width'=>80),
+                        6 => array('Name'=>'Fecha Fin','NameDB'=>'p.fechaf','align'=>'center','width'=>80),
                         7 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>80),
                         8 => array('Name'=>'','NameDB'=>'','align'=>'center','width'=>20),
                         9 => array('Name'=>'','NameDB'=>'','align'=>'center','width'=>20)
@@ -22,7 +22,8 @@ class ProduccionController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
-        $data['titulo'] = "Produccion";        
+        $data['titulo'] = "Produccion";
+        $data['script'] = "evt_index_produccion.js";        
         $data['actions'] = array(true,true,false,false,false);
         $view = new View();
         $view->setData($data);
@@ -99,12 +100,12 @@ class ProduccionController extends Controller
 
     }
 
-    public function delete()
+    public function anular()
     {
-        $obj = new Modulo();
+        $obj = new Produccion();
         $result = array();        
-        $p = $obj->delete($_GET['id']);
-        if ($p[0]) $result = array(1,$p[1]);
+        $p = $obj->delete($_POST['i']);
+        if ($p[0]=="1") $result = array(1,$p[1]);
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }

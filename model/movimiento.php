@@ -229,11 +229,15 @@ class movimiento extends Main
     {
         try 
         {
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->db->beginTransaction();
+            
             $stmt = $this->db->prepare("UPDATE movimientos set estado = 2 WHERE idmovimiento = :p1 and estado = 1");            
             $stmt->bindParam(':p1', $p, PDO::PARAM_INT);
             $stmt->execute();
 
-            $stmt2 = $this->db->prepare("SELECT idproducto,cantidad from movimientosdetalle where idmovimiento = :p1");
+            $stmt2 = $this->db->prepare("SELECT idproducto,ctotal,idtipoproducto 
+                                        from movimientosdetalle where idmovimiento = :p1");
             $stmt2->bindParam(':p1', $p, PDO::PARAM_INT);
             $stmt2->execute();
 
@@ -242,7 +246,7 @@ class movimiento extends Main
                                          WHERE idproducto = :idp");
             foreach($stmt2->fetchAll() as $r)
             {   
-                $stmt3->bindParam(':cant',$r['cantidad'],PDO::PARAM_INT);
+                $stmt3->bindParam(':cant',$r['ctotal'],PDO::PARAM_INT);
                 $stmt3->bindParam(':idp',$r['idproducto'],PDO::PARAM_INT);
                 $stmt3->execute();
             }
