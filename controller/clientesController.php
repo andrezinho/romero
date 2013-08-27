@@ -6,15 +6,14 @@ require_once '../model/clientes.php';
 class ClientesController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'p.idclientes','width'=>60),
-                        2 => array('Name'=>'RUC','NameDB'=>'p.ruc','width'=>100,'search'=>true),
-                        3 => array('Name'=>'Razon Social','NameDB'=>'p.razonsocial','width'=>150,'search'=>true),
-                        4 => array('Name'=>'DNI','NameDB'=>'p.dni','align'=>'center','width'=>80),
-                        5 => array('Name'=>'Replegal','NameDB'=>'p.replegal','width'=>120,'search'=>true),
-                        6 => array('Name'=>'Telefono','NameDB'=>'p.telefono','width'=>70),
-                        7 => array('Name'=>'Direccion','NameDB'=>'p.direccion','width'=>100),
-                        8 => array('Name'=>'Ubigeo','NameDB'=>'u.descripcion','width'=>100),
-                        9 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>50)
+                        1 => array('Name'=>'Codigo','NameDB'=>'c.idcliente','width'=>60),
+                        2 => array('Name'=>'RUC','NameDB'=>'c.dni','width'=>100,'search'=>true),
+                        3 => array('Name'=>'Razon Social','NameDB'=>"'c.nombres || ' ' || c.apematerno || ' ' || c.apepaterno'",'width'=>150,'search'=>true),
+                        4 => array('Name'=>'Direccion','NameDB'=>'c.direccion','width'=>110),
+                        5 => array('Name'=>'Telefono','NameDB'=>'p.telefono','width'=>70),
+                        6 => array('Name'=>'Estado Civil','NameDB'=>'c.estadocivil','width'=>100),
+                        7 => array('Name'=>'Ubigeo','NameDB'=>'u.descripcion','width'=>100),
+                        //8 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>50)
                      );
 
     public function index() 

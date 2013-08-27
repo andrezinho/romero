@@ -1,5 +1,6 @@
 $(function() 
-{    
+{   
+    $("#tabs").tabs();
     $( "#nombres" ).focus();
     $( "#Departamento" ).css({'width':'210px'});
     $( "#iddistrito" ).css({'width':'210px'});

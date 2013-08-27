@@ -5,30 +5,23 @@ class Clientes extends Main
     function indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$cols)
     {
         $sql = "SELECT
-            p.idproveedor,
-            p.ruc,
-            p.razonsocial,
-            p.dni,
-            p.replegal,
-            p.telefono,            
-            p.direccion,
-            u.descripcion,
-            case p.estado when 1 then 'ACTIVO' else 'INACTIVO' end,            
-            p.email,
-            p.obs,            
-            p.contacto,
-            p.idubigeo
-            
-            FROM
-            public.proveedor AS p
-            LEFT JOIN public.ubigeo AS u ON u.idubigeo = p.idubigeo ";
+        c.idcliente,
+        c.dni,
+        c.nombres || ' ' || c.apematerno || ' ' || c.apepaterno AS nombres,
+        c.direccion,
+        c.telefono,
+        c.estadocivil,
+        u.descripcion
+        FROM
+        cliente AS c
+        INNER JOIN ubigeo AS u ON u.idubigeo = c.idubigeo ";
 
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
     function edit($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM proveedor WHERE idproveedor = :id");
+        $stmt = $this->db->prepare("SELECT * FROM cliente WHERE idcliente = :id");
         $stmt->bindParam(':id', $id , PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchObject();
@@ -36,10 +29,10 @@ class Clientes extends Main
     
     function insert($_P ) 
     {
-        /*$stmt = $this->db->prepare("INSERT INTO proveedor(dni, razonsocial, 
+        /*$stmt = $this->db->prepare("INSERT INTO cliente(dni, razonsocial, 
                         replegal, telefono, direccion,contacto, email, estado,idubigeo,obs)
                 values(:p1,:p2,:p3,:p5,:p6,:p7,:p8,:p9,:p10)");*/
-        $stmt = $this->db->prepare("INSERT INTO proveedor(dni, razonsocial, 
+        $stmt = $this->db->prepare("INSERT INTO cliente(dni, razonsocial, 
                         replegal, telefono, direccion,contacto, email, estado,obs,ruc,idubigeo)
                 values(:p1,:p2,:p3,:p4,:p5,:p6,:p7,:p8,:p9,:p10,:p11)");
        
@@ -64,7 +57,7 @@ class Clientes extends Main
     }
     function update($_P ) 
     {
-        $sql = "UPDATE proveedor set 
+        $sql = "UPDATE cliente set 
                             dni=:p1,
                             razonsocial=:p2,
                             replegal=:p3,
@@ -76,7 +69,7 @@ class Clientes extends Main
                             ruc=:p9,
                             obs=:p10,
                             idubigeo= :p11
-                    WHERE   idproveedor = :idproveedor ";
+                    WHERE   idcliente = :idcliente ";
         $stmt = $this->db->prepare($sql);
                 
         $stmt->bindParam(':p1', $_P['dni'] , PDO::PARAM_STR);
@@ -91,7 +84,7 @@ class Clientes extends Main
         $stmt->bindParam(':p10', $_P['obs'] , PDO::PARAM_STR);
         $stmt->bindParam(':p11', $_P['iddistrito'] , PDO::PARAM_INT);
 
-        $stmt->bindParam(':idproveedor', $_P['idproveedor'] , PDO::PARAM_INT);
+        $stmt->bindParam(':idcliente', $_P['idcliente'] , PDO::PARAM_INT);
 
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
@@ -100,7 +93,7 @@ class Clientes extends Main
     
     function delete($p) 
     {
-        $stmt = $this->db->prepare("DELETE FROM proveedor WHERE idproveedor = :p1");
+        $stmt = $this->db->prepare("DELETE FROM cliente WHERE idcliente = :p1");
         $stmt->bindParam(':p1', $p, PDO::PARAM_INT);
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
