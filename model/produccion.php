@@ -80,7 +80,7 @@ class Produccion extends Main
         $stmt->bindParam(':id', $id , PDO::PARAM_INT);
         $stmt->execute();
 
-        $stmt2 = $this->db->prepare("SELECT distinct p.descripcion,md.ctotal,a.descripcion as almacen
+        $stmt2 = $this->db->prepare("SELECT distinct p.descripcion,md.ctotal,a.descripcion as almacen,md.idtipoproducto as tipo
                                     from produccion.movim_proddet as mp
                                         inner join produccion.produccion_detalle as pd
                                         on mp.idproduccion_detalle = pd.idproduccion_detalle
@@ -97,7 +97,7 @@ class Produccion extends Main
             $data2 = array();
             foreach($stmt2->fetchAll() as $r)
             {
-                $data2[] = array('descripcion'=>$r['descripcion'],'cantidad'=>$r['ctotal'],'almacen'=>$r['almacen']);
+                $data2[] = array('descripcion'=>$r['descripcion'],'cantidad'=>$r['ctotal'],'almacen'=>$r['almacen'],'tipo'=>$r['tipo']);
             }
             $data[] = array('descripcion'=>$row['descripcion'],'cantidad'=>$row['cantidad'],'det'=>$data2);
         }
@@ -556,13 +556,60 @@ class Produccion extends Main
             } 
     }
     
-    function anular($p) 
+    function delete($p) 
     {
-         // $stmt = $this->db->prepare("DELETE FROM produccion.produccion WHERE idproduccion = :p1");
-         // $stmt->bindParam(':p1', $p, PDO::PARAM_INT);
-         // $p1 = $stmt->execute();
-         // $p2 = $stmt->errorInfo();
-         // return array($p1 , $p2[2]);
+        //Pendiente
+
+
+        $stmtd = $this->db->prepare("SELECT distinct idmovimiento
+                from produccion.movim_proddet as mp
+                    inner join produccion.produccion_detalle as pd
+                    on mp.idproduccion_detalle =
+                      pd.idproduccion_detalle
+                WHERE pd.idproduccion=:id");
+        $stmtd->bindParam(':id',$p,PDO::PARAM_INT);
+        $stmtd->execute();
+
+        $stmt = $this->db->prepare("UPDATE movimientos set estado = 2 WHERE idmovimiento = :ppp");            
+        $stmt2 = $this->db->prepare("SELECT idproducto,ctotal from movimientosdetalle where idmovimiento = :p2");
+        try 
+        {
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->db->beginTransaction();
+            //Anulamos la produccion
+            $stmtp = $this->db->prepare("UPDATE produccion.produccion set estado = 0 where idproduccion = :id");
+            $stmtp->bindParam(':id',$p,PDO::PARAM_INT);
+            $stmtp->execute();
+
+            foreach($stmtd->fetchAll() as $r)
+            {
+                //echo " aa ".$r['idmovimiento']." AA ";
+                $stmt->bindParam(':ppp', $r['idmovimiento'], PDO::PARAM_INT);
+                $stmt->execute();
+                
+                $stmt2->bindParam(':p2', $r['idmovimiento'], PDO::PARAM_INT);
+                $stmt2->execute();
+
+                $stmt3 = $this->db->prepare("UPDATE produccion.producto 
+                                                    SET stock = stock + :cant 
+                                             WHERE idproducto = :idp");
+                foreach($stmt2->fetchAll() as $r)
+                {   
+                    $stmt3->bindParam(':cant',$r['ctotal'],PDO::PARAM_INT);
+                    $stmt3->bindParam(':idp',$r['idproducto'],PDO::PARAM_INT);
+                    $stmt3->execute();
+                }
+            }
+            
+
+            $this->db->commit();            
+            return array('1','Bien!');
+        }
+        catch(PDOException $e) 
+        {
+            $this->db->rollBack();
+            return array('2',$e->getMessage().$str);
+        }
     }
 }
 ?>
