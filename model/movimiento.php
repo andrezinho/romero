@@ -20,7 +20,7 @@ class movimiento extends Main
                              else ''
                         end,
                         case m.estado when 1 then
-                           case m.usuarioreg when '".$_SESSION['dni']."' then
+                           case m.usuarioreg when '".$_SESSION['idusuario']."' then
                            '<a class=\"anular box-boton boton-anular\" id=\"v-'||m.idmovimiento||'\" href=\"#\" title=\"Anular\" ></a>'
                            else
                                 case ".$_SESSION['id_perfil']." when 1 then
@@ -78,7 +78,7 @@ class movimiento extends Main
         $referencia = $_P['referencia'];
         $estado = 1;
         $idsucursal = 1;
-        $usuarioreg = $_SESSION['dni'];
+        $usuarioreg = $_SESSION['idusuario'];
         $idtipodocumento = $_P['idtipodocumento'];
         if($idtipodocumento=="") $idtipodocumento=7; //No definido
         $serie = $_P['serie'];
