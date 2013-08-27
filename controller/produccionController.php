@@ -10,7 +10,7 @@ class ProduccionController extends Controller
                         3 => array('Name'=>'Personal','NameDB'=>'personal','align'=>'left','width'=>180),
                         4 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechai','align'=>'center','width'=>100),
                         5 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechaf','align'=>'center','width'=>100),
-                        6 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>50)
+                        6 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>80)
                      );
     public function index() 
     {
@@ -19,9 +19,8 @@ class ProduccionController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
-        $data['titulo'] = "Produccion";
-        //(nuevo,editar,eliminar,ver)
-        $data['actions'] = array(true,true,true,false);
+        $data['titulo'] = "Produccion";        
+        $data['actions'] = array(true,true,false,false,true);
         $view = new View();
         $view->setData($data);
         $view->setTemplate('../view/_indexGrid.php');

@@ -11,7 +11,7 @@ class Produccion extends Main
                     upper(pe.nombres || ' ' || pe.apellidos) AS personal,
                     p.fechaini,
                     p.fechafin,
-                    case p.estado when 1 then 'ACTIVO' else 'INCANTIVO' end
+                    case p.estado when 1 then 'REGISTRADO' else 'ANULADO' end
                 FROM
                 produccion.produccion AS p
                 INNER JOIN public.personal AS pe ON pe.idpersonal = p.idpersonal ";
@@ -43,7 +43,7 @@ class Produccion extends Main
     function getDetails($id)
     {
         $stmt = $this->db->prepare("SELECT
-                                        d.idproduccion,
+                                        distinct d.idproduccion,
                                         d.idsubproductos_semi,
                                         d.cantidad,
                                         pr.descripcion || ', ' || spr.descripcion AS descripcion
@@ -56,7 +56,7 @@ class Produccion extends Main
         $stmt->bindParam(':id', $id , PDO::PARAM_INT);
         $stmt->execute();
 
-        $stmt2 = $this->db->prepare("SELECT p.descripcion,md.ctotal,a.descripcion as almacen
+        $stmt2 = $this->db->prepare("SELECT distinct p.descripcion,md.ctotal,a.descripcion as almacen
                                     from produccion.movim_proddet as mp
                                         inner join produccion.produccion_detalle as pd
                                         on mp.idproduccion_detalle = pd.idproduccion_detalle
@@ -351,12 +351,11 @@ class Produccion extends Main
     
     function anular($p) 
     {
-
-        // $stmt = $this->db->prepare("DELETE FROM produccion.produccion WHERE idproduccion = :p1");
-        // $stmt->bindParam(':p1', $p, PDO::PARAM_INT);
-        // $p1 = $stmt->execute();
-        // $p2 = $stmt->errorInfo();
-        // return array($p1 , $p2[2]);
+         // $stmt = $this->db->prepare("DELETE FROM produccion.produccion WHERE idproduccion = :p1");
+         // $stmt->bindParam(':p1', $p, PDO::PARAM_INT);
+         // $p1 = $stmt->execute();
+         // $p2 = $stmt->errorInfo();
+         // return array($p1 , $p2[2]);
     }
 }
 ?>
