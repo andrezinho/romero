@@ -71,13 +71,13 @@ class movimiento extends Main
     }
     function insert($_P) 
     {
-        $idmovimientosubtipo = $_P['idmovimientosubtipo']; //Ingreso de Materia Prima
-        //die($idmovimientosubtipo."SS");
+        
+        $idmovimientosubtipo = $_P['idmovimientosubtipo'];        
         $idmoneda = 1; //Soles
         $fecha = date('Y-m-d');
         $referencia = $_P['referencia'];
         $estado = 1;
-        $idsucursal = 1;
+        $idsucursal = $_SESSION['idsucursal'];
         $usuarioreg = $_SESSION['idusuario'];
         $idtipodocumento = $_P['idtipodocumento'];
         if($idtipodocumento=="") $idtipodocumento=7; //No definido
@@ -94,7 +94,8 @@ class movimiento extends Main
             else $afecto=0;
         $idalmacen = $_P['idalmacen'];
         $igv = $_P['igv_val'];
-
+        $autogen = $_P['autogen'];
+        if($autogen=="") $autogen=0;
         $stmt = $this->db->prepare("SELECT idmovimientostipo from movimientosubtipo
                                     where idmovimientosubtipo = :id");
         $stmt->bindParam(':id',$idmovimientosubtipo,PDO::PARAM_INT);
@@ -105,11 +106,11 @@ class movimiento extends Main
         $sql = "INSERT INTO movimientos(idmovimientosubtipo, idmoneda, fecha, referencia, 
                                         estado, idsucursal, usuarioreg, idtipodocumento, serie, numero, 
                                         fechae, idproveedor, idformapago, guia_serie, guia_numero, 
-                                        fecha_guia, afecto, idalmacen, igv) 
+                                        fecha_guia, afecto, idalmacen, igv,autogen) 
                             values(:p1, :p2, :p3, :p4, 
                                         :p5, :p6, :p7, :p8, :p9, :p10, 
                                         :p11, :p12, :p13, :p14, :p15, 
-                                        :p16, :p17, :p18, :p19)";
+                                        :p16, :p17, :p18, :p19, :p20)";
         $stmt = $this->db->prepare($sql);
         try 
         { 
@@ -135,6 +136,7 @@ class movimiento extends Main
                 $stmt->bindParam(':p17',$afecto,PDO::PARAM_INT);
                 $stmt->bindParam(':p18',$idalmacen,PDO::PARAM_INT);
                 $stmt->bindParam(':p19',$igv,PDO::PARAM_INT);
+                $stmt->bindParam(':p20',$autogen,PDO::PARAM_INT);
 
                 $stmt->execute();
                 $id =  $this->IdlastInsert('movimientos','idmovimiento');
@@ -180,16 +182,15 @@ class movimiento extends Main
                     if($_P['altod'][$i]!="") $alto = $_P['altod'][$i];
                     $espesor = 0;
                     if($_P['espesord'][$i]!="") $espesor = $_P['espesord'][$i];
-
                     if($_P['tipod'][$i]==1) $too = $_P['cantd'][$i]*$largo*$alto*$espesor/12;
                         else $too = $_P['cantd'][$i];
-
                     $stmt4->bindParam(':idtp',$idproducto,PDO::PARAM_INT);
                     $stmt4->bindParam(':ida',$idalmacen,PDO::PARAM_INT);
                     $stmt4->bindParam(':idp',$idproducto,PDO::PARAM_INT);
                     $stmt4->execute();
                     $row4 = $stmt4->fetchObject();
-                    if($idmovimientostipo==1) 
+
+                    if($idmovimientostipo==1)
                         $too_current = (float)$row4->c + $too;
                     else 
                         $too_current = (float)$row4->c - $too;
@@ -227,38 +228,68 @@ class movimiento extends Main
     
     function delete($p) 
     {
-        try 
+        //Obtenemos los datos de la cabecera del movimiento
+        $stmt = $this->db->prepare("SELECT m.*,mst.idmovimientostipo 
+                                    FROM movimientos as m
+                                        inner join movimientosubtipo as mst 
+                                        on mst.idmovimientosubtipo = m.idmovimientosubtipo                                                                                
+                                    where idmovimiento = :id");
+        $stmt->bindParam(':id',$p,PDO::PARAM_INT);
+        $stmt->execute();
+        $r = $stmt->fetchObject();
+        //Seteamos los valores
+        $_P = array();        
+        $_P['idmovimientosubtipo'] = $r->idmovimientosubtipo;        
+        if($r->idmovimientostipo==1) $_P['idmovimientosubtipo']=18;
+            else $_P['idmovimientosubtipo']=5;        
+        $_P['referencia'] = "POR ANULACION DEL MOVIMIENTO ".$r->idmovimiento;        
+        $_P['idtipodocumento'] = 7; //No definido
+        $_P['serie'] = '';
+        $_P['numero'] = '';
+        $_P['fechae'] = date('Y-m-d');
+        $_P['idproveedor'] = 1;        
+        $_P['idformapago'] = $r->idformapago;
+        $_P['guia_serie'] = '';
+        $_P['guia_numero'] = '';
+        $_P['fecha_guia'] = date('Y-m-d');
+        $_P['afecto'] = 0;
+        $_P['idalmacen'] = $r->idalmacen;
+        $_P['igv_val'] = 0;
+        $_P['autogen'] = 1;
+
+        //Obtenemos los datos del detalle del movimiento
+        $stmt = $this->db->prepare("SELECT * from movimientosdetalle where idmovimiento = :id");
+        $stmt->bindParam(':id',$p,PDO::PARAM_INT);
+        $stmt->execute();
+        $tipod = array(); //Tipo de producto 1 -> madera 2 -> melamina
+        $idtipod = array();$largod = array();$altod = array();
+        $espesord = array();$cantd = array();$preciod = array();
+        foreach($stmt->fetchAll() as $r)
         {
-            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->db->beginTransaction();
-            
-            $stmt = $this->db->prepare("UPDATE movimientos set estado = 2 WHERE idmovimiento = :p1 and estado = 1");            
-            $stmt->bindParam(':p1', $p, PDO::PARAM_INT);
-            $stmt->execute();
-
-            $stmt2 = $this->db->prepare("SELECT idproducto,ctotal,idtipoproducto 
-                                        from movimientosdetalle where idmovimiento = :p1");
-            $stmt2->bindParam(':p1', $p, PDO::PARAM_INT);
-            $stmt2->execute();
-
-            $stmt3 = $this->db->prepare("UPDATE produccion.producto 
-                                                SET stock = stock - :cant 
-                                         WHERE idproducto = :idp");
-            foreach($stmt2->fetchAll() as $r)
-            {   
-                $stmt3->bindParam(':cant',$r['ctotal'],PDO::PARAM_INT);
-                $stmt3->bindParam(':idp',$r['idproducto'],PDO::PARAM_INT);
-                $stmt3->execute();
-            }
-
-            $this->db->commit();            
-            return array('1','Bien!');
+            $_P['tipod'][] = $r['idtipoproducto'];
+            $_P['idtipod'][] = $r['idproducto'];
+            $_P['largod'][] = $r['largo'];
+            $_P['altod'][] = $r['alto'];
+            $_P['espesord'][] = $r['espesor'];
+            $_P['cantd'][] = $r['cantidad'];
+            $_P['preciod'][] = $r['precio'];
         }
-        catch(PDOException $e) 
-        {
-            $this->db->rollBack();
-            return array('2',$e->getMessage().$str);
-        }
+
+        $stmt = $this->db->prepare("UPDATE movimientos set estado = 2 
+                                    WHERE idmovimiento = :p1 and estado = 1");            
+        $stmt->bindParam(':p1', $p, PDO::PARAM_INT);
+        $p1 = $stmt->execute();
+        $p2 = $stmt->errorInfo();
+
+        if($p1)        
+            $resp = $this->insert($_P);        
+        else 
+            $resp = array("2","Orror");
+        return $resp;
+    }
+    function test()
+    {
+        return 1;
     }
 }
 ?>

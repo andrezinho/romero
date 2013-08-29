@@ -18,7 +18,10 @@ class UserController extends Controller {
             $_SESSION['name'] = $obj->nombres;            
             $_SESSION['id_perfil'] = $obj->idperfil;
             $_SESSION['perfil'] = $obj->perfil;
-            $_SESSION['turno'] = $obj->turno;            
+            $_SESSION['area'] = $obj->oficina;
+            $_SESSION['idarea'] = $obj->idoficina;
+            $_SESSION['sucursal'] = $obj->sucursal;
+            $_SESSION['idsucursal'] = $obj->idsucursal;
             header('location:index.php');
         }
         else

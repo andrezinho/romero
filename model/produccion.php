@@ -1,5 +1,6 @@
 <?php
 include_once("Main.php");
+include_once("movimiento.php");
 class Produccion extends Main
 {    
     //indexGridi -> Grilla del index de ingresos.
@@ -557,10 +558,8 @@ class Produccion extends Main
     }
     
     function delete($p) 
-    {
-        //Pendiente
-
-
+    {        
+        $objmov = new movimiento();
         $stmtd = $this->db->prepare("SELECT distinct idmovimiento
                 from produccion.movim_proddet as mp
                     inner join produccion.produccion_detalle as pd
@@ -570,46 +569,17 @@ class Produccion extends Main
         $stmtd->bindParam(':id',$p,PDO::PARAM_INT);
         $stmtd->execute();
 
-        $stmt = $this->db->prepare("UPDATE movimientos set estado = 2 WHERE idmovimiento = :ppp");            
-        $stmt2 = $this->db->prepare("SELECT idproducto,ctotal from movimientosdetalle where idmovimiento = :p2");
-        try 
-        {
-            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->db->beginTransaction();
-            //Anulamos la produccion
-            $stmtp = $this->db->prepare("UPDATE produccion.produccion set estado = 0 where idproduccion = :id");
-            $stmtp->bindParam(':id',$p,PDO::PARAM_INT);
-            $stmtp->execute();
+        //Anulamos la produccion
+        $stmtp = $this->db->prepare("UPDATE produccion.produccion set estado = 0 where idproduccion = :id");
+        $stmtp->bindParam(':id',$p,PDO::PARAM_INT);
+        $stmtp->execute();
 
-            foreach($stmtd->fetchAll() as $r)
-            {
-                //echo " aa ".$r['idmovimiento']." AA ";
-                $stmt->bindParam(':ppp', $r['idmovimiento'], PDO::PARAM_INT);
-                $stmt->execute();
-                
-                $stmt2->bindParam(':p2', $r['idmovimiento'], PDO::PARAM_INT);
-                $stmt2->execute();
-
-                $stmt3 = $this->db->prepare("UPDATE produccion.producto 
-                                                    SET stock = stock + :cant 
-                                             WHERE idproducto = :idp");
-                foreach($stmt2->fetchAll() as $r)
-                {   
-                    $stmt3->bindParam(':cant',$r['ctotal'],PDO::PARAM_INT);
-                    $stmt3->bindParam(':idp',$r['idproducto'],PDO::PARAM_INT);
-                    $stmt3->execute();
-                }
-            }
-            
-
-            $this->db->commit();            
-            return array('1','Bien!');
+        foreach($stmtd->fetchAll() as $r)
+        {                
+            $r = $objmov->delete($r['idmovimiento']);
         }
-        catch(PDOException $e) 
-        {
-            $this->db->rollBack();
-            return array('2',$e->getMessage().$str);
-        }
+        return $r;
+        
     }
 }
 ?>

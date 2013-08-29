@@ -12,13 +12,15 @@ class User extends Main {
                                                 personal.nombres||' '||personal.apellidos as nombres,
                                                 p.descripcion as perfil,
                                                 personal.usuario as login,
-                                                '' as oficina,
-                                                '' as idoficina,
-                                                '' as sucursal,
-                                                '' as idsucursal,
+                                                a.descripcion as oficina,
+                                                a.idarea as idoficina,
+                                                s.descripcion as sucursal,
+                                                s.idsucursal as idsucursal,
                                                 '' as turno,
                                                 personal.idpersonal
                                         FROM personal inner join seguridad.perfil as p on personal.idperfil = p.idperfil 
+                                                inner join area as a on a.idarea = personal.idarea
+                                                inner join sucursales as s on s.idsucursal = a.idsucursal
                                         WHERE personal.usuario = :user AND personal.clave = :password ");
         $statement->bindParam (":user", $_POST['usuario'] , PDO::PARAM_STR);
         $statement->bindParam (":password", $_POST['password'] , PDO::PARAM_STR);
