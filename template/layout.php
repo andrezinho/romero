@@ -34,14 +34,14 @@
         <div id="barra-session">
              <ul class="item-top">            
                 <li>
-                    <b><?php echo strtoupper($_SESSION['oficina']) ?></b>
+                    <b><?php echo strtoupper($_SESSION['sucursal']." | ".$_SESSION['area']) ?></b>
                 </li>               
                 <li>
-                    PERIODO: <?php echo $_SESSION['name_periodo']; ?>
+                    
                 </li>
-                <li>
+                <!-- <li>
                     CAJA (<?php echo $_SESSION['name_turno'] ?>): <?php echo $_SESSION['fecha_caja'] ?> 
-               </li>            
+               </li>             -->
             </ul> 
             <!-- <a href="#" class="box-item-notification notification-car-empty" title="Llegada de Vehiculos">
             </a>            
