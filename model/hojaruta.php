@@ -5,17 +5,18 @@ class HojaRuta extends Main
     function indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$cols)
     {
         $sql = "SELECT
-            h.idhojarutas,
-            h.descripcion,
-            p.nombres || ' ' || p.apellidos AS personal,
-            z.descripcion || ' - ' || u.descripcion AS zonas,
-            h.fechareg
+        h.idhojarutas,
+        r.descripcion,
+        p.nombres || ' ' || p.apellidos AS personal,
+        z.descripcion || ' - ' || u.descripcion AS zonas,
+        h.fechareg
 
-            FROM
-            public.hojarutas AS h
-            INNER JOIN public.personal AS p ON p.idpersonal = h.idpersonal
-            INNER JOIN public.zona AS z ON z.idzona = h.idzona
-            INNER JOIN public.ubigeo AS u ON u.idubigeo = z.idubigeo ";    
+        FROM
+        hojarutas AS h
+        INNER JOIN personal AS p ON p.idpersonal = h.idpersonal
+        INNER JOIN zona AS z ON z.idzona = h.idzona
+        INNER JOIN ubigeo AS u ON u.idubigeo = z.idubigeo
+        INNER JOIN rutas AS r ON r.idrutas = h.idrutas ";    
             
             return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
@@ -23,19 +24,21 @@ class HojaRuta extends Main
     function edit($id ) {
         $stmt = $this->db->prepare("SELECT
             h.idhojarutas,
-            h.descripcion,
+            r.descripcion,
             h.idpersonal,
             p.dni,
             p.nombres || ' ' || p.apellidos AS personal,
             z.idubigeo,
             h.idzona,
-            h.fechareg
-
+            h.fechareg,
+            r.idrutas
             FROM
             hojarutas AS h
             INNER JOIN personal AS p ON p.idpersonal = h.idpersonal
             INNER JOIN zona AS z ON z.idzona = h.idzona
             INNER JOIN ubigeo AS u ON u.idubigeo = z.idubigeo
+            INNER JOIN rutas AS r ON r.idrutas = h.idrutas
+            
             WHERE idhojarutas = :id ");
         $stmt->bindParam(':id', $id , PDO::PARAM_INT);
         $stmt->execute();
@@ -71,7 +74,7 @@ class HojaRuta extends Main
     function insert($_P ) {
 
         $sql="INSERT INTO hojarutas(
-            descripcion, idpersonal, idzona, fechareg) 
+            idrutas, idpersonal, idzona, fechareg) 
                     VALUES(:p1,:p2,:p3,:p4)" ;
 
         $stmt = $this->db->prepare($sql);
@@ -80,7 +83,7 @@ class HojaRuta extends Main
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->beginTransaction();
             $_P['fechareg']=$this->fdate($_P['fechareg'], 'EN');
-            $stmt->bindParam(':p1', $_P['descripcion'] , PDO::PARAM_STR);
+            $stmt->bindParam(':p1', $_P['idrutas'] , PDO::PARAM_INT);
             $stmt->bindParam(':p2', $_P['idpersonal'] , PDO::PARAM_INT);
             $stmt->bindParam(':p3', $_P['idzona'] , PDO::PARAM_INT);
             $stmt->bindParam(':p4', $_P['fechareg'], PDO::PARAM_INT);
@@ -125,7 +128,7 @@ class HojaRuta extends Main
             $res->execute();
             
         $sql="UPDATE hojarutas 
-                set descripcion = :p1, 
+                set idrutas = :p1, 
                     idpersonal= :p2, 
                     idzona = :p3,
                     fechareg= :p4
@@ -138,7 +141,7 @@ class HojaRuta extends Main
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->beginTransaction();
 
-            $stmt->bindParam(':p1', $_P['descripcion'] , PDO::PARAM_STR);
+            $stmt->bindParam(':p1', $_P['idrutas'] , PDO::PARAM_INT);
             $stmt->bindParam(':p2', $_P['idpersonal'] , PDO::PARAM_INT);
             $stmt->bindParam(':p3', $_P['idzona'] , PDO::PARAM_INT);
             $stmt->bindParam(':p4', $_P['fechareg'] , PDO::PARAM_INT);

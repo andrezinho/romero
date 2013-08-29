@@ -1,7 +1,7 @@
 $(function() 
 {       
     $("#descripcion").focus();    
-    $("#sexo, #estcivil,#nivelest").css({'width':'210px'});
+    $("#sexo, #idestado_civil,#idgradinstruccion, #idtipovivienda").css({'width':'210px'});
 
     $("#idsubproductos_semi").change(function(){$("#cantidad_me").focus(); load_title_produccion();});
 

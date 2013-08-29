@@ -10,7 +10,7 @@ include("../view/header_form.php");
         <input type="hidden" name="action" value="save" />             
         <input type="hidden" id="idproduccion" name="idproduccion" class="text ui-widget-content ui-corner-all" style=" width: 50px; text-align: left;" value="<?php echo $obj->idproduccion; ?>" readonly />                
         
-        <label for="fecha" class="labels" style="width:120px;">Fecha de solicitud:</label>
+        <label for="fecha" class="labeles" style="width:120px;">Fecha de solicitud:</label>
         <input type="text" name="fecha" id="fecha" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fecha)?$obj->fecha:  date('d/m/Y')); ?>" style="width:70px; text-align:center" />        
         <br/> 
     </fieldset> -->    
@@ -21,12 +21,18 @@ include("../view/header_form.php");
             <input type="hidden" name="action" value="save" />             
             <input type="hidden" id="idproduccion" name="idproduccion" class="text ui-widget-content ui-corner-all" style=" width: 50px; text-align: left;" value="<?php echo $obj->idproduccion; ?>" readonly />                
             
-            <label for="fechas" class="labels" style="width:120px;">Fecha de solicitud:</label>
+            <label for="fechas" class="labeles" style="width:120px;">Fecha de solicitud:</label>
             <input type="text" name="fecha" id="fecha" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fecha)?$obj->fecha:  date('d/m/Y')); ?>" style="width:70px; text-align:center" />        
+            
+            <label for="fechas" class="labeles" style="width:120px;">Buscar proforma:</label>
+            <input type="text" name="dni" id="dnicliprof" value="" class="ui-widget-content ui-corner-all text" style="width:80px;" />
+            <input type="text" name="personal" id="clienteprof" value="" class="ui-widget-content ui-corner-all text" style="width:250px;" />
+            <input type="hidden" name="idpersonal" id="idclienteprof" value="" />
+            <input type="hidden" name="idproforma" id="idproforma" value="" />
             <br/>
-
+            
             <div class="ui-widget-content ui-corner-all" style="padding:10px">
-                <h4 id="title-produccion" style="text-align:center">HOJA DE VERIFICACION</h4>
+                <h4 id="title-produccion" style="text-align:center">HOJA DE SOLICITUD</h4>
                 <br/>
                 <div id="tabs">
                     <ul style="background:#DADADA !important; border:0 !important">
@@ -39,15 +45,16 @@ include("../view/header_form.php");
                     <div id="tabs-1">
                         <p id="">Datos Generales del <b>Cliente :</b></p>
                         <br />
-                        <label for="dni" class="labels">DNI:</label>
-                        <input id="dni" name="dni" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
+                        <label for="dni" class="labeles">DNI:</label>
+                        <input type="text" name="dni" id="dni" value="" class="ui-widget-content ui-corner-all text" style="width:200px;" />
                         <input id="idcliente" name="idcliente" value="" type="hidden" />
 
-                        <label for="cleinte" class="labels">Nombres y Ap:</label>                        
-                        <input type="text" id="nomcliente" name="nomcliente" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="" />
+                        <label for="cleinte" class="labeles">Nombres y Ap:</label>                        
+                        <input id="nomcliente" name="nomcliente" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
+                        
                         <br/>
 
-                        <label for="sexo" class="labels">Sexo:</label>        
+                        <label for="sexo" class="labeles">Sexo:</label>        
                         <select id="sexo" name="sexo" class="ui-widget-content ui-corner-all">
                             <?php $var="";
                                 if($obj->sexo=='M')
@@ -62,125 +69,120 @@ include("../view/header_form.php");
                             <option <?php echo $var; ?> value="F">Femenino</option>
                         </select>
 
-                        <label for="fechanaci" class="labels">Fecha de Nac:</label>
+                        <label for="fechanaci" class="labeles">Fecha de Nac:</label>
                         <input type="text" name="fechanac" id="fechanac" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fechanac)?$obj->fechanac:  date('d/m/Y')); ?>" style="text-align:center" />
                         <br/>
 
-                        <label for="estcivil" class="labels">Estado civil:</label>        
-                        <select id="estcivil" name="estcivil" class="ui-widget-content ui-corner-all">
-                            <?php $var="";
-                                if($obj->estcivil=='Ninguno')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Ninguno">Ninguno</option>
-                            
-                            <?php $var="";
-                                if($obj->estcivil=='Soltero')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Soltero">Soltero(a)</option>
+                        <label for="estcivil" class="labeles">Estado civil:</label>        
+                        <?php echo $EstadoCivil; ?>
 
-                            <?php $var="";
-                                if($obj->estcivil=='Conviviente')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Conviviente">Conviviente</option>
-
-                            <?php $var="";
-                                if($obj->estcivil=='Casado')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Casado">Casado(a)</option>
-
-                            <?php $var="";
-                                if($obj->estcivil=='Divorciado')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Divorciado">Divorciado(a)</option>
-
-                            <?php $var="";
-                                if($obj->estcivil=='Viudo')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Viudo">Viudo(a)</option>
-                        </select>
-
-                        <label for="cargafam" class="labels">Carga Familiar:</label>                        
+                        <label for="cargafam" class="labeles">Carga Familiar:</label>                        
                         <input type="text" id="cargafam" name="cargafam" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->cargafam; ?>" />
                         <br/>
 
-                        <label for="estcivil" class="labels">Nivel de Educacion:</label>        
-                        <select id="estcivil" name="estcivil" class="ui-widget-content ui-corner-all">
-                            <?php $var="";
-                                if($obj->estcivil=='Ninguno')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Ninguno">Ninguno</option>
-                            
-                            <?php $var="";
-                                if($obj->estcivil=='Primaria Completa')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Primaria Completa">Primaria Completa</option>
+                        <label for="nivel" class="labeles">Nivel Educacion:</label>        
+                        <?php echo $NivelEducacion; ?>
 
-                            <?php $var="";
-                                if($obj->estcivil=='Primaria Incompleta')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Primaria Incompleta">Primaria Incompleta</option>
-
-                            <?php $var="";
-                                if($obj->estcivil=='Segundaria Completa')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Segundaria Completa">Segundaria Completa</option>
-
-                            <?php $var="";
-                                if($obj->estcivil=='Segundaria Incompleta')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Segundaria Incompleta">Segundaria Incompleta</option>
-                            
-                            <?php $var="";
-                                if($obj->estcivil=='Seperior Universitario')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Seperior Universitario">Seperior Universitario</option>
-                            
-                            <?php $var="";
-                                if($obj->estcivil=='Carrea Tecnica Completa')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Carrea Tecnica Completa">Carrea Tecnica Completa</option>
-                            
-                            <?php $var="";
-                                if($obj->estcivil=='Carrea Tecnica Incompleta')
-                                {$var="selected";}               
-                            ?>
-                            <option <?php echo $var; ?> value="Carrea Tecnica Incompleta">Carrea Tecnica Incompleta</option>
-
-                        </select>
-
-                        <label for="telefono" class="labels">Telefono:</label>                        
+                        <label for="telefono" class="labeles">Telefono:</label>                        
                         <input type="text" id="telefono" name="telefono" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->telefono; ?>" />
                         <br/>
 
-                        <label for="tivovivienda" class="labels">Tipo Vivienda:</label>
+                        <label for="tivovivienda" class="labeles">Tipo Vivienda:</label>
                         <?php echo $tivovivienda; ?>
-
                         
+                        <label for="direccion" class="labeles">Dirección:</label>                        
+                        <input type="text" id="direccion" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
+                        <br/>
+                        
+                        <label for="direccion" class="labeles">Ref. Ubicación:</label>                        
+                        <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
+                        
+                        <label for="direccion" class="labeles">Actividad Econ.:</label>                        
+                        <input type="text" id="direccion" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
+                        <br/>
+                        
+                        <label for="direccion" class="labeles">Empresa que trabaja:</label>                        
+                        <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
+                        
+                        <label for="direccion" class="labeles">Cargo Actual:</label>                        
+                        <input type="text" id="direccion" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
+                        <br/>
+                        
+                        <label for="direccion" class="labeles">Telefono del trabaja:</label>                        
+                        <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
+                        
+                        <label for="direccion" class="labeles">Direccion del trabajo:</label>                        
+                        <input type="text" id="direccion" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
+                        <br/>
                     </div>
                     <div id="tabs-2">
-                        <p>Agregar la el tipo y la cantidad e Melamina a emplear para la produccion.</p>
+                        <p>Datos Generales del <b>Cliente :</b></p>
+                        <br />
+                        <label for="dni" class="labeles">DNI:</label>
+                        <input type="text" name="dni" id="dni" value="" class="ui-widget-content ui-corner-all text" style="width:200px;" />
+                        <input id="idcliente" name="idcliente" value="" type="hidden" />
+
+                        <label for="cleinte" class="labeles">Nombres y Apellidos:</label>                        
+                        <input id="nomcliente" name="nomcliente" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
+                        <br/>
+                        
+                        <label for="direccion" class="labeles">Empresa que trabaja:</label>                        
+                        <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
+                        
+                        <label for="direccion" class="labeles">Cargo Actual:</label>                        
+                        <input type="text" id="direccion" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
+                        <br/>
+                        
+                        <label for="direccion" class="labeles">Telefono del trabaja:</label>                        
+                        <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
+                        
+                        <label for="direccion" class="labeles">Direccion del trabajo:</label>                        
+                        <input type="text" id="direccion" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
+                        <br/>
                     </div>
                     <div id="tabs-3">
-                        <p>Agregar la el tipo y la cantidad e Melamina a emplear para la produccion.</p>
+                        <p>Registre los ingresos de la pareja:</p>
+                        <br/>
+                        <label for="dni" class="labeless">Ingreso del cliente:</label>
+                        <input type="text" name="ingresocli" id="ingresocli" value="" class="ui-widget-content ui-corner-all text" value="<?php echo $obj->ingresocli; ?>" style="width:80px;" />
+                        &nbsp;&nbsp;&nbsp;
+                        <label for="dni" class="labeless">Ingreso del conyugue:</label>
+                        <input type="text" name="ingresocon" id="ingresocon" value="" class="ui-widget-content ui-corner-all text" value="<?php echo $obj->ingresocon; ?>" style="width:80px;" />
+                        &nbsp;&nbsp;&nbsp;
+                        <label for="dni" class="labeless">Total de ingresos:</label>
+                        <input type="text" name="totaling" id="totaling" value="" class="ui-widget-content ui-corner-all text" value="<?php echo $obj->totaling; ?>" style="width:80px;" />
+
                     </div>
                     <div id="tabs-4">
-                        <p>Agregar la el tipo y la cantidad e Melamina a emplear para la produccion.</p>
+                        <p>Ingrese alguna referencia:</p>
+                        <br/>
+                        <label for="cleinte" class="labeles">Nombres y Apellidos:</label>                        
+                        <input id="nomcliente" name="nomcliente" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
+                                                
+                        <label for="direccion" class="labeles">Relación:</label>                        
+                        <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
+                        <br/>
+                        
+                        <label for="telefono" class="labeles">Telefono:</label>                        
+                        <input type="text" id="telefono" name="telefono" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->telefono; ?>" />
+                        
                     </div>
                     <div id="tabs-5">
-                        <p>Agregar la el tipo y la cantidad e Melamina a emplear para la produccion.</p>
+                        <p>Ingrese el producto:</p>
+                        <br />
+                        <label class="labels">Producto:</label>
+                        <input type="text" name="producto" id="producto" value="" class="ui-widget-content ui-corner-all text" style="width:250px;" />
+                        <input type="hidden" name="idsubproductos_semi" id="idsubproductos_semi" value="" />
+                        
+                        <span style="float: right;">
+                            <label class="labels">Producto:</label>
+                            <input type="text" name="producto" id="producto" value="" class="ui-widget-content ui-corner-all text" style="width:250px;" />
+                        
+                        </span>
+                        <label class="labels">Observaciones:</label><br />
+                        <textarea class="ui-widget-content ui-corner-all text"></textarea>
+                        
+                        
                     </div>
                 </div>
                 

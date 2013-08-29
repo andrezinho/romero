@@ -1,15 +1,16 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/linea.php';
+require_once '../model/rutas.php';
 
-class LineaController extends Controller
+class RutasController extends Controller
 {
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'s.idlinea','align'=>'center','width'=>'20'),
+                        1 => array('Name'=>'Codigo','NameDB'=>'s.idrutas','align'=>'center','width'=>'20'),
                         2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','search'=>true),
                         3 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
                      );
+    
     public function index() 
     {
         $data = array();                               
@@ -18,6 +19,7 @@ class LineaController extends Controller
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
 
+        //(nuevo,editar,eliminar,ver)
         $data['actions'] = array(true,true,true,false);
 
         $view = new View();
@@ -29,7 +31,7 @@ class LineaController extends Controller
 
     public function indexGrid() 
     {
-        $obj = new Linea();        
+        $obj = new Rutas();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
@@ -45,42 +47,44 @@ class LineaController extends Controller
     public function create()
     {
         $data = array();
-        $view = new View();
+        $view = new View();                        
         $view->setData($data);
-        $view->setTemplate( '../view/linea/_form.php' );
+        $view->setTemplate( '../view/rutas/_form.php' );
         echo $view->renderPartial();
     }
 
     public function edit() {
-        $obj = new Linea();
+        $obj = new Rutas();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;    
+        $data['obj'] = $obj;        
+        $data['more_options'] = $this->more_options('area');
         $view->setData($data);
-        $view->setTemplate( '../view/linea/_form.php' );
+        $view->setTemplate( '../view/rutas/_form.php' );
         echo $view->renderPartial();
         
     }
 
     public function save()
     {
-        $obj = new Linea();
+        $obj = new Rutas();
         $result = array();        
-        if ($_POST['idlinea']=='') 
+        if ($_POST['idrutas']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
         if ($p[0])                
-            $result = array(1,'',$p[2]);                
+            $result = array(1,'');                
         else                 
-            $result = array(2,$p[1],'');
+            $result = array(2,$p[1]);
         print_r(json_encode($result));
 
     }
+
     public function delete()
     {
-        $obj = new Linea();
+        $obj = new Rutas();
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);

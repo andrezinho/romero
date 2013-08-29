@@ -30,6 +30,7 @@ class VerificacionController extends Controller
         $view->setlayout('../template/layout.php');
         $view->render();
     }
+    
     public function indexGrid() 
     {
         $obj = new Verificacion();        
@@ -50,8 +51,8 @@ class VerificacionController extends Controller
         $data = array();
         $view = new View();
         $data['tivovivienda'] = $this->Select(array('id'=>'idtipovivienda','name'=>'idtipovivienda','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipovivienda','width'=>'120px'));
-        $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px'));        
-        $data['almacenme'] = $this->Select(array('id'=>'idalmacenme','name'=>'idalmacenme','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px'));        
+        $data['NivelEducacion'] = $this->Select(array('id'=>'idgradinstruccion','name'=>'idgradinstruccion','text_null'=>'Seleccione...','table'=>'vista_grado'));
+        $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil'));
         $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'220px'));
         $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
         $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));
@@ -68,6 +69,8 @@ class VerificacionController extends Controller
         $rows = $obj->edit($_GET['id']);
         $data['obj'] = $rows;
         $data['ProductoSemi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','width'=>'120px'));
+        $data['NivelEducacion'] = $this->Select(array('id'=>'idgradinstruccion','name'=>'idgradinstruccion','text_null'=>'Seleccione...','table'=>'vista_grado','code'=>$obj->idgradinstruccion));
+        $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil','code'=>$obj->idestado_civil));
         $data['rowsd'] = $obj->getDetails($rows->idproduccion);
         $view->setData($data);
         $view->setTemplate( '../view/verificacion/_form.php' );

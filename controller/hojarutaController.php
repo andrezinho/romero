@@ -7,7 +7,7 @@ class HojaRutaController extends Controller
 {
     var $cols = array(
                     1 => array('Name'=>'Codigo','NameDB'=>'h.idhojarutas','align'=>'center','width'=>'50'),
-                    2 => array('Name'=>'Nombre','NameDB'=>'h.descripcion','search'=>true),
+                    2 => array('Name'=>'Ruta','NameDB'=>'r.descripcion','search'=>true),
                     3 => array('Name'=>'Personal','NameDB'=>" 'p.nombres' || ' ' || 'p.apellidos' ",'search'=>true),                        
                     4 => array('Name'=>'Zona','NameDB'=>"'z.descripcion || ' - ' || u.descripcion' ",'width'=>'120','align'=>'center'),
                     5 => array('Name'=>'Fecha','NameDB'=>'h.fechareg','width'=>'50','align'=>'center')
@@ -49,6 +49,7 @@ class HojaRutaController extends Controller
         $data = array();
         $view = new View();        
         $data['Distrito'] = $this->Select(array('id'=>'idubigeo','name'=>'idubigeo','text_null'=>'Seleccione...','table'=>'vista_distrito'));       
+        $data['Rutas'] = $this->Select(array('id'=>'idrutas','name'=>'idrutas','text_null'=>'Seleccione...','table'=>'vista_rutas'));       
         $view->setData($data);
         $view->setTemplate( '../view/hojaruta/_form.php' );
         echo $view->renderPartial();
@@ -62,6 +63,7 @@ class HojaRutaController extends Controller
         $data['obj'] = $rows;
         $data['Distrito'] = $this->Select(array('id'=>'idubigeo','name'=>'idubigeo','text_null'=>'Seleccione...','table'=>'vista_distrito','code'=>$rows->idubigeo));
         $data['idzona'] = $this->Select(array('id'=>'idzona','name'=>'idzona','text_null'=>'Seleccione...','table'=>'vista_zona','code'=>$rows->idzona));
+        $data['Rutas'] = $this->Select(array('id'=>'idrutas','name'=>'idrutas','text_null'=>'Seleccione...','table'=>'vista_rutas','code'=>$rows->idrutas));       
         $data['rowsd'] = $obj->getDetails($rows->idhojarutas);
         $view->setData($data);
         $view->setTemplate( '../view/hojaruta/_form.php' );

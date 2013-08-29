@@ -28,7 +28,13 @@ class Proveedor extends Main
 
     function edit($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM proveedor WHERE idproveedor = :id");
+        $stmt = $this->db->prepare("SELECT
+            p.*,
+            u.descripcion
+            FROM
+            proveedor AS p
+            INNER JOIN ubigeo AS u ON u.idubigeo = p.idubigeo
+            WHERE idproveedor = :id");
         $stmt->bindParam(':id', $id , PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchObject();

@@ -1,7 +1,8 @@
 $(function() 
 {    
-    $("#descripcion" ).focus();    
-    $("#estados").buttonset();
+    $( "#descripcion" ).focus();
+    /*$( "#idperfil" ).css({'width':'210px'});*/
+    $("#div_activo").buttonset();
 });
 
 function save()
@@ -9,7 +10,7 @@ function save()
   bval = true;        
   bval = bval && $( "#descripcion" ).required();        
   //bval = bval && $( "#orden" ).required();
-  var str = $("#frm").serialize();
+  var str = $("#frm_rutas").serialize();
   if ( bval ) 
   {
       $.post('index.php',str,function(res)

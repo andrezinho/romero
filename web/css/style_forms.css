@@ -8,6 +8,8 @@
 
 label { display: inline-block; font-size: 12px; }
 .labels { width: 100px; text-align: right; margin-right: 2px;color:#333;}
+.labeles { width: 120px; text-align: right; margin-right: 2px;color:#333;}
+.labeless { width: 140px; text-align: right; margin-right: 2px;color:#333;}
 .text {  padding: .15em;margin-top: 3px;margin-bottom: 3px; width:100px; } 
 table{   font-size: 11px !important;display: table; }
 fieldset { padding: 10px 0 10px; border:1px solid #dadada; margin-bottom: 5px;}

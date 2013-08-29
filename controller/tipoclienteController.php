@@ -1,12 +1,12 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/tipomadera.php';
+require_once '../model/tipocliente.php';
 
-class TipoMaderaController extends Controller 
+class TipoClienteController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'t.idtipomadera','align'=>'center','width'=>50),
+                        1 => array('Name'=>'Codigo','NameDB'=>'t.idtipos_clientes','align'=>'center','width'=>50),
                         2 => array('Name'=>'Descripcion','NameDB'=>'t.descripcion','width'=>250,'search'=>true),
                         3 => array('Name'=>'Estado','NameDB'=>'t.estado','width'=>90)
                        
@@ -31,7 +31,7 @@ class TipoMaderaController extends Controller
 
     public function indexGrid() 
     {
-        $obj = new TipoMadera();        
+        $obj = new TipoCliente();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
@@ -50,27 +50,27 @@ class TipoMaderaController extends Controller
         $view = new View();
         
         $view->setData($data);
-        $view->setTemplate( '../view/tipomadera/_form.php' );
+        $view->setTemplate( '../view/tipocliente/_form.php' );
         echo $view->renderPartial();
     }
 
     public function edit() 
     {
-        $obj = new TipoMadera();
+        $obj = new TipoCliente();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
         $data['obj'] = $obj;        
         $view->setData($data);
-        $view->setTemplate( '../view/tipomadera/_form.php' );
+        $view->setTemplate( '../view/tipocliente/_form.php' );
         echo $view->renderPartial();
     }
 
     public function save()
     {
-        $obj = new TipoMadera();
+        $obj = new TipoCliente();
         $result = array();        
-        if ($_POST['idtipomadera']=='') 
+        if ($_POST['idtipos_clientes']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
@@ -83,7 +83,7 @@ class TipoMaderaController extends Controller
     }
     public function delete()
     {
-        $obj = new TipoMadera();
+        $obj = new TipoCliente();
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);

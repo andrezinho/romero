@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"idu",
+				"idubigeo"
+			],
+			[
+				"id",
+				"idtipopago"
+			],
+			[
 				"can",
 				"cantidad"
 			],
@@ -38,10 +46,6 @@
 			[
 				"idma",
 				"idmaderba"
-			],
-			[
-				"id",
-				"idproduccion"
 			],
 			[
 				"str_",
@@ -144,42 +148,26 @@
 	"buffers":
 	[
 		{
-			"file": "view/proformas/_form.php",
+			"file": "controller/proveedorController.php",
 			"settings":
 			{
-				"buffer_size": 8730,
+				"buffer_size": 5178,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "controller/proformasController.php",
+			"file": "model/proveedor.php",
 			"settings":
 			{
-				"buffer_size": 3884,
+				"buffer_size": 5010,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "model/proformas.php",
+			"file": "view/proveedor/_form.php",
 			"settings":
 			{
-				"buffer_size": 6355,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "model/movimiento.php",
-			"settings":
-			{
-				"buffer_size": 12865,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "web/js/app/evt_form_proformas.js",
-			"settings":
-			{
-				"buffer_size": 13972,
+				"buffer_size": 4203,
 				"line_ending": "Windows"
 			}
 		}
@@ -211,18 +199,27 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/romero/lib/Spdo.php",
+		"/C/xampp/htdocs/romero/web/js/js-layout.js",
+		"/C/xampp/htdocs/romero/controller/clientesController.php",
+		"/C/xampp/htdocs/romero/controller/proformasController.php",
+		"/C/xampp/htdocs/romero/model/proformas.php",
+		"/C/xampp/htdocs/romero/model/areas.php",
+		"/C/xampp/htdocs/romero/controller/ingresomController.php",
+		"/C/xampp/htdocs/romero/view/proformas/_form.php",
+		"/C/xampp/htdocs/romero/model/movimiento.php",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_proformas.js",
+		"/C/xampp/htdocs/romero/controller/UbigeoController.php",
+		"/C/xampp/htdocs/romero/controller/produccionController.php",
 		"/C/xampp/htdocs/romero/model/caja.php",
 		"/C/xampp/htdocs/romero/view/ingresosm/_form.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_ingresom.js",
-		"/C/xampp/htdocs/romero/model/movimiento.php",
-		"/C/xampp/htdocs/romero/controller/ingresomController.php",
 		"/C/xampp/htdocs/romero/model/subproductosemi.php",
 		"/C/xampp/htdocs/romero/controller/subproductosemiController.php",
 		"/C/xampp/htdocs/romero/view/subproductosemi/_form.php",
 		"/C/xampp/htdocs/romero/controller/correlativosController.php",
 		"/C/xampp/htdocs/romero/view/produccion/_form.php",
 		"/C/xampp/htdocs/romero/model/clientes.php",
-		"/C/xampp/htdocs/romero/controller/clientesController.php",
 		"/C/xampp/htdocs/consorcio/transacciones/ventas/proforma/MantProforma.php",
 		"/C/xampp/htdocs/consorcio/transacciones/ventas/proforma/guardar.php",
 		"/C/xampp/htdocs/consorcio/transacciones/ventas/proforma/CargarFactores.php",
@@ -242,12 +239,10 @@
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_formapago.js",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_financiamiento.js",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_caja.js",
-		"/C/xampp/htdocs/romero/controller/UbigeoController.php",
 		"/C/xampp/htdocs/romero/model/Ubigeo.php",
 		"/C/xampp/htdocs/romero/model/tipodocumento.php",
 		"/C/xampp/htdocs/romero/controller/tipodocumentoController.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_melamina.js",
-		"/C/xampp/htdocs/romero/lib/Spdo.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_modulo.js",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_materiales.js",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_madera.js",
@@ -280,11 +275,9 @@
 		"/C/xampp/htdocs/romero/controller/maderbaController.php",
 		"/C/xampp/htdocs/romero/model/maderba.php",
 		"/C/xampp/htdocs/corpmedic/index.php",
-		"/C/xampp/htdocs/romero/model/areas.php",
 		"/C/xampp/htdocs/romero/model/madera.php",
 		"/C/xampp/htdocs/romero/controller/maderaController.php",
 		"/C/xampp/htdocs/romero/view/madera/_form.php",
-		"/C/xampp/htdocs/romero/controller/produccionController.php",
 		"/C/xampp/htdocs/romero/model/produccion.php",
 		"/C/xampp/htdocs/romero/controller/moduloController.php",
 		"/C/xampp/htdocs/romero/view/caja/_form.php",
@@ -333,12 +326,7 @@
 		"/C/xampp/htdocs/corpmedic - copia/ajax/provincia.php",
 		"/C/xampp/htdocs/corpmedic - copia/ajax/departamento.php",
 		"/C/xampp/htdocs/corpmedic/ajax/departamento.php",
-		"/C/xampp/htdocs/corpmedic/ajax/distrito.php",
-		"/C/xampp/htdocs/systramite/controller/expedienteController.php",
-		"/C/xampp/htdocs/corpmedic/ajax/provincia.php",
-		"/C/xampp/htdocs/romero/web/js/app/evt_form_subproductosemi.js",
-		"/C/xampp/htdocs/romero/view/linea/_form.php",
-		"/C/xampp/htdocs/romero/view/_Error.php"
+		"/C/xampp/htdocs/corpmedic/ajax/distrito.php"
 	],
 	"find":
 	{
@@ -356,6 +344,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\"p\"",
+			"tipo",
+			"                                $",
+			"    \n",
+			"\"p\"",
+			"\"c\"",
 			"idpro",
 			"calcSubTotalMa",
 			"input_ma",
@@ -477,13 +471,7 @@
 			"nombres",
 			"idmodulo",
 			"Proveedor",
-			"personal",
-			"estcivil",
-			"sexo",
-			"direccion",
-			"telefono",
-			"nombres",
-			"idcargo"
+			"personal"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -491,6 +479,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"p",
+			"c",
 			"idsubproductos_semi",
 			"idproforma",
 			"p",
@@ -616,9 +606,7 @@
 			"precio_unitario",
 			"peso_unitario",
 			"medidas",
-			"idmaderba",
-			"idlinea",
-			"idmelamina"
+			"idmaderba"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -629,24 +617,24 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "view/proformas/_form.php",
+					"file": "controller/proveedorController.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8730,
+						"buffer_size": 5178,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3351,
-								3370
+								3162,
+								3188
 							]
 						],
 						"settings":
@@ -655,27 +643,27 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 45.0,
-						"translation.y": 594.0,
+						"translation.x": 0.0,
+						"translation.y": 918.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "controller/proformasController.php",
+					"file": "model/proveedor.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3884,
+						"buffer_size": 5010,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								348,
-								348
+								959,
+								959
 							]
 						],
 						"settings":
@@ -684,27 +672,27 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 111.0,
-						"translation.y": 0.0,
+						"translation.x": 0.0,
+						"translation.y": 378.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "model/proformas.php",
+					"file": "view/proveedor/_form.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6355,
+						"buffer_size": 4203,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								318,
-								318
+								0,
+								0
 							]
 						],
 						"settings":
@@ -714,65 +702,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "model/movimiento.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12865,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10275,
-								10293
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3078.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "web/js/app/evt_form_proformas.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 13972,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								11473,
-								11481
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 5853.0,
+						"translation.y": 540.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

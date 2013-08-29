@@ -44,7 +44,8 @@
                     </td>                    
                     <td>
                         &nbsp;&nbsp;Ruta:
-                        <input id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 150px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
+                        <!--<input id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 150px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />-->
+                        <?php echo $Rutas; ?>
                     </td>
                     <td>&nbsp;</td>
                 </tr>

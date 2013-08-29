@@ -3,6 +3,7 @@ $(function()
     $( "#descripcion" ).focus();
     $("#idubigeo").css({'width':'210px'});
     $("#idzona").css({'width':'95px'});
+    $("#idrutas").css({'width':'130px'});
     $("#fechareg").datepicker({dateFormat:'dd/mm/yy','changeMonth':false,'changeYear':false});
     $("#idubigeo").change(function(){load_zona($(this).val());});
 

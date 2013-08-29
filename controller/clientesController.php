@@ -6,14 +6,14 @@ require_once '../model/clientes.php';
 class ClientesController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'c.idcliente','width'=>60),
-                        2 => array('Name'=>'RUC','NameDB'=>'c.dni','width'=>100,'search'=>true),
+                        1 => array('Name'=>'Codigo','NameDB'=>'c.idcliente','width'=>50),
+                        2 => array('Name'=>'DNI / RUC','NameDB'=>'c.dni','width'=>80,'search'=>true),
                         3 => array('Name'=>'Razon Social','NameDB'=>"'c.nombres || ' ' || c.apematerno || ' ' || c.apepaterno'",'width'=>150,'search'=>true),
-                        4 => array('Name'=>'Direccion','NameDB'=>'c.direccion','width'=>110),
+                        4 => array('Name'=>'Direccion','NameDB'=>'c.direccion','width'=>130),
                         5 => array('Name'=>'Telefono','NameDB'=>'p.telefono','width'=>70),
-                        6 => array('Name'=>'Estado Civil','NameDB'=>'c.estadocivil','width'=>100),
-                        7 => array('Name'=>'Ubigeo','NameDB'=>'u.descripcion','width'=>100),
-                        //8 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>50)
+                        6 => array('Name'=>'Estado Civil','NameDB'=>'e.descripcion','width'=>75),
+                        7 => array('Name'=>'N. Educacion','NameDB'=>'g.descripcion','width'=>100),
+                        8 => array('Name'=>'Ubigeo','NameDB'=>'u.descripcion','align'=>'left','width'=>100)
                      );
 
     public function index() 
@@ -33,6 +33,7 @@ class ClientesController extends Controller
         $view->setlayout('../template/layout.php');
         $view->render();
     }
+    
     public function indexGrid() 
     {
         $obj = new Clientes();        
@@ -53,7 +54,10 @@ class ClientesController extends Controller
         $data = array();
         $view = new View();
         $data['Departamento'] = $this->Select(array('id'=>'Departamento','name'=>'Departamento','text_null'=>'Seleccione...','table'=>'vista_dep'));
-        //$data['idcargo'] = $this->Select(array('id'=>'idcargo','name'=>'idcargo','text_null'=>'Seleccione...','table'=>'produccion.vista_cargo'));
+        $data['TipoVivienda'] = $this->Select(array('id'=>'idtipovivienda','name'=>'idtipovivienda','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipovivienda'));
+        $data['TipoCliente'] = $this->Select(array('id'=>'idtipocliente','name'=>'idtipocliente','text_null'=>'Seleccione...','table'=>'vista_tipocliente'));
+        $data['NivelEducacion'] = $this->Select(array('id'=>'idgradinstruccion','name'=>'idgradinstruccion','text_null'=>'Seleccione...','table'=>'vista_grado'));
+        $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil'));
         $view->setData($data);
         $view->setTemplate( '../view/clientes/_form.php' );
         echo $view->renderPartial();
@@ -65,21 +69,23 @@ class ClientesController extends Controller
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;
-        $var = $obj->idubigeo;
-        $IdDep = substr($var,0,2).'0000';        
-        $Idpro = substr($IdUbigeo,0,4).'00';
+        $data['obj'] = $obj;        
         $data['Departamento'] = $this->Select(array('id'=>'Departamento','name'=>'Departamento','text_null'=>'Seleccione...','table'=>'vista_dep','code'=>$obj->IdDep));
         $data['idprovincia'] = $this->Select(array('id'=>'idprovincia','name'=>'idprovincia','text_null'=>'Seleccione...','table'=>'produccion.vista_cargo','code'=>$obj->Idpro));
+        $data['TipoVivienda'] = $this->Select(array('id'=>'idtipovivienda','name'=>'idtipovivienda','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipovivienda','code'=>$obj->idtipovivienda));
+        $data['TipoCliente'] = $this->Select(array('id'=>'idtipocliente','name'=>'idtipocliente','text_null'=>'Seleccione...','table'=>'vista_tipocliente','code'=>$obj->idtipocliente));
+        $data['NivelEducacion'] = $this->Select(array('id'=>'idgradinstruccion','name'=>'idgradinstruccion','text_null'=>'Seleccione...','table'=>'vista_grado','code'=>$obj->idgradinstruccion));
+        $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil','code'=>$obj->idestado_civil));
         $view->setData($data);
         $view->setTemplate( '../view/clientes/_form.php' );
         echo $view->renderPartial();
     }
+    
     public function save()
     {
         $obj = new Clientes();
         $result = array();        
-        if ($_POST['idclientes']=='') 
+        if ($_POST['idcliente']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
@@ -90,6 +96,7 @@ class ClientesController extends Controller
         print_r(json_encode($result));
 
     }
+    
     public function delete()
     {
         $obj = new Clientes();

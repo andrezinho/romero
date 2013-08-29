@@ -3,17 +3,16 @@
 ?>
 
    
-<form id="frm" >
-    <input type="hidden" name="controller" value="TipoMadera" />
-
+<form id="frm_rutas" >
+    <input type="hidden" name="controller" value="Rutas" />
     <input type="hidden" name="action" value="save" />
     
-        <label for="idtipomadera" class="labels">Codigo:</label>
-        <input id="idtipomadera" name="idtipomadera" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idtipomadera; ?>" readonly />
+        <label for="idrutas" class="labels">Codigo:</label>
+        <input id="idrutas" name="idrutas" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idrutas; ?>" readonly />
         <br/>
         
         <label for="descripcion" class="labels">Descripcion:</label>
-        <input id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
+        <input id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
         <br>
         
         <label for="estado" class="labels">Activo:</label>
@@ -27,6 +26,6 @@
                 else {$rep = 1;}                    
                     activo('activo',$rep);
             ?>
-        </div>   
+        </div>     
 
 </form>
