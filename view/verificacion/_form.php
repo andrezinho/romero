@@ -14,7 +14,7 @@ include("../view/header_form.php");
         <input type="text" name="fecha" id="fecha" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fecha)?$obj->fecha:  date('d/m/Y')); ?>" style="width:70px; text-align:center" />        
         <br/> 
     </fieldset> -->    
-    <fieldset id="box-melamina" class="ui-corner-all" style="padding: 2px 10px 7px;">  
+    <fieldset id="box-solicitud" class="ui-corner-all" style="padding: 2px 10px 7px;">  
         <!-- <legend>Produccion</legend> -->      
         <div id="box-1">
             <input type="hidden" name="controller" value="Produccion" />
@@ -50,7 +50,7 @@ include("../view/header_form.php");
                         <input id="idcliente" name="idcliente" value="" type="hidden" />
 
                         <label for="cleinte" class="labeles">Nombres y Ap:</label>                        
-                        <input id="nomcliente" name="nomcliente" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
+                        <input id="nomcliente" name="nomcliente" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
                         
                         <br/>
 
@@ -97,47 +97,47 @@ include("../view/header_form.php");
                         <label for="direccion" class="labeles">Ref. Ubicación:</label>                        
                         <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
                         
-                        <label for="direccion" class="labeles">Actividad Econ.:</label>                        
-                        <input type="text" id="direccion" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
+                        <label for="ocupacion" class="labeles">Actividad Econ.:</label>                        
+                        <input type="text" id="ocupacion" name="ocupacion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->ocupacion; ?>" />
                         <br/>
                         
-                        <label for="direccion" class="labeles">Empresa que trabaja:</label>                        
-                        <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
+                        <label for="trabajo" class="labeles">Empresa que trabaja:</label>                        
+                        <input type="text" id="trabajo" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->trabajo; ?>" />
                         
-                        <label for="direccion" class="labeles">Cargo Actual:</label>                        
-                        <input type="text" id="direccion" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
+                        <label for="cargo" class="labeles">Cargo Actual:</label>                        
+                        <input type="text" id="cargo" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->cargo; ?>" />
                         <br/>
                         
-                        <label for="direccion" class="labeles">Telefono del trabaja:</label>                        
-                        <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
+                        <label for="teltrab" class="labeles">Telefono del trabaja:</label>                        
+                        <input type="text" id="teltrab" name="teltrab" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->teltrab; ?>" />
                         
-                        <label for="direccion" class="labeles">Direccion del trabajo:</label>                        
-                        <input type="text" id="direccion" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
+                        <label for="dirtrabajo" class="labeles">Direccion del trabajo:</label>                        
+                        <input type="text" id="dirtrabajo" name="dirtrabajo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dirtrabajo; ?>" />
                         <br/>
                     </div>
                     <div id="tabs-2">
-                        <p>Datos Generales del <b>Cliente :</b></p>
+                        <p>Datos Generales del <b>Conyugue :</b></p>
                         <br />
                         <label for="dni" class="labeles">DNI:</label>
-                        <input type="text" name="dni" id="dni" value="" class="ui-widget-content ui-corner-all text" style="width:200px;" />
-                        <input id="idcliente" name="idcliente" value="" type="hidden" />
+                        <input type="text" name="dnicon" id="dnicon" value="" class="ui-widget-content ui-corner-all text" style="width:200px;" />
+                        <input id="idconyugue" name="idconyugue" value="" type="hidden" />
 
                         <label for="cleinte" class="labeles">Nombres y Apellidos:</label>                        
-                        <input id="nomcliente" name="nomcliente" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
+                        <input id="nomconyugue" name="nomconyugue" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dnicon; ?>"  />
                         <br/>
                         
-                        <label for="direccion" class="labeles">Empresa que trabaja:</label>                        
-                        <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
+                        <label for="trabajocon" class="labeles">Empresa que trabaja:</label>                        
+                        <input type="text" id="con_trabajo" name="con_trabajo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->con_trabajo; ?>" />
                         
-                        <label for="direccion" class="labeles">Cargo Actual:</label>                        
-                        <input type="text" id="direccion" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
+                        <label for="cargos" class="labeles">Cargo Actual:</label>                        
+                        <input type="text" id="con_cargo" name="con_cargo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->con_cargo; ?>" />
                         <br/>
                         
-                        <label for="direccion" class="labeles">Telefono del trabaja:</label>                        
-                        <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
+                        <label for="conteltrab" class="labeles">Telefono del trabaja:</label>                        
+                        <input type="text" id="con_teltrab" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->con_teltrab; ?>" />
                         
-                        <label for="direccion" class="labeles">Direccion del trabajo:</label>                        
-                        <input type="text" id="direccion" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
+                        <label for="condirtrabajo" class="labeles">Direccion del trabajo:</label>                        
+                        <input type="text" id="con_dirtrabajo" name="con_dirtrabajo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->con_dirtrabajo; ?>" />
                         <br/>
                     </div>
                     <div id="tabs-3">
@@ -154,35 +154,73 @@ include("../view/header_form.php");
 
                     </div>
                     <div id="tabs-4">
-                        <p>Ingrese alguna referencia:</p>
-                        <br/>
-                        <label for="cleinte" class="labeles">Nombres y Apellidos:</label>                        
-                        <input id="nomcliente" name="nomcliente" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
-                                                
-                        <label for="direccion" class="labeles">Relación:</label>                        
-                        <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
-                        <br/>
-                        
-                        <label for="telefono" class="labeles">Telefono:</label>                        
-                        <input type="text" id="telefono" name="telefono" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->telefono; ?>" />
+                        <table id="IngresosPare">
+                            <tr>
+                                <td>
+                                    <p>Ingrese alguna referencia:</p>
+                                    <br/>
+                                    <label for="cleinte" class="labeles">Nombres y Apellidos:</label>                        
+                                    <input id="nomclientes" name="nomclientes" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
+                                                            
+                                    <label for="direccion" class="labeles">Relación:</label>                        
+                                    <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
+                                    <br/>
+                                    
+                                    <label for="telefono" class="labeles">Telefono:</label>                        
+                                    <input type="text" id="telefono" name="telefono" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->telefono; ?>" />
+                                    
+                                </td>
+                            </tr>
+                        </table>
                         
                     </div>
                     <div id="tabs-5">
                         <p>Ingrese el producto:</p>
                         <br />
-                        <label class="labels">Producto:</label>
-                        <input type="text" name="producto" id="producto" value="" class="ui-widget-content ui-corner-all text" style="width:250px;" />
-                        <input type="hidden" name="idsubproductos_semi" id="idsubproductos_semi" value="" />
-                        
-                        <span style="float: right;">
-                            <label class="labels">Producto:</label>
-                            <input type="text" name="producto" id="producto" value="" class="ui-widget-content ui-corner-all text" style="width:250px;" />
-                        
-                        </span>
-                        <label class="labels">Observaciones:</label><br />
-                        <textarea class="ui-widget-content ui-corner-all text"></textarea>
-                        
-                        
+
+                        <table width="600" id="desproducto" border="0" align="center" cellpadding="1" cellspacing="1">
+                          <tr>
+                            <td width="100">&nbsp;</td>    
+                            <td width="300">&nbsp;</td>
+                            <td width="100">&nbsp;</td>
+                            <td width="100">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td><label class="labels">Producto:</label></td>    
+                            <td>
+                                <input type="text" name="producto" id="producto" value="" class="ui-widget-content ui-corner-all text" style="width:250px;" />
+                                <input type="hidden" name="idsubproductos_semi" id="idsubproductos_semi" value="" />                        
+                            </td>
+                            <td><label class="labels">Inicial:</label></td>
+                            <td>
+                                <input type="text" name="inicial" id="inicial" value="<?php echo $obj->inicial; ?>" class="ui-widget-content ui-corner-all text" style="width:80px;" />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><label class="labels">Observaciones:</label></td>    
+                            <td rowspan="3">
+                              <textarea name="textarea" id="textarea" class="ui-widget-content ui-corner-all" cols="45" rows="4"></textarea>
+                            </td>
+                            <td><label class="labels">N° Cuotas:</label></td>
+                            <td>
+                                <input type="text" name="nrocuota" id="nrocuota" value="<?php echo $obj->nrocuota; ?>" class="ui-widget-content ui-corner-all text" style="width:80px;" />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                            <td><label class="labels">Valor de la Cuota:</label></td>
+                            <td>
+                                <input type="text" name="valorcuota" id="valorcuota" value="<?php echo $obj->valorcuota; ?>" class="ui-widget-content ui-corner-all text" style="width:80px;" />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>    
+                            <td><label class="labels">Total Credito:</label></td>
+                            <td>
+                                <input type="text" name="total" id="total" value="<?php echo $obj->total; ?>" class="ui-widget-content ui-corner-all text" style="width:80px;" />
+                            </td>
+                          </tr>
+                        </table>
                     </div>
                 </div>
                 

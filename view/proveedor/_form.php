@@ -38,7 +38,7 @@
         <br/>
         
         <label for="email" class="labels">Email:</label>
-   		<input id="email" name="email" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->email; ?>" />
+   	<input id="email" name="email" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->email; ?>" />
         
         <label for="obs" class="labels">Observacion:</label>         
         <input id="obs" name="obs" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->obs; ?>" />
@@ -55,7 +55,8 @@
         <label for="distrito" class="labels">Distrito:</label>        
         <select id="iddistrito" name="iddistrito" class="ui-widget-content ui-corner-all">            
         </select>
-
+        <input type="hidden" name="iddist" id="iddist" value="<?php echo $obj->idubigeo; ?>" />
+        
         <label for="estado" class="labels">Activo:</label>        
         <div id="estados" style="display:inline">
             <?php                   

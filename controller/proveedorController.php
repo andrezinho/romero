@@ -70,7 +70,8 @@ class ProveedorController extends Controller
         $var = $obj->idubigeo;
         $IdDep = substr($var,0,2).'0000';        
         $Idpro = substr($IdUbigeo,0,4).'00';
-        $data['Departamento'] = $this->Select(array('id'=>'Departamento','name'=>'Departamento','text_null'=>'Seleccione...','table'=>'vista_dep','code'=>$obj->idubigeo));
+        
+        $data['Departamento'] = $this->Select(array('id'=>'Departamento','name'=>'Departamento','text_null'=>'Seleccione...','table'=>'vista_dep','code'=>$obj->IdDep));
         $data['idprovincia'] = $this->Select(array('id'=>'idprovincia','name'=>'idprovincia','text_null'=>'Seleccione...','table'=>'produccion.vista_cargo','code'=>$obj->Idpro));
         $view->setData($data);
         $view->setTemplate( '../view/proveedor/_form.php' );

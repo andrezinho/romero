@@ -1,25 +1,18 @@
 $(function() 
 {       
-    $("#descripcion").focus();    
+    $("#dnicliprof").focus();
+
     $("#sexo, #idestado_civil,#idgradinstruccion, #idtipovivienda").css({'width':'210px'});
-
-    $("#idsubproductos_semi").change(function(){$("#cantidad_me").focus(); load_title_produccion();});
-
-    $("#idproductos_semi").change(function(){load_subproducto($(this).val());});
-
-    $("#fecha, #fechanac").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
-
-    $("#table-me").on('click','#addDetail_me',function(){addDetailMe();});
-
-    $("#table-detalle").on('click','.boton-delete',function(){var v = $(this).parent().parent().remove();})
-
+    $("#fecha").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
     $("#tabs").tabs();
 
-    $("#idmadera").change(function(){$("#cant_ma").focus();getStock($(this).val(),1);});
-
+    $("#desproducto").on('keyup','#valorcuota',function(){CalcTotalCre(); });
+    $("#IngresosPare").on('keyup','#ingresocli',function(){CalcTotalIng(); }); 
+    
+    // Buscar Cliente con DNI
     $("#dni").autocomplete({
         minLength: 0,
-        source: 'index.php?controller=personal&action=get&tipo=1',
+        source: 'index.php?controller=clientes&action=get&tipo=1',
         focus: function( event, ui ) 
         {
             $( "#dni" ).val( ui.item.dni );
@@ -27,100 +20,143 @@ $(function()
         },
         select: function( event, ui ) 
         {
-            $("#idpersonal").val(ui.item.idpersonal);
-            $( "#dni" ).val( ui.item.dni );
-            $( "#personal" ).val( ui.item.nompersonal );                                    
+            $("#idcliente").val(ui.item.idpersonal);
+            $("#dni" ).val( ui.item.dni );
+            $("#nomcliente" ).val( ui.item.nomcliente );
+            $("#sexo").val(ui.item.sexo);
+            $("#direccion" ).val( ui.item.direccion );
+            $("#referencia" ).val( ui.item.referencia ); 
+            $("#telefono").val(ui.item.telefono);            
+            $("#ocupacion" ).val( ui.item.ocupacion ); 
+            $("#idestado_civil").val(ui.item.idestado_civil);
+            $("#idgradinstruccion" ).val( ui.item.idgradinstruccion ); 
+            $("#trabajo").val(ui.item.trabajo);
+            $("#dirtrabajo").val(ui.item.dirtrabajo);
+            $("#teltrab").val(ui.item.teltrab);
+            $("#ingresocli").val(ui.item.ingreso);
+            $("#cargafam").val(ui.item.carga_familiar);
+            $("#dnicon").val(ui.item.con_dni);
+            $("#nomconyugue").val(ui.item.nomconyugue);
+            $("#con_ocupacion").val(ui.item.con_ocupacion);
+            $("#con_trabajo").val(ui.item.con_trabajo);
+            $("#con_dirtrabajo").val(ui.item.con_dirtrabajo);
+            $("#con_cargo").val(ui.item.con_cargo);
+            $("#ingresocon").val(ui.item.con_ingreso);
+            $("#con_teltrab").val(ui.item.con_teltrab);
+
             return false;
         }
     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
         return $( "<li></li>" )
             .data( "item.autocomplete", item )
-            .append( "<a>"+ item.dni +" - " + item.nompersonal + "</a>" )
+            .append( "<a>"+ item.dni +" - " + item.nomcliente + "</a>" )
             .appendTo(ul);
       };
+
+    // Buscar Cliente con nombres
+    $("#nomcliente").autocomplete({
+        minLength: 0,
+        source: 'index.php?controller=clientes&action=get&tipo=2',
+        focus: function( event, ui ) 
+        {
+            $( "#nomcliente" ).val( ui.item.nomcliente );
+            return false;
+        },
+        select: function( event, ui ) 
+        {
+            $("#idcliente").val(ui.item.idpersonal);
+            $("#dni" ).val( ui.item.dni );
+            $("#nomcliente" ).val( ui.item.nomcliente );
+            $("#sexo").val(ui.item.sexo);
+            $("#direccion" ).val( ui.item.direccion );
+            $("#referencia" ).val( ui.item.referencia ); 
+            $("#telefono").val(ui.item.telefono);            
+            $("#ocupacion" ).val( ui.item.ocupacion ); 
+            $("#idestado_civil").val(ui.item.idestado_civil);
+            $("#idgradinstruccion" ).val( ui.item.idgradinstruccion ); 
+            $("#trabajo").val(ui.item.trabajo);
+            $("#dirtrabajo").val(ui.item.dirtrabajo);
+            $("#teltrab").val(ui.item.teltrab);
+            $("#ingresocli").val(ui.item.ingreso);
+            $("#cargafam").val(ui.item.carga_familiar);
+            $("#dnicon").val(ui.item.con_dni);
+            $("#nomconyugue").val(ui.item.nomconyugue);
+            $("#con_ocupacion").val(ui.item.con_ocupacion);
+            $("#con_trabajo").val(ui.item.con_trabajo);
+            $("#con_dirtrabajo").val(ui.item.con_dirtrabajo);
+            $("#con_cargo").val(ui.item.con_cargo);
+            $("#ingresocon").val(ui.item.con_ingreso);
+            $("#con_teltrab").val(ui.item.con_teltrab);
+
+            return false;
+        }
+    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
+        return $( "<li></li>" )
+            .data( "item.autocomplete", item )
+            .append( "<a>"+ item.nomcliente +" - " + item.dni + "</a>" )
+            .appendTo(ul);
+      };
+
+    //buscar producto
+    $("#producto").autocomplete({        
+        minLength: 0,
+        source: 'index.php?controller=subproductosemi&action=get&tipo=2',
+        focus: function( event, ui ) 
+        {
+            $( "#producto" ).val( ui.item.producto );
+            return false;
+        },
+        select: function( event, ui ) 
+        {
+            $("#idsubproductos_semi").val(ui.item.idsubproductos_semi);           
+            $( "#producto" ).val( ui.item.producto );
+            //$( "#precio" ).val( ui.item.precio );                                    
+            return false;
+        }
+    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
+        return $( "<li></li>" )
+            .data( "item.autocomplete", item )
+            .append( "<a>"+ item.producto + "</a>" )
+            .appendTo(ul);
+      };
+
+    $( "#divFinanciamiento" ).dialog({
+      autoOpen: false,
+      width: 400,
+      
+    });
+
+
 });
-function getStock(id,tipo)
-{   
-   var c = "madera",
-       a = $("#idalmacenm").val();
-   if(tipo==2) c = "melamina";
-   $.get('index.php','controller='+c+'&action=getStock&id='+id+'&a='+a,function(p){
-      if(tipo==1) { }
-        else {}
-   })
-}
 
-function load_title_produccion()
+function CalcTotalCre()
 {
-  var p = $("#idsubproductos_semi").val();
-  if(p!="")
-  {
-    var t1 = $("#idproductos_semi option:selected").html(),
-        t2 = $("#idsubproductos_semi option:selected").html();
-    $("#title-produccion").empty().append("Materia Prima a usar para la produccion de  "+t1+" "+t2);
-  }
-  else
-  {
-    $("#title-produccion").empty().append("Materia Prima a usar para la produccion" ); 
-  }
 
-}
-function load_subproducto(idl)
-{ 
-  if(idl!="")
-  {    
-    $("#idsubproductos_semi").empty().append('<option value="">Cargando...</option>');
-    $.get('index.php','controller=subproductosemi&action=getList&idl='+idl,function(r){    
-      html = '<option value="">Seleccione...</option>';
-      $.each(r,function(i,j){
-        html += '<option value="'+j.idsubproductos_semi+'">'+j.descripcion+'</option>';
-      });      
-      $("#idsubproductos_semi").empty().append(html);
-    },'json');
-  }
+  //$("#inicial" ).required();
+  //$("#nrocuota" ).required();
+  //$("#valorcuota" ).required();
+  
+  //CalcularCre()
+  var Ini=$("#inicial").val()
+  var Nro=$("#nrocuota").val()
+  var Val=$("#valorcuota").val()
+  Val=Val.replace(",","");
+  Ini=Ini.replace(",","");
+  Total=((Nro) * (parseFloat(Val))) + parseFloat(Ini);
+
+  $("#total").val(parseFloat(Total).toFixed(2));
 }
 
-function addDetailMe()
+function CalcTotalIng()
 {
-    bval = true;
-    bval = bval && $("#idsubproductos_semi").required();
-    bval = bval && $("#cantidad_me").required();    
-    if(!bval) return 0;         
-        idma=$("#idsubproductos_semi").val(),
-        mela=$("#idproductos_semi option:selected").html()+', '+$("#idsubproductos_semi option:selected").html(),
-        cant=parseFloat($("#cantidad_me").val())
-        
-    if(cant<=0) {alert('La cantidad debe ser mayor que 0'); $("#cantidad_me").focus(); return 0;}
-    addDetalle(idma,mela,cant);
-    clearMe();    
-}
+  var InigC=$("#ingresocon").val()
+  var InigI=$("#ingresocli").val()
+  
+  InigI=InigI.replace(",","");
+  InigC=InigC.replace(",","");
+  Total= (parseFloat(InigI)) + (parseFloat(InigC));
 
-function addDetalle(idtipo,dtipo,cant)
-{
-    
-    var html = '';
-    html += '<tr class="tr-detalle">';
-    html += '<td>'+dtipo+'<input type="hidden" name="idsubproductos_semi[]" value="'+idtipo+'" /></td>';
-    html += '<td align="center">'+cant.toFixed(2)+'<input type="hidden" name="cantd[]" value="'+cant+'" /></td>';    
-    html += '<td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>';
-    html += '</tr>';    
-    $("#table-detalle").find('tbody').append(html);
-    //caltotal();
-}
-
-function clearMe()
-{
-  $("#idproductos_semi").val("");
-  $("#idsubproductos_semi").val("");
-  $("#cantidad_me").val("0.00");  
-  $("#idproductos_semi").focus();
-}
-
-function nItems()
-{
-  var c = 0;
-  $("#table-detalle tbody tr").each(function(idx,j){c += 1;});
-  return c;
+  $("#totaling").val(parseFloat(Total).toFixed(2));
 }
 
 function save()

@@ -5,12 +5,12 @@ require_once '../model/verificacion.php';
 class VerificacionController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'p.idproduccion','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','width'=>280,'search'=>true),
-                        3 => array('Name'=>'Personal','NameDB'=>'personal','align'=>'left','width'=>180),
-                        4 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechai','align'=>'center','width'=>100),
-                        5 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechaf','align'=>'center','width'=>100),
-                        6 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>50)
+                        1 => array('Name'=>'Codigo','NameDB'=>'s.idsolicitud','align'=>'center','width'=>60),
+                        2 => array('Name'=>'DNI','NameDB'=>'c.dni','width'=>100,'search'=>true),
+                        3 => array('Name'=>'Cliente','NameDB'=>"'c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno'",'align'=>'left','width'=>180),
+                        4 => array('Name'=>'Fecha Solicitud','NameDB'=>'s.fechasolicitud','align'=>'center','width'=>100),
+                        5 => array('Name'=>'Sucursal','NameDB'=>'su.descripcion','align'=>'center','width'=>120),
+                        6 => array('Name'=>'Estado','NameDB'=>'s.estado','align'=>'center','width'=>50)
                         
                         
                      );
@@ -53,9 +53,10 @@ class VerificacionController extends Controller
         $data['tivovivienda'] = $this->Select(array('id'=>'idtipovivienda','name'=>'idtipovivienda','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipovivienda','width'=>'120px'));
         $data['NivelEducacion'] = $this->Select(array('id'=>'idgradinstruccion','name'=>'idgradinstruccion','text_null'=>'Seleccione...','table'=>'vista_grado'));
         $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil'));
-        $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'220px'));
+        /*$data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'220px'));
         $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
         $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));
+        */
         $view->setData($data);
         $view->setTemplate( '../view/verificacion/_form.php' );
         echo $view->renderPartial();
@@ -68,10 +69,10 @@ class VerificacionController extends Controller
         $view = new View();
         $rows = $obj->edit($_GET['id']);
         $data['obj'] = $rows;
-        $data['ProductoSemi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','width'=>'120px'));
+        //$data['ProductoSemi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','width'=>'120px'));
         $data['NivelEducacion'] = $this->Select(array('id'=>'idgradinstruccion','name'=>'idgradinstruccion','text_null'=>'Seleccione...','table'=>'vista_grado','code'=>$obj->idgradinstruccion));
         $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil','code'=>$obj->idestado_civil));
-        $data['rowsd'] = $obj->getDetails($rows->idproduccion);
+        $data['rowsd'] = $obj->getDetails($rows->idsolicitud);
         $view->setData($data);
         $view->setTemplate( '../view/verificacion/_form.php' );
         echo $view->renderPartial();
@@ -81,7 +82,7 @@ class VerificacionController extends Controller
     {
         $obj = new Verificacion();
         $result = array();        
-        if ($_POST['idproduccion']=='') 
+        if ($_POST['idsolicitud']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                

@@ -8,7 +8,7 @@
         <input type="hidden" name="controller" value="Clientes" />
         <input type="hidden" name="action" value="save" />
                      
-        <label for="idcliente" class="labels">Codigo:</label>
+        <label for="idcliente" class="labeles">Codigo:</label>
         <input type="text" id="idcliente" name="idcliente" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idcliente; ?>" readonly />
         
         <div id="tabs">
@@ -19,53 +19,53 @@
                 <li><a href="#tabs-4">Conyugue</a></li>
             </ul>   
             <div id="tabs-1">
-                <label for="dni" class="labels">RUC / DNI:</label>
+                <label for="dni" class="labeles">RUC / DNI:</label>
                 <input id="dni" name="dni" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
                 
-                <label for="tipocliente" class="labels">Tipo Cliente</label>
+                <label for="tipocliente" class="labeles">Tipo Cliente</label>
                 <?php echo $TipoCliente; ?>
                 <br/>
 
-                <label for="nombres" class="labels">Nombres:</label>
+                <label for="nombres" class="labeles">Nombres:</label>
                 <input id="nombres" name="nombres" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->nombres; ?>"  />
 
-                <label for="apepaterno" class="labels">Apellido Paterno:</label>
+                <label for="apepaterno" class="labeles">Apellido Paterno:</label>
                 <input id="apepaterno" name="apepaterno" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->apepaterno; ?>"  />
                 <br/>
 
-                <label for="apematerno" class="labels">Apellido Materno:</label>
+                <label for="apematerno" class="labeles">Apellido Materno:</label>
                 <input type="text" id="apematerno" maxlength="100" name="apematerno" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->apematerno; ?>" />
 
-                <label for="direccion" class="labels">Dirección:</label>
+                <label for="direccion" class="labeles">Dirección:</label>
                 <input id="direccion" name="direccion" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
                 <br/>    
 
-                <label for="Sector" class="labels">Sector:</label>
+                <label for="Sector" class="labeles">Sector:</label>
                 <input id="sector" name="sector" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->sector; ?>" />
 
-                <label for="ocupacion" class="labels">Ocupación:</label>         
+                <label for="ocupacion" class="labeles">Actividad Economica:</label>         
                 <input id="ocupacion" name="ocupacion" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->ocupacion; ?>" />
                 <br/>
 
-                <label for="referencia_ubic" class="labels">Referencia Ubi.:</label>         
+                <label for="referencia_ubic" class="labeles">Referencia Ubi.:</label>         
                 <input id="referencia_ubic" name="referencia_ubic" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
                 
-                <label for="telefono" class="labels">Telefono:</label>
+                <label for="telefono" class="labeles">Telefono:</label>
                 <input type="text" id="telefono" name="telefono" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->telefono; ?>" />
                 <br/>
                 
-                <label for="estadocivil" class="labels">Estado civil:</label>        
+                <label for="estadocivil" class="labeles">Estado civil:</label>        
                 <?php echo $EstadoCivil; ?>
 
-                <label for="fecha" class="labels">Fecha Nacim.:</label>
+                <label for="fecha" class="labeles">Fecha Nacim.:</label>
                 <input type="text" name="fechanac" id="fechanac" class="ui-widget-content ui-corner-all text" value="<?php if($obj->fechanac!=""){echo fdate($obj->fechanac,'ES');} else {echo date('d/m/Y');} ?>" style="width:70px; text-align:right" />
                 
                 <br/>
                 
-                <label for="cargafamiliar" class="labels">Carga Familiar:</label>
+                <label for="cargafamiliar" class="labeles">Carga Familiar:</label>
                 <input id="carga_familiar" name="carga_familiar" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->carga_familiar; ?>" />
                 
-                <label for="sexo" class="labels">Sexo:</label>        
+                <label for="sexo" class="labeles">Sexo:</label>        
                 <select id="sexo" name="sexo" class="ui-widget-content ui-corner-all">
                     <?php $var="";
                         if($obj->sexo=='M')
@@ -81,56 +81,56 @@
                 </select>
                 <br/>
              
-                <label for="nivel" class="labels">Nivel Educacion:</label>        
+                <label for="nivel" class="labeles">Nivel Educacion:</label>        
                 <?php echo $NivelEducacion; ?>
                 
-                <label for="Departamento" class="labels">Departamento:</label>
+                <label for="Departamento" class="labeles">Departamento:</label>
                 <?php echo $Departamento; ?>
                 <br/>
 
-                <label for="Provincia" class="labels">Provincia:</label>
+                <label for="Provincia" class="labeles">Provincia:</label>
                 <select id="idprovincia" name="idprovincia" class="ui-widget-content ui-corner-all">            
                 </select>
                 
-                <label for="distrito" class="labels">Distrito:</label>        
+                <label for="distrito" class="labeles">Distrito:</label>        
                 <select id="iddistrito" name="iddistrito" class="ui-widget-content ui-corner-all">            
                 </select>
             </div>
 
             <div id="tabs-2">
-                <label for="Profesion" class="labels">Profesión:</label>
+                <label for="Profesion" class="labeles">Profesión:</label>
                 <input id="profesion" name="profesion" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->profesion; ?>" />
 
-                <label for="antitrab" class="labels">Anterior trab. :</label>         
+                <label for="antitrab" class="labeles">Anterior trab. :</label>         
                 <input id="antitrab" name="antitrab" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->antitrab; ?>" />
                 <br/>
 
-                <label for="trabajo" class="labels">Trabajo:</label>         
+                <label for="trabajo" class="labeles">Trabajo:</label>         
                 <input id="trabajo" name="trabajo" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->trabajo; ?>" />
 
-                <label for="dirtrabajo" class="labels">Direc. trabajo:</label>
+                <label for="dirtrabajo" class="labeles">Direc. trabajo:</label>
                 <input id="dirtrabajo" name="dirtrabajo" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dirtrabajo; ?>" />
                 <br/>
 
-                <label for="cargo" class="labels">Cargo:</label>         
+                <label for="cargo" class="labeles">Cargo:</label>         
                 <input id="cargo" name="cargo" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->cargo; ?>" />
 
-                <label for="teltrab" class="labels">Telefono trab.:</label>         
+                <label for="teltrab" class="labeles">Telefono trab.:</label>         
                 <input id="teltrab" name="teltrab" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->teltrab; ?>" />
                 <br/>
             </div>
             <div id="tabs-3">
-                <label for="ingreso" class="labels">Ingreso:</label>         
+                <label for="ingreso" class="labeles">Ingreso:</label>         
                 <input id="ingreso" name="ingreso" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->ingreso; ?>" />
 
-                <label for="teltrab" class="labels">Tipo vivienda:</label>         
+                <label for="teltrab" class="labeles">Tipo vivienda:</label>         
                 <?php echo $TipoVivienda; ?>
                 <br/>
 
-                <label for="rlegal" class="labels">Represent. legal:</label>         
+                <label for="rlegal" class="labeles">Represent. legal:</label>         
                 <input id="rlegal" name="rlegal" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->rlegal; ?>" />
 
-                <label for="nropartida" class="labels">N° partida.:</label>         
+                <label for="nropartida" class="labeles">N° partida.:</label>         
                 <input id="nropartida" name="nropartida" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->nropartida; ?>" />
                 <br/>
             </div>
@@ -165,7 +165,7 @@
             </div>
         </div>
         
-        <label for="estado" class="labels">Activo:</label>        
+        <label for="estado" class="labeles">Activo:</label>        
         <div id="estados" style="display:inline">
             <?php                   
                 if($obj->estado==1 || $obj->estado==0)

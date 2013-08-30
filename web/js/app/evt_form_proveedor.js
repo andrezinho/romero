@@ -1,13 +1,32 @@
 $(function() 
-{    
+{   
+    idd=$( "#Departamento" ).val();
+    iddist=$( "#iddist" ).val();
+    //alert(idd);
+    if(idd=='')
+        {
+            //alert(idd);
+            idd=210000;           
+            load_dep(idd);
+        }//else
+          //  {
+          //      if(iddist!= '')
+          //          {
+                        
+          //          }
+          //  }
+    
+    
     $( "#nombres" ).focus();
     $( "#Departamento" ).css({'width':'210px'});
     $( "#iddistrito" ).css({'width':'210px'});
     $( "#idprovincia" ).css({'width':'210px'});
     $("#estados").buttonset();
+           
     //$("#fechanaci").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
     $("#Departamento").change(function(){
       idd=$(this).val();
+      
       $.get('index.php','controller=Ubigeo&action=Provincia&idd='+idd,function(r){
           var html = '';
           $.each(r,function(i,j){
@@ -21,6 +40,21 @@ $(function()
     });
 
 });
+
+function load_dep(idd)
+{
+    $("#Departamento").val(idd);
+    $.get('index.php','controller=Ubigeo&action=Provincia&idd='+idd,function(r){
+          var html = '';
+          $.each(r,function(i,j){
+            html += '<option value="'+j.codigo+'">'+j.descripcion+'</option>'
+            //alert(html);
+          })
+          $("#idprovincia").empty().append(html);
+          IdPro=$("#idprovincia").val();
+          loadDistrito(IdPro);
+      },'json');
+}
 
 $("#idprovincia").change(function(){
       IdPro=$(this).val();
