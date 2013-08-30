@@ -106,35 +106,36 @@ class Produccion extends Main
     }
 
     function insert($_P ) 
-    {         
+    {             
          $prod = json_decode($_P['prod']);         
+         $item = $prod->item;
          $cont_prod = 0;
          for($i=0;$i<$item;$i++)
          {            
             if($prod->estado[$i])
                 $cont_prod ++;
          }
-        //  $item = $prod->item;
-        //  for($i=0;$i<$item;$i++)
-        //  {            
-        //       echo $prod->descripcion[$i]."<br/>";
-        //       if($prod->estado[$i])
-        //       {
-        //           echo "Siipi<br/>";
-        //       }            
-        //     echo $prod->descripcion[$i]."<br/>";
-        //     $items = $prod->materiap[$i]->nitem;
-        //     for($j=0;$j<$items;$j++)
-        //     {
-        //         print_r($prod->materiap[$i]);
-        //         echo "<br/>";
-        //         $cant = $prod->materiap[$i]->cantidad->{$j};
-        //         echo $cant;
-        //         echo "<br/>";
-        //     }
-        //  }
-        // die;        
-        $item = $prod->item;
+         //echo "item = ".$item;
+         // for($i=0;$i<$item;$i++)
+         // {            
+         //      echo $prod->descripcion[$i]."<br/>";
+         //      if($prod->estado[$i])
+         //      {
+         //          echo "Siipi<br/>";
+         //      }            
+         //    echo $prod->descripcion[$i]."<br/>";
+         //    $items = $prod->materiap[$i]->nitem;
+         //    for($j=0;$j<$items;$j++)
+         //    {
+         //        print_r($prod->materiap[$i]);
+         //        echo "<br/>";
+         //        $cant = $prod->materiap[$i]->cantidad->{$j};
+         //        echo $cant;
+         //        echo "<br/>";
+         //    }
+         // }
+        //die("s");        
+        //$item = $prod->item;
         
         $idmovimientostipo = 12; //Salida por produccion
         $idmoneda = 1; //Soles
@@ -157,15 +158,16 @@ class Produccion extends Main
         $idalmacen = $_P['idalmacenma']; //Almacen de movimiento
         $idalmacenp = $_P['idalmacenma'];; //Almacen de produccion
         $igv = 0;
-
+        $autogen = $_P['autogen'];
+        if($autogen=="") $autogen=0;
         $sql = "INSERT INTO movimientos(idmovimientosubtipo, idmoneda, fecha, referencia, 
                                         estado, idsucursal, usuarioreg, idtipodocumento, serie, numero, 
                                         fechae, idproveedor, idformapago, guia_serie, guia_numero, 
-                                        fecha_guia, afecto, idalmacen, igv) 
+                                        fecha_guia, afecto, idalmacen, igv, autogen) 
                             values(:p1, :p2, :p3, :p4, 
                                         :p5, :p6, :p7, :p8, :p9, :p10, 
                                         :p11, :p12, :p13, :p14, :p15, 
-                                        :p16, :p17, :p18, :p19)";
+                                        :p16, :p17, :p18, :p19, :p20)";
         $stmt = $this->db->prepare($sql);
 
         try 
@@ -194,6 +196,7 @@ class Produccion extends Main
                 $stmt->bindParam(':p17',$afecto,PDO::PARAM_INT);
                 $stmt->bindParam(':p18',$idalmacen,PDO::PARAM_INT);
                 $stmt->bindParam(':p19',$igv,PDO::PARAM_INT);
+                $stmt->bindParam(':p20',$autogen,PDO::PARAM_INT);
 
                 $stmt->execute();
                 $id =  $this->IdlastInsert('movimientos','idmovimiento');
@@ -210,12 +213,16 @@ class Produccion extends Main
                                                         set stock = stock - :cant
                                                      WHERE idproducto = :idp');
                 
-                $stmt4 = $this->db->prepare('SELECT max(idmovimiento) as idm ,ctotal_current as c
-                                                FROM movimientosdetalle
-                                                where idtipoproducto = :idtp and idalmacen = :ida and idproducto = :idp
-                                                group by ctotal_current,item
-                                                order by item desc
-                                                limit 1');
+                $sql = "SELECT t.idm,t.c
+                        from (
+                        SELECT max(idmovimiento) as idm ,ctotal_current as c, item
+                        FROM movimientosdetalle
+                        where idtipoproducto = :idtp and idalmacen = :ida and idproducto = :idp
+                        group by ctotal_current,item,idmovimiento
+                        order by idmovimiento desc
+                        limit 1) as t
+                        order by t.item desc";
+                $stmt4 = $this->db->prepare($sql);
                 $estado = 1;
                 $items = 1;
 
@@ -234,13 +241,13 @@ class Produccion extends Main
                                 $idproducto = $prod->materiap[$i]->idproducto->{$j};
                                 $idt = $prod->materiap[$i]->idt->{$j};
 
-                                $stmt4->bindParam(':idtp',$idproducto,PDO::PARAM_INT);
+                                $stmt4->bindParam(':idtp',$idt,PDO::PARAM_INT);
                                 $stmt4->bindParam(':ida',$idalmacen,PDO::PARAM_INT);
                                 $stmt4->bindParam(':idp',$idproducto,PDO::PARAM_INT);
                                 $stmt4->execute();
                                 $row4 = $stmt4->fetchObject();                    
-                                $too_current = (float)$row4->c - $too;
 
+                                $too_current = (float)$row4->c - $too;
                                 $cant = 1;
                                 $precio = 0;
 

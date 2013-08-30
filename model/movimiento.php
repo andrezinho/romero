@@ -185,6 +185,15 @@ class movimiento extends Main
                         else $too = $_P['cantd'][$i];
 
                     $idtipod = $_P['tipod'][$i];
+
+                    if($idtipod==1)
+                    {
+                        //Si es madera, y el movimiento se hizo atraves de
+                        //una produccion, entonses los valores de largo,
+                        //alto y espesor posiblemente sean cero "0".                        
+                        if($too==0) $too = $_P['ctotal'][$i];
+                    }
+
                     $stmt4->bindParam(':idtp',$idtipod,PDO::PARAM_INT);
                     $stmt4->bindParam(':ida',$idalmacen,PDO::PARAM_INT);
                     $stmt4->bindParam(':idp',$idproducto,PDO::PARAM_INT);
@@ -195,9 +204,6 @@ class movimiento extends Main
                         $too_current = (float)$row4->c + $too;
                     else 
                         $too_current = (float)$row4->c - $too;
-
-                    //echo $idtipod."#".$idalmacen."#".$idproducto."<br/>";
-                    //echo $idproducto." -> ".$too." - ".$row4->c." - ".$too_current."<br/><br/>";
 
                     $stmt2->bindParam(':p1',$id,PDO::PARAM_INT);
                     $stmt2->bindParam(':p2',$idalmacen,PDO::PARAM_INT);
@@ -278,6 +284,7 @@ class movimiento extends Main
             $_P['cantd'][] = $r['cantidad'];
             $_P['preciod'][] = $r['precio'];
             $_P['itemd'][] = $r['item'];
+            $_P['ctotal'][] = $r['ctotal'];
         }
 
         $stmt = $this->db->prepare("UPDATE movimientos set estado = 2 

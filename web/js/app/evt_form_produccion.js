@@ -419,7 +419,7 @@ function getStock(id,tipo)
       }
       else 
       {
-        $("#label-stock-me").empty().append('Stock Max: '+stk+' pies'); 
+        $("#label-stock-me").empty().append('Stock Max: '+stk+' Und'); 
         $("#stock_me").val(stk);
         $("#cant_me").focus();
       }
@@ -492,7 +492,7 @@ function save()
   {
       if($("#idproduccion").val()=="")
       {
-          var ni = produccion.getNumItems();
+          var ni = produccion.getNumItems();          
           if(ni<=0)
           { 
             var fl = false;

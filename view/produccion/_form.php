@@ -102,7 +102,8 @@
         </div>
     </fieldset>
     <?php } ?>
-    <div id="div-detalle" class="ui-corner-all" style="background:#FAFAFA; padding: 10px 15px">
+    <fieldset class="ui-widget-content ui-corner-all"><legend>Detalle de Produccion</legend>
+    <div id="div-detalle" class="ui-corner-all" style="background:#FAFAFA; padding: 0px 15px 10px">
         <?php             
             if($c>0)
             {
@@ -130,6 +131,7 @@
             }            
         ?>
     </div>
+    </fieldset>
 </form>
 </div>
 
