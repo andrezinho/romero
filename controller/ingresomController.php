@@ -97,6 +97,7 @@ class ingresomController extends Controller
             else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
+    
     public function anular()
     {
         $obj = new movimiento();

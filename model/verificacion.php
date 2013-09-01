@@ -11,12 +11,21 @@ class Verificacion extends Main
         c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS cleintes,
         s.fechasolicitud,
         su.descripcion,
-        case s.estado when 0 then 'POR EVALUAR' else 'Aprobada' end
+        case s.estado when 0 then 'POR EVALUAR' else 'Aprobada' end,
+        case when s.estado=0 then
+        '<a class=\"anular box-boton boton-anular\" id=\"v-'||s.idsolicitud||'\" href=\"#\" title=\"Anular\" ></a>'
+        else '&nbsp;' end,
+        case when s.estado=0
+            then '<a class=\"evaluar box-boton boton-hand\" id=\"f-'||s.idsolicitud||'\" href=\"#\" title=\"Evaluar proforma\" ></a>'
+                when s.estado=3
+            then '<a class=\"box-boton boton-ok\" title=\"Solicitud atendida\" ></a>'
+        else '&nbsp;' end
 
         FROM
         facturacion.solicitud AS s
         INNER JOIN sucursales AS su ON su.idsucursal = s.idsucursal
         INNER JOIN cliente AS c ON c.idcliente = s.idcliente ";
+        //echo $sql;
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
@@ -298,8 +307,6 @@ class Verificacion extends Main
             idsolicitud, idsucursal, idtipopago, preciocash, inicial, 
             nromeses, cuota, idfinanciamiento, producto,cantidad,idproducto)
                 VALUES ( :p1, :p2,:p3, :p4,:p5, :p6,:p7, :p8,:p9,:p10,:p11) ");
-            //print_r($stmt2);
-            //echo $_P['idtipopago'].'AA';
 
             foreach($_P['idtipopago'] as $i => $idtipopago)
                 {
@@ -338,5 +345,9 @@ class Verificacion extends Main
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
     }
+
+
+
+
 }
 ?>

@@ -9,14 +9,22 @@ class Proformas extends Main
             c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS nomcliente,
             s.descripcion,
             p.fecha,
-            case p.estado when 0 then 'REGISTRADO' else 'PASO A SOLICITUD' end            
-            
-            FROM
-            facturacion.proforma AS p
+            case 
+                when p.estado=0 then 'REGISTRADO' 
+                when p.estado=1 then 'ANULADO'
+                else 'PASO A SOLICITUD' 
+            end,
+            case p.idvendedor when '".$_SESSION['idusuario']."' then
+                case when p.estado=0 then
+                    '<a class=\"anular box-boton boton-anular\" id=\"v-'||p.idproforma||'\" href=\"#\" title=\"Anular\" ></a>'
+                    else '&nbsp;' end                
+                else '&nbsp;' end
+                
+            FROM facturacion.proforma AS p
             INNER JOIN cliente AS c ON c.idcliente = p.idcliente
-            INNER JOIN sucursales AS s ON s.idsucursal = p.idsucursal ";    
+            INNER JOIN sucursales AS s ON s.idsucursal = p.idsucursal ";
             
-            return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
+        return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
     function edit($id ) {
@@ -242,8 +250,21 @@ class Proformas extends Main
     }
     
     function delete($_P ) {
-        $stmt = $this->db->prepare("DELETE FROM facturacion.caja WHERE idproforma = :p1");
+        $stmt = $this->db->prepare("DELETE FROM facturacion.proforma WHERE idproforma = :p1");
         $stmt->bindParam(':p1', $_P , PDO::PARAM_INT);
+        $p1 = $stmt->execute();
+        $p2 = $stmt->errorInfo();
+        return array($p1 , $p2[2]);
+    }
+
+    function anularpro($id)
+    {
+        // Estado ->0: resgistrado , 1:anulado, 2: Paso a solicitud
+        $stmt = $this->db->prepare("UPDATE facturacion.proforma
+                            SET  
+                               estado=1
+                            WHERE idproforma = :p1");
+        $stmt->bindParam(':p1', $id , PDO::PARAM_INT);
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);

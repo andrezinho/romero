@@ -370,7 +370,7 @@ class Clientes extends Main
             LEFT JOIN cliente AS con ON con.idcliente = c.idconyugue
             INNER JOIN facturacion.proforma AS p ON c.idcliente = p.idcliente
 
-            WHERE {$field} ilike :query and c.dni <> ''
+            WHERE {$field} ilike :query and c.dni <> '' and p.estado=0
             limit 10";
             //echo $sql;
         $statement = $this->db->prepare($sql);

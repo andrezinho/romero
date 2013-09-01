@@ -11,6 +11,7 @@ $(function()
     $("#idfinanciamiento").change(function(){
         load_finaciamiento($(this).val()); 
     });
+    $("#table-per").on('keyup','#NroMeses',function(){Calcular3();});
     
     verifAfecto();
     $("#aigv").click(function(){
@@ -161,7 +162,7 @@ function Calcular2()
   bval = bval && $("#precio" ).required();
   bval = bval && $("#cantidad" ).required();  
   bval = bval && $("#inicial" ).required();
-  bval = bval && $("#inicial" ).required();
+  //bval = bval && $("#inicial" ).required();
 
   if ( bval ) 
   { 
@@ -198,7 +199,17 @@ function Calcular2()
 }
 
 function Calcular3()
-{   
+{  
+  bval = true;
+  bval = bval && $("#idfinanciamiento" ).required();
+  bval = bval && $("#producto" ).required();
+  bval = bval && $("#precio" ).required();
+  bval = bval && $("#cantidad" ).required();  
+  bval = bval && $("#inicial" ).required();
+  bval = bval && $("#nromeses" ).required();
+
+  if ( bval ) 
+  { 
     var j=$("#NroFactores").val()
     var Precio=$("#precio").val()
     var Cant=$("#cantidad").val()
@@ -233,7 +244,9 @@ function Calcular3()
     }
     Importe =parseFloat(Precio)*parseFloat(Factor)
       if (Factor!=0)
-      $("#Mensual").val(parseFloat(Importe).toFixed(2)) 
+      $("#Mensual").val(parseFloat(Importe).toFixed(2));
+
+  }
 
 }
 

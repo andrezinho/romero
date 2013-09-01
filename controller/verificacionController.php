@@ -11,8 +11,9 @@ class VerificacionController extends Controller
                         3 => array('Name'=>'Cliente','NameDB'=>"'c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno'",'align'=>'left','width'=>180),
                         4 => array('Name'=>'Fecha Solicitud','NameDB'=>'s.fechasolicitud','align'=>'center','width'=>100),
                         5 => array('Name'=>'Sucursal','NameDB'=>'su.descripcion','width'=>120),
-                        6 => array('Name'=>'Estado','NameDB'=>'s.estado','align'=>'center','width'=>100)
-                        
+                        6 => array('Name'=>'Estado','NameDB'=>'s.estado','align'=>'center','width'=>100),
+                        7 => array('Name'=>'&nbsp','NameDB'=>'-','align'=>'center','width'=>30),
+                        8 => array('Name'=>'&nbsp','NameDB'=>'-','align'=>'center','width'=>30)
                         
                      );
     public function index() 
@@ -105,5 +106,6 @@ class VerificacionController extends Controller
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
+
 }
 ?>

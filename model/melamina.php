@@ -19,11 +19,8 @@ class Melamina extends Main
             INNER JOIN unidad_medida AS u ON u.idunidad_medida = p.idunidad_medida
             INNER JOIN produccion.maderba AS m ON m.idmaderba = p.idmaderba
             INNER JOIN produccion.linea AS l ON l.idlinea = m.idlinea
-<<<<<<< HEAD
+
             WHERE p.idtipoproducto=2 ";
-=======
-            where p.idtipoproducto = 2 ";
->>>>>>> b7668f339d34f8360152ac22b3a600cf39b74ff3
 
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
