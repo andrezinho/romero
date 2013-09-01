@@ -2,7 +2,7 @@ $(function()
 {    
     $( "#tipoproducto" ).focus();       
     $( "#idlinea" ).css({'width':'210px'});
-    load_maderba($('#idlinea').val());
+    //load_maderba($('#idlinea').val());
     $( "#idmaderba" ).css({'width':'180px'});
     $( "#idunidad_medida" ).css({'width':'210px'});
     $("#idlinea").change(function(){load_maderba($(this).val());});

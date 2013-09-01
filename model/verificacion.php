@@ -11,7 +11,7 @@ class Verificacion extends Main
         c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS cleintes,
         s.fechasolicitud,
         su.descripcion,
-        s.estado
+        case s.estado when 0 then 'POR EVALUAR' else 'Aprobada' end
 
         FROM
         facturacion.solicitud AS s
@@ -23,19 +23,46 @@ class Verificacion extends Main
     function edit($id)
     {
         $stmt = $this->db->prepare("SELECT
-            p.idproduccion,
-            p.descripcion,
-            p.fechaini,
-            p.fechafin,
-            case p.estado when 1 then 'ACTIVO' else 'INCANTIVO' end,
-            p.estado,
-            p.idpersonal,
-            pe.nombres || ' ' || pe.apellidos AS personal,
-            pe.dni
+            s.idsolicitud,
+            s.idsucursal,
+            s.idvendedor,
+            s.idtipvivicliente,
+            s.idcliente,
+            s.fechavenc1,
+            s.fechasolicitud,
+            s.idproforma,
+            c.dni AS cli_dni,
+            c.idtipocliente,
+            c.nombres || ' ' || c.apematerno || ' ' || c.apepaterno AS nomcliente,
+            c.sexo,
+            c.direccion,
+            c.referencia_ubic,
+            c.telefono,
+            c.ocupacion,
+            c.idestado_civil,
+            c.idgradinstruccion,
+            c.idtipovivienda,
+            c.trabajo,
+            c.dirtrabajo,
+            c.teltrab,
+            c.cargo,
+            c.carga_familiar AS cargafam,
+            c.ingreso AS ingresocli,
+            c.idconyugue,
+            con.dni AS con_dni,
+            con.nombres || ' ' || con.apematerno || ' ' || con.apepaterno AS nomconyugue,
+            con.ocupacion AS con_ocupacion,
+            con.trabajo AS con_trabajo,
+            con.dirtrabajo AS con_dirtrabajo,
+            con.cargo AS con_cargo,
+            con.ingreso AS ingresocon,
+            con.teltrab AS con_teltrab
             FROM
-            produccion.produccion AS p
-            INNER JOIN public.personal AS pe ON pe.idpersonal = p.idpersonal
-            WHERE idproduccion = :id");
+            facturacion.solicitud AS s
+            INNER JOIN cliente AS c ON c.idcliente = s.idcliente
+            LEFT JOIN cliente AS con ON con.idcliente = c.idconyugue
+
+            WHERE idsolicitud = :id");
         $stmt->bindParam(':id', $id , PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchObject();
@@ -44,18 +71,26 @@ class Verificacion extends Main
     function getDetails($id)
     {
         $stmt = $this->db->prepare("SELECT
-            d.idproduccion,
-            d.idsubproductos_semi,
-            d.cantidad,
-            pr.descripcion || ', ' || spr.descripcion AS descripcion
-            FROM
-            produccion.produccion AS p
-            INNER JOIN produccion.produccion_detalle AS d ON p.idproduccion = d.idproduccion
-            INNER JOIN produccion.subproductos_semi AS spr ON spr.idsubproductos_semi = d.idsubproductos_semi
-            INNER JOIN produccion.productos_semi AS pr ON pr.idproductos_semi = spr.idproductos_semi
+            ds.idsolicitud,
+            ds.idproducto,
+            ds.idtipopago,
+            tp.descripcion,
+            ds.preciocash,
+            ds.inicial,
+            ds.nromeses,
+            ds.cuota,
+            ds.cantidad,
+            ds.idfinanciamiento,
+            ds.producto
 
-            WHERE d.idproduccion = :id    
-            ORDER BY d.idproduccion ");
+            FROM
+            facturacion.solicitud AS s
+            INNER JOIN facturacion.solicituddetalle AS ds ON s.idsolicitud = ds.idsolicitud
+            INNER JOIN produccion.subproductos_semi AS pr ON pr.idsubproductos_semi = ds.idproducto
+            INNER JOIN produccion.tipopago AS tp ON tp.idtipopago = ds.idtipopago
+
+            WHERE ds.idsolicitud = :id    
+            ORDER BY ds.idproducto ");
 
         $stmt->bindParam(':id', $id , PDO::PARAM_STR);
         $stmt->execute();
@@ -64,108 +99,227 @@ class Verificacion extends Main
 
     function insert($_P ) 
     {
-        $fechai=$_P['fechai'];
-        $fechaf=$_P['fechaf'];
-        $descripcion=$_P['descripcion'];
-        $estado=1;
+        $fecha= $_P['fecha'];
         $idvendedor = $_SESSION['idusuario'];
-
+        $idsucursal = $_SESSION['idsucursal'];
+        $idproforma= $_P['idproforma'];
+        $estado=0;
         $sql="INSERT INTO facturacion.solicitud(
             idsucursal, idvendedor, idcliente, idtipvivicliente, 
-            trabajocliente, dirtrabajocliente, cargocliente, antitrabcliente, 
+            trabajocliente, dirtrabajocliente, cargocliente, 
             teltrabcliente, ingresocliente, trabajoconyugue, 
-            dirtrabajoconyugue, cargoconyugue, antitrabconyugue, teltrabconyugue, 
-            ingresoconyugue, fechasolicitud, fechavenc1,idproforma,estado)
+            dirtrabajoconyugue, cargoconyugue, teltrabconyugue, 
+            ingresoconyugue, fechasolicitud, fechavenc1,idproforma,estado,carga_familiar)
             VALUES (:p1, :p2, :p3, :p4,:p5,:p6, :p7, :p8, :p9,:p10,:p11, :p12, :p13, :p14,:p15,:p16, :p17, 
-                :p18, :p19, :p20 )";
-    
-            $stmt->bindParam(':p1',$descripcion,PDO::PARAM_STR);
-            $stmt->bindParam(':p2',$fechai,PDO::PARAM_STR);
-            $stmt->bindParam(':p3',$fechaf,PDO::PARAM_STR);
-            $stmt->bindParam(':p4',$estado,PDO::PARAM_INT);
-            $stmt->bindParam(':p5',$idpersonal,PDO::PARAM_STR);
-            $stmt->bindParam(':p6',$descripcion,PDO::PARAM_STR);
-            $stmt->bindParam(':p7',$fechai,PDO::PARAM_STR);
-            $stmt->bindParam(':p8',$fechaf,PDO::PARAM_STR);
-            $stmt->bindParam(':p9',$estado,PDO::PARAM_INT);
-            $stmt->bindParam(':p10',$idpersonal,PDO::PARAM_STR);
-            $stmt->bindParam(':p11',$descripcion,PDO::PARAM_STR);
-            $stmt->bindParam(':p12',$fechai,PDO::PARAM_STR);
-            $stmt->bindParam(':p13',$fechaf,PDO::PARAM_STR);
-            $stmt->bindParam(':p14',$estado,PDO::PARAM_INT);
-            $stmt->bindParam(':p15',$idpersonal,PDO::PARAM_STR);
-            $stmt->bindParam(':p16',$idpersonal,PDO::PARAM_STR);
-            $stmt->bindParam(':p17',$descripcion,PDO::PARAM_STR);
-            $stmt->bindParam(':p18',$fechai,PDO::PARAM_STR);
-            $stmt->bindParam(':p19',$fechaf,PDO::PARAM_STR);
-            $stmt->bindParam(':p20',$estado,PDO::PARAM_INT);
+                :p18, :p19 )";
+        
+        $stmt = $this->db->prepare($sql);
 
-            $p1 = $stmt->execute();
-            $p2 = $stmt->errorInfo();
-            return array($p1 , $p2[2]);
+        try 
+        {
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->db->beginTransaction();
+
+            if($idproforma=='' || $idproforma==0)
+            {
+                $idproforma=0;
+
+                $stmt->bindParam(':p1',$idsucursal,PDO::PARAM_INT);
+                $stmt->bindParam(':p2',$idvendedor,PDO::PARAM_INT);
+                $stmt->bindParam(':p3',$_P['idcliente'],PDO::PARAM_INT);
+                $stmt->bindParam(':p4',$_P['idtipovivienda'],PDO::PARAM_INT);
+                $stmt->bindParam(':p5',$_P['trabajo'],PDO::PARAM_STR);
+                $stmt->bindParam(':p6',$_P['dirtrabajo'],PDO::PARAM_STR);
+                $stmt->bindParam(':p7',$_P['cargo'],PDO::PARAM_STR);
+                $stmt->bindParam(':p8',$_P['teltrab'],PDO::PARAM_STR);
+                $stmt->bindParam(':p9',$_P['ingresocli'],PDO::PARAM_INT);
+                $stmt->bindParam(':p10',$_P['con_trabajo'],PDO::PARAM_STR);
+                $stmt->bindParam(':p11',$_P['con_dirtrabajo'],PDO::PARAM_STR);
+                $stmt->bindParam(':p12',$_P['con_cargo'],PDO::PARAM_STR);
+                $stmt->bindParam(':p13',$_P['con_teltrab'],PDO::PARAM_STR);
+                $stmt->bindParam(':p14',$_P['ingresocon'],PDO::PARAM_INT);
+                $stmt->bindParam(':p15',$_P['fechasolicitud'],PDO::PARAM_STR);
+                $stmt->bindParam(':p16',$_P['fechavenc'],PDO::PARAM_STR);
+                $stmt->bindParam(':p17',$idproforma,PDO::PARAM_INT);
+                $stmt->bindParam(':p18',$estado,PDO::PARAM_INT);
+                $stmt->bindParam(':p19',$_P['cargafam'],PDO::PARAM_INT);
+
+            }else
+                {
+
+                    $stmt->bindParam(':p1',$idsucursal,PDO::PARAM_INT);
+                    $stmt->bindParam(':p2',$idvendedor,PDO::PARAM_INT);
+                    $stmt->bindParam(':p3',$_P['idcliente'],PDO::PARAM_INT);
+                    $stmt->bindParam(':p4',$_P['idtipovivienda'],PDO::PARAM_INT);
+                    $stmt->bindParam(':p5',$_P['trabajo'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p6',$_P['dirtrabajo'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p7',$_P['cargo'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p8',$_P['teltrab'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p9',$_P['ingresocli'],PDO::PARAM_INT);
+                    $stmt->bindParam(':p10',$_P['con_trabajo'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p11',$_P['con_dirtrabajo'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p12',$_P['con_cargo'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p13',$_P['con_teltrab'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p14',$_P['ingresocon'],PDO::PARAM_INT);
+                    $stmt->bindParam(':p15',$_P['fechasolicitud'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p16',$_P['fechavenc'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p17',$idproforma,PDO::PARAM_INT);
+                    $stmt->bindParam(':p18',$estado,PDO::PARAM_INT);
+                    $stmt->bindParam(':p19',$_P['cargafam'],PDO::PARAM_INT);
+                }            
+
+            $stmt->execute();
+            
+            $id =  $this->IdlastInsert('facturacion.solicitud','idsolicitud');
+            $row = $stmt->fetchAll();
+
+            $stmt2  = $this->db->prepare("INSERT INTO facturacion.solicituddetalle(
+            idsolicitud, idsucursal, idtipopago, preciocash, inicial, 
+            nromeses, cuota, idfinanciamiento, producto,cantidad,idproducto)
+                VALUES ( :p1, :p2,:p3, :p4,:p5, :p6,:p7, :p8,:p9,:p10,:p11) ");
+
+            $idsucursal = $_SESSION['idsucursal'];
+
+            foreach($_P['idtipopago'] as $i => $idtipopago)
+                {
+                    $stmt2->bindParam(':p1',$id,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p2',$idsucursal,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p3',$idtipopago,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p4',$_P['precio'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p5',$_P['inicial'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p6',$_P['nromeses'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p7',$_P['mensual'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p8',$_P['idfinanciamiento'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p9',$_P['producto'][$i],PDO::PARAM_STR);
+                    $stmt2->bindParam(':p10',$_P['cantidad'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p11',$_P['idproducto'][$i],PDO::PARAM_INT);
+                    $stmt2->execute();
+                }
+
+            $this->db->commit();            
+            return array('1','Bien!',$id);
+
+        }catch(PDOException $e) 
+            {
+                $this->db->rollBack();
+                return array('2',$e->getMessage().$str,'');
+            }
             
     }
 
     function update($_P ) 
     {
         
-        $fechai=$_P['fechai'];
-        $fechaf=$_P['fechaf'];
-        $descripcion=$_P['descripcion'];
-        $estado=1;
-        $idpersonal=$_P['idpersonal'];
-        $idproduccion= $_P['idproduccion'];
+        $fecha= $_P['fechasolicitud'];
+        $idvendedor = $_SESSION['idusuario'];
+        $idsucursal = $_SESSION['idsucursal'];
+        $idproforma= $_P['idproforma'];
+        $estado=0;
+        $idsolicitud= $_P['idsolicitud'];
 
-        $del="DELETE FROM produccion.produccion_detalle
-                    WHERE idproduccion='$idproduccion' ";
+        $del="DELETE FROM facturacion.solicituddetalle
+                    WHERE idsolicitud='$idsolicitud' ";
                     
             $res = $this->db->prepare($del);
             $res->execute();
 
-        $sql = "UPDATE produccion.produccion 
-                    set 
-                        descripcion=:p1,
-                        fechaini=:p2,
-                        fechafin=:p3,
-                        estado=:p4,
-                        idpersonal=:p5
+        $sql = "UPDATE facturacion.solicitud
+                    set
+                        idsucursal=:p1, idvendedor=:p2, idcliente=:p3, idtipvivicliente=:p4, 
+                       trabajocliente=:p5, dirtrabajocliente=:p6, cargocliente=:p7, 
+                       teltrabcliente=:p8, ingresocliente=:p9, trabajoconyugue=:p10, 
+                       dirtrabajoconyugue=:p11, cargoconyugue=:p12, teltrabconyugue=:p13, 
+                       ingresoconyugue=:p14, fechasolicitud=:p15, 
+                       fechavenc1=:p16, idproforma=:p17, estado=:p18, carga_familiar=:p19
 
-                WHERE   idproduccion = :idproduccion";
+                WHERE   idsolicitud = :idsolicitud ";
         $stmt = $this->db->prepare($sql);
+
         try 
         {
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->beginTransaction();
 
-            $stmt->bindParam(':p1', $descripcion , PDO::PARAM_STR);
-            $stmt->bindParam(':p2', $fechai , PDO::PARAM_STR);
-            $stmt->bindParam(':p3', $fechaf , PDO::PARAM_STR);
-            $stmt->bindParam(':p4', $estado , PDO::PARAM_INT);
-            $stmt->bindParam(':p5', $idpersonal , PDO::PARAM_INT);
+            if($idproforma=='' || $idproforma==0)
+            {
+                $idproforma=0;
 
-            $stmt->bindParam(':idproduccion', $idproduccion , PDO::PARAM_INT);
+                $stmt->bindParam(':p1',$idsucursal,PDO::PARAM_INT);
+                $stmt->bindParam(':p2',$idvendedor,PDO::PARAM_INT);
+                $stmt->bindParam(':p3',$_P['idcliente'],PDO::PARAM_INT);
+                $stmt->bindParam(':p4',$_P['idtipovivienda'],PDO::PARAM_INT);
+                $stmt->bindParam(':p5',$_P['trabajo'],PDO::PARAM_STR);
+                $stmt->bindParam(':p6',$_P['dirtrabajo'],PDO::PARAM_STR);
+                $stmt->bindParam(':p7',$_P['cargo'],PDO::PARAM_STR);
+                $stmt->bindParam(':p8',$_P['teltrab'],PDO::PARAM_STR);
+                $stmt->bindParam(':p9',$_P['ingresocli'],PDO::PARAM_INT);
+                $stmt->bindParam(':p10',$_P['con_trabajo'],PDO::PARAM_STR);
+                $stmt->bindParam(':p11',$_P['con_dirtrabajo'],PDO::PARAM_STR);
+                $stmt->bindParam(':p12',$_P['con_cargo'],PDO::PARAM_STR);
+                $stmt->bindParam(':p13',$_P['con_teltrab'],PDO::PARAM_STR);
+                $stmt->bindParam(':p14',$_P['ingresocon'],PDO::PARAM_INT);
+                $stmt->bindParam(':p15',$_P['fechasolicitud'],PDO::PARAM_STR);
+                $stmt->bindParam(':p16',$_P['fechavenc'],PDO::PARAM_STR);
+                $stmt->bindParam(':p17',$idproforma,PDO::PARAM_INT);
+                $stmt->bindParam(':p18',$estado,PDO::PARAM_INT);
+                $stmt->bindParam(':p19',$_P['cargafam'],PDO::PARAM_INT);
+
+                $stmt->bindParam(':idsolicitud', $idsolicitud , PDO::PARAM_INT);
+
+            }else
+                {
+
+                    $stmt->bindParam(':p1',$idsucursal,PDO::PARAM_INT);
+                    $stmt->bindParam(':p2',$idvendedor,PDO::PARAM_INT);
+                    $stmt->bindParam(':p3',$_P['idcliente'],PDO::PARAM_INT);
+                    $stmt->bindParam(':p4',$_P['idtipovivienda'],PDO::PARAM_INT);
+                    $stmt->bindParam(':p5',$_P['trabajo'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p6',$_P['dirtrabajo'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p7',$_P['cargo'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p8',$_P['teltrab'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p9',$_P['ingresocli'],PDO::PARAM_INT);
+                    $stmt->bindParam(':p10',$_P['con_trabajo'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p11',$_P['con_dirtrabajo'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p12',$_P['con_cargo'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p13',$_P['con_teltrab'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p14',$_P['ingresocon'],PDO::PARAM_INT);
+                    $stmt->bindParam(':p15',$_P['fechasolicitud'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p16',$_P['fechavenc'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p17',$idproforma,PDO::PARAM_INT);
+                    $stmt->bindParam(':p18',$estado,PDO::PARAM_INT);
+                    $stmt->bindParam(':p19',$_P['cargafam'],PDO::PARAM_INT);
+
+                    $stmt->bindParam(':idsolicitud', $idsolicitud , PDO::PARAM_INT);
+                }
+            
             $stmt->execute();
 
-            $stmt2  = $this->db->prepare('INSERT INTO produccion.produccion_detalle(
-            idproduccion, idsubproductos_semi, cantidad, stock, estado)
-                VALUES (:p1, :p2, :p3, :p4, :p5) ');
+            $stmt2  = $this->db->prepare("INSERT INTO facturacion.solicituddetalle(
+            idsolicitud, idsucursal, idtipopago, preciocash, inicial, 
+            nromeses, cuota, idfinanciamiento, producto,cantidad,idproducto)
+                VALUES ( :p1, :p2,:p3, :p4,:p5, :p6,:p7, :p8,:p9,:p10,:p11) ");
+            //print_r($stmt2);
+            //echo $_P['idtipopago'].'AA';
 
-            $estado = 1;
-
-                foreach($_P['idsubproductos_semi'] as $i => $idsubproducto)
+            foreach($_P['idtipopago'] as $i => $idtipopago)
                 {
-                    $stmt2->bindParam(':p1',$idproduccion,PDO::PARAM_INT);
-                    $stmt2->bindParam(':p2',$idsubproducto,PDO::PARAM_INT);                    
-                    $stmt2->bindParam(':p3',$_P['cantd'][$i],PDO::PARAM_INT);
-                    $stmt2->bindParam(':p4',$_P['cantd'][$i],PDO::PARAM_INT);
-                    $stmt2->bindParam(':p5',$estado,PDO::PARAM_INT);
-                    
-                    $stmt2->execute();                
 
+                    $stmt2->bindParam(':p1',$idsolicitud,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p2',$idsucursal,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p3',$idtipopago,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p4',$_P['precio'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p5',$_P['inicial'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p6',$_P['nromeses'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p7',$_P['mensual'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p8',$_P['idfinanciamiento'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p9',$_P['producto'][$i],PDO::PARAM_STR);
+                    $stmt2->bindParam(':p10',$_P['cantidad'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p11',$_P['idproducto'][$i],PDO::PARAM_INT);
+                    $stmt2->execute();
                 }
 
             $this->db->commit();            
-            return array('1','Bien!',$idproduccion);
+            return array('1','Bien!',$id);
 
         }
         catch(PDOException $e) 
@@ -178,7 +332,7 @@ class Verificacion extends Main
     
     function delete($p) 
     {
-        $stmt = $this->db->prepare("DELETE FROM produccion.produccion WHERE idproduccion = :p1");
+        $stmt = $this->db->prepare("DELETE FROM produccion.produccion WHERE idsolicitud = :p1");
         $stmt->bindParam(':p1', $p, PDO::PARAM_INT);
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();

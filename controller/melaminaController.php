@@ -6,9 +6,9 @@ require_once '../model/melamina.php';
 class MelaminaController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'p.idproducto','align'=>'center','width'=>50),
+                        1 => array('Name'=>'Codigo','NameDB'=>'p.idproducto','align'=>'center','width'=>70),
                         2 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Maderba','NameDB'=>'carac','width'=>120),
+                        3 => array('Name'=>'Maderba','NameDB'=>"'m.descripcion || ' - ' || l.descripcion'",'width'=>120),
                         4 => array('Name'=>'Medida','NameDB'=>'p.medidas','align'=>'right','width'=>50),                        
                         5 => array('Name'=>'Precio Unitario','NameDB'=>'p.precio_u','align'=>'right','width'=>100),
                         6 => array('Name'=>'Stok','NameDB'=>'p.stock','align'=>'right','width'=>100),

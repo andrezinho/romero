@@ -35,7 +35,7 @@ class Main extends Spdo {
 
         if($filtro!="") 
         {
-            if(stripos($sql," where ")!==false||stripos($sql," WHERE ")!==false) $sql .= " and ";
+            if(stripos($sql,"where ")!==false||stripos($sql,"WHERE ")!==false) $sql .= " and ";
             else $sql .= " WHERE ";
             $sql .= " cast(".$filtro." as varchar) ilike :query ";
         }

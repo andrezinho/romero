@@ -4,33 +4,30 @@ include("../view/header_form.php");
 ?>
 <div style="padding:10px 20px; width:950px">
 <form id="frm_verificacion" >
-    <!-- <fieldset class="ui-corner-all" style="padding: 2px 10px 7px">
-    <legend>Datos - <b><?php echo date('d/m/Y'); ?></b></legend>
-        <input type="hidden" name="controller" value="Produccion" />
-        <input type="hidden" name="action" value="save" />             
-        <input type="hidden" id="idproduccion" name="idproduccion" class="text ui-widget-content ui-corner-all" style=" width: 50px; text-align: left;" value="<?php echo $obj->idproduccion; ?>" readonly />                
-        
-        <label for="fecha" class="labeles" style="width:120px;">Fecha de solicitud:</label>
-        <input type="text" name="fecha" id="fecha" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fecha)?$obj->fecha:  date('d/m/Y')); ?>" style="width:70px; text-align:center" />        
-        <br/> 
-    </fieldset> -->    
+       
     <fieldset id="box-solicitud" class="ui-corner-all" style="padding: 2px 10px 7px;">  
         <!-- <legend>Produccion</legend> -->      
         <div id="box-1">
-            <input type="hidden" name="controller" value="Produccion" />
+            <input type="hidden" name="controller" value="Verificacion" />
             <input type="hidden" name="action" value="save" />             
-            <input type="hidden" id="idproduccion" name="idproduccion" class="text ui-widget-content ui-corner-all" style=" width: 50px; text-align: left;" value="<?php echo $obj->idproduccion; ?>" readonly />                
+            <input type="hidden" id="idsolicitud" name="idsolicitud" class="text ui-widget-content ui-corner-all" style=" width: 50px; text-align: left;" value="<?php echo $obj->idsolicitud; ?>" readonly />                
             
             <label for="fechas" class="labeles" style="width:120px;">Fecha de solicitud:</label>
-            <input type="text" name="fecha" id="fecha" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fecha)?$obj->fecha:  date('d/m/Y')); ?>" style="width:70px; text-align:center" />        
+            <input type="text" name="fechasolicitud" id="fechasolicitud" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fechasolicitud)?$obj->fechasolicitud:  date('d/m/Y')); ?>" style="width:70px; text-align:center" />        
+            
+            <label for="fechasve" class="labeles" style="width:135px;">Fecha de vencimiento:</label>
+            <input type="text" name="fechavenc" id="fechavenc" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fechavenc1)?$obj->fechavenc1:  date('d/m/Y')); ?>" style="width:70px; text-align:center" />        
+            
+            <label for="nrorecibo" class="labeles">N° Recibo:</label>
+            <input type="text" name="nrorecibo" id="nrorecibo" class="ui-widget-content ui-corner-all text" value="<?php echo $obj->nrorecibo; ?>" style="width:70px; text-align:center" />        
+            <br/>
             
             <label for="fechas" class="labeles" style="width:120px;">Buscar proforma:</label>
             <input type="text" name="dni" id="dnicliprof" value="" class="ui-widget-content ui-corner-all text" style="width:80px;" />
-            <input type="text" name="personal" id="clienteprof" value="" class="ui-widget-content ui-corner-all text" style="width:250px;" />
-            <input type="hidden" name="idpersonal" id="idclienteprof" value="" />
-            <input type="hidden" name="idproforma" id="idproforma" value="" />
-            <br/>
-            
+            <input type="text" name="clienteprof" id="clienteprof" value="" class="ui-widget-content ui-corner-all text" style="width:250px;" />
+            <input type="hidden" name="idclienteprof" id="idclienteprof" value="" />
+            <input type="hidden" name="idproforma" id="idproforma" value="<?php echo $obj->idproforma; ?>" />
+
             <div class="ui-widget-content ui-corner-all" style="padding:10px">
                 <h4 id="title-produccion" style="text-align:center">HOJA DE SOLICITUD</h4>
                 <br/>
@@ -46,11 +43,11 @@ include("../view/header_form.php");
                         <p id="">Datos Generales del <b>Cliente :</b></p>
                         <br />
                         <label for="dni" class="labeles">DNI:</label>
-                        <input type="text" name="dni" id="dni" value="" class="ui-widget-content ui-corner-all text" style="width:200px;" />
-                        <input id="idcliente" name="idcliente" value="" type="hidden" />
+                        <input type="text" name="dni" id="dni" class="ui-widget-content ui-corner-all text" style="width:200px;" value="<?php echo $obj->cli_dni; ?>" />
+                        <input id="idcliente" name="idcliente" value="<?php echo $obj->idcliente; ?>" type="hidden" />
 
                         <label for="cleinte" class="labeles">Nombres y Ap:</label>                        
-                        <input id="nomcliente" name="nomcliente" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
+                        <input id="nomcliente" name="nomcliente" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->nomcliente; ?>"  />
                         
                         <br/>
 
@@ -102,10 +99,10 @@ include("../view/header_form.php");
                         <br/>
                         
                         <label for="trabajo" class="labeles">Empresa que trabaja:</label>                        
-                        <input type="text" id="trabajo" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->trabajo; ?>" />
+                        <input type="text" id="trabajo" name="trabajo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->trabajo; ?>" />
                         
                         <label for="cargo" class="labeles">Cargo Actual:</label>                        
-                        <input type="text" id="cargo" name="direccion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->cargo; ?>" />
+                        <input type="text" id="cargo" name="cargo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->cargo; ?>" />
                         <br/>
                         
                         <label for="teltrab" class="labeles">Telefono del trabaja:</label>                        
@@ -119,11 +116,11 @@ include("../view/header_form.php");
                         <p>Datos Generales del <b>Conyugue :</b></p>
                         <br />
                         <label for="dni" class="labeles">DNI:</label>
-                        <input type="text" name="dnicon" id="dnicon" value="" class="ui-widget-content ui-corner-all text" style="width:200px;" />
+                        <input type="text" name="dnicon" id="dnicon" class="ui-widget-content ui-corner-all text" style="width:200px;" value="<?php echo $obj->con_dni; ?>" />
                         <input id="idconyugue" name="idconyugue" value="" type="hidden" />
 
                         <label for="cleinte" class="labeles">Nombres y Apellidos:</label>                        
-                        <input id="nomconyugue" name="nomconyugue" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dnicon; ?>"  />
+                        <input id="nomconyugue" name="nomconyugue" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->nomconyugue; ?>"  />
                         <br/>
                         
                         <label for="trabajocon" class="labeles">Empresa que trabaja:</label>                        
@@ -134,93 +131,184 @@ include("../view/header_form.php");
                         <br/>
                         
                         <label for="conteltrab" class="labeles">Telefono del trabaja:</label>                        
-                        <input type="text" id="con_teltrab" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->con_teltrab; ?>" />
+                        <input type="text" id="con_teltrab" name="con_teltrab" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->con_teltrab; ?>" />
                         
                         <label for="condirtrabajo" class="labeles">Direccion del trabajo:</label>                        
                         <input type="text" id="con_dirtrabajo" name="con_dirtrabajo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->con_dirtrabajo; ?>" />
                         <br/>
                     </div>
                     <div id="tabs-3">
-                        <p>Registre los ingresos de la pareja:</p>
-                        <br/>
-                        <label for="dni" class="labeless">Ingreso del cliente:</label>
-                        <input type="text" name="ingresocli" id="ingresocli" value="" class="ui-widget-content ui-corner-all text" value="<?php echo $obj->ingresocli; ?>" style="width:80px;" />
-                        &nbsp;&nbsp;&nbsp;
-                        <label for="dni" class="labeless">Ingreso del conyugue:</label>
-                        <input type="text" name="ingresocon" id="ingresocon" value="" class="ui-widget-content ui-corner-all text" value="<?php echo $obj->ingresocon; ?>" style="width:80px;" />
-                        &nbsp;&nbsp;&nbsp;
-                        <label for="dni" class="labeless">Total de ingresos:</label>
-                        <input type="text" name="totaling" id="totaling" value="" class="ui-widget-content ui-corner-all text" value="<?php echo $obj->totaling; ?>" style="width:80px;" />
-
-                    </div>
-                    <div id="tabs-4">
                         <table id="IngresosPare">
                             <tr>
                                 <td>
-                                    <p>Ingrese alguna referencia:</p>
-                                    <br/>
-                                    <label for="cleinte" class="labeles">Nombres y Apellidos:</label>                        
-                                    <input id="nomclientes" name="nomclientes" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
-                                                            
-                                    <label for="direccion" class="labeles">Relación:</label>                        
-                                    <input type="text" id="referencia_ubic" name="referencia_ubic" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->referencia_ubic; ?>" />
-                                    <br/>
-                                    
-                                    <label for="telefono" class="labeles">Telefono:</label>                        
-                                    <input type="text" id="telefono" name="telefono" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->telefono; ?>" />
-                                    
+                                     <p>Registre los ingresos de la pareja:</p>
+                                        <br/>
+                                        <label for="dni" class="labeless">Ingreso del cliente:</label>
+                                        <input type="text" name="ingresocli" id="ingresocli" class="ui-widget-content ui-corner-all text" value="<?php echo $obj->ingresocli; ?>" style="width:80px;" />
+                                        &nbsp;&nbsp;&nbsp;
+                                        <label for="dni" class="labeless">Ingreso del conyugue:</label>
+                                        <input type="text" name="ingresocon" id="ingresocon" class="ui-widget-content ui-corner-all text" value="<?php echo $obj->ingresocon; ?>" style="width:80px;" />
+                                        &nbsp;&nbsp;&nbsp;
+                                        <?php 
+                                            $cli= $obj->ingresocli;
+                                            $con= $obj->ingresocon;
+                                            $totaling= $cli + $con;
+                                        ?>
+                                        <label for="dni" class="labeless">Total de ingresos:</label>
+                                        <input type="text" name="totaling" id="totaling" class="ui-widget-content ui-corner-all text" value="<?php echo $totaling; ?>" style="width:80px;" />
+
                                 </td>
                             </tr>
                         </table>
+                       
+                    </div>
+                    <div id="tabs-4">
                         
+                            <p>Ingrese alguna referencia:</p>
+                            <br/>
+                            <label for="nomgarant" class="labeles">Nombres y Apellidos:</label>                        
+                            <input id="nomgarant" name="nomgarant" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->nomgarant; ?>"  />
+                                                    
+                            <label for="relacion" class="labeles">Relación:</label>                        
+                            <input type="text" id="relacion" name="relacion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->relacion; ?>" />
+                            <br/>
+                            
+                            <label for="telefono" class="labeles">Telefono:</label>                        
+                            <input type="text" id="gar_telefono" name="gar_telefono" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->gar_telefono; ?>" />
+                            
                     </div>
                     <div id="tabs-5">
-                        <p>Ingrese el producto:</p>
-                        <br />
-
-                        <table width="600" id="desproducto" border="0" align="center" cellpadding="1" cellspacing="1">
-                          <tr>
-                            <td width="100">&nbsp;</td>    
-                            <td width="300">&nbsp;</td>
-                            <td width="100">&nbsp;</td>
-                            <td width="100">&nbsp;</td>
-                          </tr>
-                          <tr>
-                            <td><label class="labels">Producto:</label></td>    
-                            <td>
-                                <input type="text" name="producto" id="producto" value="" class="ui-widget-content ui-corner-all text" style="width:250px;" />
-                                <input type="hidden" name="idsubproductos_semi" id="idsubproductos_semi" value="" />                        
-                            </td>
-                            <td><label class="labels">Inicial:</label></td>
-                            <td>
-                                <input type="text" name="inicial" id="inicial" value="<?php echo $obj->inicial; ?>" class="ui-widget-content ui-corner-all text" style="width:80px;" />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td><label class="labels">Observaciones:</label></td>    
-                            <td rowspan="3">
-                              <textarea name="textarea" id="textarea" class="ui-widget-content ui-corner-all" cols="45" rows="4"></textarea>
-                            </td>
-                            <td><label class="labels">N° Cuotas:</label></td>
-                            <td>
-                                <input type="text" name="nrocuota" id="nrocuota" value="<?php echo $obj->nrocuota; ?>" class="ui-widget-content ui-corner-all text" style="width:80px;" />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>&nbsp;</td>
-                            <td><label class="labels">Valor de la Cuota:</label></td>
-                            <td>
-                                <input type="text" name="valorcuota" id="valorcuota" value="<?php echo $obj->valorcuota; ?>" class="ui-widget-content ui-corner-all text" style="width:80px;" />
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>&nbsp;</td>    
-                            <td><label class="labels">Total Credito:</label></td>
-                            <td>
-                                <input type="text" name="total" id="total" value="<?php echo $obj->total; ?>" class="ui-widget-content ui-corner-all text" style="width:80px;" />
-                            </td>
-                          </tr>
-                        </table>
+                        
+                        <fieldset id="box-melamina" class="ui-corner-all" style="padding: 2px 10px 7px;">  
+                        <legend>Detalle de la proforma</legend>
+                        <div id="box-1">
+                            <table id="table_solicitud" class="table-form" border="0" cellpadding="0" cellspacing="0" width="650px" >
+                                <tr>
+                                    <td width="100px"><label for="tipopago" class="labels">Tipo pago:</label></td>
+                                    <td><?php echo $tipopago; ?></td>
+                                    <td>                                        
+                                        <label for="financiamiento" class="labels">Financiamiento:</label>
+                                        <?php echo $Financiamiento; ?>
+                                        <input type="checkbox" title="Considerar Adicional" checked="checked" id="ChkAdicional">                                        
+                                    </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td><label for="productos" class="labels">Buscar Producto:</label></td>
+                                    <td colspan="2">
+                                        <input type="text" name="producto" id="producto" value="" class="ui-widget-content ui-corner-all text" style="width:240px;" />
+                                        <input type="hidden" name="idsubproductos_semi" id="idsubproductos_semi" value="" />
+                                        <label for="igv" class="labels" style="width:80px;">Afecto IGV:</label>
+                                        <?php $ck = ""; if($obj->afecto==1) $ck = "checked"; ?>
+                                        <input type="checkbox" name="aigv" id="aigv" value="1" <?php echo $ck; ?> />
+                                        <input type="hidden" name="igv_val" id="igv_val" value="<?php if($obj->igv!="") echo $obj->igv; else echo "18"; ?>" />
+                                    </td>
+                                    <td rowspan="2" align="center">
+                                        <a href="javascript:" id="addDetail" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a> 
+                                    </td>                    
+                                </tr>
+                                <tr>
+                                    <td><label for="preciocashh" class="labels">Precio Cash:</label></td>
+                                    <td>
+                                        <input type="text" name="precio" id="precio" value="0.00" class="ui-widget-content ui-corner-all text" style="width:80px;" />
+                                    </td>                    
+                                    <td>
+                                        <label for="Cantidad" class="labels">Cantidad:</label> 
+                                        <input type="text" name="cantidad" id="cantidad" onkeypress="return permite(event,'num')" value="" class="ui-widget-content ui-corner-all text" style="width:80px;" /> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="Iniciales" class="labels">Inicial:</label></td>
+                                    <td><input type="text" name="inicial" id="inicial" value="0.00" class="ui-widget-content ui-corner-all text" style="width:80px;" /></td>                    
+                                    <td>
+                                        <label for="nromes" class="labels">N° Meses:</label>
+                                        <input id="NroMeses" class="ui-widget-content ui-corner-all text" type="text" style="width:40px;text-align:right" size="2" onkeypress="Calcular3(event)">
+                                        <img id="calcularfi" src="../web/images/calculadora.png" width="18" height="18" />
+                                        Mensual:
+                                        <input id="Mensual" class="ui-widget-content ui-corner-all text" type="text" style="width:60px;text-align:right" size="8" onkeypress="">
+                                    </td>
+                                    <td>&nbsp;</td> 
+                                </tr>
+                            </table>                     
+                        </div>
+                    </fieldset>
+                    <div id="div-detalle">
+                        <div>
+                            <table id="table-detalle" class="ui-widget ui-widget-content" style="margin: 0 auto; width:840px" border="0" >
+                                <thead class="ui-widget ui-widget-content" >
+                                    <tr class="ui-widget-header" style="height: 23px">          
+                                        <th align="center" width="120">Tipo Pago</th>
+                                        <th>Producto</th>
+                                        <th align="center" width="80">Precio</th>
+                                        <th align="center" width="80">Cantidad</th>
+                                        <th align="center" width="80">Inicial</th>
+                                        <th align="center" width="80">Mensual</th>
+                                        <th align="center" width="90">N° Meses</th>
+                                        <th align="center" width="80px">IMPORTE S/.</th>
+                                        <th width="20px">&nbsp;</th>
+                                    </tr>
+                                </thead>  
+                                <tbody>
+                                    <?php 
+                                        if(count($rowsd)>0)
+                                        {    
+                                            foreach ($rowsd as $i => $r) 
+                                            {       
+                                                $nro= $r['nromeses'];
+                                                $men= $r['cuota'];                                        
+                                                $ini= $r['inicial'];
+                                                $subt= (floatval($nro) * floatval($men))+ $ini;
+                                                    
+                                                ?>
+                                                <tr class="tr-detalle">
+                                                    <td align="left"><?php echo $r['descripcion']; ?><input type="hidden" name="idtipopago[]" value="<?php echo $r['idtipopago']; ?>" /></td>
+                                                    <td><?php echo $r['producto']; ?>
+                                                        <input type="hidden" name="idproducto[]" value="<?php echo $r['idproducto']; ?>" />
+                                                        <input type="hidden" name="producto[]" value="<?php echo $r['producto']; ?>" />
+                                                        <input type="hidden" name="idfinanciamiento[]" value="<?php echo $r['idfinanciamiento']; ?>" />
+                                                    </td>
+                                                    <td align="rigth">
+                                                        <?php echo $r['preciocash']; ?><input type="hidden" name="precio[]" value="<?php echo $r['preciocash']; ?>" />
+                                                    </td>
+                                                    <td align="rigth">
+                                                        <?php echo $r['cantidad']; ?><input type="hidden" name="cantidad[]" value="<?php echo $r['cantidad']; ?>" />
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $r['inicial']; ?><input type="hidden" name="inicial[]" value="<?php echo $r['inicial']; ?>" />
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $r['cuota']; ?><input type="hidden" name="mensual[]" value="<?php echo $r['cuota']; ?>" />
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $r['nromeses']; ?><input type="hidden" name="nromeses[]" value="<?php echo $r['nromeses']; ?>" />
+                                                    </td>
+                                                    <td><?php echo $subt; ?></td>
+                                                    <td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>
+                                                </tr>
+                                                <?php    
+                                                }  
+                                        }
+                                     ?>                      
+                                </tbody>
+                                 <tfoot>
+                                    <tr>
+                                        <td colspan="7" align="right"><b>SUB TOTAL S/.</b></td>
+                                        <td align="right"><b>0.00</b></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7" align="right"><b>IGV S/.</b></td>
+                                        <td align="right"><b>0.00</b></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7" align="right"><b>TOTAL S/.</b></td>
+                                        <td align="right"><b>0.00</b></td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 
@@ -233,6 +321,5 @@ include("../view/header_form.php");
 </form>
 </div>
 
-<div id="dialogConf">
-
+<div id="divFinanciamiento" style="display: none;">
 </div>

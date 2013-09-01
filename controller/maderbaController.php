@@ -6,7 +6,7 @@ require_once '../model/maderba.php';
 class MaderbaController extends Controller
 {
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'s.idmaderba','align'=>'center','width'=>'20'),
+                        1 => array('Name'=>'Codigo','NameDB'=>'s.idmaderba','align'=>'center','width'=>70),
                         2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','search'=>true),
                         3 => array('Name'=>'Espesor','NameDB'=>'s.espesor','search'=>true),
                         4 => array('Name'=>'Linea','NameDB'=>'l.descripcion','search'=>true),
