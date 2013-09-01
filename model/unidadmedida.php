@@ -53,5 +53,26 @@ class UnidadMedida extends Main
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
     }
+
+    function getUnidades($idmaterial)
+    {
+
+        $stmt= $this->db->prepare("SELECT distinct um.idunidad_medida,um.simbolo FROM unidad_medida as um
+                                        inner join tipo_unidad as tu on 
+                                            um.idtipo_unidad = tu.idtipo_unidad
+                                            inner join produccion.materiales as m
+                                            on m.idtipo_unidad = tu.idtipo_unidad
+                                        where m.idmateriales = :id    ");
+
+        $stmt->bindParam(':id',$idmaterial,PDO::PARAM_INT);
+        $stmt->execute();
+        $data = array();
+        foreach($stmt->fetchAll() as $r)
+        {
+            $data[] = array('id'=>$r[0],'descripcion'=>$r[1]);
+
+        }
+        return $data;
+    }   
 }
 ?>

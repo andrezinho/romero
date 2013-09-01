@@ -23,15 +23,14 @@ class Main extends Spdo {
     public function execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql)
     {
         $offset = ($page-1)*$limit;
-        $query = "%".$query."%";
+        $query = "%".ltrim($query)."%";
 
         $to = 0;
         
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $c = $stmt->rowCount();    
-        $to = ceil($c/$limit);
-        
+        $to = ceil($c/$limit);        
 
         if($filtro!="") 
         {
@@ -67,7 +66,14 @@ class Main extends Spdo {
         }
         return $responce;
     }
-
+    function getEstado($tabla,$campo,$id)
+    {
+        $sql = "SELECT estado from {$tabla} where {$campo} = {$id}";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $r = $stmt->fetchObject();
+        return $r->estado;
+    }
     function more_options($name_controller)
     {
         $sql = "select idpadre from modulo where controlador = :name ";

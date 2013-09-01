@@ -142,7 +142,7 @@ function eliminar()
   }
 ?>
 <div class="div_container">
-<h6 class="ui-widget-header ui-state-hover"><?php if($titulo!="") echo $titulo; else echo $controlador; ?>  </h6>
+<h6 class="ui-widget-header ui-state-hover"><?php if($titulo!="") echo strtoupper($titulo); else echo strtoupper($controlador); ?>  </h6>
 
 <div id="" class="cont-grid">
   <div style="padding:10px;">
@@ -212,10 +212,12 @@ function eliminar()
               <input type="text" name="qry" id="qry" value="" class="ui-widget-content ui-corner-all text" style="width:250px" onkeydown="doSearch(arguments[0]||event)" />
               <a href="javascript:" id="submitButton" onclick="gridReload()" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-search"></span>Buscar</a>
               <input type="checkbox" id="autosearch" checked="" onclick="enableAutosubmit(this.checked)"> AutoBusqueda
-        </div>      
-    </div>    
+        </div>
+    </div>
     <div>
-      <table id="list" ></table>
+      <table id="list">
+        
+      </table>
       <div id="pager"></div>
     </div>
   </div>

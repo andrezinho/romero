@@ -76,5 +76,7 @@ class Materiales extends Main
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
     }
+
+
 }
 ?>

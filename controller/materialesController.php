@@ -21,7 +21,6 @@ class MaterialesController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
-
         //(nuevo,editar,eliminar,ver)
         $data['actions'] = array(true,true,true,false);
 
@@ -70,7 +69,6 @@ class MaterialesController extends Controller
         $view->setTemplate( '../view/materiales/_form.php' );
         echo $view->renderPartial();
     }
-
     public function save()
     {
         $obj = new Materiales();
@@ -84,9 +82,7 @@ class MaterialesController extends Controller
         else                 
             $result = array(2,$p[1]);
         print_r(json_encode($result));
-
     }
-
     public function delete()
     {
         $obj = new Materiales();
@@ -96,7 +92,5 @@ class MaterialesController extends Controller
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
- 
 }
-
 ?>

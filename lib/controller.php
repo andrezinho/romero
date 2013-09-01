@@ -68,7 +68,12 @@ class Controller  {
         $view->setTemplate( '../view/_Select.php' );
         return $view->renderPartial();
     }
-    
+    public function getEstado($tabla,$campo,$id)
+    {
+        $obj = new Main();
+        $estado = $obj->getEstado($tabla,$campo,$id);
+        return $estado;
+    }
     public function Select_ajax($p) {
         $obj = new Main();
         

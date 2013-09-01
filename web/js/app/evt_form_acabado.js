@@ -187,9 +187,7 @@ $(function()
 {     
     //Basic events
     $("input[type=text]").focus(function(){this.select();});
-    $("#descripcion").focus();
-    $("#fechai,#fechaf").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
-    $("#tabs").tabs();    
+    $("#fechai,#fechaf").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});    
     $("#box-add-mp").dialog({
       modal:false,
       autoOpen:false,
@@ -227,7 +225,7 @@ $(function()
     $("#btn-add-mp").click(function(){ $("#box-add-mp").dialog("open");});
     $("#idsubproductos_semi").change(function(){$("#cantidad").focus(); load_title_produccion();});    
     $("#idproductos_semi").change(function(){load_subproducto($(this).val()); $("#idsubproductos_semi").focus();});    
-    $("#idalmacenma,#idmadera").change(function(){getStock($("#idmadera").val(),1);});              
+    $("#idmateriales").change(function(){getUnidad($(this).val());});              
     $("#cant_ma").change(function(){valida_cant($(this).val(),1)});
     $("#table-me").on('click','#addDetail_me',function(){addDetailMe();});    
     $("#table-detalle").on('click','.boton-delete',function(){var v = $(this).parent().parent().remove();})    
@@ -308,35 +306,8 @@ function addDetalleProd()
       }
   }
 }
-function addNewMelamina()
-{
 
-  bval = true;
-  bval = bval && $("#idmelamina").required();
-  bval = bval && $("#cant_me").required();
-  bval = bval && $("#stock_me").required();
-  if(bval) 
-  {
-      var ida = $("#idalmacenma").val(),
-            a = $("#idalmacenma option:selected").html(),
-          idm = $("#idmelamina").val(),
-            m = $("#idlinea option:selected").html()+', '+$("#idmelamina option:selected").html(),
-          stk = $("#stock_me").val(),
-            c = $("#cant_me").val();
-
-      if(valida_cant(c,2))
-      {
-        if(c>0)
-        {
-          materia.nuevo(2,ida,a,idm,m,stk,c);
-          materia.listar();                        
-          getStock(idm,2);
-          $("#cant_me").val('0.00').focus();
-        }
-      }
-  }
-}
-function addNewMadera()
+function addNew()
 {
   bval = true;
   bval = bval && $("#idmadera").required();
@@ -400,82 +371,34 @@ function valida_cant(v,type)
   
 }
 
-function getStock(id,tipo)
-{   
-   var c = "madera",
-       a = $("#idalmacenma").val();   
-   if(tipo==2) c = "melamina";   
-   $("#label-stock-ma").empty().append("Obteniendo Stock...");
-   $("#cant_ma").val('0.00');
-   $.get('index.php','controller='+c+'&action=getStock&id='+id+'&a='+a,function(stk){
-      total_reservado = materia.getTotalP(id,a);
-      total_reservado_p = produccion.getTotalP(id,a);
-      stk = stk - total_reservado - total_reservado_p;
-      if(tipo==1) 
-      { 
-        $("#label-stock-ma").empty().append('Stock Max: '+stk+' pies'); 
-        $("#stock_ma").val(stk);
-        $("#cant_ma").focus();
-      }
-      else 
-      {
-        $("#label-stock-me").empty().append('Stock Max: '+stk+' Und'); 
-        $("#stock_me").val(stk);
-        $("#cant_me").focus();
-      }
-   })
+function getUnidad(id)
+{  
+   $.get('index.php','controller=unidadmedida&action=getUnidades&id='+id,function(r){
+        var html = "<option value=''>Seleccione undiad de Medida...</option>";
+        $.each(r,function(i,j)
+        {
+            html += '<option value="+j.id+">'+j.descripcion+'</option>';
+        })
+        $("#idunidad_medida").empty().append(html);
+   },'json');
 }
 function load_title_produccion()
 {
-  var p = $("#idsubproductos_semi").val();
-  if(p!="")
-  {
-    var t1 = $("#idproductos_semi option:selected").html(),
-        t2 = $("#idsubproductos_semi option:selected").html();
-    $("#title-produccion").empty().append("Materia Prima a usar para la produccion de  "+t1+" "+t2);
-  }
-  else
-  {
-    $("#title-produccion").empty().append("Materia Prima a usar para la produccion" ); 
-  }
+
 
 }
 function load_subproducto(idl)
 { 
-  if(idl!="")
-  {    
-    $("#idsubproductos_semi").empty().append('<option value="">Cargando...</option>');
-    $.get('index.php','controller=subproductosemi&action=getList&idl='+idl,function(r){    
-      html = '<option value="">Seleccione...</option>';
-      $.each(r,function(i,j){
-        html += '<option value="'+j.idsubproductos_semi+'">'+j.descripcion+'</option>';
-      });      
-      $("#idsubproductos_semi").empty().append(html);
-    },'json');
-  }
+  
 }
 function load_subproducto(idl,idsps)
 { 
-  if(idl!="")
-  {    
-    $("#idsubproductos_semi").empty().append('<option value="">Cargando...</option>');
-    $.get('index.php','controller=subproductosemi&action=getList&idl='+idl,function(r){    
-      html = '<option value="">Seleccione...</option>';
-      $.each(r,function(i,j){
-        html += '<option value="'+j.idsubproductos_semi+'">'+j.descripcion+'</option>';
-      });      
-      $("#idsubproductos_semi").empty().append(html);
-      $("#idsubproductos_semi").val(idsps);
-    },'json');
-  }
+ 
 }
 
 function clearMe()
 {
-  $("#idproductos_semi").val("");
-  $("#idsubproductos_semi").val("");
-  $("#cantidad_me").val("0.00");  
-  $("#idproductos_semi").focus();
+
 }
 
 
@@ -546,22 +469,9 @@ function enter(evt)
 
 function limpiar_ps()
 {  
-  $("#idsubproductos_semi").val("");
-  $("#cantidad").val('0.00');
-  $("#idsubproductos_semi").focus();
+
 }
 function load_melamina(idl)
 { 
-  if(idl!="")
-  {    
-    $("#idmelamina").empty().append('<option value="">Cargando...</option>');
-    $.get('index.php','controller=melamina&action=getList&idl='+idl,function(r){    
-      html = '<option value="">Seleccione...</option>';
-      $.each(r,function(i,j)
-      {
-        html += '<option value="'+j.idproducto+'">'+j.descripcion+'</option>';
-      });      
-      $("#idmelamina").empty().append(html);
-    },'json');
-  }
+  
 }

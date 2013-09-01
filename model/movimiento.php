@@ -38,7 +38,7 @@ class movimiento extends Main
                          inner join (select idmovimiento,sum(precio*cantidad) as total
                                     from movimientosdetalle
                                     group by idmovimiento) as t on t.idmovimiento = m.idmovimiento
-                    WHERE mt.idmovimientostipo = 1 ";
+                    WHERE mt.idmovimientostipo = 1 and autogen = 0 ";
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 

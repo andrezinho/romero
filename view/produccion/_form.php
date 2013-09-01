@@ -7,8 +7,8 @@
 <form id="frm-produccion" >
     <fieldset class="ui-corner-all" style="padding: 2px 10px 7px">
     <legend>Datos - <b><?php if($obj->fecha!="") echo fdate($obj->fecha,'ES'); else echo date('d/m/Y'); ?></b></legend>
-        <input type="hidden" name="controller" value="Produccion" />
-        <input type="hidden" name="action" value="save" />             
+        <input type="hidden" id="controller" name="controller" value="Produccion" />
+        <input type="hidden" id="action" name="action" value="save" />             
         <input type="hidden" id="idproduccion" name="idproduccion" class="text ui-widget-content ui-corner-all" style=" width: 50px; text-align: left;" value="<?php echo $obj->idproduccion; ?>" readonly />                        
         <label for="descripcion" class="labels">Descripcion:</label>
         <input type="text" name="descripcion" id="descripcion" class="ui-widget-content ui-corner-all text" style="width:635px" value="<?php echo $obj->descripcion; ?>" />

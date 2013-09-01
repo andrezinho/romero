@@ -13,15 +13,13 @@ class Melamina extends Main
             p.precio_u,
             p.stock,
             u.simbolo,
-            case p.estado when 1 then 'ACTIVO' else 'INCANTIVO' end
-            
+            case p.estado when 1 then 'ACTIVO' else 'INCANTIVO' end            
             FROM
             produccion.producto AS p
             INNER JOIN unidad_medida AS u ON u.idunidad_medida = p.idunidad_medida
             INNER JOIN produccion.maderba AS m ON m.idmaderba = p.idmaderba
             INNER JOIN produccion.linea AS l ON l.idlinea = m.idlinea
-            WHERE
-            p.idtipoproducto=2 ";
+            WHERE p.idtipoproducto=2 ";
 
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }

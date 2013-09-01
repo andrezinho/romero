@@ -93,7 +93,12 @@ class UnidadMedidaController extends Controller
         print_r(json_encode($result));
     }
    
-   
+   function getUnidades()
+   {
+        $obj = new UnidadMedida();
+        $row = $obj->getUnidades($_GET['id']);
+        print_r(json_encode($row));
+   }
 }
 
 ?>

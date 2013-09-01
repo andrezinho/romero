@@ -1,8 +1,8 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/produccion.php';
-class ProduccionController extends Controller 
+require_once '../model/acabado.php';
+class acabadoController extends Controller 
 {   
     var $cols = array(
                         1 => array('Name'=>'Codigo','NameDB'=>'p.idproduccion','align'=>'center','width'=>50,'search'=>'p.idproduccion'),
@@ -24,7 +24,7 @@ class ProduccionController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
-        $data['titulo'] = "Produccion de muebles";
+        $data['titulo'] = "ACABADO DE PRODUCCION";
         $data['script'] = "evt_index_produccion.js";        
         $data['actions'] = array(true,true,false,true,false);
         $view = new View();
@@ -55,11 +55,11 @@ class ProduccionController extends Controller
         $data['ProductoSemi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','width'=>'120px'));
         $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px'));        
         $data['almacenme'] = $this->Select(array('id'=>'idalmacenme','name'=>'idalmacenme','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px'));        
-        $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'220px'));
+        $data['idmaterial'] = $this->Select(array('id'=>'idmateriales','name'=>'idmateriales','text_null'=>'Seleccione el material...','table'=>'produccion.materiales','width'=>'220px'));
         $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
         $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));
         $view->setData($data);
-        $view->setTemplate( '../view/produccion/_form.php' );
+        $view->setTemplate( '../view/acabado/_form.php' );
         echo $view->renderPartial();
     }
 
@@ -84,7 +84,7 @@ class ProduccionController extends Controller
             else 
                 $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$obj->idalmacen));                        
             $view->setData($data);
-            $view->setTemplate( '../view/produccion/_form.php' );
+            $view->setTemplate( '../view/acabado/_form.php' );
             echo $view->renderPartial();
         }
         else
@@ -116,7 +116,7 @@ class ProduccionController extends Controller
         else 
             $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$obj->idalmacen));                        
         $view->setData($data);
-        $view->setTemplate( '../view/produccion/_form.php' );
+        $view->setTemplate( '../view/acabado/_form.php' );
         echo $view->renderPartial();
     }
     public function save()
