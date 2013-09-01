@@ -107,7 +107,7 @@ class Proformas extends Main
                 {                    
                     if($idtipopago==2)
                     {
-                        $stmt2->bindParam(':p1',$idproforma,PDO::PARAM_INT);
+                        $stmt2->bindParam(':p1',$id,PDO::PARAM_INT);
                         $stmt2->bindParam(':p2',$_P['idsucursal'],PDO::PARAM_INT);
                         $stmt2->bindParam(':p3',$idtipopago,PDO::PARAM_INT);
                         $stmt2->bindParam(':p4',$_P['precio'][$i],PDO::PARAM_INT);
@@ -121,7 +121,7 @@ class Proformas extends Main
                         $stmt2->execute();
                     } else
                         {
-                            $stmt3->bindParam(':p1',$idproforma,PDO::PARAM_INT);
+                            $stmt3->bindParam(':p1',$id,PDO::PARAM_INT);
                             $stmt3->bindParam(':p2',$_P['idsucursal'],PDO::PARAM_INT);
                             $stmt3->bindParam(':p3',$idtipopago,PDO::PARAM_INT);
                             $stmt3->bindParam(':p4',$_P['precio'][$i],PDO::PARAM_INT);
@@ -248,5 +248,36 @@ class Proformas extends Main
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
     }
+
+    function ViewDetalle($id)
+    {
+        $stmt = $this->db->prepare("SELECT
+            p.idproforma,
+            dp.idproforma,
+            dp.idproducto,
+            dp.tipo,
+            tp.descripcion,
+            dp.preciocash,
+            dp.inicial,
+            dp.nromeses,
+            dp.cuota,
+            dp.cantidad,
+            dp.idfinanciamiento,
+            dp.producto
+            FROM
+            facturacion.proforma AS p
+            INNER JOIN facturacion.proformadetalle AS dp ON p.idproforma = dp.idproforma
+            INNER JOIN produccion.tipopago AS tp ON tp.idtipopago = dp.tipo
+            LEFT JOIN produccion.subproductos_semi AS pr ON pr.idsubproductos_semi = dp.idproducto
+
+            WHERE dp.idproforma = :id AND tp.idtipopago=2 
+            ORDER BY dp.iddet_proforma ");
+        $stmt->bindParam(':id', $id , PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+
+
 }
 ?>

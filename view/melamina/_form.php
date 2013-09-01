@@ -8,16 +8,29 @@
         <input type="hidden" name="action" value="save" />
 
         <label for="idmelamina" class="labels">Codigo:</label>
-        <input type="text" id="idmelamina" name="idmelamina" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idmelamina; ?>" readonly />
+        <input type="text" id="idmelamina" name="idmelamina" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idproducto; ?>" readonly />
                 
-        <label for="idmelamina" class="labels">Linea:</label>
+        <label for="Linea" class="labels">Linea:</label>
         <?php echo $idlinea; ?>
         <a id="newLine" href="javascript:"><span class="box-boton">&nbsp;</span></a>
         <br/>
 
         <label for="idmaderba" class="labels">Maderba:</label>
-        <select id="idmaderba" name="idmaderba">            
-        </select>        
+        <?php
+            $idmel= $obj->idproducto;
+            
+            if($idmel== '')
+            {
+            ?>
+            <select id="idmaderba" name="idmaderba">            
+            </select>  
+            <?php
+            }else
+                {
+                 echo $idmaderba;
+                }
+        ?>
+              
         <a id="newMaderba" href="javascript:"><span class="box-boton">&nbsp;</span></a>
 
         <label for="idunidad_medida" class="labels">Unidad Medida:</label>

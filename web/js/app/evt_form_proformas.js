@@ -125,7 +125,7 @@ function load_finaciamiento(idfinanc)
       html += '<table>';
       
 
-      $("#divFinanciamiento").append(html);
+      $("#divFinanciamiento").empty().append(html);
 
     },'json');
   }
@@ -133,53 +133,108 @@ function load_finaciamiento(idfinanc)
 
 function CalcularFinanc()
 { 
-    $("#idfinanciamiento" ).required();
-    $("#precio" ).required();
-    $("#cantidad" ).required();
-    $("#producto" ).required();
-    $("#inicial" ).required();
-  
-    Calcular2()
-    $( "#divFinanciamiento" ).dialog( "open" );
-    $(".Factor").css({'display':'none'});  
-   
-    $("#TbFactores").on('click','#factornum',function(){
-      var mes=$(this).find('#NroMeses').html();
-      var mesual=$(this).find('#Mensual').html();
-    });  
+  bval = true;
+  bval = bval && $("#idfinanciamiento" ).required();
+  bval = bval && $("#producto" ).required();
+  bval = bval && $("#precio" ).required();
+  bval = bval && $("#cantidad" ).required();  
+  bval = bval && $("#inicial" ).required();
+
+  if ( bval ) 
+  {
+      Calcular2()
+      $( "#divFinanciamiento" ).dialog( "open" );
+      $(".Factor").css({'display':'none'});  
+     
+      $("#TbFactores").on('click','#factornum',function(){
+        var mes=$(this).find('#NroMeses').html();
+        var mesual=$(this).find('#Mensual').html();
+      });
+  }  
 }
 
 function Calcular2()
 { 
-  var j=$("#NroFactores").val()
-  var Precio=$("#precio").val()
-  var Cant=$("#cantidad").val()
-  Cant=Cant.replace(",","");
-  Precio=Precio.replace(",","");
-  Precio=(parseFloat(Precio)) * (parseFloat(Cant));
+  bval = true;
+  bval = bval && $("#idfinanciamiento" ).required();
+  bval = bval && $("#producto" ).required();
+  bval = bval && $("#precio" ).required();
+  bval = bval && $("#cantidad" ).required();  
+  bval = bval && $("#inicial" ).required();
+  bval = bval && $("#inicial" ).required();
 
-  var Inicial=$("#inicial").val()
-  var Inicial=parseFloat(Inicial.replace(",",""))  
-  
-  var Adional=0
-  if ( $("#ChkAdicional").is(':checked') )
-    Adional = parseFloat($("#Adicional").val())
-  
-  var Factor,Meses,Importe=0;
-  
-  Precio=Precio+Adional;
-  
-  Precio=Precio-Inicial;
-  //alert(Precio);
-  Precio=(parseFloat(Precio)).toFixed(2);
-  for(var i=1; i<=j; i++)
-  {
-    Factor = parseFloat($("#TbFactores tbody tr#"+i+" label.Factor").text())
-    Importe =parseFloat(Precio)*parseFloat(Factor)
+  if ( bval ) 
+  { 
+    var j=$("#NroFactores").val()
+    var Precio=$("#precio").val()
+    var Cant=$("#cantidad").val()
+    Cant=Cant.replace(",","");
+    Precio=Precio.replace(",","");
+    Precio=(parseFloat(Precio)) * (parseFloat(Cant));
 
-    $("#TbFactores tbody tr#"+i+" label.Importe").text(parseFloat(Importe).toFixed(2))
+    var Inicial=$("#inicial").val()
+    var Inicial=parseFloat(Inicial.replace(",",""))  
+    
+    var Adional=0
+    if ( $("#ChkAdicional").is(':checked') )
+      Adional = parseFloat($("#Adicional").val())
+    
+    var Factor,Meses,Importe=0;
+    
+    Precio=Precio+Adional;
+    
+    Precio=Precio-Inicial;
+    //alert(Precio);
+    Precio=(parseFloat(Precio)).toFixed(2);
+    for(var i=1; i<=j; i++)
+    {
+      Factor = parseFloat($("#TbFactores tbody tr#"+i+" label.Factor").text())
+      Importe =parseFloat(Precio)*parseFloat(Factor)
+
+      $("#TbFactores tbody tr#"+i+" label.Importe").text(parseFloat(Importe).toFixed(2))
+    }
+
   }
-  
+}
+
+function Calcular3()
+{   
+    var j=$("#NroFactores").val()
+    var Precio=$("#precio").val()
+    var Cant=$("#cantidad").val()
+    Cant=Cant.replace(",","");
+    Precio=Precio.replace(",","");
+    Precio=(parseFloat(Precio)) * (parseFloat(Cant));
+
+    var Inicial=$("#inicial").val()
+    var Inicial=parseFloat(Inicial.replace(",",""))  
+    
+    var Adional=0
+    if ( $("#ChkAdicional").is(':checked') )
+      Adional = parseFloat($("#Adicional").val())
+    
+    var Factor,Meses,Importe=0;
+    
+    Precio=Precio+Adional;
+    Precio=Precio-Inicial;
+
+    Precio=(parseFloat(Precio)).toFixed(2);
+    var NroMeses=parseFloat($("#NroMeses").val())
+      Factor=0;
+
+    for(var i=1; i<=j; i++)
+    {
+      Meses = parseInt($("#TbFactores tbody tr#"+i+" label.Mes").text())
+        if (Meses==NroMeses)
+        {
+          Factor = parseFloat($("#TbFactores tbody tr#"+i+" label.Factor").text())
+          break;
+        }
+    }
+    Importe =parseFloat(Precio)*parseFloat(Factor)
+      if (Factor!=0)
+      $("#Mensual").val(parseFloat(Importe).toFixed(2)) 
+
 }
 
 function verifAfecto()
@@ -229,6 +284,8 @@ function addDetail()
       bval = bval && $("#idtipopago").required();
       bval = bval && $("#producto").required();
       bval = bval && $("#percio").required();
+      bval = bval && $("#cantidad").required();
+
       if(!bval) return 0;
         id= $("#idtipopago").val(),
         desc = $("#idtipopago option:selected").html(),
@@ -251,6 +308,10 @@ function addDetail()
         bval = bval && $("#producto").required();
         bval = bval && $("#percio").required();
         bval = bval && $("#inicial").required();
+        bval = bval && $("#cantidad").required();
+        bval = bval && $("#inicial").required();
+        bval = bval && $("#NroMeses").required();
+        bval = bval && $("#Mensual").required();
 
         if(!bval) return 0;
           id= $("#idtipopago").val(),

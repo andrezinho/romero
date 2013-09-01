@@ -67,7 +67,7 @@
                 <tr>
                     <td><label for="idcliente" class="labels">Precio Cash:</label></td>
                     <td>
-                        <input type="text" name="precio" id="precio" value="0.00" class="ui-widget-content ui-corner-all text" style="width:80px;" />
+                        <input type="text" name="precio" id="precio" value="" class="ui-widget-content ui-corner-all text" style="width:80px;" />
                     </td>                    
                     <td>
                         <label for="Cantidad" class="labels">Cantidad:</label> 
@@ -76,7 +76,7 @@
                 </tr>
                 <tr id="TrCredito" style="display: none;">
                     <td><label for="Iniciales" class="labels">Inicial:</label></td>
-                    <td><input type="text" name="inicial" id="inicial" value="0.00" class="ui-widget-content ui-corner-all text" style="width:80px;" /></td>                    
+                    <td><input type="text" name="inicial" id="inicial" value="" class="ui-widget-content ui-corner-all text" style="width:80px;" /></td>                    
                     <td>
                         <label for="nromes" class="labels">N° Meses:</label>
                         <input id="NroMeses" class="ui-widget-content ui-corner-all text" type="text" style="width:40px;text-align:right" size="2" onkeypress="Calcular3(event)">

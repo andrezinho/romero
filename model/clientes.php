@@ -328,7 +328,56 @@ class Clientes extends Main
 
         $statement->bindParam (":query", $query , PDO::PARAM_STR);
         $statement->execute();
-        // print_r($statement);
+        //print_r($statement);
+        return $statement->fetchAll();
+    }
+
+    function getProf($query,$field)
+    {
+        $query = "%".$query."%";
+        $sql="SELECT
+            c.idcliente,
+            c.dni,
+            c.idtipocliente,
+            c.nombres || ' ' || c.apematerno || ' ' || c.apepaterno AS nomcliente,
+            c.sexo,
+            c.direccion,
+            c.referencia_ubic,
+            c.telefono,
+            c.ocupacion,
+            c.idestado_civil,
+            c.idgradinstruccion,
+            c.idtipovivienda,
+            c.trabajo,
+            c.dirtrabajo,
+            c.teltrab,
+            c.cargo,
+            c.carga_familiar,
+            c.ingreso,
+            c.idconyugue,
+            con.dni AS con_dni,
+            con.nombres || ' ' || con.apematerno || ' ' || con.apepaterno AS nomconyugue,
+            con.ocupacion AS con_ocupacion,
+            con.trabajo AS con_trabajo,
+            con.dirtrabajo AS con_dirtrabajo,
+            con.cargo AS con_cargo,
+            con.ingreso AS con_ingreso,
+            con.teltrab AS con_teltrab,
+            p.idproforma
+
+            FROM
+            cliente AS c
+            LEFT JOIN cliente AS con ON con.idcliente = c.idconyugue
+            INNER JOIN facturacion.proforma AS p ON c.idcliente = p.idcliente
+
+            WHERE {$field} ilike :query and c.dni <> ''
+            limit 10";
+            //echo $sql;
+        $statement = $this->db->prepare($sql);
+
+        $statement->bindParam (":query", $query , PDO::PARAM_STR);
+        $statement->execute();
+        //print_r($statement);
         return $statement->fetchAll();
     }
     

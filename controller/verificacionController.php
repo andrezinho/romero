@@ -2,15 +2,16 @@
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
 require_once '../model/verificacion.php';
+
 class VerificacionController extends Controller 
 {   
     var $cols = array(
                         1 => array('Name'=>'Codigo','NameDB'=>'s.idsolicitud','align'=>'center','width'=>60),
-                        2 => array('Name'=>'DNI','NameDB'=>'c.dni','width'=>100,'search'=>true),
+                        2 => array('Name'=>'DNI','NameDB'=>'c.dni','width'=>80,'search'=>true),
                         3 => array('Name'=>'Cliente','NameDB'=>"'c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno'",'align'=>'left','width'=>180),
                         4 => array('Name'=>'Fecha Solicitud','NameDB'=>'s.fechasolicitud','align'=>'center','width'=>100),
-                        5 => array('Name'=>'Sucursal','NameDB'=>'su.descripcion','align'=>'center','width'=>120),
-                        6 => array('Name'=>'Estado','NameDB'=>'s.estado','align'=>'center','width'=>50)
+                        5 => array('Name'=>'Sucursal','NameDB'=>'su.descripcion','width'=>120),
+                        6 => array('Name'=>'Estado','NameDB'=>'s.estado','align'=>'center','width'=>100)
                         
                         
                      );
@@ -21,7 +22,7 @@ class VerificacionController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
-        $data['titulo'] = "Produccion";
+        $data['titulo'] = "Solicitud";
         //(nuevo,editar,eliminar,ver)
         $data['actions'] = array(true,true,true,false);
         $view = new View();
@@ -53,10 +54,9 @@ class VerificacionController extends Controller
         $data['tivovivienda'] = $this->Select(array('id'=>'idtipovivienda','name'=>'idtipovivienda','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipovivienda','width'=>'120px'));
         $data['NivelEducacion'] = $this->Select(array('id'=>'idgradinstruccion','name'=>'idgradinstruccion','text_null'=>'Seleccione...','table'=>'vista_grado'));
         $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil'));
-        /*$data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'220px'));
-        $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
-        $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));
-        */
+        $data['tipopago'] = $this->Select(array('id'=>'idtipopago','name'=>'idtipopago','text_null'=>'Seleccione...','table'=>'produccion.vista_tipopago'));       
+        $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));
+        
         $view->setData($data);
         $view->setTemplate( '../view/verificacion/_form.php' );
         echo $view->renderPartial();
@@ -69,9 +69,11 @@ class VerificacionController extends Controller
         $view = new View();
         $rows = $obj->edit($_GET['id']);
         $data['obj'] = $rows;
-        //$data['ProductoSemi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','width'=>'120px'));
-        $data['NivelEducacion'] = $this->Select(array('id'=>'idgradinstruccion','name'=>'idgradinstruccion','text_null'=>'Seleccione...','table'=>'vista_grado','code'=>$obj->idgradinstruccion));
-        $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil','code'=>$obj->idestado_civil));
+        $data['tivovivienda'] = $this->Select(array('id'=>'idtipovivienda','name'=>'idtipovivienda','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipovivienda','code'=>$rows->idtipovivienda));
+        $data['NivelEducacion'] = $this->Select(array('id'=>'idgradinstruccion','name'=>'idgradinstruccion','text_null'=>'Seleccione...','table'=>'vista_grado','code'=>$rows->idgradinstruccion));
+        $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil','code'=>$rows->idestado_civil));
+        $data['tipopago'] = $this->Select(array('id'=>'idtipopago','name'=>'idtipopago','text_null'=>'Seleccione...','table'=>'produccion.vista_tipopago'));       
+        $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));
         $data['rowsd'] = $obj->getDetails($rows->idsolicitud);
         $view->setData($data);
         $view->setTemplate( '../view/verificacion/_form.php' );

@@ -53,7 +53,7 @@ class ProformasController extends Controller
         $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));
         $data['Sucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','text_null'=>'Seleccione...','table'=>'vista_sucursal'));       
         $view->setData($data);
-        $view->setTemplate( '../view/Proformas/_form.php' );
+        $view->setTemplate( '../view/proformas/_form.php' );
         echo $view->renderPartial();
     }
 
@@ -68,7 +68,7 @@ class ProformasController extends Controller
         $data['Sucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','text_null'=>'Seleccione...','table'=>'vista_sucursal','code'=>$rows->idsucursal));
         $data['rowsd'] = $obj->getDetails($rows->idproforma);
         $view->setData($data);
-        $view->setTemplate( '../view/Proformas/_form.php' );
+        $view->setTemplate( '../view/proformas/_form.php' );
         echo $view->renderPartial();
         
     }
@@ -99,7 +99,17 @@ class ProformasController extends Controller
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
-   
+    
+    public function load_productos()
+    {
+        $obj = new Proformas();
+        $data = array();
+        $view = new View();
+        $data['rowsd'] = $obj->ViewDetalle($_GET['idproforma']);
+        $view->setData($data);
+        $view->setTemplate( '../view/proformas/_detalle.php' );
+        echo $view->renderPartial();
+    }
    
 }
 

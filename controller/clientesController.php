@@ -130,6 +130,7 @@ class ClientesController extends Controller
                             "ocupacion"=>$val['ocupacion'],
                             "idestado_civil"=>$val['idestado_civil'],
                             "idgradinstruccion"=>$val['idgradinstruccion'],
+                            "idtipovivienda"=>$val['idtipovivienda'],
                             "trabajo"=>$val['trabajo'],
                             "dirtrabajo"=>$val['dirtrabajo'],
                             "teltrab"=>$val['teltrab'],
@@ -151,5 +152,53 @@ class ClientesController extends Controller
         }
         print_r(json_encode($result));
     }
+
+    public function getProf()
+    {
+        $obj = new Clientes();
+        $data = array();        
+        $field = "c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno";
+        if($_GET['tipo']==1) $field = "c.dni";
+        $value = $obj->getProf($_GET["term"],$field);
+
+        $result = array();
+        foreach ($value as $key => $val) 
+        {
+              array_push($result, array(
+                        "idcliente"=>$val['idcliente'], 
+                        "dni"=>$val['dni'],
+                        "idtipocliente"=> $val['idtipocliente'],
+                        "nomcliente"=> strtoupper($val['nomcliente']),
+                        "sexo"=>$val['sexo'],
+                        "direccion"=>$val['direccion'],
+                        "referencia"=>$val['referencia_ubic'],
+                        "telefono"=>$val['telefono'],
+                        "ocupacion"=>$val['ocupacion'],
+                        "idestado_civil"=>$val['idestado_civil'],
+                        "idgradinstruccion"=>$val['idgradinstruccion'],
+                        "idtipovivienda"=>$val['idtipovivienda'],
+                        "trabajo"=>$val['trabajo'],
+                        "dirtrabajo"=>$val['dirtrabajo'],
+                        "teltrab"=>$val['teltrab'],
+                        "cargo"=>$val['cargo'],
+                        "carga_familiar"=>$val['carga_familiar'],
+                        "ingreso"=>$val['ingreso'],
+                        "idconyugue"=>$val['idconyugue'],
+                        "con_dni"=>$val['con_dni'],
+                        "nomconyugue"=>$val['nomconyugue'],
+                        "con_ocupacion"=>$val['con_ocupacion'],
+                        "con_trabajo"=>$val['con_trabajo'],
+                        "con_dirtrabajo"=>$val['con_dirtrabajo'],
+                        "con_cargo"=>$val['con_cargo'],
+                        "con_ingreso"=>$val['con_ingreso'],
+                        "con_teltrab"=>$val['con_teltrab'],
+                        "idproforma"=>$val['idproforma']                                         
+                    )
+                );
+            if ( $key > 7 ) { break; }
+        }
+        print_r(json_encode($result));
+    }
+
 }
 ?>
