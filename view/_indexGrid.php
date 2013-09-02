@@ -143,7 +143,6 @@ function eliminar()
 ?>
 <div class="div_container">
 <h6 class="ui-widget-header ui-state-hover"><?php if($titulo!="") echo strtoupper($titulo); else echo strtoupper($controlador); ?>  </h6>
-
 <div id="" class="cont-grid">
   <div style="padding:10px;">
     <div style="padding:10px; border-bottom:0 " class="ui-widget-content ui-corner-top">
@@ -216,7 +215,7 @@ function eliminar()
     </div>
     <div>
       <table id="list">
-        
+
       </table>
       <div id="pager"></div>
     </div>

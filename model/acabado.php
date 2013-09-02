@@ -1,7 +1,7 @@
 <?php
 include_once("Main.php");
 include_once("movimiento.php");
-class Produccion extends Main
+class acabado extends Main
 {    
     //indexGridi -> Grilla del index de ingresos.
     function indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$cols)
@@ -116,25 +116,25 @@ class Produccion extends Main
                 $cont_prod ++;
          }
          //echo "item = ".$item;
-         // for($i=0;$i<$item;$i++)
-         // {            
-         //      echo $prod->descripcion[$i]."<br/>";
-         //      if($prod->estado[$i])
-         //      {
-         //          echo "Siipi<br/>";
-         //      }            
-         //    echo $prod->descripcion[$i]."<br/>";
-         //    $items = $prod->materiap[$i]->nitem;
-         //    for($j=0;$j<$items;$j++)
-         //    {
-         //        print_r($prod->materiap[$i]);
-         //        echo "<br/>";
-         //        $cant = $prod->materiap[$i]->cantidad->{$j};
-         //        echo $cant;
-         //        echo "<br/>";
-         //    }
-         // }
-        //die("s");        
+         for($i=0;$i<$item;$i++)
+         {            
+              echo $prod->producto[$i]."<br/>";
+              if($prod->estado[$i])
+              {
+                  echo "Oki<br/>";
+              }            
+            echo $prod->descripcion[$i]."<br/>";
+            $items = $prod->materiap[$i]->nitem;
+            for($j=0;$j<$items;$j++)
+            {
+                print_r($prod->materiap[$i]);
+                echo "<br/>";
+                $cant = $prod->materiap[$i]->cantidad->{$j};
+                echo $cant;
+                echo "<br/>";
+            }
+         }
+        die("s");        
         //$item = $prod->item;
         
         $idmovimientostipo = 12; //Salida por produccion

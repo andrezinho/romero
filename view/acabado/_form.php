@@ -7,9 +7,9 @@
 <form id="frm-acabado" >
     <fieldset class="ui-corner-all" style="padding: 2px 10px 7px">
     <legend>Datos - <b><?php if($obj->fecha!="") echo fdate($obj->fecha,'ES'); else echo date('d/m/Y'); ?></b></legend>
-        <input type="hidden" id="controller" name="controller" value="Produccion" />
+        <input type="hidden" id="controller" name="controller" value="acabado" />
         <input type="hidden" id="action" name="action" value="save" />             
-        <input type="hidden" id="idproduccion" name="idproduccion" class="text ui-widget-content ui-corner-all" style=" width: 50px; text-align: left;" value="<?php echo $obj->idproduccion; ?>" readonly />                                
+        <input type="hidden" id="idacabado" name="idacabado" class="text ui-widget-content ui-corner-all" style=" width: 50px; text-align: left;" value="<?php echo $obj->idproduccion; ?>" readonly />                                
         <label for="fechai" class="labels">Fecha, desde:</label>
         <input type="text" name="fechai" id="fechai" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fechaini)?fdate($obj->fechaini,'ES'):date('d/m/Y')); ?>" style="width:70px; text-align:center" />        
         Hasta <input type="text" name="fechaf" id="fechaf" class="ui-widget-content ui-corner-all text" value="<?php echo (isset($obj->fechafin)?fdate($obj->fechafin,'ES'):date('d/m/Y')); ?>" style="width:70px; text-align:center" />        
@@ -36,10 +36,13 @@
                     <th width="80" align="left">Total Prod.</th>
                     <th width="80" align="left">Stock</th>
                     <th width="80" align="left">Cant.</th>
-                    <th rowspan="2"><a href="javascript:" id="btn-search-prod" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Buscar</a></th>
+                    <th rowspan="2"><a href="javascript:popup('index.php?controller=produccion&action=lista',870,350)" id="btn-search-prod" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-search"></span>Buscar</a></th>
                 </tr>
                 <tr>
-                    <td><input type="text" name="dproducto" id="dproducto" value="" readonly="readonly" style="width:100%" class="ui-widget-content ui-corner-all text"/></td>
+                    <td>
+                        <input type="hidden" name="idproduccion_detalle" id="idproduccion_detalle" value="" readonly="readonly"/>
+                        <input type="text" name="dproducto" id="dproducto" value="" readonly="readonly" style="width:100%" class="ui-widget-content ui-corner-all text"/>
+                    </td>
                     <td><input type="text" name="dresponsable" id="dresponsable" value="" readonly="readonly" style="width:100%" class="ui-widget-content ui-corner-all text"/></td>
                     <td><input type="text" name="tprod" id="tprod" value="" readonly="readonly" style="width:100%" class="ui-widget-content ui-corner-all text" /></td>
                     <td><input type="text" name="stock" id="stock" value="" readonly="readonly" style="width:100%" class="ui-widget-content ui-corner-all text" /></td>
@@ -49,7 +52,7 @@
             <div class=" ui-corner-all" style="padding:0px">                
                 <div style="padding:3px 0 0 0">
                     <div class="ui-widget-content" style="padding:3px">
-                        <p style="text-align:center">AGREMAR LOS MATERIALES A USAR</p>
+                        <p style="text-align:center">AGREGAR LOS MATERIALES A USAR</p>
                         <br/>
                         <?php echo $idmaterial; ?>
                         <select id="idunidad_medida" name="idunidad_medida" class="ui-widget-content ui-corner-all text" style="width:170px">
@@ -115,10 +118,5 @@
     </fieldset>
 </form>
 </div>
-
-<div id="dialogConf">
-
-</div>
-<div id="box-add-mp">
-    
-</div>
+<div id="dialogConf"></div>
+<div id="box-add-mp"></div>
