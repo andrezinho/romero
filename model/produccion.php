@@ -42,7 +42,27 @@ class Produccion extends Main
      
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
-
+    function indexGridList($page,$limit,$sidx,$sord,$filtro,$query,$cols)
+    {
+        //Estados 0->anulado, 1->registrado, 2->finalizado, 
+        $sql = "SELECT  dp.idproduccion_detalle,
+                        ps.descripcion||' '||sps.descripcion as producto,
+                        dp.cantidad,
+                        dp.stock,
+                        p.fechaini,
+                        p.fechafin,
+                        a.descripcion,  
+                        pp.nombres||' '||pp.apellidos as responsable
+                     from produccion.produccion_detalle as dp inner join
+                        produccion.produccion as p on p.idproduccion = dp.idproduccion
+                        inner join produccion.subproductos_semi as sps on sps.idsubproductos_semi = dp.idsubproductos_semi
+                        inner join produccion.productos_semi as ps on ps.idproductos_semi = sps.idproductos_semi
+                        inner join produccion.almacenes as a on a.idalmacen = p.idalmacen 
+                        inner join personal as pp on p.idpersonal = pp.idpersonal
+                     where p.estado = 2 ";
+     
+        return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
+    }
     function edit($id)
     {
         $stmt = $this->db->prepare("SELECT

@@ -223,8 +223,7 @@ $(function()
             .appendTo(ul);
       };
 
-    //Eventos dentro de fildset produccion
-    $("#btn-add-mp").click(function(){ $("#box-add-mp").dialog("open");});
+    //Eventos dentro de fildset produccion    
     $("#idsubproductos_semi").change(function(){$("#cantidad").focus(); load_title_produccion();});    
     $("#idproductos_semi").change(function(){load_subproducto($(this).val()); $("#idsubproductos_semi").focus();});    
     $("#idalmacenma,#idmadera").change(function(){getStock($("#idmadera").val(),1);});              

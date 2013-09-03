@@ -6,7 +6,7 @@ class acabadoController extends Controller
 {   
     var $cols = array(
                         1 => array('Name'=>'Codigo','NameDB'=>'p.idproduccion','align'=>'center','width'=>50,'search'=>'p.idproduccion'),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','width'=>280,'search'=>true),
+                        2 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','width'=>280,'search'=>true,'hide'=>true),
                         3 => array('Name'=>'Personal','NameDB'=>"pe.nombres || ' ' || pe.apellidos",'align'=>'left','width'=>180,'search'=>true),
                         4 => array('Name'=>'Almacen','NameDB'=>'a.descripcion','align'=>'left','width'=>100,'search'=>true),
                         5 => array('Name'=>'Fecha Reg.','NameDB'=>'p.fecha','align'=>'center','width'=>80),
@@ -65,7 +65,7 @@ class acabadoController extends Controller
 
     public function edit() 
     {
-        $obj = new Produccion();
+        $obj = new acabado();
         $data = array();
         $view = new View();
         //Comprobamos si podemos editar
@@ -101,7 +101,7 @@ class acabadoController extends Controller
     }
     public function view() 
     {
-        $obj = new Produccion();
+        $obj = new acabado();
         $data = array();
         $view = new View();
         $rows = $obj->edit($_GET['id']);
@@ -121,10 +121,10 @@ class acabadoController extends Controller
     }
     public function save()
     {
-        $obj = new Produccion();        
-        if(isset($_POST['idproduccion']))
+        $obj = new acabado();        
+        if(isset($_POST['idacabado']))
         {            
-            if ($_POST['idproduccion']=='') 
+            if ($_POST['idacabado']=='') 
                 $p = $obj->insert($_POST);
             else         
                 $p = $obj->update($_POST);

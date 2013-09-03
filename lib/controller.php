@@ -189,10 +189,35 @@ class Controller  {
 
     public function getColsModel($array)
     {
-        $a = array();        
+        $a = array();
+        $c = 0;
         foreach($array as $i => $v)
         {
-            $a[] = array('name'=>$v['Name'],'index'=>$i,'width'=>$v['width'],'align'=>$v['align']);            
+            $a[$c]['index'] = $i;
+
+            if(isset($v['Name']))
+                $a[$c]['name'] = $v['Name'];
+
+            if(isset($v['width']))
+                $a[$c]['width'] = $v['width'];
+
+            if(isset($v['align']))
+                $a[$c]['align'] = $v['align'];
+
+            if(isset($v['hide']))
+                $a[$c]['hidedlg'] = $v['hide'];
+
+            if(isset($v['datefmt']))
+                $a[$c]['datefmt'] = $v['datefmt'];
+            
+
+            $c +=1;
+
+            // $a[] = array('name'=>$v['Name'],
+            //             'index'=>$i,
+            //             'width'=>$v['width'],
+            //             'align'=>$v['align'],
+            //             'hidedlg'=>$v['hide']);            
         }
         return $a;
     }   
