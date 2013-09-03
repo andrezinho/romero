@@ -13,7 +13,7 @@ class VerificacionController extends Controller
                         5 => array('Name'=>'Sucursal','NameDB'=>'su.descripcion','width'=>120),
                         6 => array('Name'=>'Estado','NameDB'=>'s.estado','align'=>'center','width'=>100),
                         7 => array('Name'=>'&nbsp','NameDB'=>'-','align'=>'center','width'=>30),
-                        8 => array('Name'=>'&nbsp','NameDB'=>'-','align'=>'center','width'=>30)
+                        //8 => array('Name'=>'&nbsp','NameDB'=>'-','align'=>'center','width'=>30)
                         
                      );
 

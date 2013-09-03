@@ -38,6 +38,15 @@ include("../view/header_form.php");
                         <li><a href="#tabs-3">Ingresos Familiares</a></li>
                         <li><a href="#tabs-4">Referencias Personales</a></li>
                         <li><a href="#tabs-5">Descripcion del Producto</a></li>
+                        <?php
+                            $idsol=$obj->idsolicitud;
+                            if($idsol!='')
+                            {
+                        ?>
+                            <li><a href="#tabs-6">Observacion</a></li>
+                        <?php
+                            }
+                        ?>
                     </ul>
                     <div id="tabs-1">
                         <p id="">Datos Generales del <b>Cliente :</b></p>
@@ -167,14 +176,14 @@ include("../view/header_form.php");
                             <p>Ingrese alguna referencia:</p>
                             <br/>
                             <label for="nomgarant" class="labeles">Nombres y Apellidos:</label>                        
-                            <input id="nomgarant" name="nomgarant" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->nomgarant; ?>"  />
+                            <input id="nomgarant" name="nomgarant" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->nombreref; ?>"  />
                                                     
                             <label for="relacion" class="labeles">Relación:</label>                        
-                            <input type="text" id="relacion" name="relacion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->relacion; ?>" />
+                            <input type="text" id="relacion" name="relacion" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->relacionref; ?>" />
                             <br/>
                             
                             <label for="telefono" class="labeles">Telefono:</label>                        
-                            <input type="text" id="gar_telefono" name="gar_telefono" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->gar_telefono; ?>" />
+                            <input type="text" id="gar_telefono" name="gar_telefono" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->telefonoref; ?>" />
                             
                     </div>
                     <div id="tabs-5">
@@ -231,6 +240,7 @@ include("../view/header_form.php");
                                 </tr>
                             </table>                     
                         </div>
+
                     </fieldset>
                     <div id="div-detalle">
                         <div>
@@ -290,7 +300,7 @@ include("../view/header_form.php");
                                         }
                                      ?>                      
                                 </tbody>
-                                 <tfoot>
+                                <tfoot>
                                     <tr>
                                         <td colspan="7" align="right"><b>SUB TOTAL S/.</b></td>
                                         <td align="right"><b>0.00</b></td>
@@ -311,6 +321,25 @@ include("../view/header_form.php");
                         </div>
                     </div>
                 </div>
+                <?php
+                    $idsol=$obj->idsolicitud;
+                    if($idsol!='')
+                        {
+                    ?>
+                    <div id="tabs-6">
+                        <label class="labels">Observaciones:</label><br />
+                        <textarea name="obs" id="obs" class="ui-widget-content ui-corner-all text" rows="3" style="margin-left: 10px; width: 300px;" title="Observaciones" ></textarea>
+                        <br />
+
+                        <span class="inputtext2 ui-corner-all">                            
+                            <label style="padding-right:14px">Aprovado&nbsp;<input name="estadosol" type="radio" value="2"  id="Estado1" <? if ($Estado==1) echo "checked='checked'"?> /></label>
+                            <label style="padding-right:14px">Rechazado&nbsp;<input name="estadosol" type="radio" value="3"  id="Estado2" <? if ($Estado==2) echo "checked='checked'"?>/></label>
+                            <input type="hidden" name="estadosolicitud" id="estadosolicitud" value="" />
+                        </span>
+                    </div>
+                    <?php
+                    }
+                ?>
                 
             </div>           
         </div>

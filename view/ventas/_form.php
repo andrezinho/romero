@@ -63,7 +63,7 @@ include("../view/header_form.php");
      <tr>
         <td ><label class="labels">Observaciones:</label></td>
         <td >
-          <textarea name="0form1_obs" class="ui-widget-content ui-corner-all text" id="Obs" title="Observaciones" ></textarea>
+          <textarea name="obs" class="ui-widget-content ui-corner-all text" id="Obs" title="Observaciones" ></textarea>
         </td>
       </tr>
       <tr id="TrMotivoAnulacion" style="display:none">

@@ -34,6 +34,10 @@ $(function()
     idsol = $("#idsolicitud").val();
     $("#nrorecibo").val('0000'+idsol);
 
+    Estado =$("input[name='estadosol']:checked").val();
+    //alert($("input[name='estadosol']:checked").val());    
+    //$("#estadosolicitud").val(Estado);
+    
     // Buscar Cliente con DNI
     $("#dni").autocomplete({
         minLength: 0,
@@ -500,11 +504,11 @@ function save()
   
   bval = true;        
   bval = bval && $( "#fecha" ).required();        
-  //bval = bval && $( "#orden" ).required();
+  Estado =$("input[name='estadosol']:checked").val();
   var str = $("#frm_verificacion").serialize();
   if ( bval ) 
   {
-      $.post('index.php',str,function(res)
+      $.post('index.php',str+'&Estado='+Estado,function(res)
       {
         if(res[0]==1){
           $("#box-frm").dialog("close");
