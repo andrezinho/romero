@@ -18,8 +18,6 @@ var materia =
                       this.estado[this.nitem] = true;
                       this.nitem += 1;
 
-
-
                     },
       //Mostrar en el detalle todos los items agregados
       listar      : function()
@@ -82,108 +80,6 @@ var materia =
                       return n;
                     }
   };
-var produccion = {
-    item          : 0,
-    iddp          : new Array(),
-    producto      : new Array(),
-    responsable   : new Array(),
-    totalp        : new Array(),
-    stock         : new Array(),
-    cantidad      : new Array(),
-    materiap      : new Array(),
-    estado        : new Array(),    
-    nuevo         : function(iddp,producto,responsable,totalp,stock,cantidad,materia)
-                    {
-                      this.iddp[this.item] = iddp;
-                      this.producto[this.item] = producto;
-                      this.responsable[this.item] = responsable;
-                      this.totalp[this.item] = totalp;
-                      this.stock[this.item] = stock;
-                      this.cantidad[this.item] = cantidad;
-                      this.materiap[this.item] = new Object();
-                      this.materiap[this.item] = materia;
-                      this.estado[this.item] = true;
-                      this.item += 1;                                            
-                      return true;
-                    },
-     listar         : function()
-                    {
-                      html = '';                     
-                      for(ii=0;ii<this.item;ii++)
-                      {
-                         if(this.estado[ii])
-                         {                            
-                            html += '<div class="box-item">';
-                            html += '<span class="title-head"><strong>Producto: '+this.cantidad[ii]+' '+this.producto[ii]+', Reponsable de Produccion: '+this.responsable[ii]+' </strong><a id="item-prod-'+ii+'-edit" href="javascript:" class="edit-produccion link-oper">Editar</a> <a id="item-prod-'+ii+'-delete" href="javascript:" class="delete-produccion link-oper">Eliminar</a></span>';
-                            html += '<div id="materia-'+ii+'">';                            
-                            var ni = this.materiap[ii].getNumItems();                            
-                            if(ni>0)
-                              {                                
-                                 html += '<ul class="ul-items">';
-                                 ni = this.materiap[ii].nitem;
-                                 for(j=0;j<ni;j++)
-                                  {
-                                     estado = this.materiap[ii].estado[j];
-                                     if(estado)
-                                     {
-                                        html += '<li>'+this.materiap[ii].material[j]+', '+this.materiap[ii].cantidad[j]+', '+this.materiap[ii].unidad[j]+' <a href="javascript:" id="item-prod-'+ii+'-'+j+'-mp" class="delete-produccion-mp link-oper">Quitar</a></li>';
-                                     }                                  
-                                  }
-                                 html += '</ul>';
-                              }                              
-                            html += '</div>';
-                            html += '</div>';
-                         }
-                      }
-                      $("#div-detalle").empty().append(html);
-                    },
-    getTotalP   : function(idproducto,almacen)
-                  {
-                      var t = 0;
-                      for(ii=0;ii<this.item;ii++)
-                      {
-                        if(this.estado[ii])
-                        {
-                           for(k=0;k<this.materiap[ii].nitem;k++)
-                           {                              
-                              if(this.materiap[ii].estado[k]&&this.materiap[ii].idproducto[k]==idproducto&&this.materiap[ii].idalmacen[k]==almacen)
-                              {
-                                 t += parseFloat(this.materiap[ii].cantidad[k]);
-                              }
-                            }                          
-                        }
-                      }
-                      return t;
-                  },
-    edit        : function(itm)
-                  {
-                    $("#idproductos_semi").val(this.idps[itm]);
-                    load_subproducto(this.idps[i],this.idsps[itm]);
-                    $("#cantidad").val(this.cantidad[itm]);                    
-                  },
-    getMateriaPrimaP : function(itm)
-                  {                     
-                     return this.materiap[itm];
-                  },
-    eliminar    : function(i)
-                    {
-                      this.estado[i] = false;                        
-                    },
-    eliminar_mp : function(i,j)
-                    {
-                      this.materiap[i].estado[j] = false;
-                    },
-    getNumItems : function()
-                    {
-                      var n = 0;
-                      for(i=0;i<this.item;i++)
-                      {
-                        if(this.estado[i])
-                          n += 1;
-                      }
-                      return n;
-                    }
-}
 $(function() 
 {     
     //Basic events
@@ -210,7 +106,7 @@ $(function()
             .append( "<a>"+ item.dni +" - " + item.nompersonal + "</a>" )
             .appendTo(ul);
       };
-
+    getDetails();
     //Eventos dentro de fildset produccion
     $("#btn-add-mp").click(function(){ });
     $("#idmateriales").change(function(){getUnidad($(this).val());});    
@@ -245,7 +141,20 @@ $(function()
     });
 });
 
-
+function getDetails()
+{
+   var i = $("#idacabado").val();
+   if(i!="")
+   {
+     $.get('index.php','controller=acabado&action=getDetails&id='+i,function(r){
+          $.each(r,function(i,j){
+              materia.nuevo(j.idmaterial,j.material,j.idunidad,j.unidad,j.cantidad);
+              //function(idmaterial,material,idunidad,unidad,cantidad)
+          });
+          materia.listar();
+     },'json');
+   }
+}
 function addDetalleProd()
 {
   bval = true;
@@ -357,41 +266,23 @@ function save()
   bval = bval && $( "#fechai" ).required();
   bval = bval && $( "#fechaf" ).required();
   bval = bval && $( "#dni" ).required();
-
   if ( bval ) 
-  {
-      if($("#idproduccion").val()=="")
-      {
-          var ni = produccion.getNumItems();          
-          if(ni<=0)
-          { 
-            var fl = false;
-            if(confirm("Aun no a ingresado ninguna produccion al detalle de acabados, deseas continuar de todas formas?"))
-            {
-              fl = true;
-            }
-          }
+  {      
+    var str = $("#frm-acabado").serialize();
+    var materiales = json_encode(materia);
+    $.post('index.php',str+'&materiales='+materiales,function(res)
+    {
+      if(res[0]==1)
+      { 
+        $("#box-frm").dialog("close");          
+        gridReload();
       }
-      if(fl)
+      else
       {
-        
-            var str = $("#frm-acabado").serialize();
-            var prod = json_encode(produccion);
-            $.post('index.php',str+'&prod='+prod,function(res)
-            {
-              if(res[0]==1)
-              { 
-                $("#box-frm").dialog("close");          
-                gridReload();
-              }
-              else
-              {
-                alert(res[1]);
-              }
-              
-            },'json');
+        alert(res[1]);
+      }
+    },'json');
      
-      }
   }
   return false;
 }
