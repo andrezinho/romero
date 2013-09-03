@@ -5,16 +5,17 @@ require_once '../model/acabado.php';
 class acabadoController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'p.idproduccion','align'=>'center','width'=>50,'search'=>'p.idproduccion'),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','width'=>280,'search'=>true,'hide'=>true),
-                        3 => array('Name'=>'Personal','NameDB'=>"pe.nombres || ' ' || pe.apellidos",'align'=>'left','width'=>180,'search'=>true),
-                        4 => array('Name'=>'Almacen','NameDB'=>'a.descripcion','align'=>'left','width'=>100,'search'=>true),
-                        5 => array('Name'=>'Fecha Reg.','NameDB'=>'p.fecha','align'=>'center','width'=>80),
-                        6 => array('Name'=>'Fecha Inicio','NameDB'=>'p.fechai','align'=>'center','width'=>80),
-                        7 => array('Name'=>'Fecha Fin','NameDB'=>'p.fechaf','align'=>'center','width'=>80),
-                        8 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>80),
-                        9 => array('Name'=>'','NameDB'=>'','align'=>'center','width'=>20),
-                        10 => array('Name'=>'','NameDB'=>'','align'=>'center','width'=>20)
+                        1 => array('Name'=>'Codigo','NameDB'=>'a.idacabado','align'=>'center','width'=>50,'search'=>true),
+                        2 => array('Name'=>'Producto','NameDB'=>"ps.descripcion||' '||sps.descripcion",'search'=>true,'hide'=>true),
+                        3 => array('Name'=>'Personal Responsable','NameDB'=>"pe.nombres || ' ' || pe.apellidos",'align'=>'left','width'=>180,'search'=>true),
+                        4 => array('Name'=>'Cant.','NameDB'=>'a.cantidad','align'=>'center','width'=>50,'search'=>true),
+                        5 => array('Name'=>'Fecha Reg.','NameDB'=>'a.fecha','align'=>'center','width'=>80),
+                        6 => array('Name'=>'Fecha Inicio','NameDB'=>'a.fechai','align'=>'center','width'=>80),
+                        7 => array('Name'=>'Fecha Fin','NameDB'=>'a.fechaf','align'=>'center','width'=>80),
+                        8 => array('Name'=>'Almacen','NameDB'=>'al.descripcion','align'=>'center','width'=>80),
+                        9 => array('Name'=>'Estado','NameDB'=>'a.estado','align'=>'center','width'=>80),
+                        10 => array('Name'=>'','NameDB'=>'','align'=>'center','width'=>20),
+                        11 => array('Name'=>'','NameDB'=>'','align'=>'center','width'=>20)
                      );
 
     public function index() 
@@ -24,8 +25,8 @@ class acabadoController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
-        $data['titulo'] = "ACABADO DE PRODUCCION";
-        $data['script'] = "evt_index_produccion.js";        
+        $data['titulo'] = "ACABADO DE acabado";
+        //$data['script'] = "evt_index_acabado.js";        
         $data['actions'] = array(true,true,false,true,false);
         $view = new View();
         $view->setData($data);
@@ -35,7 +36,7 @@ class acabadoController extends Controller
     }
     public function indexGrid() 
     {
-        $obj = new Produccion();        
+        $obj = new acabado();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
@@ -51,13 +52,8 @@ class acabadoController extends Controller
     public function create() 
     {
         $data = array();
-        $view = new View();
-        $data['ProductoSemi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','width'=>'120px'));
-        $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px'));        
-        $data['almacenme'] = $this->Select(array('id'=>'idalmacenme','name'=>'idalmacenme','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px'));        
-        $data['idmaterial'] = $this->Select(array('id'=>'idmateriales','name'=>'idmateriales','text_null'=>'Seleccione el material...','table'=>'produccion.materiales','width'=>'220px'));
-        $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
-        $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));
+        $view = new View();                
+        $data['idmaterial'] = $this->Select(array('id'=>'idmateriales','name'=>'idmateriales','text_null'=>'Seleccione el material...','table'=>'produccion.materiales','width'=>'220px'));        
         $view->setData($data);
         $view->setTemplate( '../view/acabado/_form.php' );
         echo $view->renderPartial();
@@ -69,20 +65,12 @@ class acabadoController extends Controller
         $data = array();
         $view = new View();
         //Comprobamos si podemos editar
-        $estado = $this->getEstado("produccion.produccion","idproduccion",$_GET['id']);
+        $estado = $this->getEstado("produccion.acabado","idacabado",$_GET['id']);
         if($estado==1)
         {            
             $rows = $obj->edit($_GET['id']);
             $data['obj'] = $rows;
-            $data['ProductoSemi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','width'=>'120px'));                
-            $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'220px'));
-            $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
-            $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));        
-            $data['rowsd'] = $obj->getDetails($rows->idproduccion);
-            if(count($data['rowsd'])>0)        
-                $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$obj->idalmacen,'disabled'=>'disabled'));                        
-            else 
-                $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$obj->idalmacen));                        
+            $data['idmaterial'] = $this->Select(array('id'=>'idmateriales','name'=>'idmateriales','text_null'=>'Seleccione el material...','table'=>'produccion.materiales','width'=>'220px'));                    
             $view->setData($data);
             $view->setTemplate( '../view/acabado/_form.php' );
             echo $view->renderPartial();
@@ -90,8 +78,8 @@ class acabadoController extends Controller
         else
         {
             $view = new View();
-            $data['msg'] = "<b>Esta produccion ya no es ediable. </b><br/><br/>
-                  Si deseas ver los datos de esta produccion 
+            $data['msg'] = "<b>Esta acabado ya no es ediable. </b><br/><br/>
+                  Si deseas ver los datos de esta acabado 
                   le recomendamos elegir la opcion 'VER' del menu de operaciones.<br/>
                   Si considera que este registro si deveria poder editarse, comuniquese con el administrador del sistema. ";
             $view->setData($data);
@@ -99,25 +87,15 @@ class acabadoController extends Controller
             echo $view->renderPartial();
         }
     }
+    public function getDetails()
+    {
+        $obj = new acabado();        
+        $rows = $obj->getDetails($_GET['id']);
+        print_r(json_encode($rows));
+    }
     public function view() 
     {
-        $obj = new acabado();
-        $data = array();
-        $view = new View();
-        $rows = $obj->edit($_GET['id']);
-        $data['obj'] = $rows;
-        $data['ProductoSemi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','width'=>'120px','disabled'=>'disabled'));                
-        $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'220px','disabled'=>'disabled'));
-        $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px','disabled'=>'disabled'));
-        $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px','disabled'=>'disabled'));        
-        $data['rowsd'] = $obj->getDetails($rows->idproduccion);
-        if(count($data['rowsd'])>0)        
-            $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$obj->idalmacen,'disabled'=>'disabled'));                        
-        else 
-            $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$obj->idalmacen));                        
-        $view->setData($data);
-        $view->setTemplate( '../view/acabado/_form.php' );
-        echo $view->renderPartial();
+       
     }
     public function save()
     {
@@ -142,7 +120,7 @@ class acabadoController extends Controller
 
     public function anular()
     {
-        $obj = new Produccion();
+        $obj = new acabado();
         $result = array();        
         $p = $obj->delete($_POST['i']);
         if ($p[0]=="1") $result = array(1,$p[1]);
@@ -152,7 +130,7 @@ class acabadoController extends Controller
 
     public function end()
     {
-        $obj = new Produccion();
+        $obj = new acabado();
         $result = array();        
         $p = $obj->end($_POST['i']);
         if ($p[0]=="1") $result = array(1,$p[1]);
