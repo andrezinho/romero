@@ -65,6 +65,7 @@ class ingresomController extends Controller
         $view->setTemplate( '../view/ingresosm/_form.php' );
         echo $view->renderPartial();
     }
+    
     public function view() 
     {
         $obj = new movimiento();

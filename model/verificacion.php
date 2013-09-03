@@ -10,8 +10,13 @@ class Verificacion extends Main
         c.dni,
         c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS cleintes,
         s.fechasolicitud,
-        su.descripcion,
-        case s.estado when 0 then 'POR EVALUAR' else 'Aprobada' end,
+        su.descripcion,        
+        case 
+            when s.estado=0 then 'POR EVALUAR' 
+            when s.estado=1 then 'ANULADO'
+            when s.estado=2 then 'APROBADA'
+            when s.estado=3 then 'RECHAZADA'
+            else 'ATENDIDA' end,
         case when s.estado=0 then
         '<a class=\"anular box-boton boton-anular\" id=\"v-'||s.idsolicitud||'\" href=\"#\" title=\"Anular\" ></a>'
         else '&nbsp;' end,
@@ -346,6 +351,18 @@ class Verificacion extends Main
         return array($p1 , $p2[2]);
     }
 
+    function anularver($id)
+    {
+        // Estado ->0: resgistrado , 1:anulado, 2: Paso a solicitud
+        $stmt = $this->db->prepare("UPDATE facturacion.solicitud
+                            SET  
+                               estado=1
+                            WHERE idsolicitud = :p1");
+        $stmt->bindParam(':p1', $id , PDO::PARAM_INT);
+        $p1 = $stmt->execute();
+        $p2 = $stmt->errorInfo();
+        return array($p1 , $p2[2]);
+    }
 
 
 

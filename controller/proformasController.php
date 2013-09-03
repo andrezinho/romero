@@ -90,6 +90,22 @@ class ProformasController extends Controller
 
     }
 
+    public function view() 
+    {
+        $obj = new Proformas();
+        $data = array();
+        $view = new View();
+        $rows = $obj->edit($_GET['id']);
+        $data['obj'] = $rows;
+        $data['tipopago'] = $this->Select(array('id'=>'idtipopago','name'=>'idtipopago','text_null'=>'Seleccione...','table'=>'produccion.vista_tipopago','disabled'=>'disabled'));       
+        $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));       
+        $data['Sucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','text_null'=>'Seleccione...','table'=>'vista_sucursal','code'=>$rows->idsucursal,'disabled'=>'disabled'));
+        $data['rowsd'] = $obj->getDetails($rows->idproforma);
+        $view->setData($data);
+        $view->setTemplate( '../view/proformas/_form.php' );
+        echo $view->renderPartial();
+    }
+
     public function save()
     {
         $obj = new Proformas();

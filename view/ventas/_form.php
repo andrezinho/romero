@@ -4,16 +4,16 @@ include("../view/header_form.php");
 ?>
 
 <form id="frm_ventas">
-<table width="700px" border="0" cellspacing="0" cellpadding="0">  
-  
+    <table width="730px" border="0" cellspacing="0" cellpadding="0">  
       <tr>
-          <td>
+          <td width="105px">
             <label for="idalmacen" class="labels">Almacen:</label>
           </td>
           <td>
             <?php echo $Almacen; ?>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Fecha&nbsp;: &nbsp;<input type="text" class="ui-widget-content ui-corner-all text" name="Fecha" id="Fecha" value="<?php echo date('d/m/Y') ?>" />
+            
+            <label class="labels">Fecha:</label>
+            <input type="text" class="ui-widget-content ui-corner-all text" name="Fecha" id="Fecha" value="<?php echo date('d/m/Y') ?>" />
             <input type="hidden" name="1form1_idmovimiento" id="Id" value="" />
             <input type="hidden" name="0form1_idmovimientotipo" id="IdTipo" value="2" />
             <input type="hidden" name="0form1_estado" id="Estado" value=""/>
@@ -41,8 +41,6 @@ include("../view/header_form.php");
         <td >
           <input name="idcliente" type="hidden" id="idcliente" value="" />  
           <input type="text"  class="ui-widget-content ui-corner-all text" name="Ruc" id="Ruc" maxlength="11" size="11"  />
-          <span class="ui-icon-buscar" title="Buscar Cliente" onclick="BuscarCliente()"></span>
-          <span class="ui-icon-add" title="Nuevo Cliente" onclick="AddCliente(this)"></span>
           <input type="text" class="ui-widget-content ui-corner-all text" title="Razon Social" id="Clientes" style="width:150px;" />
         
           <label for="idalmacen" class="labels">Forma de Pago :&nbsp;&nbsp;</label>          
@@ -52,31 +50,20 @@ include("../view/header_form.php");
       </tr>
       <tr>
         <td ><label class="labels">Moneda:</label></td>
-        <td >
+        <td>
           <?php echo $moneda; ?>
-          <div id="DivTipoCambio" style="display:inline">
-            &nbsp;&nbsp;&nbsp;&nbsp;<label class="labels">Tipo de Cambio &nbsp; : &nbsp;</label>
-            <input name="0form1_tipocambio" value="" id="TipoCambio" title="Tipo de Cambio" type="text" class="ui-widget-content ui-corner-all text" style="width:40px;"  />
+          
+          <label class="labels">Tipo de Cambio:</label>
+          <input name="0form1_tipocambio" value="" id="TipoCambio" title="Tipo de Cambio" type="text" class="ui-widget-content ui-corner-all text" style="width:40px;"  />
 
-          </div>
-          <div id="DivIgv" style="display:inline">
-            &nbsp;&nbsp;&nbsp;&nbsp;<label class="labels">Afecto IGV &nbsp; : &nbsp;</label>
-            <div id="DivAfectoIgv" style="display:inline">
-              <input type="radio" id="Aigv1" name="0form1_igv" value='1' onchange="CalcularTotal()"/>
-              <label for="Aigv1"   >SI</label>
-              <input type="radio" id="Aigv0" name="0form1_igv" value='0' onchange="CalcularTotal()"/>
-              <label for="Aigv0"  >NO</label>
-            </div>
-          </div>
+          <label class="labels">Descuento:</label>
+          <input name="porcentajedescuento" value="" id="Dscto" onkeypress="ValidarDscto(this,event)" title="Porcentaje de Descuento" type="text" class="ui-widget-content ui-corner-all text" style="width:40px;" />%
         </td>
       </tr>
      <tr>
         <td ><label class="labels">Observaciones:</label></td>
         <td >
-          <textarea name="0form1_obs" class="ui-widget-content ui-corner-all text" id="Obs" title="Observaciones" ><?=$row['obs']?></textarea>
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Descuento &nbsp; : &nbsp;
-            <input name="0form1_porcentajedescuento" value="" id="Dscto" onkeypress="ValidarDscto(this,event)" onblur="ValidarDsctoO(this)"  title="Porcentaje de Descuento" type="text" class="ui-widget-content ui-corner-all text" style="width:40px;"  />%
-          <div id="DivSave">sss</div>
+          <textarea name="0form1_obs" class="ui-widget-content ui-corner-all text" id="Obs" title="Observaciones" ></textarea>
         </td>
       </tr>
       <tr id="TrMotivoAnulacion" style="display:none">
@@ -84,91 +71,152 @@ include("../view/header_form.php");
         <td ><textarea style="width:400px" name="0form1_motivoanulacion" cols="60" class="ui-widget-content ui-corner-all text" id="MotivoAnulacion"  placeholder="Digite el Motivo de la Anulación">ssss</textarea></td>
       </tr>
       <tr>
-    <td colspan="2">
-      <fieldset>
-        <legend class="ui-state-default ui-corner-all">Detalle de la Venta</legend>
-          <table width="100%">
-            <tr class="TrAddItem">
-              <td colspan="2"  >
-                <table width="100%" border="0" cellspacing="0" cellpadding="0" >
-                  <tr>
-                    <td align="center">
-                      <input type="text" class="ui-widget-content ui-corner-all text" title="C&oacute;digo de Barras del Producto" id="Barras" style="width:80px"  />
-                      <span class="ui-icon-buscar" title="Buscar Producto" onclick="BuscarProducto(this)"></span>
-                      <input type="text" class="ui-widget-content ui-corner-all text" style="width:250px" title="Descripci&oacute;n del Producto" id="Producto"  />
-                      <input type="text" id="Cantidad" title="Cantidad" class="ui-widget-content ui-corner-all text" value="1"  style="width:50px" />
-                      <span id="UnidadMedida"></span>
-                      
-                      <input type="text" id="Precio" title="Precio" class="ui-widget-content ui-corner-all text" value=""  style="width:50px" onkeypress="ValidarEnter(event,1);"/>
-                      <span class="ui-icon-add" title="Agregar Producto" onclick="AgregarItem()"></span>
-                      <input type="hidden" id="Stock">
-                      <input type="hidden" id="IdProducto">
-
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2" >
-                <div style="height:auto; overflow:auto" align="left" id="DivDetalle">
-                  <table width="700" border="0" align="center" cellspacing="0" class="ui-widget" id="TbIndex">
-                    <thead class="ui-widget-header" >
-                      <tr >
-                        <th width="43" align="center" scope="col">Item</th>
-                        <th width="100" align="center" scope="col">Unidad Medida</th>
-                        <th align="center" scope="col">Producto</th>
-                        <th width="50"  align="center" scope="col">Cantidad</th>
-                        <th width="43"  align="center" scope="col">Precio</th>
-                        <th width="43" rowspan="2" align="center" scope="col">Importe</th>
-                        <th width="5" rowspan="2" align="center" scope="col">&nbsp;</th>
-                      </tr>
-                   
-                    </thead>
-                    <tbody>
-                    
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td colspan="5" align="right" >Sub Total :</td>
-                      <td align="right" >
-                        <input type="text" id="SubTotal" name="0form1_subtotal" value="" class="ui-widget-content ui-corner-all text" readonly="readonly" style="text-align:right;width:60px"  /> 
-                      </td>
-                      <td >&nbsp;</td>
-                    </tr>
-                    <tr>
-                      <td colspan="5" align="right" >Dscto:</td>
-                      <td align="right" >
-                        
-                        <input type="text" id="vDscto"  value="" class="ui-widget-content ui-corner-all text" readonly="readonly" style="text-align:right;width:60px"  /> 
-                      </td>
-                      <td >&nbsp;</td>
-                    </tr>
-                    <tr id="TrvIgv">
-                      <td colspan="5" align="right" >IGV:</td>
-                      <td align="right" >
-                        <input type="hidden" id="PorcentajeIgv" name="0form1_porcentajeigv" value="">
-                        <input type="text" id="IGV"  value="" class="ui-widget-content ui-corner-all text" readonly="readonly" style="text-align:right;width:60px"  /> 
-                      </td>
-                      <td >&nbsp;</td>
-                    </tr>
-                    <tr>
-                      <td colspan="5" align="right" >Total :</td>
-                      <td align="right" >
-                        <input type="text" id="Total" name="0form1_total" value="" class="ui-widget-content ui-corner-all text" readonly="readonly" style="text-align:right;width:60px"  /> 
-                      </td>
-                      <td >&nbsp;</td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-            </td>
-          </tr>
-        </table>
-      </fieldset>
-    </td>
-  </tr>
-    
-
+        <td colspan="2">      
+        </td>
+      </tr> 
 </table>
+
+<fieldset id="box-melamina" class="ui-corner-all" style="padding: 2px 10px 7px;">  
+        <legend>Detalle de la venta</legend>
+        <div id="box-1">
+            <table id="table-per" class="table-form" border="0" cellpadding="0" cellspacing="0" width="600px" >
+                <tr>
+                    <td width="100px"><label for="tipopago" class="labels">Tipo pago:</label></td>
+                    <td><?php echo $tipopago; ?></td>
+                    <td>
+                        <div id="TbF" style="display: none;">
+                            <label for="financiamiento" class="labels">Financiamiento:</label>
+                            <?php echo $Financiamiento; ?>
+                            <input type="checkbox" title="Considerar Adicional" checked="checked" id="ChkAdicional">   
+                        </div>
+                        
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td><label for="productos" class="labels">Buscar Producto:</label></td>
+                    <td colspan="2">
+                        <input type="text" name="producto" id="producto" value="" class="ui-widget-content ui-corner-all text" style="width:240px;" />
+                        <input type="hidden" name="idsubproductos_semi" id="idsubproductos_semi" value="" />
+                        <label for="igv" class="labels" style="width:80px;">Afecto IGV:</label>
+                        <?php $ck = ""; if($obj->afecto==1) $ck = "checked"; ?>
+                        <input type="checkbox" name="aigv" id="aigv" value="1" <?php echo $ck; ?> />
+                        <input type="hidden" name="igv_val" id="igv_val" value="<?php if($obj->igv!="") echo $obj->igv; else echo "18"; ?>" />
+                    </td>
+                    <td rowspan="2" align="center">
+                        <a href="javascript:" id="addDetail" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a> 
+                    </td>                    
+                </tr>
+                <tr>
+                    <td><label for="idcliente" class="labels">Precio Cash:</label></td>
+                    <td>
+                        <input type="text" name="precio" id="precio" value="" class="ui-widget-content ui-corner-all text" style="width:80px;" />
+                    </td>                    
+                    <td>
+                        <label for="Cantidad" class="labels">Cantidad:</label> 
+                        <input type="text" name="cantidad" id="cantidad" onkeypress="return permite(event,'num')" value="" class="ui-widget-content ui-corner-all text" style="width:80px;" /> 
+                    </td>
+                </tr>
+                <tr id="TrCredito" style="display: none;">
+                    <td><label for="Iniciales" class="labels">Inicial:</label></td>
+                    <td><input type="text" name="inicial" id="inicial" value="" class="ui-widget-content ui-corner-all text" style="width:80px;" /></td>                    
+                    <td>
+                        <label for="nromes" class="labels">N° Meses:</label>
+                        <input id="NroMeses" class="ui-widget-content ui-corner-all text" type="text" style="width:40px;text-align:right" size="2" onkeypress="Calcular3(event)">
+                        <img id="calcularfi" src="../web/images/calculadora.png" width="18" height="18" />
+                        Mensual:
+                        <input id="Mensual" class="ui-widget-content ui-corner-all text" type="text" style="width:60px;text-align:right" size="8" onkeypress="">
+                    </td>
+                    <td>&nbsp;</td> 
+                </tr>
+            </table>                     
+        </div>
+    </fieldset>
+    <div id="div-detalle">
+        <div>
+            <table id="table-detalle" class="ui-widget ui-widget-content" style="margin: 0 auto; width:840px" border="0" >
+                <thead class="ui-widget ui-widget-content" >
+                    <tr class="ui-widget-header" style="height: 23px">          
+                        <th align="center" width="120">Tipo Pago</th>
+                        <th>Producto</th>
+                        <th align="center" width="80">Precio</th>
+                        <th align="center" width="80">Cantidad</th>
+                        <th align="center" width="80">Inicial</th>
+                        <th align="center" width="80">Mensual</th>
+                        <th align="center" width="90">N° Meses</th>
+                        <th align="center" width="80px">IMPORTE S/.</th>
+                        <th width="20px">&nbsp;</th>
+                    </tr>
+                </thead>  
+                <tbody>
+                    <?php 
+                        if(count($rowsd)>0)
+                        {    
+                            foreach ($rowsd as $i => $r) 
+                            {
+                                $tipop=$r['tipo'];
+                                if($tipop==1)
+                                {                                    
+                                    $pre= $r['preciocash'];
+                                    $cant= $r['cantidad'];
+                                    $subt= floatval($pre) * floatval($cant);
+                                }else
+                                    {
+                                        $nro= $r['nromeses'];
+                                        $men= $r['cuota'];                                        
+                                        $ini= $r['inicial'];
+                                        $subt= (floatval($nro) * floatval($men))+ $ini;
+                                    }
+                                ?>
+                                <tr class="tr-detalle">
+                                    <td align="left"><?php echo $r['descripcion']; ?><input type="hidden" name="idtipopago[]" value="<?php echo $r['tipo']; ?>" /></td>
+                                    <td><?php echo $r['producto']; ?>
+                                        <input type="hidden" name="idproducto[]" value="<?php echo $r['idproducto']; ?>" />
+                                        <input type="hidden" name="producto[]" value="<?php echo $r['producto']; ?>" />
+                                        <input type="hidden" name="idfinanciamiento[]" value="<?php echo $r['idfinanciamiento']; ?>" />
+                                    </td>
+                                    <td align="rigth">
+                                        <?php echo $r['preciocash']; ?><input type="hidden" name="precio[]" value="<?php echo $r['preciocash']; ?>" />
+                                    </td>
+                                    <td align="rigth">
+                                        <?php echo $r['cantidad']; ?><input type="hidden" name="cantidad[]" value="<?php echo $r['cantidad']; ?>" />
+                                    </td>
+                                    <td>
+                                        <?php echo $r['inicial']; ?><input type="hidden" name="inicial[]" value="<?php echo $r['inicial']; ?>" />
+                                    </td>
+                                    <td>
+                                        <?php echo $r['cuota']; ?><input type="hidden" name="mensual[]" value="<?php echo $r['cuota']; ?>" />
+                                    </td>
+                                    <td>
+                                        <?php echo $r['nromeses']; ?><input type="hidden" name="nromeses[]" value="<?php echo $r['nromeses']; ?>" />
+                                    </td>
+                                    <td><?php echo $subt; ?></td>
+                                    <td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>
+                                </tr>
+                                <?php    
+                                } 
+                        }
+                     ?>                      
+                </tbody>
+                 <tfoot>
+                    <tr>
+                        <td colspan="7" align="right"><b>SUB TOTAL S/.</b></td>
+                        <td align="right"><b>0.00</b></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" align="right"><b>IGV S/.</b></td>
+                        <td align="right"><b>0.00</b></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" align="right"><b>TOTAL S/.</b></td>
+                        <td align="right"><b>0.00</b></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div> 
+
 </form>

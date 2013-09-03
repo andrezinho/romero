@@ -16,6 +16,7 @@ class VerificacionController extends Controller
                         8 => array('Name'=>'&nbsp','NameDB'=>'-','align'=>'center','width'=>30)
                         
                      );
+
     public function index() 
     {
         $data = array();                               
@@ -23,9 +24,10 @@ class VerificacionController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
+        $data['script'] = "evt_index_verificacion.js";
         $data['titulo'] = "Solicitud";
         //(nuevo,editar,eliminar,ver)
-        $data['actions'] = array(true,true,true,false);
+        $data['actions'] = array(true,true,false,true);
         $view = new View();
         $view->setData($data);
         $view->setTemplate('../view/_indexGrid.php');
@@ -65,14 +67,47 @@ class VerificacionController extends Controller
 
     public function edit() 
     {
+        $estado = $this->getEstado("facturacion.solicitud","idsolicitud",$_GET['id']);
+        if($estado==0)
+        {
+            $obj = new Verificacion();
+            $data = array();
+            $view = new View();
+            $rows = $obj->edit($_GET['id']);
+            $data['obj'] = $rows;
+            $data['tivovivienda'] = $this->Select(array('id'=>'idtipovivienda','name'=>'idtipovivienda','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipovivienda','code'=>$rows->idtipovivienda));
+            $data['NivelEducacion'] = $this->Select(array('id'=>'idgradinstruccion','name'=>'idgradinstruccion','text_null'=>'Seleccione...','table'=>'vista_grado','code'=>$rows->idgradinstruccion));
+            $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil','code'=>$rows->idestado_civil));
+            $data['tipopago'] = $this->Select(array('id'=>'idtipopago','name'=>'idtipopago','text_null'=>'Seleccione...','table'=>'produccion.vista_tipopago'));       
+            $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));
+            $data['rowsd'] = $obj->getDetails($rows->idsolicitud);
+            $view->setData($data);
+            $view->setTemplate( '../view/verificacion/_form.php' );
+            echo $view->renderPartial();
+        }else
+            {
+                $view = new View();
+                $data['msg'] = "<b>A esta solicitud ya no se puede realizar ninguna accion. </b><br/><br/>
+                      Si deseas ver los datos de esta solicitud 
+                      le recomendamos elegir la opcion 'VER' del menu de operaciones.<br/>
+                      Si considera que este registro si deveria poder editarse, comuniquese con el administrador del sistema. ";
+                $view->setData($data);
+                $view->setTemplate( '../view/_error_app.php' );
+                echo $view->renderPartial();
+            }
+        
+    }
+
+    public function view() 
+    {
         $obj = new Verificacion();
         $data = array();
         $view = new View();
         $rows = $obj->edit($_GET['id']);
         $data['obj'] = $rows;
-        $data['tivovivienda'] = $this->Select(array('id'=>'idtipovivienda','name'=>'idtipovivienda','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipovivienda','code'=>$rows->idtipovivienda));
-        $data['NivelEducacion'] = $this->Select(array('id'=>'idgradinstruccion','name'=>'idgradinstruccion','text_null'=>'Seleccione...','table'=>'vista_grado','code'=>$rows->idgradinstruccion));
-        $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil','code'=>$rows->idestado_civil));
+        $data['tivovivienda'] = $this->Select(array('id'=>'idtipovivienda','name'=>'idtipovivienda','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipovivienda','code'=>$rows->idtipovivienda,'disabled'=>'disabled'));
+        $data['NivelEducacion'] = $this->Select(array('id'=>'idgradinstruccion','name'=>'idgradinstruccion','text_null'=>'Seleccione...','table'=>'vista_grado','code'=>$rows->idgradinstruccion,'disabled'=>'disabled'));
+        $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil','code'=>$rows->idestado_civil,'disabled'=>'disabled'));
         $data['tipopago'] = $this->Select(array('id'=>'idtipopago','name'=>'idtipopago','text_null'=>'Seleccione...','table'=>'produccion.vista_tipopago'));       
         $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));
         $data['rowsd'] = $obj->getDetails($rows->idsolicitud);
@@ -103,6 +138,16 @@ class VerificacionController extends Controller
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);
+        else $result = array(2,$p[1]);
+        print_r(json_encode($result));
+    }
+
+    public function anular()
+    {
+        $obj = new Verificacion();
+        $result = array();        
+        $p = $obj->anularver($_POST['i']);
+        if ($p[0]=="1") $result = array(1,$p[1]);
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }

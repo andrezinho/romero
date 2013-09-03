@@ -31,6 +31,9 @@ $(function()
       
     });
 
+    idsol = $("#idsolicitud").val();
+    $("#nrorecibo").val('0000'+idsol);
+
     // Buscar Cliente con DNI
     $("#dni").autocomplete({
         minLength: 0,
@@ -207,6 +210,16 @@ $(function()
 
 });
 
+function load_nrecibo()
+{
+  $.get('index.php','controller=tipodocumento&action=Correlativo&idtp='+idtp,function(r){
+          
+        //  $("#Serie").val(r.serie);
+          $("#Numero").val(r.numero);
+
+      },'json');
+}
+
 function CalcTotalCre()
 {
   var Ini=$("#inicial").val()
@@ -238,7 +251,7 @@ function load_productos(idproforma)
       
       $("#div-detalle").empty().append(r);
 
-    });  
+    });
 }
 
 /**/
@@ -484,35 +497,7 @@ function nItems()
 
 function save()
 {
-  /*bval = true;
-  bval = bval && $( "#fechai" ).required();
-  bval = bval && $( "#fechaf" ).required();          
-  if ( bval ) 
-  {
-      var ni = nItems();
-      if(ni<=0) { alert("Aun no a ingresado ningun tipo de producto al detalle"); return 0; }
-      var str = $("#frm-produccion").serialize();
-      $.post('index.php',str,function(res)
-      {
-        if(res[0]==1)
-        {
-          
-          if (confirm("Desea ingresar su materiales que utilizará en la produccion ")) {
-         
-            $('#dialogConf').dialog('open');
-          }
-          
-          gridReload();
-        }
-        else
-        {
-          alert(res[1]);
-        }
-        
-      },'json');
-  }
-  return false;*/
-
+  
   bval = true;        
   bval = bval && $( "#fecha" ).required();        
   //bval = bval && $( "#orden" ).required();
