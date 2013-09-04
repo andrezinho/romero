@@ -26,7 +26,7 @@ class acabadoController extends Controller
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
         $data['titulo'] = "ACABADO DE acabado";
-        //$data['script'] = "evt_index_acabado.js";        
+        $data['script'] = "evt_index_acabado.js";        
         $data['actions'] = array(true,true,false,true,false);
         $view = new View();
         $view->setData($data);
@@ -95,21 +95,44 @@ class acabadoController extends Controller
     }
     public function view() 
     {
-       
+        $obj = new acabado();
+        $data = array();
+        $view = new View();
+        
+        $rows = $obj->edit($_GET['id']);
+        $data['obj'] = $rows;
+        $data['idmaterial'] = $this->Select(array('id'=>'idmateriales','name'=>'idmateriales','text_null'=>'Seleccione el material...','table'=>'produccion.materiales','width'=>'220px'));                    
+        $view->setData($data);
+        $view->setTemplate( '../view/acabado/_form.php' );
+        echo $view->renderPartial();
+        
     }
     public function save()
     {
-        $obj = new acabado();        
+        $obj = new acabado();                   
         if(isset($_POST['idacabado']))
         {            
             if ($_POST['idacabado']=='') 
+            {
                 $p = $obj->insert($_POST);
+                if ($p[0]==1)
+                    $result = array(1,'',$p[2]);
+                else                 
+                    $result = array(2,$p[1],'');            
+            }
             else         
-                $p = $obj->update($_POST);
-            if ($p[0]==1)
-                $result = array(1,'',$p[2]);
-            else                 
-                $result = array(2,$p[1],'');            
+            {
+                $estado = $this->getEstado("produccion.acabado","idacabado",$_POST['idacabado']);                                
+                if($estado==1)
+                    $p = $obj->update($_POST); 
+                else
+                    $restul = array(2,"Esta operacion no se puede realizar.");
+
+                if ($p[0]==1)
+                    $result = array(1,'',$p[2]);
+                else                 
+                    $result = array(2,$p[1],'');            
+            }            
         }
         else
         {

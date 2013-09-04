@@ -46,7 +46,7 @@
                     <td><input type="text" name="dresponsable" id="dresponsable" value="<?php echo $obj->responsable; ?>" readonly="readonly" style="width:100%" class="ui-widget-content ui-corner-all text"/></td>
                     <td><input type="text" name="tprod" id="tprod" value="<?php echo $obj->tprod; ?>" readonly="readonly" style="width:100%" class="ui-widget-content ui-corner-all text" /></td>
                     <td><input type="text" name="stock" id="stock" value="<?php echo $obj->stock; ?>" readonly="readonly" style="width:100%" class="ui-widget-content ui-corner-all text" /></td>
-                    <td><input type="text" name="cantidad" id="cantidad" value="<?php echo $obj->cantidad; ?>" style="width:100%" class="ui-widget-content ui-corner-all text" /></td>
+                    <td><input type="text" name="cantidad" id="cantidad" value="<?php if($obj->cantidad!="") echo $obj->cantidad; else echo "0"; ?>" style="width:100%" class="ui-widget-content ui-corner-all text" onkeypress="return permite(event,'num')" /></td>
                 </tr>
             </table>  
             <div class=" ui-corner-all" style="padding:0px">                

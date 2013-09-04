@@ -100,19 +100,26 @@ $(function()
             $( "#personal" ).val( ui.item.nompersonal );                                    
             return false;
         }
-     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
+     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
         return $( "<li></li>" )
             .data( "item.autocomplete", item )
             .append( "<a>"+ item.dni +" - " + item.nompersonal + "</a>" )
             .appendTo(ul);
       };
+
     getDetails();
+
+    $("#cantidad").change(function(){
+      valida_cant();
+    });
+
     //Eventos dentro de fildset produccion
     $("#btn-add-mp").click(function(){ });
     $("#idmateriales").change(function(){getUnidad($(this).val());});    
     $("#idunidad_medida").change(function(){
       $("#cant_ma").focus();
-    })
+    });
+
     $("#btn-add-ma").click(function(){addNewMaterial();});
     $("#table-detalle-materia").on('click','.item-mp',function(){
       var i = $(this).attr("id");
@@ -123,23 +130,59 @@ $(function()
 
     $("#btn-add-detalle-prod").click(function(){addDetalleProd();});
 
-
     //Eventos para detalle acabado
     $("#div-detalle").on('click','.edit-produccion',function(){
         var i = $(this).attr("id"); i = i.split("-");
         editProduccion(i[2]);
     });
+
     $("#div-detalle").on('click','.delete-produccion',function(){
         var i = $(this).attr("id"); i = i.split("-");
         produccion.eliminar(i[2]);
         produccion.listar();
     });
+
     $("#div-detalle").on('click','.delete-produccion-mp',function(){
         var i = $(this).attr("id"); i = i.split("-");
         produccion.eliminar_mp(i[2],i[3]);
         produccion.listar();
     });
 });
+
+function valida_cant()
+{  
+  var stk = $("#stock").val(),
+      cant = $("#cantidad").val();
+      if(stk!="")
+      {
+        stk = stk.replace(",","");
+        stk = parseFloat(stk);
+      }
+      else
+      {
+        alert("Debe seleccionar una produccion.");
+        return false;
+      }
+  if(cant>0)
+  {  
+      if(cant>stk)
+      {
+         alert("Alerta: La cantidad supera el stock maximo.");         
+         $("#cantidad").focus();         
+         return false;
+      }
+  }     if(cant)
+  {
+
+  }
+  else 
+  {
+     alert("La cantidad debe ser mayo que cero (0)");     
+     $("#cantidad").focus();
+     return false;
+  }
+  return true;  
+}
 
 function getDetails()
 {
@@ -266,8 +309,10 @@ function save()
   bval = bval && $( "#fechai" ).required();
   bval = bval && $( "#fechaf" ).required();
   bval = bval && $( "#dni" ).required();
+
   if ( bval ) 
   {      
+    valida_cant();  
     var str = $("#frm-acabado").serialize();
     var materiales = json_encode(materia);
     $.post('index.php',str+'&materiales='+materiales,function(res)
