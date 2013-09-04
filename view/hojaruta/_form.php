@@ -82,12 +82,13 @@
                 <td width="15%">&nbsp;</td>
               </tr>
               <tr>
-                <td><label class="labels">Buscar Cliente:</label></td>
+                <td ><label class="labels">Buscar Cliente:</label></td>
                 <td colspan="3">
                     <input type="text" name="dnicli" id="dnicli" value="" class="ui-widget-content ui-corner-all text" style="width:80px;" />
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <input type="text" name="cliente" id="cliente" value="" class="ui-widget-content ui-corner-all text" style="width:250px;" />
                     <input type="hidden" name="idcliente" id="idcliente" value="" />
+                    <a id="newCliente" href="javascript:"><span class="box-boton">&nbsp;</span></a>
                 </td>
                 <td rowspan="2" align="center">
                     <a href="javascript:" id="addDetail" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a> 
@@ -156,7 +157,8 @@
                                     <td><?php echo $r['cliente']; ?><input type="hidden" name="idcliente[]" value="<?php echo $r['idcliente']; ?>" /></td>
                                     <td><?php echo $r['direccion']; ?></td>
                                     <td><?php echo $r['telefono']; ?></td>
-                                    <td><?php echo $r['producto']; ?><input type="hidden" name="idsubproductos_semi[]" value="<?php echo $r['idsubproductos_semi']; ?>" /></td>
+                                    <td><?php echo $r['producto']; ?><input type="hidden" name="idsubproductos_semi[]" value="<?php echo $r['idsubproductos_semi']; ?>" />
+                                        <input type="hidden" name="producto[]" value="<?php echo $r['producto']; ?>" /></td>
                                     <td><?php echo $r['cantidad']; ?><input type="hidden" name="cantidad[]" value="<?php echo $r['cantidad']; ?>" /></td>
                                     <td><?php echo $r['observacion']; ?><input type="hidden" name="observacion[]" value="<?php echo $r['observacion']; ?>" /></td>
                                     <td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>
@@ -178,3 +180,6 @@
     </div> 
 
 </form>
+
+<div id="box-frm-cliente">
+</div>

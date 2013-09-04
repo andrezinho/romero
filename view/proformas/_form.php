@@ -3,7 +3,7 @@
 ?>
 
    
-<form id="frm_maderba" >
+<form id="frm_proforma" >
     <fieldset class="ui-corner-all" style="padding: 2px 10px 7px">
         <input type="hidden" name="controller" value="Proformas" />
         <input type="hidden" name="action" value="save" />

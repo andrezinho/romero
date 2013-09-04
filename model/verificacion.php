@@ -48,6 +48,8 @@ class Verificacion extends Main
             s.nombreref,
             s.relacionref,
             s.telefonoref,
+            s.obs,
+            s.estado,
             c.dni AS cli_dni,
             c.idtipocliente,
             c.nombres || ' ' || c.apematerno || ' ' || c.apepaterno AS nomcliente,
@@ -124,9 +126,9 @@ class Verificacion extends Main
         $sql="INSERT INTO facturacion.solicitud(idsucursal, idvendedor, idcliente, idtipvivicliente, 
             trabajocliente, dirtrabajocliente, cargocliente, teltrabcliente, ingresocliente, trabajoconyugue, 
             dirtrabajoconyugue, cargoconyugue, teltrabconyugue, ingresoconyugue, fechasolicitud, fechavenc1,
-            idproforma,estado,carga_familiar,nombreref , relacionref , telefonoref)
+            idproforma,estado,carga_familiar,nombreref , relacionref , telefonoref,obs)
             VALUES (:p1, :p2, :p3, :p4,:p5,:p6, :p7, :p8, :p9,:p10,:p11, :p12, :p13, :p14,:p15,:p16, :p17, 
-                :p18, :p19, p:20, :p21, :p22 )";
+                :p18, :p19, p:20, :p21, :p22, :p23 )";
         
         $stmt = $this->db->prepare($sql);
 
@@ -161,6 +163,7 @@ class Verificacion extends Main
                 $stmt->bindParam(':p20',$_P['nomgarant'],PDO::PARAM_STR);
                 $stmt->bindParam(':p21',$_P['relacion'],PDO::PARAM_STR);
                 $stmt->bindParam(':p22',$_P['gar_telefono'],PDO::PARAM_STR);
+                $stmt->bindParam(':p23',$_P['obs'],PDO::PARAM_STR);
 
             }else
                 {
@@ -187,6 +190,9 @@ class Verificacion extends Main
                     $stmt->bindParam(':p20',$_P['nomgarant'],PDO::PARAM_STR);
                     $stmt->bindParam(':p21',$_P['relacion'],PDO::PARAM_STR);
                     $stmt->bindParam(':p22',$_P['gar_telefono'],PDO::PARAM_STR);
+                    $stmt->bindParam(':p23',$_P['obs'],PDO::PARAM_STR);
+
+                    
                 }            
 
             $stmt->execute();
@@ -261,7 +267,7 @@ class Verificacion extends Main
                        dirtrabajoconyugue=:p11, cargoconyugue=:p12, teltrabconyugue=:p13, 
                        ingresoconyugue=:p14, fechasolicitud=:p15, 
                        fechavenc1=:p16, idproforma=:p17, estado=:p18, carga_familiar=:p19,
-                       nombreref=:p20 , relacionref=:p21 , telefonoref=:p22
+                       nombreref=:p20 , relacionref=:p21 , telefonoref=:p22 , obs=:p23
                 WHERE   idsolicitud = :idsolicitud ";
         $stmt = $this->db->prepare($sql);
 
@@ -296,6 +302,7 @@ class Verificacion extends Main
                 $stmt->bindParam(':p20',$_P['nomgarant'],PDO::PARAM_STR);
                 $stmt->bindParam(':p21',$_P['relacion'],PDO::PARAM_STR);
                 $stmt->bindParam(':p22',$_P['gar_telefono'],PDO::PARAM_STR);
+                $stmt->bindParam(':p23',$_P['obs'],PDO::PARAM_STR);
 
                 $stmt->bindParam(':idsolicitud', $idsolicitud , PDO::PARAM_INT);
 
@@ -324,7 +331,8 @@ class Verificacion extends Main
                     $stmt->bindParam(':p20',$_P['nomgarant'],PDO::PARAM_STR);
                     $stmt->bindParam(':p21',$_P['relacion'],PDO::PARAM_STR);
                     $stmt->bindParam(':p22',$_P['gar_telefono'],PDO::PARAM_STR);
-
+                    $stmt->bindParam(':p23',$_P['obs'],PDO::PARAM_STR);
+                    
                     $stmt->bindParam(':idsolicitud', $idsolicitud , PDO::PARAM_INT);
                 }
             

@@ -50,19 +50,19 @@ class HojaRuta extends Main
         $stmt = $this->db->prepare("SELECT
             dh.idcliente,
             dh.idsubproductos_semi,
+            dh.producto,
             c.dni,
             c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno as cliente,
             c.direccion,
             c.telefono,
-            sp.descripcion || ' '|| sps.descripcion as producto,
             dh.cantidad,
             dh.observacion
 
             FROM
             public.hojarutas_detalle AS dh
             INNER JOIN public.cliente AS c ON c.idcliente = dh.idcliente
-            INNER JOIN produccion.subproductos_semi AS sps ON sps.idsubproductos_semi = dh.idsubproductos_semi
-            INNER JOIN produccion.productos_semi AS sp ON sp.idproductos_semi = sps.idproductos_semi
+            LEFT JOIN produccion.subproductos_semi AS sps ON sps.idsubproductos_semi = dh.idsubproductos_semi
+            LEFT JOIN produccion.productos_semi AS sp ON sp.idproductos_semi = sps.idproductos_semi
             WHERE dh.idhojarutas = :id    
             ORDER BY dh.idsubproductos_semi ");
 
@@ -87,13 +87,14 @@ class HojaRuta extends Main
             $stmt->bindParam(':p2', $_P['idpersonal'] , PDO::PARAM_INT);
             $stmt->bindParam(':p3', $_P['idzona'] , PDO::PARAM_INT);
             $stmt->bindParam(':p4', $_P['fechareg'], PDO::PARAM_INT);
+
             $stmt->execute();
             $id =  $this->IdlastInsert('hojarutas','idhojarutas');
             $row = $stmt->fetchAll();
 
             $stmt2  = $this->db->prepare("INSERT INTO hojarutas_detalle(
-            idhojarutas, idcliente, idsubproductos_semi,observacion, cantidad)
-                VALUES ( :p1, :p2,:p3, :p4,:p5) ");
+            idhojarutas, idcliente, idsubproductos_semi,observacion, cantidad,producto)
+                VALUES ( :p1, :p2,:p3, :p4, :p5, :p6) ");
 
                 foreach($_P['idcliente'] as $i => $idcliente)
                 {                    
@@ -101,7 +102,8 @@ class HojaRuta extends Main
                     $stmt2->bindParam(':p2',$idcliente,PDO::PARAM_INT);
                     $stmt2->bindParam(':p3',$_P['idsubproductos_semi'][$i],PDO::PARAM_INT);
                     $stmt2->bindParam(':p4',$_P['observacion'][$i],PDO::PARAM_STR);
-                    $stmt2->bindParam(':p5',$_P['cantidad'][$i],PDO::PARAM_INT);                    
+                    $stmt2->bindParam(':p5',$_P['cantidad'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p6',$_P['producto'][$i],PDO::PARAM_INT);
                     $stmt2->execute();                
 
                 }
@@ -152,8 +154,8 @@ class HojaRuta extends Main
             $row = $stmt->fetchAll();
             
             $stmt2  = $this->db->prepare("INSERT INTO hojarutas_detalle(
-            idhojarutas, idcliente, idsubproductos_semi,observacion, cantidad)
-                VALUES ( :p1, :p2,:p3, :p4,:p5) ");
+            idhojarutas, idcliente, idsubproductos_semi,observacion, cantidad,producto)
+                VALUES ( :p1, :p2,:p3, :p4,:p5, :p6) ");
 
                 foreach($_P['idcliente'] as $i => $idcliente)
                 {                    
@@ -161,7 +163,9 @@ class HojaRuta extends Main
                     $stmt2->bindParam(':p2',$idcliente,PDO::PARAM_INT);
                     $stmt2->bindParam(':p3',$_P['idsubproductos_semi'][$i],PDO::PARAM_INT);
                     $stmt2->bindParam(':p4',$_P['observacion'][$i],PDO::PARAM_STR);
-                    $stmt2->bindParam(':p5',$_P['cantidad'][$i],PDO::PARAM_INT);                    
+                    $stmt2->bindParam(':p5',$_P['cantidad'][$i],PDO::PARAM_INT);
+                    $stmt2->bindParam(':p6',$_P['producto'][$i],PDO::PARAM_INT);
+
                     $stmt2->execute();             
 
                 }

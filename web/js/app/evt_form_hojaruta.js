@@ -81,7 +81,48 @@ $(function()
             .append( "<a>"+ item.producto + "</a>" )
             .appendTo(ul);
       };
+
+    /*----New Cliuente*/
+    $("#box-frm-cliente").dialog({
+      modal:true,
+      autoOpen:false,
+      width:'auto',
+      height:'auto',
+      resizing:true,
+      title:'Formulario de Clientes',
+      buttons: {'Registrar Cliente':function(){save_cliente();}}
+    });
+
+    $("#frm_hojaruta").on('click','#newCliente',function(){
+        $.get('index.php?controller=clientes&action=create',function(html)
+        {           
+           $("#box-frm-cliente").empty().append(html);
+           $("#box-frm-cliente").dialog("open");
+           $("#descripcion").focus();
+           
+        });
+    })
+    /*------- FIN --------*/
 });
+
+function save_cliente()
+{
+    bval = true;        
+    bval = bval && $( "#descripcion" ).required();
+    if(bval)    
+    {
+       var str = $("#frm").serialize();       
+       $.post('index.php',str,function(res)
+       {
+          if(res[0]==1)
+          {
+             $("#idlinea").append('<option value="'+res[2]+'">'+$("#descripcion").val()+'</option>');
+             $("#box-frm-linea").dialog('close');
+             $("#idcliente").val(res[2]);
+          }
+       },'json');
+    }
+}
 
 function load_zona(IdZo)
 {
@@ -123,19 +164,38 @@ function addDetail()
 
 function addDetalle(dni,id,nomcli,dir, tel, prod, idprod, obs,cant)
 {
-    
-    var html = '';
-    html += '<tr class="tr-detalle">';
-    html += '<td>'+dni+'</td>';   
-    html += '<td>'+nomcli+'<input type="hidden" name="idcliente[]" value="'+id+'" /></td>';
-    html += '<td>'+dir+'</td>';
-    html += '<td>'+tel+'</td>';
-    html += '<td>'+prod+'<input type="hidden" name="idsubproductos_semi[]" value="'+idprod+'" /></td>';
-    html += '<td>'+cant+'<input type="hidden" name="cantidad[]" value="'+cant+'" /></td>';
-    html += '<td>'+obs+'<input type="hidden" name="observacion[]" value="'+obs+'" /></td>';   
-    html += '<td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>';
-    html += '</tr>';  
+    if( idprod=='')
+    {
+      idprod=1;
+      var html = '';
+      html += '<tr class="tr-detalle">';
+      html += '<td>'+dni+'</td>';   
+      html += '<td>'+nomcli+'<input type="hidden" name="idcliente[]" value="'+id+'" /></td>';
+      html += '<td>'+dir+'</td>';
+      html += '<td>'+tel+'</td>';
+      html += '<td>'+prod+'<input type="hidden" name="idsubproductos_semi[]" value="'+idprod+'" />';
+      html += '<input type="hidden" name="producto[]" value="'+prod+'" /></td>';
+      html += '<td>'+cant+'<input type="hidden" name="cantidad[]" value="'+cant+'" /></td>';
+      html += '<td>'+obs+'<input type="hidden" name="observacion[]" value="'+obs+'" /></td>';   
+      html += '<td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>';
+      html += '</tr>';  
+    }else
+      {
+        var html = '';
+        html += '<tr class="tr-detalle">';
+        html += '<td>'+dni+'</td>';   
+        html += '<td>'+nomcli+'<input type="hidden" name="idcliente[]" value="'+id+'" /></td>';
+        html += '<td>'+dir+'</td>';
+        html += '<td>'+tel+'</td>';
+        html += '<td>'+prod+'<input type="hidden" name="idsubproductos_semi[]" value="'+idprod+'" />';
+        html += '<input type="hidden" name="producto[]" value="'+prod+'" /></td>';
+        html += '<td>'+cant+'<input type="hidden" name="cantidad[]" value="'+cant+'" /></td>';
+        html += '<td>'+obs+'<input type="hidden" name="observacion[]" value="'+obs+'" /></td>';   
+        html += '<td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>';
+        html += '</tr>';  
 
+      }
+    
     $("#table-detalle").find('tbody').append(html);
 }
 

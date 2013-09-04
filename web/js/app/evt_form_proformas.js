@@ -379,9 +379,9 @@ function addDetalle(id,desc,pro,idprod,prec,can,total)
       html += '<input type="hidden" name="idproducto[]" value="'+idprod+'" /></td>';
       html += '<td>'+prec+'<input type="hidden" name="precio[]" value="'+prec+'" /></td>';
       html += '<td>'+can+'<input type="hidden" name="cantidad[]" value="'+can+'" /></td>';
-      html += '<td>&nbsp;</td>';
-      html += '<td>&nbsp;</td>';
-      html += '<td>&nbsp;</td>';
+      html += '<td><input type="hidden" name="inicial[]" value="" /></td>';
+      html += '<td><input type="hidden" name="mensual[]" value="" /></td>';
+      html += '<td><input type="hidden" name="nromeses[]" value="" /></td>';
       html += '<td>'+total+'</td>';
       html += '<td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>';
       html += '</tr>';    
@@ -390,7 +390,7 @@ function addDetalle(id,desc,pro,idprod,prec,can,total)
 
     }else
       {
-        idprod=0;
+        idprod=1;
         var html = '';
         html += '<tr class="tr-detalle">';
         html += '<td>'+desc+'<input type="hidden" name="idtipopago[]" value="'+id+'" /></td>';   
@@ -398,9 +398,9 @@ function addDetalle(id,desc,pro,idprod,prec,can,total)
         html += '<input type="hidden" name="idproducto[]" value="'+idprod+'" /></td>';
         html += '<td>'+prec+'<input type="hidden" name="precio[]" value="'+prec+'" /></td>';
         html += '<td>'+can+'<input type="hidden" name="cantidad[]" value="'+can+'" /></td>';
-        html += '<td>&nbsp;</td>';
-        html += '<td>&nbsp;</td>';
-        html += '<td>&nbsp;</td>';
+        html += '<td><input type="hidden" name="inicial[]" value="" /></td>';
+        html += '<td><input type="hidden" name="mensual[]" value="" /></td>';
+        html += '<td><input type="hidden" name="nromeses[]" value="" /></td>';
         html += '<td>'+total+'</td>';
         html += '<td align="center"><a class="box-boton boton-delete" href="#" title="Quitar" ></a></td>';
         html += '</tr>';    
@@ -485,9 +485,10 @@ function save()
 {
   bval = true;        
   bval = bval && $( "#idsucursal" ).required();
-  bval = bval && $( "#dni" ).required();        
-
-  var str = $("#frm_maderba").serialize();
+  bval = bval && $( "#dni" ).required();
+  bval = bval && $("#observacion").required();
+  
+  var str = $("#frm_proforma").serialize();
   if ( bval ) 
   {
       $.post('index.php',str,function(res)

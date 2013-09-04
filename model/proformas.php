@@ -77,7 +77,8 @@ class Proformas extends Main
     }
 
     function insert($_P ) {
-        $idvendedor=1;
+
+        $idvendedor=$_SESSION['idusuario'];
         $estado= 0;
         $sql="INSERT INTO facturacion.proforma(
             idsucursal, idcliente, fecha,hora, estado, observacion,idvendedor) 
@@ -111,8 +112,10 @@ class Proformas extends Main
             idproforma, idsucursal, tipo,preciocash, producto,cantidad,idproducto)
                 VALUES ( :p1, :p2,:p3, :p4,:p9,:p10,:p11) ");
 
+
                 foreach($_P['idtipopago'] as $i => $idtipopago)
-                {                    
+                {   
+                   // echo $idtipopago;          
                     if($idtipopago==2)
                     {
                         $stmt2->bindParam(':p1',$id,PDO::PARAM_INT);
@@ -133,10 +136,6 @@ class Proformas extends Main
                             $stmt3->bindParam(':p2',$_P['idsucursal'],PDO::PARAM_INT);
                             $stmt3->bindParam(':p3',$idtipopago,PDO::PARAM_INT);
                             $stmt3->bindParam(':p4',$_P['precio'][$i],PDO::PARAM_INT);
-                            //$stmt2->bindParam(':p5',$_P['inicial'][$i],PDO::PARAM_INT);
-                            //$stmt2->bindParam(':p6',$_P['nromeses'][$i],PDO::PARAM_INT);
-                            //$stmt2->bindParam(':p7',$_P['mensual'][$i],PDO::PARAM_INT);
-                            //$stmt2->bindParam(':p8',$_P['idfinanciamiento'][$i],PDO::PARAM_INT);
                             $stmt3->bindParam(':p9',$_P['producto'][$i],PDO::PARAM_STR);
                             $stmt3->bindParam(':p10',$_P['cantidad'][$i],PDO::PARAM_INT);
                             $stmt3->bindParam(':p11',$_P['idproducto'][$i],PDO::PARAM_INT);
@@ -225,10 +224,6 @@ class Proformas extends Main
                             $stmt3->bindParam(':p2',$_P['idsucursal'],PDO::PARAM_INT);
                             $stmt3->bindParam(':p3',$idtipopago,PDO::PARAM_INT);
                             $stmt3->bindParam(':p4',$_P['precio'][$i],PDO::PARAM_INT);
-                            //$stmt2->bindParam(':p5',$_P['inicial'][$i],PDO::PARAM_INT);
-                            //$stmt2->bindParam(':p6',$_P['nromeses'][$i],PDO::PARAM_INT);
-                            //$stmt2->bindParam(':p7',$_P['mensual'][$i],PDO::PARAM_INT);
-                            //$stmt2->bindParam(':p8',$_P['idfinanciamiento'][$i],PDO::PARAM_INT);
                             $stmt3->bindParam(':p9',$_P['producto'][$i],PDO::PARAM_STR);
                             $stmt3->bindParam(':p10',$_P['cantidad'][$i],PDO::PARAM_INT);
                             $stmt3->bindParam(':p11',$_P['idproducto'][$i],PDO::PARAM_INT);

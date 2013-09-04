@@ -328,12 +328,12 @@ include("../view/header_form.php");
                     ?>
                     <div id="tabs-6">
                         <label class="labels">Observaciones:</label><br />
-                        <textarea name="obs" id="obs" class="ui-widget-content ui-corner-all text" rows="3" style="margin-left: 10px; width: 300px;" title="Observaciones" ></textarea>
+                        <textarea name="obs" id="obs" class="ui-widget-content ui-corner-all text" rows="3" style="margin-left: 10px; width: 300px;" title="Observaciones" ><?php echo $obj->obs; ?></textarea>
                         <br />
 
                         <span class="inputtext2 ui-corner-all">                            
-                            <label style="padding-right:14px">Aprovado&nbsp;<input name="estadosol" type="radio" value="2"  id="Estado1" <? if ($Estado==1) echo "checked='checked'"?> /></label>
-                            <label style="padding-right:14px">Rechazado&nbsp;<input name="estadosol" type="radio" value="3"  id="Estado2" <? if ($Estado==2) echo "checked='checked'"?>/></label>
+                            <label style="padding-right:14px">Aprovado&nbsp;<input name="estadosol" type="radio" value="2"  id="Estado1" <?php if ($obj->estado==2) echo "checked='checked'"?> /></label>
+                            <label style="padding-right:14px">Rechazado&nbsp;<input name="estadosol" type="radio" value="3"  id="Estado2" <?php if ($obj->estado==3) echo "checked='checked'"?> /></label>
                             <input type="hidden" name="estadosolicitud" id="estadosolicitud" value="" />
                         </span>
                     </div>

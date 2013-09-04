@@ -7,7 +7,7 @@ $(function()
     $("#idtipopago").css({'width':'150px'});
     $("#idtipopago").attr('disabled','disabled');
     $("#sexo, #idestado_civil,#idgradinstruccion, #idtipovivienda").css({'width':'210px'});
-    $("#fecha,#fechavenc").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
+    $("#fecha,#fechavenc,#fechanac").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
     $("#tabs").tabs();
 
     $("#desproducto").on('keyup','#valorcuota',function(){CalcTotalCre(); });
@@ -35,8 +35,6 @@ $(function()
     $("#nrorecibo").val('0000'+idsol);
 
     Estado =$("input[name='estadosol']:checked").val();
-    //alert($("input[name='estadosol']:checked").val());    
-    //$("#estadosolicitud").val(Estado);
     
     // Buscar Cliente con DNI
     $("#dni").autocomplete({
@@ -77,7 +75,7 @@ $(function()
 
             return false;
         }
-    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
+      }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
         return $( "<li></li>" )
             .data( "item.autocomplete", item )
             .append( "<a>"+ item.dni +" - " + item.nomcliente + "</a>" )
@@ -121,7 +119,6 @@ $(function()
             $("#con_cargo").val(ui.item.con_cargo);
             $("#ingresocon").val(ui.item.con_ingreso);
             $("#con_teltrab").val(ui.item.con_teltrab);
-
 
             return false;
         }
@@ -216,8 +213,7 @@ $(function()
 
 function load_nrecibo()
 {
-  $.get('index.php','controller=tipodocumento&action=Correlativo&idtp='+idtp,function(r){
-          
+  $.get('index.php','controller=tipodocumento&action=Correlativo&idtp='+idtp,function(r){          
         //  $("#Serie").val(r.serie);
           $("#Numero").val(r.numero);
 
@@ -248,7 +244,7 @@ function CalcTotalIng()
   $("#totaling").val(parseFloat(Total).toFixed(2));
 }
 
-//
+/**/
 function load_productos(idproforma)
 {
   $.get('index.php','controller=proformas&action=load_productos&idproforma='+idproforma,function(r){
@@ -284,7 +280,7 @@ function load_finaciamiento(idfinanc)
         html += '<td align="center"><label class="Mes">'+j.meses+'</label></td>';
         html += '<td align="right"><label class="Factor">'+j.factor+'</label><label class="Importe"></label></td>';
         html += '</tr>';
-        //alert(html);      
+            
       });
 
       html += '<input type="hidden" id="NroFactores" value="'+cont+'" />';
@@ -292,7 +288,7 @@ function load_finaciamiento(idfinanc)
       html += '</tbody>';
       html += '<table>';
       
-      $("#divFinanciamiento").append(html);
+      $("#divFinanciamiento").empty().append(html);
 
     },'json');
   }
@@ -300,6 +296,15 @@ function load_finaciamiento(idfinanc)
 
 function CalcularFinanc()
 { 
+  bval = true;
+  bval = bval && $("#idfinanciamiento" ).required();
+  bval = bval && $("#producto" ).required();
+  bval = bval && $("#precio" ).required();
+  bval = bval && $("#cantidad" ).required();  
+  bval = bval && $("#inicial" ).required();
+
+  if ( bval ) 
+  {
     $("#idfinanciamiento" ).required();
     $("#precio" ).required();
     $("#cantidad" ).required();
@@ -313,40 +318,103 @@ function CalcularFinanc()
     $("#TbFactores").on('click','#factornum',function(){
       var mes=$(this).find('#NroMeses').html();
       var mesual=$(this).find('#Mensual').html();
-    });  
+    });
+  } 
 }
 
 function Calcular2()
 { 
-  var j=$("#NroFactores").val()
-  var Precio=$("#precio").val()
-  var Cant=$("#cantidad").val()
-  Cant=Cant.replace(",","");
-  Precio=Precio.replace(",","");
-  Precio=(parseFloat(Precio)) * (parseFloat(Cant));
+  bval = true;
+  bval = bval && $("#idfinanciamiento" ).required();
+  bval = bval && $("#producto" ).required();
+  bval = bval && $("#precio" ).required();
+  bval = bval && $("#cantidad" ).required();  
+  bval = bval && $("#inicial" ).required();
+  //bval = bval && $("#inicial" ).required();
 
-  var Inicial=$("#inicial").val()
-  var Inicial=parseFloat(Inicial.replace(",",""))  
-  
-  var Adional=0
-  if ( $("#ChkAdicional").is(':checked') )
-    Adional = parseFloat($("#Adicional").val())
-  
-  var Factor,Meses,Importe=0;
-  
-  Precio=Precio+Adional;
-  
-  Precio=Precio-Inicial;
-  //alert(Precio);
-  Precio=(parseFloat(Precio)).toFixed(2);
-  for(var i=1; i<=j; i++)
-  {
-    Factor = parseFloat($("#TbFactores tbody tr#"+i+" label.Factor").text())
-    Importe =parseFloat(Precio)*parseFloat(Factor)
+  if ( bval ) 
+  { 
+    var j=$("#NroFactores").val()
+    var Precio=$("#precio").val()
+    var Cant=$("#cantidad").val()
+    Cant=Cant.replace(",","");
+    Precio=Precio.replace(",","");
+    Precio=(parseFloat(Precio)) * (parseFloat(Cant));
 
-    $("#TbFactores tbody tr#"+i+" label.Importe").text(parseFloat(Importe).toFixed(2))
+    var Inicial=$("#inicial").val()
+    var Inicial=parseFloat(Inicial.replace(",",""))
+    
+    var Adional=0
+    if ( $("#ChkAdicional").is(':checked') )
+      Adional = parseFloat($("#Adicional").val())
+    
+    var Factor,Meses,Importe=0;
+    
+    Precio=Precio+Adional;
+    
+    Precio=Precio-Inicial;
+    //alert(Precio);
+    Precio=(parseFloat(Precio)).toFixed(2);
+    for(var i=1; i<=j; i++)
+    {
+      Factor = parseFloat($("#TbFactores tbody tr#"+i+" label.Factor").text())
+      Importe =parseFloat(Precio)*parseFloat(Factor)
+
+      $("#TbFactores tbody tr#"+i+" label.Importe").text(parseFloat(Importe).toFixed(2))
+    }
   }
-  
+}
+
+function Calcular3()
+{  
+  bval = true;
+  bval = bval && $("#idfinanciamiento" ).required();
+  bval = bval && $("#producto" ).required();
+  bval = bval && $("#precio" ).required();
+  bval = bval && $("#cantidad" ).required();  
+  bval = bval && $("#inicial" ).required();
+  bval = bval && $("#nromeses" ).required();
+
+  if ( bval ) 
+  { 
+    var j=$("#NroFactores").val()
+    var Precio=$("#precio").val()
+    var Cant=$("#cantidad").val()
+    Cant=Cant.replace(",","");
+    Precio=Precio.replace(",","");
+    Precio=(parseFloat(Precio)) * (parseFloat(Cant));
+
+    var Inicial=$("#inicial").val()
+    var Inicial=parseFloat(Inicial.replace(",",""))  
+    
+    var Adional=0
+    if ( $("#ChkAdicional").is(':checked') )
+      Adional = parseFloat($("#Adicional").val())
+    
+    var Factor,Meses,Importe=0;
+    
+    Precio=Precio+Adional;
+    Precio=Precio-Inicial;
+
+    Precio=(parseFloat(Precio)).toFixed(2);
+    var NroMeses=parseFloat($("#NroMeses").val())
+      Factor=0;
+
+    for(var i=1; i<=j; i++)
+    {
+      Meses = parseInt($("#TbFactores tbody tr#"+i+" label.Mes").text())
+        if (Meses==NroMeses)
+        {
+          Factor = parseFloat($("#TbFactores tbody tr#"+i+" label.Factor").text())
+          break;
+        }
+    }
+    Importe =parseFloat(Precio)*parseFloat(Factor)
+      if (Factor!=0)
+      $("#Mensual").val(parseFloat(Importe).toFixed(2));
+
+  }
+
 }
 
 function verifAfecto()
@@ -503,7 +571,16 @@ function save()
 {
   
   bval = true;        
-  bval = bval && $( "#fecha" ).required();        
+  bval = bval && $( "#fecha" ).required(); 
+  bval = bval && $("#fechavenc").required();
+  bval = bval && $("#dni").required();
+  bval = bval && $("#nomcliente").required();
+  bval = bval && $("#idestado_civil").required();
+  bval = bval && $("#cargafam").required();
+  bval = bval && $("#idgradinstruccion").required();
+  bval = bval && $("#idtipovivienda").required();
+
+
   Estado =$("input[name='estadosol']:checked").val();
   var str = $("#frm_verificacion").serialize();
   if ( bval ) 

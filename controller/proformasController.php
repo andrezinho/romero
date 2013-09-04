@@ -50,10 +50,14 @@ class ProformasController extends Controller
     public function create()
     {
         $data = array();
-        $view = new View();        
+        $view = new View();
+        $IdSuc=$_SESSION['idsucursal'];                
+        $data['idsucursal'] = $IdSuc;
         $data['tipopago'] = $this->Select(array('id'=>'idtipopago','name'=>'idtipopago','text_null'=>'Seleccione...','table'=>'produccion.vista_tipopago'));       
         $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));
-        $data['Sucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','text_null'=>'Seleccione...','table'=>'vista_sucursal'));       
+        $data['Sucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','text_null'=>'Seleccione...','table'=>'vista_sucursal','code'=>$IdSuc));       
+
+
         $view->setData($data);
         $view->setTemplate( '../view/proformas/_form.php' );
         echo $view->renderPartial();
