@@ -24,7 +24,7 @@ $(function()
         {
             $("#idpersonal").val(ui.item.idpersonal);
             $( "#dni" ).val( ui.item.dni );
-            $( "#personal" ).val( ui.item.nompersonal );                                    
+            $( "#personal" ).val( ui.item.nompersonal );
             return false;
         }
     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
@@ -47,7 +47,9 @@ $(function()
         {
             $("#idcliente").val(ui.item.idcliente);
             $( "#dnicli" ).val( ui.item.dni );
-            $( "#cliente" ).val( ui.item.nomcliente );
+            $( "#nombres" ).val( ui.item.nombres );
+            $( "#apematerno" ).val( ui.item.apematerno );
+            $( "#apepaterno" ).val( ui.item.apepaterno );
             $( "#direccion" ).val( ui.item.direccion );
             $( "#telefono" ).val( ui.item.telefono );                                   
             return false;
@@ -150,7 +152,9 @@ function addDetail()
     if(!bval) return 0;
       id= $("#idcliente").val(),
       dni= $("#dnicli").val(),
-      nomcli=$("#cliente").val(),
+      nomcli=$("#nombres").val(),
+      appa= $("#apepaterno").val();
+      apmat= $("#apematerno").val();
       dir=$("#direccion").val(),
       tel=$("#telefono").val(),
       prod=$("#producto").val(),
@@ -158,21 +162,23 @@ function addDetail()
       obs=$("#observacion").val(),
       cant=$("#cantidad").val()
     
-    addDetalle(dni,id,nomcli,dir, tel, prod, idprod, obs,cant);
+    addDetalle(dni,id,nomcli,appa,apmat,dir, tel, prod, idprod, obs,cant);
     clearPer();    
 }
 
-function addDetalle(dni,id,nomcli,dir, tel, prod, idprod, obs,cant)
+function addDetalle(dni,id,nomcli,appa,apmat,dir, tel, prod, idprod, obs,cant)
 {
     if( idprod=='')
     {
       idprod=1;
       var html = '';
       html += '<tr class="tr-detalle">';
-      html += '<td>'+dni+'</td>';   
-      html += '<td>'+nomcli+'<input type="hidden" name="idcliente[]" value="'+id+'" /></td>';
-      html += '<td>'+dir+'</td>';
-      html += '<td>'+tel+'</td>';
+      html += '<td>'+dni+'<input type="hidden" name="idcliente[]" value="'+id+'" /></td>';   
+      html += '<td>'+nomcli+' '+appa+' '+apmat+'<input type="hidden" name="nombres[]" value="'+nomcli+'" />';
+      html += '<input type="hidden" name="apepaterno[]" value="'+appa+'" />';
+      html += '<input type="hidden" name="apematerno[]" value="'+apmat+'" /></td>';
+      html += '<td>'+dir+'<input type="hidden" name="direccion[]" value="'+dir+'" /></td>';
+      html += '<td>'+tel+'<input type="hidden" name="telefono[]" value="'+tel+'" /></td>';
       html += '<td>'+prod+'<input type="hidden" name="idsubproductos_semi[]" value="'+idprod+'" />';
       html += '<input type="hidden" name="producto[]" value="'+prod+'" /></td>';
       html += '<td>'+cant+'<input type="hidden" name="cantidad[]" value="'+cant+'" /></td>';
@@ -185,8 +191,8 @@ function addDetalle(dni,id,nomcli,dir, tel, prod, idprod, obs,cant)
         html += '<tr class="tr-detalle">';
         html += '<td>'+dni+'</td>';   
         html += '<td>'+nomcli+'<input type="hidden" name="idcliente[]" value="'+id+'" /></td>';
-        html += '<td>'+dir+'</td>';
-        html += '<td>'+tel+'</td>';
+        html += '<td>'+dir+'<input type="hidden" name="direccion[]" value="'+dir+'" /></td>';
+        html += '<td>'+tel+'<input type="hidden" name="telefono[]" value="'+tel+'" /></td>';
         html += '<td>'+prod+'<input type="hidden" name="idsubproductos_semi[]" value="'+idprod+'" />';
         html += '<input type="hidden" name="producto[]" value="'+prod+'" /></td>';
         html += '<td>'+cant+'<input type="hidden" name="cantidad[]" value="'+cant+'" /></td>';

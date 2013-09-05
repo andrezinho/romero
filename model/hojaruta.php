@@ -8,9 +8,9 @@ class HojaRuta extends Main
         h.idhojarutas,
         r.descripcion,
         p.nombres || ' ' || p.apellidos AS personal,
-        z.descripcion || ' - ' || u.descripcion AS zonas,
-        h.fechareg
-
+        z.descripcion || ' - ' || u.descripcion AS zonas,        
+        substr(cast(h.fechareg as text),9,2)||'/'||substr(cast(h.fechareg as text),6,2)||'/'||substr(cast(h.fechareg as text),1,4)
+        
         FROM
         hojarutas AS h
         INNER JOIN personal AS p ON p.idpersonal = h.idpersonal
@@ -82,6 +82,7 @@ class HojaRuta extends Main
         {
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->db->beginTransaction();
+
             $_P['fechareg']=$this->fdate($_P['fechareg'], 'EN');
             $stmt->bindParam(':p1', $_P['idrutas'] , PDO::PARAM_INT);
             $stmt->bindParam(':p2', $_P['idpersonal'] , PDO::PARAM_INT);
@@ -97,14 +98,43 @@ class HojaRuta extends Main
                 VALUES ( :p1, :p2,:p3, :p4, :p5, :p6) ");
 
                 foreach($_P['idcliente'] as $i => $idcliente)
-                {                    
-                    $stmt2->bindParam(':p1',$id,PDO::PARAM_INT);                    
-                    $stmt2->bindParam(':p2',$idcliente,PDO::PARAM_INT);
-                    $stmt2->bindParam(':p3',$_P['idsubproductos_semi'][$i],PDO::PARAM_INT);
-                    $stmt2->bindParam(':p4',$_P['observacion'][$i],PDO::PARAM_STR);
-                    $stmt2->bindParam(':p5',$_P['cantidad'][$i],PDO::PARAM_INT);
-                    $stmt2->bindParam(':p6',$_P['producto'][$i],PDO::PARAM_INT);
-                    $stmt2->execute();                
+                {
+                    if($idcliente=='')
+                    {
+                        $sqlcli="INSERT INTO cliente(dni,nombres,apepaterno,
+                            apematerno,direccion,telefono)
+                            VALUES ( :p1, :p2,:p3, :p4, :p5, :p6) ";
+
+                        $stmt3  = $this->db->prepare($sqlcli);
+                        $stmt3->bindParam(':p1', $_P['dnicli'][$i] , PDO::PARAM_STR);
+                        $stmt3->bindParam(':p2', $_P['nombres'] [$i], PDO::PARAM_STR);
+                        $stmt3->bindParam(':p3', $_P['apepaterno'][$i] , PDO::PARAM_STR);
+                        $stmt3->bindParam(':p4', $_P['apematerno'][$i] , PDO::PARAM_STR);
+                        $stmt3->bindParam(':p5', $_P['direccion'][$i] , PDO::PARAM_STR);
+                        $stmt3->bindParam(':p6', $_P['telefono'] [$i], PDO::PARAM_STR);
+                        //$stmt3->bindParam(':p1', $_P['direccion'] , PDO::PARAM_STR);
+                        $stmt3->execute();
+                        $idcliente =  $this->IdlastInsert('cliente','idcliente');
+                        $row = $stmt3->fetchAll();
+
+                        $stmt2->bindParam(':p1',$id,PDO::PARAM_INT);                    
+                        $stmt2->bindParam(':p2',$idcliente,PDO::PARAM_INT);
+                        $stmt2->bindParam(':p3',$_P['idsubproductos_semi'][$i],PDO::PARAM_INT);
+                        $stmt2->bindParam(':p4',$_P['observacion'][$i],PDO::PARAM_STR);
+                        $stmt2->bindParam(':p5',$_P['cantidad'][$i],PDO::PARAM_INT);
+                        $stmt2->bindParam(':p6',$_P['producto'][$i],PDO::PARAM_INT);
+                        $stmt2->execute();
+
+                    }else
+                        {
+                            $stmt2->bindParam(':p1',$id,PDO::PARAM_INT);                    
+                            $stmt2->bindParam(':p2',$idcliente,PDO::PARAM_INT);
+                            $stmt2->bindParam(':p3',$_P['idsubproductos_semi'][$i],PDO::PARAM_INT);
+                            $stmt2->bindParam(':p4',$_P['observacion'][$i],PDO::PARAM_STR);
+                            $stmt2->bindParam(':p5',$_P['cantidad'][$i],PDO::PARAM_INT);
+                            $stmt2->bindParam(':p6',$_P['producto'][$i],PDO::PARAM_INT);
+                            $stmt2->execute();
+                        }                       
 
                 }
 

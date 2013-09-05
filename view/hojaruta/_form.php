@@ -84,11 +84,13 @@
               <tr>
                 <td ><label class="labels">Buscar Cliente:</label></td>
                 <td colspan="3">
-                    <input type="text" name="dnicli" id="dnicli" value="" class="ui-widget-content ui-corner-all text" style="width:80px;" />
+                    <input type="text" name="dnicli" id="dnicli" value="" class="ui-widget-content ui-corner-all text" style="width:80px;" placeholder="DNI" />
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="text" name="cliente" id="cliente" value="" class="ui-widget-content ui-corner-all text" style="width:250px;" />
+                    <input type="text" name="nombres" id="nombres" value="" class="ui-widget-content ui-corner-all text" style="width:150px;" placeholder="Nombres" />
+                    <input type="text" name="apepaterno" id="apepaterno" value="" class="ui-widget-content ui-corner-all text" style="width:100px;" placeholder="Ap. Paterno" />
+                    <input type="text" name="apematerno" id="apematerno" value="" class="ui-widget-content ui-corner-all text" style="width:100px;" placeholder="Ap. Materno" />
                     <input type="hidden" name="idcliente" id="idcliente" value="" />
-                    <a id="newCliente" href="javascript:"><span class="box-boton">&nbsp;</span></a>
+
                 </td>
                 <td rowspan="2" align="center">
                     <a href="javascript:" id="addDetail" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a> 

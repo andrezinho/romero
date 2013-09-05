@@ -122,13 +122,21 @@ class Verificacion extends Main
         $idvendedor = $_SESSION['idusuario'];
         $idsucursal = $_SESSION['idsucursal'];
         $idproforma= $_P['idproforma'];
-        $estado=0;
+        if($_P['Estado']=='undefined')
+        {
+            $estado=0;
+        }else
+            {
+                $estado=$_P['Estado'];
+            }
+
+
         $sql="INSERT INTO facturacion.solicitud(idsucursal, idvendedor, idcliente, idtipvivicliente, 
             trabajocliente, dirtrabajocliente, cargocliente, teltrabcliente, ingresocliente, trabajoconyugue, 
             dirtrabajoconyugue, cargoconyugue, teltrabconyugue, ingresoconyugue, fechasolicitud, fechavenc1,
             idproforma,estado,carga_familiar,nombreref , relacionref , telefonoref,obs)
             VALUES (:p1, :p2, :p3, :p4,:p5,:p6, :p7, :p8, :p9,:p10,:p11, :p12, :p13, :p14,:p15,:p16, :p17, 
-                :p18, :p19, p:20, :p21, :p22, :p23 )";
+                :p18, :p19, :p20, :p21, :p22, :p23 )";
         
         $stmt = $this->db->prepare($sql);
 
@@ -192,7 +200,15 @@ class Verificacion extends Main
                     $stmt->bindParam(':p22',$_P['gar_telefono'],PDO::PARAM_STR);
                     $stmt->bindParam(':p23',$_P['obs'],PDO::PARAM_STR);
 
-                    
+                    $estdo=2;
+                    $stmt1 = $this->db->prepare("UPDATE facturacion.proforma
+                            set estado = :p1
+                        WHERE idproforma = :idproforma");
+                    $stmt1->bindParam(':p1', $estdo , PDO::PARAM_STR);                    
+
+                    $stmt1->bindParam(':idproforma', $idproforma , PDO::PARAM_INT);
+                    $stmt1->execute();
+
                 }            
 
             $stmt->execute();
@@ -269,6 +285,7 @@ class Verificacion extends Main
                        fechavenc1=:p16, idproforma=:p17, estado=:p18, carga_familiar=:p19,
                        nombreref=:p20 , relacionref=:p21 , telefonoref=:p22 , obs=:p23
                 WHERE   idsolicitud = :idsolicitud ";
+                //print_r($sql);
         $stmt = $this->db->prepare($sql);
 
         try 
@@ -332,8 +349,18 @@ class Verificacion extends Main
                     $stmt->bindParam(':p21',$_P['relacion'],PDO::PARAM_STR);
                     $stmt->bindParam(':p22',$_P['gar_telefono'],PDO::PARAM_STR);
                     $stmt->bindParam(':p23',$_P['obs'],PDO::PARAM_STR);
-                    
+                    //echo $_P['nomgarant'];
                     $stmt->bindParam(':idsolicitud', $idsolicitud , PDO::PARAM_INT);
+
+                    $estdo=2;
+                    $stmt1 = $this->db->prepare("UPDATE facturacion.proforma
+                            set estado = :p1
+                        WHERE idproforma = :idproforma");
+                    $stmt1->bindParam(':p1', $estdo , PDO::PARAM_STR);                    
+
+                    $stmt1->bindParam(':idproforma', $idproforma , PDO::PARAM_INT);
+                    $stmt1->execute();
+                    
                 }
             
             $stmt->execute();
