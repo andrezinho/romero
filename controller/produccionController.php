@@ -166,13 +166,35 @@ class ProduccionController extends Controller
         if(isset($_POST['idproduccion']))
         {            
             if ($_POST['idproduccion']=='') 
+            {
                 $p = $obj->insert($_POST);
+                if ($p[0]==1)
+                    $result = array(1,'',$p[2]);
+                else                 
+                    $result = array(2,$p[1],'');            
+            }
             else         
-                $p = $obj->update($_POST);
-            if ($p[0]==1)
-                $result = array(1,'',$p[2]);
-            else                 
-                $result = array(2,$p[1],'');            
+            {
+                $estado = $this->getEstado("produccion.produccion","idproduccion",$_POST['idproduccion']);                                
+                if($estado==1)
+                    $p = $obj->update($_POST); 
+                else
+                    $restul = array(2,"Esta operacion no se puede realizar.");
+
+                if ($p[0]==1)
+                    $result = array(1,'',$p[2]);
+                else                 
+                    $result = array(2,$p[1],'');            
+            }     
+            // if ($_POST['idproduccion']=='') 
+            //     $p = $obj->insert($_POST);
+            // else         
+            //     $p = $obj->update($_POST);
+            // if ($p[0]==1)
+            //     $result = array(1,'',$p[2]);
+            // else                 
+            //     $result = array(2,$p[1],'');         
+
         }
         else
         {

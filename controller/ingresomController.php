@@ -89,13 +89,41 @@ class ingresomController extends Controller
     public function save()
     {
         $obj = new movimiento();
-        $result = array();        
-        if ($_POST['idmovimiento']=='') 
-            $p = $obj->insert($_POST);                        
-        else         
-            $p = $obj->update($_POST);
-        if ($p[0]=="1") $result = array(1,'');                
-            else $result = array(2,$p[1]);
+        if(isset($_POST['idmovimiento']))
+        {            
+            if ($_POST['idmovimiento']=='') 
+            {
+                $p = $obj->insert($_POST);
+                if ($p[0]==1)
+                    $result = array(1,'',$p[2]);
+                else                 
+                    $result = array(2,$p[1],'');            
+            }
+            else         
+            {
+                $estado = $this->getEstado("movimientos","idmovimiento",$_POST['idmovimiento']);                                
+                if($estado==1)
+                    $p = $obj->update($_POST); 
+                else
+                    $restul = array(2,"Esta operacion no se puede realizar.");
+
+                if ($p[0]==1)
+                    $result = array(1,'',$p[2]);
+                else                 
+                    $result = array(2,$p[1],'');            
+            }     
+        }
+        else
+        {
+            $result = array(2,"Esta operacion no se puede realizar.");
+        }
+        // $result = array();        
+        // if ($_POST['idmovimiento']=='') 
+        //     $p = $obj->insert($_POST);                        
+        // else         
+        //     $p = $obj->update($_POST);
+        // if ($p[0]=="1") $result = array(1,'');                
+        //     else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
     
