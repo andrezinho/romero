@@ -27,13 +27,16 @@ class SubProductoSemi extends Main
 
     function insert($_P ) {
         $stmt = $this->db->prepare("INSERT INTO produccion.subproductos_semi 
-                        (descripcion,idproductos_semi, estado, precio) 
-                        VALUES(:p1,:p2,:p3,:p4)");
+                        (descripcion,idproductos_semi, estado, precio,idunidad_medida,factor, observacion) 
+                        VALUES(:p1,:p2,:p3,:p4,:p5,:p6,:p7)");
         $stmt->bindParam(':p1', $_P['descripcion'] , PDO::PARAM_STR);
         $stmt->bindParam(':p2', $_P['idproductos_semi'] , PDO::PARAM_INT);
         $stmt->bindParam(':p3', $_P['activo'] , PDO::PARAM_INT);
         $stmt->bindParam(':p4', $_P['precio'] , PDO::PARAM_INT);
-
+        $stmt->bindParam(':p5', $_P['idunidad_medida'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p6', $_P['factor'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p7', $_P['obs'] , PDO::PARAM_STR);
+        
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
@@ -44,7 +47,10 @@ class SubProductoSemi extends Main
                 set descripcion = :p1,
                     idproductos_semi = :p2,
                     estado= :p3,
-                    precio= :p4
+                    precio= :p4,
+                    idunidad_medida= :p5,
+                    factor= :p6,
+                    observacion= :p7
 
                 WHERE idsubproductos_semi = :idsubproductos_semi ");
         
@@ -52,7 +58,10 @@ class SubProductoSemi extends Main
         $stmt->bindParam(':p2', $_P['idproductos_semi'] , PDO::PARAM_INT);
         $stmt->bindParam(':p3', $_P['activo'] , PDO::PARAM_INT);
         $stmt->bindParam(':p4', $_P['precio'] , PDO::PARAM_INT);
-
+        $stmt->bindParam(':p5', $_P['idunidad_medida'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p6', $_P['factor'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p7', $_P['obs'] , PDO::PARAM_STR);
+        
         $stmt->bindParam(':idsubproductos_semi', $_P['idsubproductos_semi'] , PDO::PARAM_INT);
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();

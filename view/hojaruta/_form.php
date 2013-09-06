@@ -75,22 +75,27 @@
         <div id="box-1">
             <table width="800" id="table-cli" class="table-form" border="0" cellpadding="1" cellspacing="1">
               <tr>
-                <td width="15%">&nbsp;</td>
-                <td width="31%">&nbsp;</td>
+                <td width="15%"><label class="labels">Buscar Cliente</label></td>
+                <td width="31%">
+                    <label class="labels" style="width: 80px">DNI:</label>
+                    <input type="text" name="dnicli" id="dnicli" value="" class="ui-widget-content ui-corner-all text" style="width:80px;" placeholder="DNI" />
+                    <input type="hidden" name="idcliente" id="idcliente" value="" />
+                </td>
                 <td width="9%">&nbsp;</td>
                 <td width="30%">&nbsp;</td>
                 <td width="15%">&nbsp;</td>
               </tr>
               <tr>
-                <td ><label class="labels">Buscar Cliente:</label></td>
-                <td colspan="3">
-                    <input type="text" name="dnicli" id="dnicli" value="" class="ui-widget-content ui-corner-all text" style="width:80px;" placeholder="DNI" />
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="text" name="nombres" id="nombres" value="" class="ui-widget-content ui-corner-all text" style="width:150px;" placeholder="Nombres" />
+                <td >&nbsp;</td>
+                <td>
+                    <label class="labels" style="width: 80px">Nombres:</label>
+                    <input type="text" name="nombres" id="nombres" value="" class="ui-widget-content ui-corner-all text" style="width:160px;" placeholder="Nombres" />
+                </td>
+                <td><label class="labels">Apellidos:</label></td>
+                <td>
                     <input type="text" name="apepaterno" id="apepaterno" value="" class="ui-widget-content ui-corner-all text" style="width:100px;" placeholder="Ap. Paterno" />
                     <input type="text" name="apematerno" id="apematerno" value="" class="ui-widget-content ui-corner-all text" style="width:100px;" placeholder="Ap. Materno" />
-                    <input type="hidden" name="idcliente" id="idcliente" value="" />
-
+                    
                 </td>
                 <td rowspan="2" align="center">
                     <a href="javascript:" id="addDetail" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a> 

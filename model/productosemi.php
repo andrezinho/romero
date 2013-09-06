@@ -6,7 +6,8 @@ class ProductoSemi extends Main
     {
         $sql = "SELECT
             p.idproductos_semi,
-            p.descripcion
+            p.descripcion,
+            case p.estado when 1 then 'ACTIVO' else 'INCANTIVO' end
             FROM
             produccion.productos_semi AS p ";    
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);

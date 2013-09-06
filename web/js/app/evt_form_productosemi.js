@@ -1,7 +1,7 @@
 $(function() 
 {    
     $( "#descripcion" ).focus();
-    //$( "#idperfil" ).css({'width':'210px'});
+    $("#estados").buttonset();
     //$("#div_activo").buttonset();
 });
 

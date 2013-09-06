@@ -19,7 +19,7 @@ class SubProductoSemiController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
-
+        $data['titulo']="Catalogo de Productos";
         //(nuevo,editar,eliminar,ver)
         $data['actions'] = array(true,true,true,false);
 
@@ -50,6 +50,7 @@ class SubProductoSemiController extends Controller
         $data = array();
         $view = new View();        
         $data['productos_semi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi'));
+        $data['UnidadMedida']= $this->Select(array('id'=>'idunidad_medida','name'=>'idunidad_medida','text_null'=>'.: Seleccione :.','table'=>'vista_unidadmedida'));
         $view->setData($data);
         $view->setTemplate( '../view/subproductosemi/_form.php' );
         echo $view->renderPartial();
@@ -62,6 +63,7 @@ class SubProductoSemiController extends Controller
         $obj = $obj->edit($_GET['id']);
         $data['obj'] = $obj;
         $data['productos_semi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','code'=>$obj->idproductos_semi));
+        $data['UnidadMedida']= $this->Select(array('id'=>'idunidad_medida','name'=>'idunidad_medida','text_null'=>'.: Seleccione :.','table'=>'vista_unidadmedida','code'=>$obj->idunidad_medida));
         $view->setData($data);
         $view->setTemplate( '../view/subproductosemi/_form.php' );
         echo $view->renderPartial();

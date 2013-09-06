@@ -1,7 +1,9 @@
 $(function() 
-{    
+{   
+    $("#tabs").tabs();
     $( "#descripcion" ).focus();
     $( "#idproductos_semi" ).css({'width':'210px'});
+    $( "#idunidad_medida" ).css({'width':'210px'});
     $("#estados").buttonset();
 });
 
