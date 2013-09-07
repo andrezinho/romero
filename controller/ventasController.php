@@ -6,14 +6,16 @@ require_once '../model/ventas.php';
 class VentasController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'m.idventas','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'m.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Principal','NameDB'=>'mm.descripcion','search'=>true),
-                        4 => array('Name'=>'URL Link','NameDB'=>'m.url'),
-                        5 => array('Name'=>'Controlador','NameDB'=>'m.url'),
-                        6 => array('Name'=>'Accion','NameDB'=>'m.controlador','width'=>70),
-                        7 => array('Name'=>'Estado','NameDB'=>'m.estado','align'=>'center','width'=>70),
-                        8 => array('Name'=>'Orden','NameDB'=>'m.orden','align'=>'center','width'=>'50')
+                        1 => array('Name'=>'Nro','NameDB'=>'m.idventas','align'=>'center','width'=>50),
+                        2 => array('Name'=>'Fecha','NameDB'=>'m.descripcion','width'=>80,'search'=>true),
+                        3 => array('Name'=>'Comp.','NameDB'=>'mm.descripcion','search'=>true),
+                        4 => array('Name'=>'Serie','NameDB'=>'m.url'),
+                        5 => array('Name'=>'Numero','NameDB'=>'m.url'),
+                        6 => array('Name'=>'Cliente','NameDB'=>'m.controlador','width'=>70),
+                        7 => array('Name'=>'Total','NameDB'=>'m.estado','align'=>'center','width'=>70),
+                        8 => array('Name'=>'Estado','NameDB'=>'m.orden','align'=>'center','width'=>70),
+                        9 => array('Name'=>'Forma Pago','NameDB'=>'m.orden','align'=>'center','width'=>70),
+                        10 => array('Name'=>'Usuario','NameDB'=>'m.orden','align'=>'center','width'=>70)
                      );
     public function index() 
     {
@@ -55,7 +57,7 @@ class VentasController extends Controller
         $view = new View();
         $data['tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'...','table'=>'facturacion.vista_tipodoc','width'=>'120px'));
         $data['formapago'] = $this->Select(array('id'=>'idformapagao','name'=>'idformapago','text_null'=>'','table'=>'formapago','width'=>'120px'));
-        $data['moneda'] = $this->Select(array('id'=>'idmoneda','name'=>'idmoneda','text_null'=>'','table'=>'vista_moneda','width'=>'120px'));
+        $data['moneda'] = $this->Select(array('id'=>'idmoneda','name'=>'idmoneda','text_null'=>'','table'=>'vista_moneda','width'=>'120px','code'=>1,'disabled','disabled'));
         $data['Almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>'produccion.vista_almacen','width'=>'120px'));
         $data['tipopago'] = $this->Select(array('id'=>'idtipopago','name'=>'idtipopago','text_null'=>'Seleccione...','table'=>'produccion.vista_tipopago'));       
         $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));

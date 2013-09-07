@@ -185,15 +185,7 @@ class ProduccionController extends Controller
                     $result = array(1,'',$p[2]);
                 else                 
                     $result = array(2,$p[1],'');            
-            }     
-            // if ($_POST['idproduccion']=='') 
-            //     $p = $obj->insert($_POST);
-            // else         
-            //     $p = $obj->update($_POST);
-            // if ($p[0]==1)
-            //     $result = array(1,'',$p[2]);
-            // else                 
-            //     $result = array(2,$p[1],'');         
+            }             
 
         }
         else

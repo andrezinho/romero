@@ -190,14 +190,7 @@ a.login { color : #E4F5F6;}
 	}
 #mensaje {height: 16px; padding: 2px; text-align: center; border:1px solid transparent; }
 .mensaje_alert { border: 1px solid #FCD208; background:#F1F59C; }
-.box-boton {    
-            height: 18px;
-            width: 18px;
-            display: inline;             
-            padding:0 18px 5px 0;
-            background-image: url('../images/sprite.png');     
-            background-repeat: no-repeat;
-}
+
 .box-item-notification 
 {
     height: 25px;
@@ -228,7 +221,14 @@ a.login { color : #E4F5F6;}
                           text-shadow: 0 1px 0 rgba(0, 39, 121, 0.77);
                           font-weight: bold;
                         }
-
+.box-boton {    
+            height: 18px;
+            width: 18px;
+            display: inline;             
+            padding:0 18px 5px 0;
+            background-image: url('../images/sprite.png');     
+            background-repeat: no-repeat;
+}
 .boton-new { background-position: -2px -2px; }
 .boton-edit { background-position: -20px -2px; }
 .boton-delete { background-position: -77px -2px; }

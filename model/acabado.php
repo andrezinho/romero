@@ -174,7 +174,6 @@ class acabado extends Main
             $this->db->rollBack();
             return array('2',$e->getMessage().$str,'');
         }
-
     }    
 
     function update($_P ) 

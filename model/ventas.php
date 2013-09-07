@@ -4,16 +4,8 @@ class Ventas extends Main
 {    
     function indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$cols)
     {
-        $sql = "SELECT m.idmodulo,
-                       m.descripcion,
-                       mm.descripcion,
-                       m.url,
-                       m.controlador,
-                       m.accion,
-                       case m.estado when true then 'ACTIVO' else 'INCANTIVO' end,
-                       m.orden
-                from seguridad.modulo as m left outer join seguridad.modulo as mm on mm.idmodulo=m.idpadre";
-                
+        $sql = "SELECT *
+                from facturacion.movimiento";                
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
@@ -29,10 +21,10 @@ class Ventas extends Main
     {
         $stmt = $this->db->prepare("INSERT into seguridad.modulo(idpadre,descripcion,url,estado,orden,controlador,accion)
                                     values(:p1,:p2,:p3,:p5,:p6,:p7,:p8)");
-        if($_P['idpadre']==""){$_P['idpadre']=null;}        
+        if($_P['idpadre']==""){$_P['idpadre']=null;}
         $stmt->bindParam(':p1', $_P['idpadre'] , PDO::PARAM_INT);
         $stmt->bindParam(':p2', $_P['descripcion'] , PDO::PARAM_STR);
-        $stmt->bindParam(':p3', $_P['url'] , PDO::PARAM_STR);        
+        $stmt->bindParam(':p3', $_P['url'] , PDO::PARAM_STR);
         $stmt->bindParam(':p5', $_P['activo'] , PDO::PARAM_BOOL);
         $stmt->bindParam(':p6', $_P['orden'] , PDO::PARAM_INT);
         $stmt->bindParam(':p7', $_P['controlador'] , PDO::PARAM_STR);
@@ -40,8 +32,6 @@ class Ventas extends Main
                 
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
-        
-        
 
         return array($p1 , $p2[2]);
         
