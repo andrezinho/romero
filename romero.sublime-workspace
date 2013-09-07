@@ -231,15 +231,15 @@
 			"file": "view/hojaruta/_form.php",
 			"settings":
 			{
-				"buffer_size": 10071,
+				"buffer_size": 10307,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "web/js/app/evt_form_hojaruta.js",
+			"file": "web/js/app/evt_form_ingresom.js",
 			"settings":
 			{
-				"buffer_size": 8531,
+				"buffer_size": 10510,
 				"line_ending": "Windows"
 			}
 		}
@@ -271,6 +271,7 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_hojaruta.js",
 		"/C/xampp/htdocs/romero/model/movimiento.php",
 		"/C/xampp/htdocs/romero/model/clientes.php",
 		"/C/xampp/htdocs/romero/controller/clientesController.php",
@@ -287,7 +288,6 @@
 		"/C/xampp/htdocs/romero/view/proformas/_form.php",
 		"/C/xampp/htdocs/romero/controller/hojarutaController.php",
 		"/C/xampp/htdocs/romero/model/hojaruta.php",
-		"/C/xampp/htdocs/romero/web/js/app/evt_form_hojaruta.js",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_melamina.js",
 		"/C/xampp/htdocs/romero/view/hojaruta/_form.php",
 		"/C/xampp/htdocs/romero/view/melamina/_form.php",
@@ -416,6 +416,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"calcSubTotalMa",
+			"key",
 			"p.fecha",
 			"p20",
 			"estado",
@@ -541,9 +543,7 @@
 			"idmaderba",
 			"produccion.maderba",
 			"\"a\"",
-			"Sucursal",
-			"idmaderba",
-			"Maderba"
+			"Sucursal"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -689,7 +689,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -785,7 +785,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10071,
+						"buffer_size": 10307,
 						"regions":
 						{
 						},
@@ -810,19 +810,19 @@
 				},
 				{
 					"buffer": 4,
-					"file": "web/js/app/evt_form_hojaruta.js",
+					"file": "web/js/app/evt_form_ingresom.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8531,
+						"buffer_size": 10510,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5841,
-								5841
+								4385,
+								4422
 							]
 						],
 						"settings":
@@ -832,7 +832,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2808.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

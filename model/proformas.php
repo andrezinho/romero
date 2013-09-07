@@ -31,7 +31,11 @@ class Proformas extends Main
         $stmt = $this->db->prepare("SELECT
             p.idproforma,
             c.dni,
-            c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS cliente,
+            c.nombres,
+            c.apepaterno,
+            c.apematerno,
+            c.direccion,
+            c.telefono,
             p.idsucursal,
             p.idcliente,
             p.fecha,

@@ -37,7 +37,11 @@ $(function()
         {
             $("#idcliente").val(ui.item.idcliente);
             $( "#dni" ).val( ui.item.dni );
-            $( "#cliente" ).val( ui.item.nomcliente );                                    
+            $( "#nombres" ).val( ui.item.nombres );
+            $( "#apematerno" ).val( ui.item.apematerno );
+            $( "#apepaterno" ).val( ui.item.apepaterno );
+            $( "#direccion" ).val( ui.item.direccion );
+            $( "#telefono" ).val( ui.item.telefono );
             return false;
         }
     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
@@ -47,6 +51,33 @@ $(function()
             .appendTo(ul);
       };
     
+    //buscar cliente
+    $("#nombres").autocomplete({        
+        minLength: 0,
+        source: 'index.php?controller=clientes&action=get&tipo=2',
+        focus: function( event, ui ) 
+        {
+            $( "#nombres" ).val( ui.item.dni );
+            return false;
+        },
+        select: function( event, ui ) 
+        {
+            $("#idcliente").val(ui.item.idcliente);
+            $( "#dni" ).val( ui.item.dni );
+            $( "#nombres" ).val( ui.item.nombres );
+            $( "#apematerno" ).val( ui.item.apematerno );
+            $( "#apepaterno" ).val( ui.item.apepaterno );
+            $( "#direccion" ).val( ui.item.direccion );
+            $( "#telefono" ).val( ui.item.telefono );
+            return false;
+        }
+    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {        
+        return $( "<li></li>" )
+            .data( "item.autocomplete", item )
+            .append( "<a>"+ item.nomcliente +" - " + item.dni + "</a>" )
+            .appendTo(ul);
+      };
+      
     //buscar producto
     $("#producto").autocomplete({        
         minLength: 0,

@@ -46,39 +46,42 @@
 
         </div>
         <div id="tabs-2">
-            <label for="valorv" class="labels">Valor Venta:</label>
-            <input id="valorventa" name="valorventa" value="<?php echo $obj->valorventa; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
-            
-            <label for="valorv" class="labels">Dscto Compra:</label>
-            <input id="dsctocompra" name="dsctocompra" value="<?php echo $obj->dsctocompra; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
-            <br />
-            
-            <label for="fletes" class="labels">Flete:</label>
-            <input id="flete" name="flete" value="<?php echo $obj->dsctocompra; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
-            
-            <label for="precioc" class="labels">Precio Compra:</label>
-            <input id="preciocompra" name="preciocompra" value="<?php echo $obj->preciocompra; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
-            <br />
-            
-            <label for="impuesto" class="labels">Impuesto:</label>
-            <input id="impuesto" name="impuesto" value="<?php echo $obj->impuesto; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
-            
-            <label for="impuesto" class="labels">Costo Neto:</label>
-            <input id="costoneto" name="costoneto" value="<?php echo $obj->costoneto; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
-            <br />
-            
-            <label for="utilidad" class="labels">Util. Neta(%):</label>
-            <input id="utilidadneta" name="utilidadneta" value="<?php echo $obj->utilidadneta; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
-            
-            <label for="psugerido" class="labels">Precio Sugerido:</label>
-            <input id="preciosasugerido" name="preciosasugerido" value="<?php echo $obj->preciosasugerido; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
-            <br />
-            
-            <label for="dcstovent" class="labels">Dscto Venta:</label>
-            <input id="dcstoventa" name="dcstoventa" value="<?php echo $obj->dcstoventa; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
-            
-            <label for="precio" class="labels">Precio Venta:</label>
-            <input id="precio" maxlength="100" name="precio" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" value="<?php echo $obj->precio; ?>" />
+            <div id="table_precios">
+                <label for="valorv" class="labels">Valor Venta (S/.):</label>
+                <input id="valorventa" name="valorventa" value="<?php echo $obj->valorventa; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
+
+                <label for="valorv" class="labeles">Dscto Compra (S/.):</label>
+                <input id="dsctocompra" name="dsctocompra" value="<?php echo $obj->dsctocompra; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
+                <br />
+
+                <label for="fletes" class="labels">Flete (S/.):</label>
+                <input id="flete" name="flete" value="<?php echo $obj->dsctocompra; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
+
+                <label for="precioc" class="labeles">Precio Compra (S/.):</label>
+                <input id="preciocompra" name="preciocompra" value="<?php echo $obj->preciocompra; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
+                <br />
+
+                <label for="impuesto" class="labels">Impuesto (S/.):</label>
+                <input id="impuesto" name="impuesto" value="<?php echo $obj->impuesto; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
+
+                <label for="impuesto" class="labeles">Costo Neto (S/.):</label>
+                <input id="costoneto" name="costoneto" value="<?php echo $obj->costoneto; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
+                <br />
+
+                <label for="utilidad" class="labels">Util. Neta(%):</label>
+                <input id="utilidadneta" name="utilidadneta" value="<?php echo $obj->utilidadneta; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
+
+                <label for="psugerido" class="labeles">Precio Sugerido (S/.):</label>
+                <input id="preciosasugerido" name="preciosasugerido" value="<?php echo $obj->preciosasugerido; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
+                <br />
+
+                <label for="dcstovent" class="labels">Dscto Venta (S/.):</label>
+                <input id="dcstoventa" name="dcstoventa" value="<?php echo $obj->dcstoventa; ?>" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" />
+
+                <label for="precio" class="labeles">Precio Venta (S/.):</label>
+                <input id="precio" maxlength="100" name="precio" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" value="<?php echo $obj->precio; ?>" />
+
+            </div>
             
         </div>
     </div>

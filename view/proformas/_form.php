@@ -24,10 +24,24 @@
 
         <label for="idcliente" class="labels">Cliente:</label>
         <input type="hidden" name="idcliente" id="idcliente" value="<?php echo $obj->idcliente; ?>" />        
-        <input type="text" name="dni" id="dni" class="ui-widget-content ui-corner-all text" style="width:80px" value="<?php echo $obj->dni; ?>" maxlength="8" onkeypress="return permite(event,'num')" />
-        <input type="text" name="cliente" id="cliente" class="ui-widget-content ui-corner-all text" style="width:250px" value="<?php echo $obj->cliente; ?>" />
+        <input type="text" name="dni" id="dni" class="ui-widget-content ui-corner-all text" style="width:80px" value="<?php echo $obj->dni; ?>" maxlength="8" onkeypress="return permite(event,'num')" placeholder="DNI" />
+        
+        <label class="labels" style="width: 80px">Nombres:</label>
+        <input type="text" name="nombres" id="nombres" value="<?php echo $obj->nombres; ?>" class="ui-widget-content ui-corner-all text" style="width:160px;" placeholder="Nombres" />
+        
+        <label class="labels">Apellidos:</label>
+        <input type="text" name="apepaterno" id="apepaterno" value="<?php echo $obj->apepaterno; ?>" class="ui-widget-content ui-corner-all text" style="width:100px;" placeholder="Ap. Paterno" />
+        <input type="text" name="apematerno" id="apematerno" value="<?php echo $obj->apematerno; ?>" class="ui-widget-content ui-corner-all text" style="width:100px;" placeholder="Ap. Materno" />
+            
         <br/>
-
+        
+        <label for="direccion" class="labels">Direccion:</label>
+        <input type="text" name="direccion" id="direccion" value="<?php echo $obj->direccion; ?>" onkeypress="return permite(event,'num')"  class="ui-widget-content ui-corner-all text" style="width:210px" />
+        
+        <label for="telefono" class="labels">Telefono:</label>
+        <input type="text" name="telefono" id="telefono" value="<?php echo $obj->telefono; ?>" onkeypress="return permite(event,'num')"  class="ui-widget-content ui-corner-all text" style="width:210px" />
+        <br/>
+        
         <label for="observacion" class="labels">Observacion:</label>
         <input type="text" name="observacion" id="observacion" class="ui-widget-content ui-corner-all text" value="<?php echo $obj->observacion; ?>" style="width:250px;" />        
         
