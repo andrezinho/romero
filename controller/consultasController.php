@@ -1,20 +1,18 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/correlativos.php';
+require_once '../model/consultas.php';
 
-class CorrelativosController extends Controller 
+class ConsultasController extends Controller 
 {   
     var $cols = array(
+                        1 => array('Name'=>'Codigo','NameDB'=>'a.idalmacen','align'=>'center','width'=>50),
+                        2 => array('Name'=>'Descripcion','NameDB'=>'a.descripcion','width'=>250,'search'=>true),
+                        3 => array('Name'=>'Direccion','NameDB'=>'a.direccion','search'=>true),
+                        4 => array('Name'=>'Telefono','NameDB'=>'a.telefono','align'=>'center'),
+                        5 => array('Name'=>'Estado','NameDB'=>'a.estado','align'=>'center')
                         
-                1 => array('Name'=>'Codigo','NameDB'=>'c.idcorrelativo','width'=>80),
-                2 => array('Name'=>'Sucursal','NameDB'=>'s.descripcion','width'=>170,'search'=>true),
-                3 => array('Name'=>'Tipo documento','NameDB'=>'tpd.descripcion','width'=>170,'search'=>true),
-                4 => array('Name'=>'Serie','NameDB'=>'c.serie','align'=>'center'),
-                5 => array('Name'=>'Correlativo Máximo','NameDB'=>'c.numero','align'=>'center'),
-                6 => array('Name'=>'Estado','NameDB'=>'c.estado','align'=>'center')
-                        
-            );
+                     );
 
     public function index() 
     {        
@@ -36,7 +34,7 @@ class CorrelativosController extends Controller
 
     public function indexGrid() 
     {
-        $obj = new Correlativos();        
+        $obj = new Consultas();        
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
         $sidx = $_GET['sidx'];
@@ -53,32 +51,28 @@ class CorrelativosController extends Controller
     {
         $data = array();
         $view = new View();
-        $data['Tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipodocumento'));
-        $data['idsucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','text_null'=>'Seleccione...','table'=>'vista_sucursal'));       
         $view->setData($data);
-        $view->setTemplate( '../view/correlativos/_form.php' );
+        $view->setTemplate( '../view/almacen/_form.php' );
         echo $view->renderPartial();
     }
 
     public function edit() 
     {
-        $obj = new Correlativos();
+        $obj = new Consultas();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
         $data['obj'] = $obj;
-        $data['Tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'Seleccione...','table'=>'facturacion.vista_tipodocumento','code'=>$obj->idtipodocumento));
-        $data['idsucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','table'=>'vista_sucursal','code'=>$obj->idsucursal));   
         $view->setData($data);
-        $view->setTemplate( '../view/correlativos/_form.php' );
+        $view->setTemplate( '../view/almacen/_form.php' );
         echo $view->renderPartial();
     }
 
     public function save()
     {
-        $obj = new Correlativos();
+        $obj = new Consultas();
         $result = array();        
-        if ($_POST['idcorrelativo']=='') 
+        if ($_POST['idalmacen']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                
@@ -92,7 +86,7 @@ class CorrelativosController extends Controller
 
     public function delete()
     {
-        $obj = new Correlativos();
+        $obj = new Consultas();
         $result = array();        
         $p = $obj->delete($_GET['id']);
         if ($p[0]) $result = array(1,$p[1]);

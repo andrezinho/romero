@@ -17,9 +17,11 @@ class Proformas extends Main
             case p.idvendedor when '".$_SESSION['idusuario']."' then
                 case when p.estado=0 then
                     '<a class=\"anular box-boton boton-anular\" id=\"v-'||p.idproforma||'\" href=\"#\" title=\"Anular\" ></a>'
-                    else '&nbsp;' end                
-                else '&nbsp;' end
-                
+                    else '&nbsp;' end
+                else '&nbsp;' end,
+            case when p.estado <> 1 then
+                    '<a class=\"imprimir\" id=\"v-'||p.idproforma||'\">IMPRIMIR</a>'
+            else '&nbsp;' end    
             FROM facturacion.proforma AS p
             INNER JOIN cliente AS c ON c.idcliente = p.idcliente
             INNER JOIN sucursales AS s ON s.idsucursal = p.idsucursal ";

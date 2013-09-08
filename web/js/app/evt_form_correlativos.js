@@ -1,7 +1,7 @@
 $(function() 
 {    
     $( "#descripcion" ).focus();
-    $( "#idtipodocumento" ).css({'width':'210px'});   
+    $( "#idtipodocumento, #idsucursal" ).css({'width':'210px'});   
     $("#estados").buttonset();
 });
 

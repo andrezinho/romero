@@ -11,7 +11,8 @@ class ProformasController extends Controller
                         3 => array('Name'=>'Sucursal','NameDB'=>'s.descripcion','search'=>true), 
                         4 => array('Name'=>'Fecha','NameDB'=>'p.fecha','width'=>'50','align'=>'center'),                       
                         5 => array('Name'=>'Estado','NameDB'=>'p.estado','width'=>'60','align'=>'center'),
-                        6 => array('Name'=>'&nbsp','NameDB'=>'-','align'=>'center','width'=>30)
+                        6 => array('Name'=>'&nbsp','NameDB'=>'-','align'=>'center','width'=>30),
+                        7 => array('Name'=>'&nbsp','NameDB'=>'-','align'=>'center','width'=>30)
                      );
 
     public function index() 

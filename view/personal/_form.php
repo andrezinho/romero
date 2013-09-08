@@ -7,6 +7,7 @@
 <form id="frm" >
         <input type="hidden" name="controller" value="Personal" />
         <input type="hidden" name="action" value="save" />
+        <input type="hidden" id="idpersonal" name="idpersonal" value="save" value="<?php echo $obj->idpersonal; ?>" />
         <!--             
         <label for="idmodulo" class="labels">Codigo:</label>
         <input type="text" id="idmodulo" name="idmodulo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idmodulo; ?>" readonly />
