@@ -38,7 +38,8 @@ class Produccion extends Main
                 FROM
                 produccion.produccion AS p
                 INNER JOIN public.personal AS pe ON pe.idpersonal = p.idpersonal 
-                inner join produccion.almacenes as a on a.idalmacen = p.idalmacen";
+                inner join produccion.almacenes as a on a.idalmacen = p.idalmacen
+                WHERE p.idproducciontipo=1";
      
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
@@ -176,7 +177,9 @@ class Produccion extends Main
         $fecha_guia =  date('Y-m-d');        
         $afecto=0;
         $idalmacen = $_P['idalmacenma']; //Almacen de movimiento
-        $idalmacenp = $_P['idalmacenma'];; //Almacen de produccion
+        $idalmacenp = $_P['idalmacenma'];; //Almacen de produccion ORIGGEN
+        $idalmacend = $_P['idalmacenma'];; //Almacen de produccion DESTINO
+
         $igv = 0;
         $autogen = $_P['autogen'];
         if($autogen=="") $autogen=0;
@@ -304,8 +307,8 @@ class Produccion extends Main
             $idpersonal=$_P['dni'];
             $idpersonal=$_P['idpersonal'];
             $sql="INSERT INTO produccion.produccion(
-                        descripcion, fechaini, fechafin, estado, idpersonal, idalmacen,fecha,usuarioreg)
-                VALUES (:p1, :p2, :p3, :p4,:p5,:p6,:p7,:p8)";
+                        descripcion, fechaini, fechafin, estado, idpersonal, idalmacen,fecha,usuarioreg,idalmacend)
+                VALUES (:p1, :p2, :p3, :p4,:p5,:p6,:p7,:p8,:p9)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':p1',$descripcion,PDO::PARAM_STR);
             $stmt->bindParam(':p2',$fechai,PDO::PARAM_STR);
@@ -315,43 +318,75 @@ class Produccion extends Main
             $stmt->bindParam(':p6',$idalmacenp,PDO::PARAM_INT);
             $stmt->bindParam(':p7',$fecha,PDO::PARAM_STR);
             $stmt->bindParam(':p8',$usuarioreg,PDO::PARAM_INT);
+            $stmt->bindParam(':p9',$idalmacenp,PDO::PARAM_INT);
             $stmt->execute();
 
             $idprod =  $this->IdlastInsert('produccion.produccion','idproduccion');
 
             if($cont_prod>0)
             {
+
                 $stmt2  = $this->db->prepare('INSERT INTO produccion.produccion_detalle(
                                             idproduccion, 
                                             idsubproductos_semi, 
                                             cantidad, 
                                             stock, 
-                                            estado)
-                                            VALUES (:p1, :p2, :p3, :p4, :p5) ');
+                                            estado,
+                                            item,
+                                            ctotal,
+                                            idalmacen)
+                                            VALUES (:p1, :p2, :p3, :p4, :p5, :p6, :p7, :p8) ');
                 $stmt3 = $this->db->prepare("INSERT INTO produccion.movim_proddet(
                                                 idmovimiento,
                                             idproduccion_detalle) 
                                              values (:p1,:p2) ");
+
+                $stmt4 = $this->db->prepare("SELECT t.idp,t.c
+                                            from (
+                                            SELECT max(idproduccion) as idp ,ctotal as c, item
+                                            FROM produccion.produccion_detalle
+                                            where idalmacen = :idal and idsubproductos_semi = :idsps
+                                            group by ctotal,item,idproduccion
+                                            order by idproduccion desc
+                                            limit 1
+                                            ) as t
+                                            order by t.item,t.c");
+
+
                 $estado = 1;
                 //$items = 1;
+                $contador = 0;
                 for($i=0;$i<$item;$i++)
                 {
-                    //$items = $prod->materiap[$i]->nitem;
-                    $idsps = $prod->idsps[$i];
-                    $cantd = $prod->cantidad[$i];
+                    if($prod->estado[$i])                
+                    {
+                        $contador +=1;
+                        $idsps = $prod->idsps[$i];
+                        $cantd = $prod->cantidad[$i];
 
-                    $stmt2->bindParam(':p1',$idprod,PDO::PARAM_INT);
-                    $stmt2->bindParam(':p2',$idsps,PDO::PARAM_INT);
-                    $stmt2->bindParam(':p3',$cantd,PDO::PARAM_INT);
-                    $stmt2->bindParam(':p4',$cantd,PDO::PARAM_INT);
-                    $stmt2->bindParam(':p5',$estado,PDO::PARAM_INT);
-                    $stmt2->execute();
+                        $stmt4->bindParam(':idal',$idalmacenp,PDO::PARAM_INT);
+                        $stmt4->bindParam(':idsps',$idsps,PDO::PARAM_INT);
+                        $stmt4->execute();
+                        $row4 = $stmt4->fetchObject();                
+                        $ctotal = (float)$row4->c + $cantd;
 
-                    $iddprod =  $this->IdlastInsert('produccion.produccion_detalle','idproduccion_detalle');
+                        $stmt2->bindParam(':p1',$idprod,PDO::PARAM_INT);
+                        $stmt2->bindParam(':p2',$idsps,PDO::PARAM_INT);
+                        $stmt2->bindParam(':p3',$cantd,PDO::PARAM_INT);
+                        $stmt2->bindParam(':p4',$cantd,PDO::PARAM_INT);
+                        $stmt2->bindParam(':p5',$estado,PDO::PARAM_INT);
+                        $stmt2->bindParam(':p6',$contador,PDO::PARAM_INT);
+                        $stmt2->bindParam(':p7',$ctotal,PDO::PARAM_INT);
+                        $stmt2->bindParam(':p8',$idalmacenp,PDO::PARAM_INT);
+                        $stmt2->execute();
 
-                    $stmt3->bindParam(':p1',$id,PDO::PARAM_INT);
-                    $stmt3->bindParam(':p2',$iddprod,PDO::PARAM_INT);
-                    $stmt3->execute();
+                        $iddprod =  $this->IdlastInsert('produccion.produccion_detalle','idproduccion_detalle');
+
+                        $stmt3->bindParam(':p1',$id,PDO::PARAM_INT);
+                        $stmt3->bindParam(':p2',$iddprod,PDO::PARAM_INT);
+                        $stmt3->execute();    
+                    }        
+                    
                 }
             }
             $this->db->commit();

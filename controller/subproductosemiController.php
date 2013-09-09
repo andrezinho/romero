@@ -125,6 +125,12 @@ class SubProductoSemiController extends Controller
         }
         print_r(json_encode($result));
     }
+    public function getstock()
+    {
+        $obj = new SubProductoSemi();        
+        $stock = $obj->stock($_GET['a'],$_GET['i']);
+        echo number_format($stock,2);
+    }
 }
 
 ?>

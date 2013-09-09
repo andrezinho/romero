@@ -97,18 +97,38 @@ class SubProductoSemi extends Main
     {
         $query = "%".$query."%";
         $statement = $this->db->prepare("SELECT
-                sps.idsubproductos_semi,
-                ps.descripcion || ' ' || sps.descripcion AS producto,
-                sps.precio
-                FROM
-                produccion.productos_semi AS ps
-                INNER JOIN produccion.subproductos_semi AS sps ON ps.idproductos_semi = sps.idproductos_semi
-                
-                WHERE {$field} ilike :query and ps.descripcion || ' ' || sps.descripcion <> ''
-                limit 10");
+                                            sps.idsubproductos_semi,
+                                            ps.descripcion || ' ' || sps.descripcion AS producto,
+                                            sps.precio
+                                            FROM
+                                            produccion.productos_semi AS ps
+                                            INNER JOIN produccion.subproductos_semi AS sps ON ps.idproductos_semi = sps.idproductos_semi
+                                            
+                                            WHERE {$field} ilike :query and ps.descripcion || ' ' || sps.descripcion <> ''
+                                                    AND ps.idproductos_semi <> 1
+                                            limit 10");
         $statement->bindParam (":query", $query , PDO::PARAM_STR);
         $statement->execute();
         return $statement->fetchAll();
+    }
+
+    function stock($idalmacenp,$idsps)
+    {        
+        $stmt4 = $this->db->prepare("SELECT t.idp,t.c
+                                    from (
+                                    SELECT max(idproduccion) as idp ,ctotal as c, item
+                                    FROM produccion.produccion_detalle
+                                    where idalmacen = :idal and idsubproductos_semi = :idsps
+                                    group by ctotal,item,idproduccion
+                                    order by idproduccion desc
+                                    limit 1
+                                    ) as t
+                                    order by t.item,t.c");
+        $stmt4->bindParam(':idal',$idalmacenp,PDO::PARAM_INT);
+        $stmt4->bindParam(':idsps',$idsps,PDO::PARAM_INT);
+        $stmt4->execute();
+        $row4 = $stmt4->fetchObject();                 
+        return $row4->c;
     }
 }
 ?>

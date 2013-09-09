@@ -70,12 +70,12 @@ class Tipodocumento extends Main
     public function GCorrelativo($idtp)
     {
         $sql = "SELECT            
-            c.serie,
-            c.numero            
-            FROM
-            facturacion.correlativo AS c
-            INNER JOIN facturacion.tipodocumento AS t ON t.idtipodocumento = c.idtipodocumento
-            WHERE c.idtipodocumento='$idtp' AND c.estado=1 ";    
+                    c.serie,
+                    c.numero            
+                    FROM
+                    facturacion.correlativo AS c
+                    INNER JOIN facturacion.tipodocumento AS t ON t.idtipodocumento = c.idtipodocumento
+                    WHERE c.idtipodocumento='$idtp' AND c.estado=1 ";    
         $stmt=$this->db->prepare($sql);
         $stmt->execute();
         $data = array();
