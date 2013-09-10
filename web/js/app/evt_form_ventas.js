@@ -96,12 +96,13 @@ var producto =
 
                        $("#tventatext").empty().append("S/. "+t.toFixed(2));
                        $("#monto_efectivo").val(t.toFixed(2));
-                      return true;
+                      return t;
                     }
   };
 $(function() 
 {   
-    $("#fechaemision").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
+    
+    $("#fechaemision,#fechai,#fechav").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
     $("#idalmacen,#idtipodocumento" ).css({'width':'150px'});    
     $("#idtipodocumento").change(function(){load_correlativo($(this).val());});
     $("#idformapago").change(function(){$("#idformapago2").val($(this).val());change_fp();});
@@ -125,6 +126,9 @@ $(function()
     verifAfecto();
     $("#aigv").click(function(){
        verifAfecto();
+    });
+    $("#gen-cronograma").click(function(){
+      genCronograma();
     });
     $("#ruc").autocomplete({
         minLength: 0,
@@ -337,4 +341,60 @@ function verifAfecto()
   if($('#aigv').is(':checked')) afecto = true;
    else afecto = false;       
   producto.totales();
+}
+
+function genCronograma()
+{
+   var bval = true;
+   bval = bval && $("#monto_inicial").required();
+   bval = bval && $("#interes").required();
+   if(bval)
+   {
+        var ncuotas = $("#nrocuota").val(),
+           inicial = $("#monto_inicial").val(),
+           interes = $("#interes").val(),
+           tinteres = $("#tipoi").val(),
+           periodo = $("#periodo").val(),
+           fechai = $("#fechai").val();
+           tventa = producto.totales();
+
+           neto = (tventa-inicial)/ncuotas;
+
+           fechas = " "+fechai;
+           fechac = fechai;
+           html = 
+           for(i=1;i<ncuotas;i++)
+           {              
+              var d = 0;
+              if(periodo==1) d = 1;
+              if(periodo==2) d = 7;
+              if(periodo==3) 
+              {
+                fechac = fechac.toString();
+                fecha = fechac.split("/");
+                anio = fecha[2];
+                mes  = fecha[1];
+                d = finMes(mes,anio);
+              }          
+              prox_fecha =  UpdateFecha(fechac,d)
+              fechas += prox_fecha;
+              fechac = prox_fecha;
+           }
+   }
+   
+}
+
+
+function trCronograma(i,fecha,monto,interes)
+{
+  var html = ''  ;
+  html = '</tr>';
+    html += '<td align="center">'+i+'</td>';
+    html += '<td align="center"><input type="text" name="fechacuota[]" value="'+fecha+'" class="ui-widget-content ui-corner-all text text-date" /></td>';
+    html += '<td align="right"><input type="text" name="montocouta[]" value="'+monto+'" class="ui-widget-content ui-corner-all text text-num" /></td>';
+    html += '<td align="right"><input type="text" name="interescouta[]" value="'+interes+'" class="ui-widget-content ui-corner-all text text-num" /></td>';
+    t = monto+interes;
+    html += '<td align="right"><input type="text" name="totalcouta[]" value="'+t+'" class="ui-widget-content ui-corner-all text text-num" /></td>';    
+  html += '<tr>';
+  return html;
 }

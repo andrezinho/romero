@@ -374,3 +374,30 @@ Array.prototype.clear = function() {
     this.pop();
   }
 };
+
+function UpdateFecha(fecha,d)
+{
+
+  fecha = fecha.split("/");
+  var Anio =fecha[2];
+  var Mes =fecha[1];
+  var Dia =fecha[0];  
+  if(isNaN(d) || d=="")
+    d=0;
+    Dia = parseInt(Dia) + parseInt(d);
+    Mes = parseInt(Mes) - parseInt(1);
+    var Fecha =new Date(Anio,Mes,Dia);
+    Anio = Fecha.getFullYear();
+    Mes = Fecha.getMonth()+1;
+    Dia = Fecha.getDate();
+    if (Dia<10)Dia='0'+Dia;
+    if (Mes<10)Mes='0'+Mes;
+    nfecha = Dia+'/'+Mes+'/'+Anio;
+    return nfecha;
+}
+
+function finMes(nMes, nAno)
+{ 
+  var aFinMes = new Array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31); 
+  return aFinMes[nMes - 1] + (((nMes == 2) && (nAno % 4) == 0)? 1: 0); 
+}

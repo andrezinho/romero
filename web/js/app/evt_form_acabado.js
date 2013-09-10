@@ -83,6 +83,7 @@ var materia =
 $(function() 
 {     
     //Basic events
+
     $("input[type=text]").focus(function(){this.select();});
     $("#fechai,#fechaf").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});    
     $("#dni").autocomplete({

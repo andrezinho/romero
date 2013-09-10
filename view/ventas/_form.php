@@ -161,7 +161,55 @@
           </div>
       </div>
       <div id="tabs-3">
-        <p>Cronograma de pagos</p>        
+        <fieldset>
+            <legend>Datos de Generacion de Cronograma de Pago</legend>  
+            <label class="labels">Total Venta: </label>
+            <label class="text-super" id="tventatext">S/. 300.00</label>
+            <label class="labels">N&deg; de Cuotas: </label>
+            <select name="nrocuota" id="nrocuota">
+                <option value="1">1 Cuota</option>
+                <option value="2">2 Cuotas</option>
+                <option value="3">3 Cuotas</option>
+                <option value="4">4 Cuotas</option>
+                <option value="5">5 Cuotas</option>
+                <option value="6">6 Cuotas</option>
+            </select>            
+            <label for="monto_inicial" class="labels">Inicial: </label>
+            <input type="text" name="monto_inicial" id="monto_inicial" value="300.00"  class="ui-widget-content ui-corner-all text text-num" /> S/.
+            <label class="labels" >Interes: </label>
+            <input type="text" name="interes" id="interes" value="50.00"  class="ui-widget-content ui-corner-all text text-num" />
+            <select name="tipoi" id="tipoi">
+                <option value="1">S/.</option>
+                <option value="2">%</option>
+            </select>
+            <br/>
+            <label for="periodo" class="labels">Periodo Pago: </label>
+            <select name="periodo" id="periodo">
+                <option value="">-Seleccione-</option>
+                <option value="1">Diario</option>
+                <option value="2">Semanal</option>
+                <option value="3">Mensual</option>
+            </select>
+            <label for="fechai" class="labels">Fecha de inicio: </label>
+            <input type="text" name="fechai" id="fechai" value="<?php echo date('d/m/Y'); ?>" class="ui-widget-content ui-corner-all text text-date"  />
+            <a id="gen-cronograma" href="#" style="color:green">Generar</a>
+        </fieldset>
+        <div class="contain" style="">
+            <table id="table-detalle-cuotas" class="ui-widget ui-widget-content" border="0" >
+                <thead>
+                    <tr class="ui-widget-header">
+                        <td width="50px" align="center">N&deg;</td>
+                        <td width="100">Fecha de pago</td>
+                        <td width="100" align="center">Monto</td>
+                        <td width="100" align="center">Interes</td>
+                        <td width="100" align="center">Total</td>                        
+                        <td>&nbsp;</td>
+                    </tr>
+                </thead> 
+                <tbody>
+                </tbody>
+            </table>  
+          </div>
       </div>      
     </div>
 </form>

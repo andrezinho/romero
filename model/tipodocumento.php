@@ -75,7 +75,7 @@ class Tipodocumento extends Main
                     FROM
                     facturacion.correlativo AS c
                     INNER JOIN facturacion.tipodocumento AS t ON t.idtipodocumento = c.idtipodocumento
-                    WHERE c.idtipodocumento='$idtp' AND c.estado=1 ";    
+                    WHERE c.idtipodocumento='$idtp' AND c.estado=1 and c.idsucursal = ".$_SESSION['idsucursal'];    
         $stmt=$this->db->prepare($sql);
         $stmt->execute();
         $data = array();
