@@ -94,14 +94,14 @@ var producto =
                        $("#table-detalle-venta tfoot tr:eq(1) td:eq(1)").empty().append('<b>'+tigv.toFixed(2)+'</b>');
                        $("#table-detalle-venta tfoot tr:eq(2) td:eq(1)").empty().append('<b>'+t.toFixed(2)+'</b>');
 
-                       $("#tventatext").empty().append("S/. "+t.toFixed(2));
+                       $("#tventatext,#tventatext").empty().append("S/. "+t.toFixed(2));
                        $("#monto_efectivo").val(t.toFixed(2));
                       return t;
                     }
   };
 $(function() 
 {   
-    
+    $("input[type=text]").focus(function(){this.select();});
     $("#fechaemision,#fechai,#fechav").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
     $("#idalmacen,#idtipodocumento" ).css({'width':'150px'});    
     $("#idtipodocumento").change(function(){load_correlativo($(this).val());});
@@ -358,12 +358,15 @@ function genCronograma()
            fechai = $("#fechai").val();
            tventa = producto.totales();
 
-           neto = (tventa-inicial)/ncuotas;
-
+           montoxcuota = (tventa-inicial)/ncuotas;
+           if(tinteres==1) interxcuota = interes;
+            else interxcuota = interes*montoxcuota/100;
+           
            fechas = " "+fechai;
            fechac = fechai;
-           html = 
-           for(i=1;i<ncuotas;i++)
+           html = trCronograma(1,fechai,montoxcuota,0);
+
+           for(ci=1;ci<ncuotas;ci++)
            {              
               var d = 0;
               if(periodo==1) d = 1;
@@ -377,24 +380,31 @@ function genCronograma()
                 d = finMes(mes,anio);
               }          
               prox_fecha =  UpdateFecha(fechac,d)
-              fechas += prox_fecha;
+              if(ci==1) html += trCronograma(ci+1,prox_fecha,montoxcuota,0);
+                else html += trCronograma(ci+1,prox_fecha,montoxcuota,interxcuota);
               fechac = prox_fecha;
            }
    }
-   
+   $("#table-detalle-cuotas").find('tbody').empty().append(html);
 }
 
 
 function trCronograma(i,fecha,monto,interes)
 {
   var html = ''  ;
-  html = '</tr>';
+  html = '<tr>';
     html += '<td align="center">'+i+'</td>';
     html += '<td align="center"><input type="text" name="fechacuota[]" value="'+fecha+'" class="ui-widget-content ui-corner-all text text-date" /></td>';
-    html += '<td align="right"><input type="text" name="montocouta[]" value="'+monto+'" class="ui-widget-content ui-corner-all text text-num" /></td>';
-    html += '<td align="right"><input type="text" name="interescouta[]" value="'+interes+'" class="ui-widget-content ui-corner-all text text-num" /></td>';
-    t = monto+interes;
+    //html += '<td align="right"><input type="text" name="montocouta[]" value="'+monto+'" class="ui-widget-content ui-corner-all text text-num" /></td>';
+    //html += '<td align="right"><input type="text" name="interescouta[]" value="'+interes+'" class="ui-widget-content ui-corner-all text text-num" /></td>';
+    monto = parseFloat(monto);
+    interes = parseFloat(interes);
+    html += '<td align="right"><label>'+monto.toFixed(2)+'</labe></td>';
+    html += '<td align="right"><label>'+interes.toFixed(2)+'</labe></td>';
+    t = parseFloat(monto)+parseFloat(interes);
+    t = t.toFixed(2);
     html += '<td align="right"><input type="text" name="totalcouta[]" value="'+t+'" class="ui-widget-content ui-corner-all text text-num" /></td>';    
-  html += '<tr>';
+    html += '<td></td>';
+  html += '</tr>';
   return html;
 }
