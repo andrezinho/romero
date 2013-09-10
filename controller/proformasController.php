@@ -149,6 +149,17 @@ class ProformasController extends Controller
         echo $view->renderPartial();
     }
     
+    public function load_proformas()
+    {
+        $obj = new Proformas();
+        $data = array();
+        $view = new View();
+        $data['rowsd'] = $obj->ViewResultado($_GET);
+        $view->setData($data);
+        $view->setTemplate( '../view/proformas/_consulproforma.php' );
+        echo $view->renderPartial();
+    }
+    
     public function anular()
     {
         $obj = new Proformas();
@@ -158,6 +169,20 @@ class ProformasController extends Controller
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
+    
+    public function printer()
+    {
+        $obj = new Proformas();
+        $data = array();
+        $view = new View();
+        $ro = $obj->printPro($_GET);
+        $data['cabera'] = $ro[0];
+        $view->setData($data);
+        $view->setTemplate( '../view/proformas/_pdf.php' );
+        $view->setLayout( '../template/empty.php' );
+        echo $view->renderPartial();
+    }
+    
 }
 
 ?>

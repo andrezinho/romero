@@ -4,6 +4,8 @@ $(function()
     $( "#idfinanciamiento" ).css({'width':'140px'});
     $( "#idsucursal" ).css({'width':'180px'});
     
+    //Generar correlativo
+    load_correlativo();
     $("#idtipopago").change(function(){
         load_campos($(this).val()); 
     });
@@ -109,6 +111,16 @@ $(function()
 
 });
 
+function load_correlativo()
+{
+    idtp=8;
+    $.get('index.php','controller=tipodocumento&action=Correlativo&idtp='+idtp,function(r){
+          
+        $("#serie").val(r.serie);
+        $("#numero").val(r.numero);
+
+    },'json');
+}
 function load_campos(idtipo)
 {
 

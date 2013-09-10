@@ -8,7 +8,7 @@ class Proformas extends Main
             p.idproforma,
             c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS nomcliente,
             s.descripcion,
-            p.fecha,
+            substr(cast(p.fecha as text),9,2)||'/'||substr(cast(p.fecha as text),6,2)||'/'||substr(cast(p.fecha as text),1,4) AS fecha,
             case 
                 when p.estado=0 then 'REGISTRADO' 
                 when p.estado=1 then 'ANULADO'
@@ -20,18 +20,20 @@ class Proformas extends Main
                     else '&nbsp;' end
                 else '&nbsp;' end,
             case when p.estado <> 1 then
-                    '<a class=\"imprimir\" id=\"v-'||p.idproforma||'\">IMPRIMIR</a>'
+                    '<a class=\"imprimir box-boton boton-print\" id=\"v_'||p.idproforma||'_'||p.fecha||'\" title=\"Imprimir\" href=\"#\"></a>'
             else '&nbsp;' end    
             FROM facturacion.proforma AS p
             INNER JOIN cliente AS c ON c.idcliente = p.idcliente
             INNER JOIN sucursales AS s ON s.idsucursal = p.idsucursal ";
-            
+        //echo $sql;    
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
     function edit($id ) {
         $stmt = $this->db->prepare("SELECT
             p.idproforma,
+            p.serie,
+            p.numero,
             c.dni,
             c.nombres,
             c.apepaterno,
@@ -87,8 +89,8 @@ class Proformas extends Main
         $idvendedor=$_SESSION['idusuario'];
         $estado= 0;
         $sql="INSERT INTO facturacion.proforma(
-            idsucursal, idcliente, fecha,hora, estado, observacion,idvendedor) 
-            VALUES(:p1,:p2,:p3,:p4,:p5,:p6,:p7)" ;
+            idsucursal, idcliente, fecha,hora, estado, observacion,idvendedor,serie,numero) 
+            VALUES(:p1,:p2,:p3,:p4,:p5,:p6,:p7,:p8,:p9)" ;
 
         $stmt = $this->db->prepare($sql);
 
@@ -104,6 +106,9 @@ class Proformas extends Main
             $stmt->bindParam(':p5', $estado , PDO::PARAM_INT);
             $stmt->bindParam(':p6', $_P['observacion'] , PDO::PARAM_STR);
             $stmt->bindParam(':p7', $idvendedor , PDO::PARAM_STR);
+            $stmt->bindParam(':p8', $_P['serie'] , PDO::PARAM_STR);
+            $stmt->bindParam(':p9', $_P['numero'] , PDO::PARAM_STR);
+            
             $stmt->execute();
             $id =  $this->IdlastInsert('facturacion.proforma','idproforma');
             $row = $stmt->fetchAll();
@@ -179,7 +184,9 @@ class Proformas extends Main
                 fecha =:p3,
                 hora = :p4,
                 observacion = :p5,
-                idvendedor= :p6                         
+                idvendedor= :p6,
+                serie= :p7,
+                numero= :p8
                 
                 WHERE idproforma = :idproforma";
         $stmt = $this->db->prepare($sql);
@@ -195,7 +202,9 @@ class Proformas extends Main
             $stmt->bindParam(':p4', $_P['hora'] , PDO::PARAM_STR);
             $stmt->bindParam(':p5', $_P['observacion'] , PDO::PARAM_STR);
             $stmt->bindParam(':p6', $idvendedor , PDO::PARAM_STR);
-                       
+            $stmt->bindParam(':p7', $_P['serie'] , PDO::PARAM_STR);
+            $stmt->bindParam(':p8', $_P['numero'] , PDO::PARAM_STR);
+            
             $stmt->bindParam(':idproforma', $idproforma , PDO::PARAM_INT);
             $stmt->execute();
             
@@ -298,7 +307,88 @@ class Proformas extends Main
         $stmt->execute();
         return $stmt->fetchAll();
     }
+    
+    function ViewResultado($_G)
+    {
+        $idpersonal =$_G['idper'];
+        $fechai = $this->fdate($_G['fechai'], 'EN');
+        $fechaf = $this->fdate($_G['fechaf'], 'EN');
+        
+        if($idpersonal==0)
+        {   
+            $sql="SELECT
+                s.descripcion,
+                c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS nomcliente,
+                substr(cast(pr.fecha as text),9,2)||'/'||substr(cast(pr.fecha as text),6,2)||'/'||substr(cast(pr.fecha as text),1,4) AS fecha,
+                p.nombres || ' ' || p.apellidos AS vendedor,
+                case 
+                    when pr.estado=0 then 'REGISTRADO' 
+                    when pr.estado=1 then 'ANULADO'
+                    else 'PASO A SOLICITUD' 
+                end AS estado
+            FROM
+                facturacion.proforma AS pr
+                INNER JOIN cliente AS c ON c.idcliente = pr.idcliente
+                INNER JOIN sucursales AS s ON s.idsucursal = pr.idsucursal
+                INNER JOIN personal AS p ON p.idpersonal = pr.idvendedor
+            WHERE
+                pr.fecha BETWEEN CAST(:p1 AS DATE) AND CAST(:p2 AS DATE)
+            ORDER BY pr.idcliente ";
+            $stmt = $this->db->prepare($sql);
+            //$stmt->bindParam(':id', $_G['idper'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p1', $fechai , PDO::PARAM_STR);
+            $stmt->bindParam(':p2', $fechaf, PDO::PARAM_STR);
 
+            $stmt->execute();
+            return $stmt->fetchAll();
+        }else
+            {   
+                $sql="SELECT
+                s.descripcion,
+                c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS nomcliente,
+                substr(cast(pr.fecha as text),9,2)||'/'||substr(cast(pr.fecha as text),6,2)||'/'||substr(cast(pr.fecha as text),1,4) AS fecha,
+                p.nombres || ' ' || p.apellidos AS vendedor,
+                case 
+                    when pr.estado=0 then 'REGISTRADO' 
+                    when pr.estado=1 then 'ANULADO'
+                    else 'PASO A SOLICITUD' 
+                end AS estado
+                
+                FROM
+                facturacion.proforma AS pr
+                INNER JOIN cliente AS c ON c.idcliente = pr.idcliente
+                INNER JOIN sucursales AS s ON s.idsucursal = pr.idsucursal
+                INNER JOIN personal AS p ON p.idpersonal = pr.idvendedor
+                WHERE
+                pr.fecha BETWEEN CAST(:p1 AS DATE) AND CAST(:p2 AS DATE) AND pr.idvendedor = :id  
+                ORDER BY pr.idcliente ";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(':id', $idpersonal , PDO::PARAM_INT);
+                $stmt->bindParam(':p1', $fechai , PDO::PARAM_STR);
+                $stmt->bindParam(':p2', $fechaf, PDO::PARAM_STR);
+
+                $stmt->execute();
+                return $stmt->fetchAll();
+            }
+        
+    }
+    
+    function printPro($Get)
+    {
+//        $sql=".idpersonal = pr.idvendedor
+//                WHERE
+//                pr.fecha BETWEEN CAST(:p1 AS DATE) AND CAST(:p2 AS DATE) AND pr.idvendedor = :id  
+//                ORDER BY pr.idcliente ";
+//                $stmt = $this->db->prepare($sql);
+//                $stmt->bindParam(':id', $idpersonal , PDO::PARAM_INT);
+//                $stmt->bindParam(':p1', $fechai , PDO::PARAM_STR);
+//                $stmt->bindParam(':p2', $fechaf, PDO::PARAM_STR);
+//
+//                $stmt->execute();
+//                return $stmt->fetchAll();
+        
+    return array($cab,$detalles);}
+    
 
 
 }

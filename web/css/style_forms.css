@@ -29,3 +29,20 @@ legend { margin-left: 10px; padding: 2px; }
 .text {  padding: .15em;margin-top: 3px;margin-bottom: 3px; width:100px; } 
 .text-num { text-align: right; width: 50px;}    	
 .text-date { text-align: center; width: 80px; }
+
+/*--- Reportes ---*/
+.resport{
+    margin: auto;
+    width: 850px;
+    border: 2px solid #512610;
+    -moz-border-radius: 1em 1em 1em 1em;
+    border-radius: 1em 1em 1em 1em;
+}
+.resport legend{
+    font-size: 13px;
+    color: #ffffff;
+    padding: 5px;
+    background: #004B75;
+    -moz-border-radius: 1em 1em 1em 1em;
+    border-radius: 1em 1em 1em 1em;
+}

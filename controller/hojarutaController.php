@@ -48,7 +48,7 @@ class HojaRutaController extends Controller
     {
         $data = array();
         $view = new View();        
-        $data['Distrito'] = $this->Select(array('id'=>'idubigeo','name'=>'idubigeo','text_null'=>'Seleccione...','table'=>'vista_distrito'));       
+        $data['Distrito'] = $this->Select(array('id'=>'idubigeo','name'=>'idubigeo','text_null'=>'Seleccione...','table'=>'vista_distrito'));
         $data['Rutas'] = $this->Select(array('id'=>'idrutas','name'=>'idrutas','text_null'=>'Seleccione...','table'=>'vista_rutas'));       
         $view->setData($data);
         $view->setTemplate( '../view/hojaruta/_form.php' );

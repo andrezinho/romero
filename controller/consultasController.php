@@ -5,55 +5,27 @@ require_once '../model/consultas.php';
 
 class ConsultasController extends Controller 
 {   
-    var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'a.idalmacen','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'a.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Direccion','NameDB'=>'a.direccion','search'=>true),
-                        4 => array('Name'=>'Telefono','NameDB'=>'a.telefono','align'=>'center'),
-                        5 => array('Name'=>'Estado','NameDB'=>'a.estado','align'=>'center')
-                        
-                     );
-
-    public function index() 
+    
+    public function proformas() 
     {        
-        $data = array();                               
-        $data['colsNames'] = $this->getColsVal($this->cols);
-        $data['colsModels'] = $this->getColsModel($this->cols);        
-        $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
-        $data['controlador'] = $_GET['controller'];
-
-        //(nuevo,editar,eliminar,ver)
-        $data['actions'] = array(true,true,true,false);
-
+        $data = array();
         $view = new View();
+        $data['Personal'] = $this->Select(array('id'=>'idpersonal','name'=>'idpersonal','text_null'=>'.: Seleccione :.','table'=>'vista_personal'));
         $view->setData($data);
-        $view->setTemplate('../view/_indexGrid.php');
-        $view->setlayout('../template/layout.php');
+        $view->setTemplate( '../view/consultas/_proformas.php' );       
+        $view->setLayout( '../template/Layout.php' );
         $view->render();
     }
 
-    public function indexGrid() 
-    {
-        $obj = new Consultas();        
-        $page = (int)$_GET['page'];
-        $limit = (int)$_GET['rows']; 
-        $sidx = $_GET['sidx'];
-        $sord = $_GET['sord'];
-        $filtro = $this->getColNameDB($this->cols,(int)$_GET['f']);        
-        $query = $_GET['q'];
-        if(!$sidx) $sidx = 1;
-        if(!$limit) $limit = 10;
-        if(!$page) $page = 1;
-        echo json_encode($obj->indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$this->getColsVal($this->cols)));
-    }
-
-    public function create() 
-    {
+    public function hojaruta() 
+    {        
         $data = array();
         $view = new View();
+        $data['Personal'] = $this->Select(array('id'=>'idpersonal','name'=>'idpersonal','text_null'=>'.: Seleccione :.','table'=>'vista_personal'));
         $view->setData($data);
-        $view->setTemplate( '../view/almacen/_form.php' );
-        echo $view->renderPartial();
+        $view->setTemplate( '../view/consultas/_hojaruta.php' );       
+        $view->setLayout( '../template/Layout.php' );
+        $view->render();
     }
 
     public function edit() 
@@ -68,31 +40,7 @@ class ConsultasController extends Controller
         echo $view->renderPartial();
     }
 
-    public function save()
-    {
-        $obj = new Consultas();
-        $result = array();        
-        if ($_POST['idalmacen']=='') 
-            $p = $obj->insert($_POST);                        
-        else         
-            $p = $obj->update($_POST);                                
-        if ($p[0])                
-            $result = array(1,'');                
-        else                 
-            $result = array(2,$p[1]);
-        print_r(json_encode($result));
-
-    }
-
-    public function delete()
-    {
-        $obj = new Consultas();
-        $result = array();        
-        $p = $obj->delete($_GET['id']);
-        if ($p[0]) $result = array(1,$p[1]);
-        else $result = array(2,$p[1]);
-        print_r(json_encode($result));
-    }
+    
  
 }
 

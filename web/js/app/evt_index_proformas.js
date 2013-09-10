@@ -17,9 +17,10 @@ $(function()
     $("#list").on('click','.imprimir',function(){
             
         var i = $(this).attr("id");
-        i = i.split('-');
+        i = i.split('_');
         id = i[1];
-        var ventana=window.open('../view/proformas/_pdf.php?id='+id, 'Imprimir Proforma, width=600, height=600, resizable=no, scrollbars=yes, status=yes,location=yes'); 
+        fecha=i[2];
+        var ventana=window.open('index.php?controller=proformas&action=printer&id='+id+'&fecha='+fecha, 'Imprimir Proforma, width=600, height=600, resizable=no, scrollbars=yes, status=yes,location=yes'); 
         ventana.focus();
         
     });

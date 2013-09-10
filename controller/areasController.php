@@ -8,7 +8,7 @@ class AreasController extends Controller
     var $cols = array(
                         1 => array('Name'=>'Codigo','NameDB'=>'a.idarea','align'=>'center','width'=>'20'),
                         2 => array('Name'=>'Descripcion','NameDB'=>'a.descripcion','search'=>true),
-                        3 => array('Name'=>'Espesor','NameDB'=>'s.descripcion','search'=>true),
+                        3 => array('Name'=>'Sucursal','NameDB'=>'s.descripcion','search'=>true),
                         4 => array('Name'=>'Estado','NameDB'=>'a.estado','width'=>'30','align'=>'center')
                      );
     public function index() 
