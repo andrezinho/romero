@@ -305,6 +305,68 @@ class movimiento extends Main
         return 1;
     }
 
+    function ViewResultado($_G)
+    {
+       
+        $fechai = $this->fdate($_G['fechai'], 'EN');
+        $fechaf = $this->fdate($_G['fechaf'], 'EN');
+
+        $sql="SELECT  
+            m.idmovimiento,
+            m.fecha,
+            upper(m.referencia) AS referencia,
+            td.abreviado,
+            m.serie,
+            m.numero,                        
+            upper(p.razonsocial) AS proveedor,
+            p.ruc,  
+            cast(t.total*m.igv/100+t.total as numeric(18,2)) as total,
+            case m.estado when 1 then 'Activo'
+                      when 2 then 'Anulado'
+                 else ''
+            end AS estado
+            FROM movimientos as m 
+             inner join movimientosubtipo as mst on mst.idmovimientosubtipo = m.idmovimientosubtipo
+             inner join movimientostipo as mt on mt.idmovimientostipo = mst.idmovimientostipo
+             inner join facturacion.tipodocumento as td on td.idtipodocumento = m.idtipodocumento
+             inner join proveedor as p on p.idproveedor = m.idproveedor
+             inner join (select idmovimiento,sum(precio*cantidad) as total
+                    from movimientosdetalle
+                    group by idmovimiento) as t on t.idmovimiento = m.idmovimiento
+            WHERE mt.idmovimientostipo = 1 and autogen = 0 AND
+                m.fecha BETWEEN CAST(:p1 AS DATE) AND CAST(:p2 AS DATE)
+            ORDER BY m.idmovimiento ASC ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':p1', $fechai , PDO::PARAM_STR);
+        $stmt->bindParam(':p2', $fechaf, PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $stmt->fetchAll();
+
+    }
+
+    //
+    function rptDetails($id)
+    {
+        $stmt = $this->db->prepare("SELECT mv.* ,
+                        case mv.idtipoproducto when 1 then p.descripcion
+                                    when 2 then l.descripcion||', '||ma.descripcion||' '||ma.espesor||' - '||p.medidas
+                        else ''
+                        end as descripcion
+                    FROM movimientosdetalle as mv inner join produccion.producto as p on p.idproducto = mv.idproducto
+                        inner join produccion.maderba as ma on ma.idmaderba = p.idmaderba
+                        inner join produccion.linea as l on l.idlinea = ma.idlinea
+                    WHERE idmovimiento = :id    
+                    order by item ");
+        $stmt->bindParam(':id', $id , PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+
+
+
 }
 
 ?>

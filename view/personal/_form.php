@@ -7,14 +7,7 @@
 <form id="frm" >
         <input type="hidden" name="controller" value="Personal" />
         <input type="hidden" name="action" value="save" />
-        <input type="hidden" id="idpersonal" name="idpersonal" value="save" value="<?php echo $obj->idpersonal; ?>" />
-        <!--             
-        <label for="idmodulo" class="labels">Codigo:</label>
-        <input type="text" id="idmodulo" name="idmodulo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idmodulo; ?>" readonly />
-        <label for="idpadre" class="labels">Padre:</label>
-        <?php echo $ModulosPadres; ?>
-        <br/>
-        -->
+        <input type="hidden" id="idpersonal" name="idpersonal" value="<?php echo $obj->idpersonal; ?>" />
         
         <label for="dni" class="labels">DNI:</label>
    		<input id="dni" name="dni" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->dni; ?>"  />
@@ -40,43 +33,7 @@
    		<input id="direccion" name="direccion" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->direccion; ?>" />
         
         <label for="estcivil" class="labels">Estado civil:</label>        
-        <select id="estcivil" name="estcivil" class="ui-widget-content ui-corner-all">
-            <?php $var="";
-                if($obj->estcivil=='Ninguno')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="Ninguno">Ninguno</option>
-            
-            <?php $var="";
-                if($obj->estcivil=='Soltero')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="Soltero">Soltero(a)</option>
-
-            <?php $var="";
-                if($obj->estcivil=='Conviviente')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="Conviviente">Conviviente</option>
-
-            <?php $var="";
-                if($obj->estcivil=='Casado')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="Casado">Casado(a)</option>
-
-            <?php $var="";
-                if($obj->estcivil=='Divorciado')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="Divorciado">Divorciado(a)</option>
-
-            <?php $var="";
-                if($obj->estcivil=='Viudo')
-                {$var="selected";}               
-            ?>
-            <option <?php echo $var; ?> value="Viudo">Viudo(a)</option>
-        </select>
+        <?php echo $EstadoCivil; ?>
         <br/>
         
         <label for="idarea" class="labels">Area:</label>
@@ -101,6 +58,17 @@
             <option <?php echo $var; ?> value="F">Femenino</option>
         </select>
 
+        <label for="perfil" class="labels">Perfil:</label>
+        <?php echo $Perfil; ?>        
+        <br/>
+
+        <label for="user" class="labels">Usuario:</label>
+        <input id="usuario" name="usuario" value="<?php echo $obj->usuario; ?>" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;"  />
+        
+        <label for="clae" class="labels">Clave:</label>
+        <input type="password" id="clave" name="clave" value="<?php echo $obj->clave; ?>" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;"  />
+        
+        <br/>
         <label for="estado" class="labels">Activo:</label>        
         <div id="estados" style="display:inline">
             <?php                   

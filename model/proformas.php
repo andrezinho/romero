@@ -280,6 +280,7 @@ class Proformas extends Main
         return array($p1 , $p2[2]);
     }
 
+    //Reemplazar el detalle de la solicitud
     function ViewDetalle($id)
     {
         $stmt = $this->db->prepare("SELECT
@@ -308,6 +309,7 @@ class Proformas extends Main
         return $stmt->fetchAll();
     }
     
+    //Reporte
     function ViewResultado($_G)
     {
         $idpersonal =$_G['idper'];
@@ -318,6 +320,8 @@ class Proformas extends Main
         {   
             $sql="SELECT
                 s.descripcion,
+                pr.serie,
+                pr.numero,
                 c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS nomcliente,
                 substr(cast(pr.fecha as text),9,2)||'/'||substr(cast(pr.fecha as text),6,2)||'/'||substr(cast(pr.fecha as text),1,4) AS fecha,
                 p.nombres || ' ' || p.apellidos AS vendedor,
@@ -335,7 +339,6 @@ class Proformas extends Main
                 pr.fecha BETWEEN CAST(:p1 AS DATE) AND CAST(:p2 AS DATE)
             ORDER BY pr.idcliente ";
             $stmt = $this->db->prepare($sql);
-            //$stmt->bindParam(':id', $_G['idper'] , PDO::PARAM_INT);
             $stmt->bindParam(':p1', $fechai , PDO::PARAM_STR);
             $stmt->bindParam(':p2', $fechaf, PDO::PARAM_STR);
 
@@ -345,6 +348,8 @@ class Proformas extends Main
             {   
                 $sql="SELECT
                 s.descripcion,
+                pr.serie,
+                pr.numero,
                 c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS nomcliente,
                 substr(cast(pr.fecha as text),9,2)||'/'||substr(cast(pr.fecha as text),6,2)||'/'||substr(cast(pr.fecha as text),1,4) AS fecha,
                 p.nombres || ' ' || p.apellidos AS vendedor,
@@ -361,7 +366,7 @@ class Proformas extends Main
                 INNER JOIN personal AS p ON p.idpersonal = pr.idvendedor
                 WHERE
                 pr.fecha BETWEEN CAST(:p1 AS DATE) AND CAST(:p2 AS DATE) AND pr.idvendedor = :id  
-                ORDER BY pr.idcliente ";
+                ORDER BY pr.idcliente  ASC ";
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam(':id', $idpersonal , PDO::PARAM_INT);
                 $stmt->bindParam(':p1', $fechai , PDO::PARAM_STR);
@@ -373,22 +378,65 @@ class Proformas extends Main
         
     }
     
-    function printPro($Get)
+    //Imrprimir proformas
+    function printPro($Gets)
     {
-//        $sql=".idpersonal = pr.idvendedor
-//                WHERE
-//                pr.fecha BETWEEN CAST(:p1 AS DATE) AND CAST(:p2 AS DATE) AND pr.idvendedor = :id  
-//                ORDER BY pr.idcliente ";
-//                $stmt = $this->db->prepare($sql);
-//                $stmt->bindParam(':id', $idpersonal , PDO::PARAM_INT);
-//                $stmt->bindParam(':p1', $fechai , PDO::PARAM_STR);
-//                $stmt->bindParam(':p2', $fechaf, PDO::PARAM_STR);
-//
-//                $stmt->execute();
-//                return $stmt->fetchAll();
+        //echo $id=$Gets['fecha'] ;   
+        $cabecera="SELECT
+            pr.idproforma,
+            pr.serie,
+            pr.numero,
+            substr(cast(pr.fecha as text),9,2)||'/'||substr(cast(pr.fecha as text),6,2)||'/'||substr(cast(pr.fecha as text),1,4) AS fecha,            
+            c.dni,
+            c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS nomcliente,
+            c.direccion
+            FROM
+            facturacion.proforma AS pr
+            INNER JOIN cliente AS c ON c.idcliente = pr.idcliente 
+            WHERE
+            pr.idproforma=:id AND  pr.fecha=:p1 ";
+
+            $stmt = $this->db->prepare($cabecera);
+            $stmt->bindParam(':id', $Gets['id'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p1', $Gets['fecha'] , PDO::PARAM_STR);
+            
+            $stmt->execute();
+            $cabecera= $stmt->fetchAll();
         
-    return array($cab,$detalles);}
-    
+        $detalle="SELECT
+            dt.tipo,
+            tp.descripcion,
+            dt.producto,
+            dt.cantidad,
+            dt.preciocash,
+            dt.inicial,
+            dt.nromeses,
+            dt.cuota
+
+            FROM
+            facturacion.proforma AS pr
+            INNER JOIN facturacion.proformadetalle AS dt ON pr.idproforma = dt.idproforma
+            INNER JOIN produccion.tipopago AS tp ON tp.idtipopago = dt.tipo
+            WHERE
+            dt.idproforma= :id AND  pr.fecha= :p1 ";
+
+            $stmt1 = $this->db->prepare($detalle);
+            $stmt1->bindParam(':id', $Gets['id'] , PDO::PARAM_INT);
+            $stmt1->bindParam(':p1', $Gets['fecha'] , PDO::PARAM_STR);
+
+            $stmt1->execute();
+            $detalle=$stmt1->fetchAll();
+
+            return array($cabecera , $detalle);
+    }
+
+    //Imprimir reporte
+    /*function printer_rpt($rpt)
+    {
+
+    }*/
+
+
 
 
 }

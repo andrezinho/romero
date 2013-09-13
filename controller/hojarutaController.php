@@ -98,7 +98,31 @@ class HojaRutaController extends Controller
         print_r(json_encode($result));
     }
    
-   
+    //Para el las consultas es decir reportes
+    public function load_hojarutas()
+    {
+        $obj = new HojaRuta();
+        $data = array();
+        $view = new View();
+        $data['rowsd'] = $obj->ViewResultado($_GET);
+        $view->setData($data);
+        $view->setTemplate( '../view/hojaruta/_consulhojaruta.php' );
+        echo $view->renderPartial();
+    }
+
+    //MOSTRAR DETALLE DE LOS REPORTES
+    public function detalle()
+    {
+        $obj = new HojaRuta();
+        $data = array();
+        $view = new View();
+        $data['rowsd'] = $obj->rptDetails($_GET['id']);
+        $view->setData($data);
+        $view->setTemplate( '../view/hojaruta/_rptDetalle.php' );
+        $view->setLayout( '../template/list.php' );
+        $view->render();
+    }
+
 }
 
 ?>

@@ -40,7 +40,7 @@ class Produccion extends Main
                 INNER JOIN public.personal AS pe ON pe.idpersonal = p.idpersonal 
                 inner join produccion.almacenes as a on a.idalmacen = p.idalmacen
                 WHERE p.idproducciontipo=1";
-     
+        //echo $sql;
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
     function indexGridList($page,$limit,$sidx,$sord,$filtro,$query,$cols)
@@ -652,5 +652,60 @@ class Produccion extends Main
         if($r) return array("1",'Ok, esta produccion fue finalizada');
             else return array("2",'Ha ocurrido un error, porfavor intentelo nuevamente');
     }
+
+    function ViewResultado($_G)
+    {
+       
+        $fechai = $this->fdate($_G['fechai'], 'EN');
+        $fechaf = $this->fdate($_G['fechaf'], 'EN');
+
+        $sql="SELECT
+                p.idproduccion,
+                upper(p.descripcion) AS produccion,
+                upper(pe.nombres || ' ' || pe.apellidos) AS personal,
+                a.descripcion AS almacen,
+                substr(cast(p.fechaini as text),9,2)||'/'||substr(cast(p.fechaini as text),6,2)||'/'||substr(cast(p.fechaini as text),1,4) AS fechaini,
+                substr(cast(p.fechafin as text),9,2)||'/'||substr(cast(p.fechafin as text),6,2)||'/'||substr(cast(p.fechafin as text),1,4) AS fechafin,                    
+                case p.estado when 1 then 'REGISTRADO'
+                      when 2 then 'FINALIZADO'                                   
+                      WHEN 0 THEN 'ANULADO'
+                      else '&nbsp;' end AS estado
+            FROM
+            produccion.produccion AS p
+            INNER JOIN public.personal AS pe ON pe.idpersonal = p.idpersonal 
+            inner join produccion.almacenes as a on a.idalmacen = p.idalmacen
+            WHERE 
+                p.idproducciontipo= 1 AND p.idproduccion<> 1 AND
+                p.fecha BETWEEN CAST(:p1 AS DATE) AND CAST(:p2 AS DATE)
+            ORDER BY p.idproduccion";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':p1', $fechai , PDO::PARAM_STR);
+        $stmt->bindParam(':p2', $fechaf, PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $stmt->fetchAll();
+
+    }
+
+    //
+    function rptDetails($id)
+    {
+        $stmt = $this->db->prepare("SELECT mv.* ,
+                        case mv.idtipoproducto when 1 then p.descripcion
+                                    when 2 then l.descripcion||', '||ma.descripcion||' '||ma.espesor||' - '||p.medidas
+                        else ''
+                        end as descripcion
+                    FROM movimientosdetalle as mv inner join produccion.producto as p on p.idproducto = mv.idproducto
+                        inner join produccion.maderba as ma on ma.idmaderba = p.idmaderba
+                        inner join produccion.linea as l on l.idlinea = ma.idlinea
+                    WHERE idmovimiento = :id    
+                    order by item ");
+        $stmt->bindParam(':id', $id , PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    
 }
 ?>
