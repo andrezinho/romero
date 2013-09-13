@@ -10,17 +10,35 @@ var producto =
       estado      : new Array(),
       nuevo      : function(idproducto,producto,precio,stock,cantidad)
                     { 
-
-                      this.idproducto[this.nitem] = idproducto;
-                      this.producto[this.nitem] = producto;
-                      this.precio[this.nitem] = precio;
-                      this.stock[this.nitem] = stock;                                            
-                      this.cantidad[this.nitem]  = cantidad;                      
-                      this.estado[this.nitem] = true;
-                      this.nitem += 1;
+                      if(this.valid(idproducto))
+                      {
+                          this.idproducto[this.nitem] = idproducto;
+                          this.producto[this.nitem] = producto;
+                          this.precio[this.nitem] = precio;
+                          this.stock[this.nitem] = stock;                                            
+                          this.cantidad[this.nitem]  = cantidad;                      
+                          this.estado[this.nitem] = true;
+                          this.nitem += 1;
+                      }
+                      else
+                      {
+                          alert("Este produccto ya fue agregado al detalle.");
+                      }
 
                     },
-      //Mostrar en el detalle todos los items agregados
+      valid       : function(idp)
+                    {
+                      var flag = true;
+                      for(i=0;i<this.nitem;i++)
+                       {                          
+                          if(this.estado[i])
+                          {
+                             if(this.idproducto[i]==idp) 
+                                flag = false;
+                          }
+                        }
+                        return flag;
+                    },
       listar      : function()
                     {
                        var html = "";
@@ -94,8 +112,11 @@ var producto =
                        $("#table-detalle-venta tfoot tr:eq(1) td:eq(1)").empty().append('<b>'+tigv.toFixed(2)+'</b>');
                        $("#table-detalle-venta tfoot tr:eq(2) td:eq(1)").empty().append('<b>'+t.toFixed(2)+'</b>');
 
-                       $("#tventatext,#tventatext").empty().append("S/. "+t.toFixed(2));
-                       $("#monto_efectivo").val(t.toFixed(2));
+                       //Tipo de venta
+                       var tv = $("#idtipopago").val();
+                       $("#tventatext").empty().append("S/. "+t.toFixed(2));
+                       if(tv==1)                       
+                          setMontoPago(t);                                                 
                       return t;
                     }
   };
@@ -105,17 +126,23 @@ $(function()
     $("#fechaemision,#fechai,#fechav").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
     $("#idalmacen,#idtipodocumento" ).css({'width':'150px'});    
     $("#idtipodocumento").change(function(){load_correlativo($(this).val());});
-    $("#idformapago").change(function(){$("#idformapago2").val($(this).val());change_fp();});
+    $("#idformapago").change(function(){
+        $("#idformapago2").val($(this).val());
+        change_fp();
+      });
     $("#idformapago2").change(function(){change_fp();});
-    $("#idtipopago").change(function(){change_tp($(this).val());})
-    $( "#tabs" ).tabs({                          
-                          // heightStyle:'auto',
+    $("#idtipopago").change(function(){
+      change_tp($(this).val());
+    });
+    $("#monto_inicial").change(function(){});
+    $( "#tabs" ).tabs({   
                           activate: function( event, ui ) 
                           { 
                                 var i = $(this).tabs( "option", "active" );
                                 validar_tabs(i);
                           }
-                         });  
+                         });
+    $( "#tabs" ).tabs( "option", "disabled", [ 1 ] );
     $("#btn-add-ma").click(function(){addnewproducto();});
     $("#table-detalle-venta").on('click','.item-mp',function(){
       var i = $(this).attr("id");
@@ -225,28 +252,50 @@ function save()
 
 function validar_tabs(i)
 {
-  var bval = true;  
+  var bval = true,
+      idfp = $("#idtipopago").val();
+  bval = bval && $("#idtipopago").required();              
+  if(!bval&&i!=0)
+  {
+      alert("Para pasar a la pestaña de Registro de Pagos debe completar los datos en la pestaña Registro de Ventas")
+      $( "#tabs" ).tabs( "option", "active", 0 );
+  }
+  else
+  {
+    var ni = producto.getNumItems();
+    if(ni==0&&i!=0)
+    {
+        alert("Debe ingresar los producto a vender en el detalle.");
+        $( "#tabs" ).tabs( "option", "active", 0 );                
+        bval = false;
+    }
+  }
+
   switch(i)
   {
     
     case 0: break;
-    case 1: 
-            bval = bval && $("#idtipopago").required();
-            //Faltaria validar la cantidad de items agregados al detalle
-            var ni = producto.getNumItems();
-            if(ni==0)
+    case 1: break;            
+    case 2: 
+            if(bval==true&&idfp==2)
             {
-                alert("Debe ingresar los producto a vender en el detalle.");
-                $( "#tabs" ).tabs( "option", "active", 0 );                
+                bval = bval && $("#monto_inicial").required();
+                var c = 0;
+                $("#table-detalle-cuotas tbody tr").each(function(idx,j){c += 1;});
+                if(bval)
+                {
+                  var c = 0;
+                  $("#table-detalle-cuotas tbody tr").each(function(idx,j){c += 1;});
+                  if(c==0)
+                  {
+                      alert("Debe generar el cronograma de cuotas para realizar un pago (Cuota Inicial).");
+                      $( "#tabs" ).tabs( "option", "active", 1 );
+                  }
+                }
+                //bval = bval && $("#periodo").required();
             }
-            if(!bval)
-            {
-                alert("Para pasar a la pestaña de Registro de Pagos debe completar los datos en la pestaña Registro de Ventas")
-                $( "#tabs" ).tabs( "option", "active", 0 );
-            }
-              
             break;
-    case 2: break;
+    default: break;
   }  
   return bval;
 }
@@ -288,15 +337,34 @@ function change_tp(i)
 {
   if(i!="")
   {
-    if(i==1) $("#box-pay-doc").css("display","none");
-    if(i==2) $("#box-pay-doc").css("display","inline");
+    if(i==1)
+    { 
+      $("#box-pay-doc").css("display","none");
+      $( "#tabs" ).tabs( "option", "disabled", [ 1 ] );  
+      $("#text_totale_venta").empty().append("Total Venta: ");
+      clear_cronograma();
+      producto.totales();
+    }
+    if(i==2)
+    {
+      $("#box-pay-doc").css("display","inline");      
+      $( "#tabs" ).tabs( "enable", 1 );
+      $("#text_totale_venta").empty().append("Cuota Inicial: ");
+    } 
   }
+  else
+  {    
+      $( "#tabs" ).tabs( "option", "disabled", [ 1 ] ); 
+      clear_cronograma();
+      producto.totales(); 
+  }  
+  
 }
 
 function loadstock()
 {
    var a = $("#idalmacen").val(),
-        i = $("#idsubproductos_semi").val();
+        i = $("#idsubproductos_semi").val();        
     if(a!=""&&i!="")
     {
        $("#load-stock").css("display","inline");
@@ -307,6 +375,7 @@ function loadstock()
        })
     }
 }
+
 function addnewproducto()
 {
   bval = true;
@@ -323,17 +392,29 @@ function addnewproducto()
             p3  = $("#precio").val(),
             p4  = $("#stock").val(),          
             p5   = $("#cantidad").val();
-        if(p5>0)
-        {
-          producto.nuevo(p1,p2,p3,p4,p5);
-          producto.listar();          
-          $("#cantidad").val('0.00').focus();
-        }      
-        else 
-        {
-          alert("Cantidad debe ser mayor a cero (0)");
-          $("#cantidad").focus();
-        }
+          
+        var a = $("#idalmacen").val();            
+          if(a!=""&&p1!="")
+          {
+             $("#load-stock").css("display","inline");
+             $.get('index.php','controller=subproductosemi&action=getstock&i='+p1+'&a='+a,function(stk){
+                  $("#load-stock").css("display","none");                  
+                  stk = parseFloat(stk);  
+                  if(p5>stk)
+                  {
+                     alert("Existencias insuficientes! (Stock: "+stk+"), porfavor reconsidere la cantidad a agregar.");
+                     $("#cantidad").focus();                     
+                  }
+                  else
+                  {
+                    producto.nuevo(p1,p2,p3,p4,p5);
+                    producto.listar();          
+                    clea_frm_producto();
+                  }
+             })
+             
+         }  
+        
   }
 }
 function verifAfecto()
@@ -348,15 +429,24 @@ function genCronograma()
    var bval = true;
    bval = bval && $("#monto_inicial").required();
    bval = bval && $("#interes").required();
+   var f = new Date();
+   fechaa = f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear();
    if(bval)
    {
         var ncuotas = $("#nrocuota").val(),
-           inicial = $("#monto_inicial").val(),
-           interes = $("#interes").val(),
+           inicial = parseFloat($("#monto_inicial").val()),
+           interes = parseFloat($("#interes").val()),
            tinteres = $("#tipoi").val(),
            periodo = $("#periodo").val(),
            fechai = $("#fechai").val();
            tventa = producto.totales();
+
+           //Inicial
+           html = '<tr><td align="center">Inicial</td><td align="center">'+fechaa+'</td>';
+           html += '<td align="right"><input type="hidden" name="inicial" id="inicial" value="'+inicial+'" />'+inicial.toFixed(2)+'</td>';
+           html += '<td align="right">0.00</td>';
+           html += '<td align="right">'+inicial.toFixed(2)+'</td><td>&nbsp;</td>';
+           html += '</tr>';
 
            montoxcuota = (tventa-inicial)/ncuotas;
            if(tinteres==1) interxcuota = interes;
@@ -364,7 +454,7 @@ function genCronograma()
            
            fechas = " "+fechai;
            fechac = fechai;
-           html = trCronograma(1,fechai,montoxcuota,0);
+           html += trCronograma(1,fechai,montoxcuota,0);
 
            for(ci=1;ci<ncuotas;ci++)
            {              
@@ -386,6 +476,7 @@ function genCronograma()
            }
    }
    $("#table-detalle-cuotas").find('tbody').empty().append(html);
+   setMontoPago($("#inicial").val());
 }
 
 
@@ -407,4 +498,35 @@ function trCronograma(i,fecha,monto,interes)
     html += '<td></td>';
   html += '</tr>';
   return html;
+}
+
+function setMontoPago(mi)
+{
+  var mi = parseFloat(mi);
+  mi = mi.toFixed(2);   
+  $("#total_pago").html("S/. "+mi);
+  $("#monto_efectivo").val(mi);
+}
+
+function clear_cronograma()
+{
+    clear_form_cronograma();
+    $("#table-detalle-cuotas tbody").empty();
+}
+function clear_form_cronograma()
+{
+  $("#nrocuota").val(1);
+  $("#monto_inicial").val('0.00');
+  $("#periodo").val("");
+}
+function clea_frm_producto()
+{
+   $("#producto,#idsubproductos_semi").val("");
+   $("#stock,#precio,#cantidad").val("0.00");   
+   $("#producto").focus();
+}
+function validarCantidad(v)
+{
+
+  
 }
