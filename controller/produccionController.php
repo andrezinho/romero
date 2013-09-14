@@ -222,26 +222,26 @@ class ProduccionController extends Controller
     }
 
     //MOSTAR REPORTE
-    function load_ingresos()
+    function load_produccion()
     {
-        $obj = new movimiento();
+        $obj = new Produccion();
         $data = array();
         $view = new View();
-        $data['rowsd'] = $obj->ViewResultado($_GET);
+        $data['rowsd'] = $obj->ViewResultados($_GET);
         $view->setData($data);
-        $view->setTemplate( '../view/ingresosm/_consulingresos.php' );
+        $view->setTemplate( '../view/produccion/_consulproduc.php' );
         echo $view->renderPartial();
     }
 
     //MOSTRAR DETALLE DE LOS REPORTES
     public function detalle()
     {
-        $obj = new movimiento();
+        $obj = new Produccion();
         $data = array();
         $view = new View();
         $data['rowsd'] = $obj->rptDetails($_GET['id']);
         $view->setData($data);
-        $view->setTemplate( '../view/hojaruta/_rptDetalle.php' );
+        $view->setTemplate( '../view/produccion/_rptDetalle.php' );
         $view->setLayout( '../template/list.php' );
         $view->render();
     }

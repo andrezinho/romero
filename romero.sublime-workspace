@@ -203,6 +203,22 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "web/js/app/evt_form_proformas.js",
+			"settings":
+			{
+				"buffer_size": 17960,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "web/js/app/evt_form_produccion.js",
+			"settings":
+			{
+				"buffer_size": 19954,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -231,6 +247,10 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_rutas.js",
+		"/C/xampp/htdocs/romero/web/js/app/evt_index_produccion.js",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_hojaruta.js",
+		"/C/xampp/htdocs/romero/web/js/app/evt_form_produccion.js",
 		"/C/xampp/htdocs/romero/lib/Spdo.php",
 		"/C/xampp/htdocs/romero/controller/proformasController.php",
 		"/C/xampp/htdocs/romero/model/proformas.php",
@@ -243,7 +263,6 @@
 		"/C/xampp/htdocs/romero/model/produccion.php",
 		"/C/xampp/htdocs/romero/view/hojaruta/_form.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_ingresom.js",
-		"/C/xampp/htdocs/romero/web/js/app/evt_form_hojaruta.js",
 		"/C/xampp/htdocs/romero/model/movimiento.php",
 		"/C/xampp/htdocs/romero/model/clientes.php",
 		"/C/xampp/htdocs/romero/controller/clientesController.php",
@@ -251,7 +270,6 @@
 		"/C/xampp/htdocs/romero/model/verificacion.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_verificacion.js",
 		"/C/xampp/htdocs/romero/view/verificacion/_form.php",
-		"/C/xampp/htdocs/romero/web/js/app/evt_form_produccion.js",
 		"/C/xampp/htdocs/romero/model/maderba.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_proformas.js",
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_melamina.js",
@@ -273,7 +291,6 @@
 		"/C/xampp/htdocs/romero/model/tipodocumento.php",
 		"/C/xampp/htdocs/romero/controller/ingresomController.php",
 		"/C/xampp/htdocs/romero/view/ingresosm/_form.php",
-		"/C/xampp/htdocs/romero/web/js/app/evt_index_produccion.js",
 		"/C/xampp/htdocs/romero/controller/produccionController.php",
 		"/C/xampp/htdocs/romero/web/js/app/evt_index_ingresom.js",
 		"/C/xampp/htdocs/consorcio/transacciones/ventas/proforma/MantProforma.php",
@@ -357,8 +374,7 @@
 		"/C/xampp/htdocs/romero/web/js/app/evt_form_perfil.js",
 		"/C/xampp/htdocs/romero/controller/areasController.php",
 		"/C/xampp/htdocs/romero/model/correlativos.php",
-		"/C/xampp/htdocs/romero/view/correlativos/_form.php",
-		"/C/xampp/htdocs/romero/view/tipodocumento/_form.php"
+		"/C/xampp/htdocs/romero/view/correlativos/_form.php"
 	],
 	"find":
 	{
@@ -376,6 +392,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"load_subproducto",
+			"load_finaciamiento",
 			"=$",
 			"\"c\"",
 			"calcSubTotalMa",
@@ -501,9 +519,7 @@
 			"\"t\"",
 			"\"c\"",
 			"idmaderba",
-			"idlinea",
-			"idmaderba",
-			"produccion.maderba"
+			"idlinea"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -649,8 +665,67 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "web/js/app/evt_form_proformas.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17960,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5619,
+								5633
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2115.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "web/js/app/evt_form_produccion.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 19954,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								16687,
+								16703
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4174.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],

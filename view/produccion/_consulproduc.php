@@ -28,7 +28,7 @@
                             <td align="center"><?php echo $r['fechafin']; ?></td>
                             <td align="left"><?php echo $r['estado']; ?></td>
                             <td align="center">
-                                <a href="javascript:popup('index.php?controller=ingresom&action=detalle&id=<?php echo $id; ?>',870,350)" class="box-boton boton-search" title="Ver detalle">&nbsp;</a>
+                                <a href="javascript:popup('index.php?controller=produccion&action=detalle&id=<?php echo $id; ?>',870,350)" class="box-boton boton-search" title="Ver detalle">&nbsp;</a>
                             </td>                           
                         </tr>
                         <?php    

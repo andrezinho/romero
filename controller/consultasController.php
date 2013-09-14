@@ -38,6 +38,17 @@ class ConsultasController extends Controller
         $view->setLayout( '../template/Layout.php' );
         $view->render();
     }
+
+    public function produccion() 
+    {        
+        $data = array();
+        $view = new View();
+        //$data['Personal'] = $this->Select(array('id'=>'idpersonal','name'=>'idpersonal','text_null'=>'.: Seleccione :.','table'=>'vista_personal'));
+        $view->setData($data);
+        $view->setTemplate( '../view/consultas/_produccion.php' );       
+        $view->setLayout( '../template/Layout.php' );
+        $view->render();
+    }
 }
 
 ?>

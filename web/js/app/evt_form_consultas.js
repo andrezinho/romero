@@ -12,6 +12,8 @@ $(function()
 
     $("#ingreso").on('click','#reporte_ing',function(){ReporteIngreso(); });
 
+    $("#produccion").on('click','#reporte_pro',function(){ReporteProd(); });
+
     //PROFORMAS - MOSTRAR DETALLE QUE SALE EN EL REPORTE
     $("#proform").on('click','#print_rpt',function(){
         
@@ -88,6 +90,17 @@ function ReporteIngreso()
     });
 }
 
+//PRODUCCION
+function ReporteProd()
+{
+  fechai=$("#fechad").val();
+  fechaf=$("#fechah").val();  
+  
+    $.get('index.php','controller=produccion&action=load_produccion&fechai='+fechai+'&fechaf='+fechaf,function(r){
+      
+      $("#load_resultado").empty().append(r);
 
+    });
+}
 
 
