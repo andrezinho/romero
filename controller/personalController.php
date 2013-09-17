@@ -6,14 +6,15 @@ require_once '../model/personal.php';
 class PersonalController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'p.dni','align'=>'center','width'=>80),
-                        2 => array('Name'=>'Nombres','NameDB'=>'p.nombres','width'=>150,'search'=>true),
-                        3 => array('Name'=>'Apellidos','NameDB'=>'p.apellidos','width'=>150,'search'=>true),
-                        4 => array('Name'=>'Telefono','NameDB'=>'p.telefono'),
-                        5 => array('Name'=>'Direccion','NameDB'=>'p.direccion'),
-                        6 => array('Name'=>'Sexo','NameDB'=>'p.sexo','width'=>70),
-                        7 => array('Name'=>'Estado Civil','NameDB'=>'p.estcivil','align'=>'left','width'=>80),
-                        8 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>'50')
+                        1 => array('Name'=>'Codigo','NameDB'=>'p.idpersonal','align'=>'center','width'=>80),
+                        2 => array('Name'=>'DNI','NameDB'=>'p.dni','align'=>'center','width'=>80),
+                        3 => array('Name'=>'Nombres','NameDB'=>'p.nombres','width'=>100,'search'=>true),
+                        4 => array('Name'=>'Apellidos','NameDB'=>'p.apellidos','width'=>150,'search'=>true),
+                        5 => array('Name'=>'Telefono','NameDB'=>'p.telefono'),
+                        6 => array('Name'=>'Direccion','NameDB'=>'p.direccion'),
+                        7 => array('Name'=>'Sexo','NameDB'=>'p.sexo','width'=>70),
+                        8 => array('Name'=>'Estado Civil','NameDB'=>'e.descripcion','align'=>'left','width'=>80),
+                        9 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>'50')
                      );
 
     public function index() 
@@ -54,6 +55,8 @@ class PersonalController extends Controller
         $view = new View();
         $data['idarea'] = $this->Select(array('id'=>'idarea','name'=>'idarea','text_null'=>'Seleccione...','table'=>'produccion.vista_area'));
         $data['idcargo'] = $this->Select(array('id'=>'idcargo','name'=>'idcargo','text_null'=>'Seleccione...','table'=>'produccion.vista_cargo'));
+        $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil'));
+        $data['Perfil'] = $this->Select(array('id'=>'idperfil','name'=>'idperfil','text_null'=>'Seleccione...','table'=>'seguridad.vista_perfil'));
         $view->setData($data);
         $view->setTemplate( '../view/personal/_form.php' );
         echo $view->renderPartial();
@@ -68,6 +71,8 @@ class PersonalController extends Controller
         $data['obj'] = $obj;
         $data['idarea'] = $this->Select(array('id'=>'idarea','name'=>'idarea','text_null'=>'Seleccione...','table'=>'produccion.vista_area','code'=>$obj->idarea));
         $data['idcargo'] = $this->Select(array('id'=>'idcargo','name'=>'idcargo','text_null'=>'Seleccione...','table'=>'produccion.vista_cargo','code'=>$obj->idcargo));
+        $data['EstadoCivil'] = $this->Select(array('id'=>'idestado_civil','name'=>'idestado_civil','text_null'=>'Seleccione...','table'=>'vista_estadocivil','code'=>$obj->idestado_civil));
+        $data['Perfil'] = $this->Select(array('id'=>'idperfil','name'=>'idperfil','text_null'=>'Seleccione...','table'=>'seguridad.vista_perfil','code'=>$obj->idperfil));
         $view->setData($data);
         $view->setTemplate( '../view/personal/_form.php' );
         echo $view->renderPartial();

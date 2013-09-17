@@ -3,7 +3,7 @@ $(function()
     $( "#nombres" ).focus();
     $( "#sexo" ).css({'width':'210px'});
     $( "#idarea" ).css({'width':'210px'});
-    $( "#idcargo" ).css({'width':'210px'});
+    $( "#idcargo, #idestado_civil" ).css({'width':'210px'});
     $("#estados").buttonset();
     $("#fechanaci").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
     /*$("#ruc").change(function(){

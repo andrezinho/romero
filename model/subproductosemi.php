@@ -53,7 +53,7 @@ class SubProductoSemi extends Main
                     observacion= :p7
 
                 WHERE idsubproductos_semi = :idsubproductos_semi ");
-        
+        //print_r($stmt);
         $stmt->bindParam(':p1', $_P['descripcion'] , PDO::PARAM_STR);
         $stmt->bindParam(':p2', $_P['idproductos_semi'] , PDO::PARAM_INT);
         $stmt->bindParam(':p3', $_P['activo'] , PDO::PARAM_INT);

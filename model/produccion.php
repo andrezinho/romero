@@ -40,7 +40,7 @@ class Produccion extends Main
                 INNER JOIN public.personal AS pe ON pe.idpersonal = p.idpersonal 
                 inner join produccion.almacenes as a on a.idalmacen = p.idalmacen
                 WHERE p.idproducciontipo=1";
-     
+        //echo $sql;
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
     function indexGridList($page,$limit,$sidx,$sord,$filtro,$query,$cols)
@@ -653,5 +653,86 @@ class Produccion extends Main
         if($r) return array("1",'Ok, esta produccion fue finalizada');
             else return array("2",'Ha ocurrido un error, porfavor intentelo nuevamente');
     }
+
+    function ViewResultados($_G)
+    {
+       
+        $fechai = $this->fdate($_G['fechai'], 'EN');
+        $fechaf = $this->fdate($_G['fechaf'], 'EN');
+
+        $sql="SELECT
+                p.idproduccion,
+                upper(p.descripcion) AS produccion,
+                upper(pe.nombres || ' ' || pe.apellidos) AS personal,
+                a.descripcion AS almacen,
+                substr(cast(p.fechaini as text),9,2)||'/'||substr(cast(p.fechaini as text),6,2)||'/'||substr(cast(p.fechaini as text),1,4) AS fechaini,
+                substr(cast(p.fechafin as text),9,2)||'/'||substr(cast(p.fechafin as text),6,2)||'/'||substr(cast(p.fechafin as text),1,4) AS fechafin,                    
+                case p.estado when 1 then 'REGISTRADO'
+                      when 2 then 'FINALIZADO'                                   
+                      WHEN 0 THEN 'ANULADO'
+                      else '&nbsp;' end AS estado
+            FROM
+            produccion.produccion AS p
+            INNER JOIN public.personal AS pe ON pe.idpersonal = p.idpersonal 
+            inner join produccion.almacenes as a on a.idalmacen = p.idalmacen
+            WHERE 
+                p.idproducciontipo= 1 AND p.idproduccion<> 1 AND
+                p.fecha BETWEEN CAST(:p1 AS DATE) AND CAST(:p2 AS DATE)
+            ORDER BY p.idproduccion";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':p1', $fechai , PDO::PARAM_STR);
+        $stmt->bindParam(':p2', $fechaf, PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $stmt->fetchAll();
+
+    }
+
+    //
+    function rptDetails($id)
+    {
+        $stmt = $this->db->prepare("SELECT
+                    distinct d.idproduccion,
+                    d.idsubproductos_semi,
+                    d.cantidad,
+                    pr.descripcion || ', ' || spr.descripcion AS descripcion
+                FROM produccion.produccion AS p
+                    INNER JOIN produccion.produccion_detalle AS d ON p.idproduccion = d.idproduccion
+                    INNER JOIN produccion.subproductos_semi AS spr ON spr.idsubproductos_semi = d.idsubproductos_semi
+                    INNER JOIN produccion.productos_semi AS pr ON pr.idproductos_semi = spr.idproductos_semi
+                WHERE d.idproduccion = :id
+                ORDER BY d.idproduccion");
+        $stmt->bindParam(':id', $id , PDO::PARAM_INT);
+        $stmt->execute();
+
+        $stmt2 = $this->db->prepare("SELECT distinct p.descripcion,md.ctotal,
+                    a.descripcion as almacen,
+                    md.idtipoproducto as tipo
+                    from produccion.movim_proddet as mp
+                        inner join produccion.produccion_detalle as pd
+                        on mp.idproduccion_detalle = pd.idproduccion_detalle
+                        inner join movimientosdetalle as md on md.idmovimiento = mp.idmovimiento
+                            inner join produccion.producto as p on p.idproducto = md.idproducto
+                            inner join produccion.almacenes as a on a.idalmacen = md.idalmacen
+                    where pd.idproduccion = :id");
+
+        $data = array();
+        foreach($stmt->fetchAll() as $row)
+        {
+            $stmt2->bindParam(':id',$row['idproduccion'],PDO::PARAM_INT);
+            $stmt2->execute();
+            $data2 = array();
+            foreach($stmt2->fetchAll() as $r)
+            {
+                $data2[] = array('descripcion'=>$r['descripcion'],'cantidad'=>$r['ctotal'],'almacen'=>$r['almacen'],'tipo'=>$r['tipo']);
+            }
+            $data[] = array('descripcion'=>$row['descripcion'],'cantidad'=>$row['cantidad'],'det'=>$data2);
+        }
+        //print_r($data[0]);
+        return $data;
+    }
+
+    
 }
 ?>

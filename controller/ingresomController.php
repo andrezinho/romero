@@ -137,5 +137,32 @@ class ingresomController extends Controller
         print_r(json_encode($result));
     }
 
+    //MOSTAR REPORTE
+    function load_ingresos()
+    {
+        $obj = new movimiento();
+        $data = array();
+        $view = new View();
+        $data['rowsd'] = $obj->ViewResultado($_GET);
+        $view->setData($data);
+        $view->setTemplate( '../view/ingresosm/_consulingresos.php' );
+        echo $view->renderPartial();
+    }
+
+    //MOSTRAR DETALLE DE LOS REPORTES
+    public function detalle()
+    {
+        $obj = new movimiento();
+        $data = array();
+        $view = new View();
+        $data['rowsd'] = $obj->rptDetails($_GET['id']);
+        $view->setData($data);
+        $view->setTemplate( '../view/ingresosm/_rptDetalle.php' );
+        $view->setLayout( '../template/list.php' );
+        $view->render();
+    }
+
+
+
 }
 ?>

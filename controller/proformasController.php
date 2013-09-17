@@ -138,6 +138,7 @@ class ProformasController extends Controller
         print_r(json_encode($result));
     }
     
+    //Cargaar detalle para la solicitud
     public function load_productos()
     {
         $obj = new Proformas();
@@ -149,6 +150,7 @@ class ProformasController extends Controller
         echo $view->renderPartial();
     }
     
+    //Para el las consultas es decir reportes
     public function load_proformas()
     {
         $obj = new Proformas();
@@ -160,6 +162,19 @@ class ProformasController extends Controller
         echo $view->renderPartial();
     }
     
+    //imprmir reporte
+    public function print_rpt()
+    {
+        $obj = new Proformas();
+        $data = array();
+        $view = new View();
+        $data['rows'] = $obj->ViewResultado($_GET);
+        $view->setData($data);
+        $view->setTemplate( '../view/proformas/_pdfrpt.php' );
+        $view->setLayout( '../template/empty.php' );
+        echo $view->renderPartial();
+    }
+
     public function anular()
     {
         $obj = new Proformas();
@@ -170,13 +185,15 @@ class ProformasController extends Controller
         print_r(json_encode($result));
     }
     
+    //Imprimir proforma
     public function printer()
     {
         $obj = new Proformas();
         $data = array();
         $view = new View();
         $ro = $obj->printPro($_GET);
-        $data['cabera'] = $ro[0];
+        $data['cabecera'] = $ro[0];
+        $data['detalle'] = $ro[1];
         $view->setData($data);
         $view->setTemplate( '../view/proformas/_pdf.php' );
         $view->setLayout( '../template/empty.php' );

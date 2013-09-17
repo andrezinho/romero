@@ -97,8 +97,13 @@ function DsctV()
 function save()
 {
   bval = true;        
-  bval = bval && $( "#descripcion" ).required();        
-  //bval = bval && $( "#orden" ).required();
+  
+  bval = bval && $( "#idproductos_semi" ).required();
+  bval = bval && $( "#descripcion" ).required();
+  bval = bval && $( "#factor" ).required();
+  bval = bval && $( "#idunidad_medida" ).required();
+  bval = bval && $( "#precio" ).required();
+  
   var str = $("#frm_SubProductoSemi").serialize();
   if ( bval ) 
   {

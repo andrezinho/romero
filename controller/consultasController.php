@@ -28,20 +28,27 @@ class ConsultasController extends Controller
         $view->render();
     }
 
-    public function edit() 
-    {
-        $obj = new Consultas();
+    public function ingresos() 
+    {        
         $data = array();
         $view = new View();
-        $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;
+        //$data['Personal'] = $this->Select(array('id'=>'idpersonal','name'=>'idpersonal','text_null'=>'.: Seleccione :.','table'=>'vista_personal'));
         $view->setData($data);
-        $view->setTemplate( '../view/almacen/_form.php' );
-        echo $view->renderPartial();
+        $view->setTemplate( '../view/consultas/_ingresos.php' );       
+        $view->setLayout( '../template/Layout.php' );
+        $view->render();
     }
 
-    
- 
+    public function produccion() 
+    {        
+        $data = array();
+        $view = new View();
+        //$data['Personal'] = $this->Select(array('id'=>'idpersonal','name'=>'idpersonal','text_null'=>'.: Seleccione :.','table'=>'vista_personal'));
+        $view->setData($data);
+        $view->setTemplate( '../view/consultas/_produccion.php' );       
+        $view->setLayout( '../template/Layout.php' );
+        $view->render();
+    }
 }
 
 ?>

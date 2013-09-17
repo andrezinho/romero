@@ -6,25 +6,49 @@ $(function()
     $( "#descripcion" ).focus();    
     $("#estados").buttonset();
     
-    $("#proform").on('click','#reporte_prof',function(){ReporteProf(); }); 
+    $("#proform").on('click','#reporte_prof',function(){ReporteProf(); });
+    
+    $("#hojar").on('click','#reporte_hr',function(){ReporteHojaR(); });
+
+    $("#ingreso").on('click','#reporte_ing',function(){ReporteIngreso(); });
+
+    $("#produccion").on('click','#reporte_pro',function(){ReporteProd(); });
+
+    //PROFORMAS - MOSTRAR DETALLE QUE SALE EN EL REPORTE
+    $("#proform").on('click','#print_rpt',function(){
+        
+        fechai=$("#fechad").val();
+        fechaf=$("#fechah").val();
+        if($("#idpersonal").val()=='')
+        {
+          idper=0
+        }else
+          {
+            idper=$("#idpersonal").val();
+          }
+
+        var ventana=window.open('index.php?controller=proformas&action=print_rpt&fechad='+idper+'&fechai='+fechai+'&fechaf='+fechaf, 'Imprimir Proforma, width=600, height=600, resizable=no, scrollbars=yes, status=yes,location=yes'); 
+        ventana.focus();
+        
+    });
+    
     
 });
 
+//PROFORMAS
 function ReporteProf()
 {
     //alert('');
     fechai=$("#fechad").val();
     fechaf=$("#fechah").val();
-    idper= $("#idpersonal").val();
-    
-    if(idper=='')
+    if($("#idpersonal").val()=='')
         {
-            idper=0;
+          idper=0
         }else
-            {
-               idper=idper; 
-            }
-    //alert(fechai);
+          {
+            idper=$("#idpersonal").val();
+          }
+    
     $.get('index.php','controller=proformas&action=load_proformas&idper='+idper+'&fechai='+fechai+'&fechaf='+fechaf,function(r){
       
       $("#load_resultado").empty().append(r);
@@ -32,26 +56,51 @@ function ReporteProf()
     });
 }
 
-function save()
+//HOOJA DE RUTAS
+function ReporteHojaR()
 {
-  bval = true;        
-  bval = bval && $( "#descripcion" ).required();        
-  //bval = bval && $( "#orden" ).required();
-  var str = $("#frm").serialize();
-  if ( bval ) 
-  {
-      $.post('index.php',str,function(res)
-      {
-        if(res[0]==1){
-          $("#box-frm").dialog("close");
-          gridReload(); 
-        }
-        else
+  fechai=$("#fechad").val();
+  fechaf=$("#fechah").val();  
+    //alert('');
+    if($("#idpersonal").val()=='')
         {
-          alert(res[1]);
-        }
-        
-      },'json');
-  }
-  return false;
+          idper=0
+        }else
+          {
+            idper=$("#idpersonal").val();
+          }
+    //alert(idper);
+    $.get('index.php','controller=hojaruta&action=load_hojarutas&idper='+idper+'&fechai='+fechai+'&fechaf='+fechaf,function(r){
+      
+      $("#load_resultado").empty().append(r);
+
+    });
 }
+
+//INGRESOS DE MATERIALES
+function ReporteIngreso()
+{
+  fechai=$("#fechad").val();
+  fechaf=$("#fechah").val();  
+  
+    $.get('index.php','controller=ingresom&action=load_ingresos&fechai='+fechai+'&fechaf='+fechaf,function(r){
+      
+      $("#load_resultado").empty().append(r);
+
+    });
+}
+
+//PRODUCCION
+function ReporteProd()
+{
+  fechai=$("#fechad").val();
+  fechaf=$("#fechah").val();  
+  
+    $.get('index.php','controller=produccion&action=load_produccion&fechai='+fechai+'&fechaf='+fechaf,function(r){
+      
+      $("#load_resultado").empty().append(r);
+
+    });
+}
+
+
