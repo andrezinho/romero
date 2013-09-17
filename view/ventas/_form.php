@@ -1,4 +1,24 @@
 <?php include("../lib/helpers.php"); ?>
+<style>
+  .custom-combobox {
+    position: relative;
+    display: inline-block;
+  }
+  .custom-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+    /* support: IE7 */
+    *height: 1.7em;
+    *top: 0.1em;
+  }
+  .custom-combobox-input {
+    margin: 0;
+    padding: 0.3em;
+  }
+  </style>
 <div style="padding:10px 20px; width:900px">
 <form id="frm_ventas" >
     <div id="tabs">
@@ -48,9 +68,9 @@
                 <label class="labels" style="width:60px">Moneda: </label>
                 <?php echo $moneda; ?>
                 <label class="labels">Tipo de Cambio: </label>
-                <input name="tipo_cambio" value="0.00" id="tipo_cambio" title="Tipo de Cambio" type="text" class="ui-widget-content ui-corner-all text text-num" />
+                <input name="tipo_cambio" value="0.00" id="tipo_cambio" title="Tipo de Cambio" type="text" class="ui-widget-content ui-corner-all text text-num" readonly="readonly"/>
                 <label class="labels" style="width:60px">Dscto: </label>
-                <input type="text" name="monto_descuento" id="monto_descuento" value="0.00"  title="Monto del descuento" class="ui-widget-content ui-corner-all text text-num" />
+                <input type="text" name="monto_descuento" id="monto_descuento" value="0.00"  title="Monto del descuento" class="ui-widget-content ui-corner-all text text-num" onkeypress="return permite(event,'num')" />
                 <select name="tipod" id="tipod">
                     <option value="1">S/.</option>
                     <option value="2">%</option>
@@ -63,18 +83,20 @@
         <fieldset id="box-melamina" class="ui-corner-all" style="padding: 2px 10px 7px;">  
                 <legend>Detalle de la venta</legend>
                 <div id="box-1">
-                    <label class="labels" for="producto">Producto: </label>                    
-                    <input type="text" name="producto" id="producto" value="" class="ui-widget-content ui-corner-all text" style="width:200px" />
-                    <input type="hidden" name="idsubproductos_semi" id="idsubproductos_semi" value="" />
-                    <a href="javascript:popup('index.php?controller=subproductosemi&action=lista',870,350)" class="box-boton boton-search" title="buscar Producto">&nbsp;</a>
-                    <label class="labels" for="precio" style="width:50px">Precio: </label>                    
-                    <input type="text" name="precio" id="precio" value="0.00" class="ui-widget-content ui-corner-all text text-num" />                    
-                    <label class="labels" for="stock" style="width:50px">Stock: </label>                    
-                    <input type="text" name="stock" id="stock" value="0.00" class="ui-widget-content ui-corner-all text text-num" readonly="readonly" />                
-                    <img id="load-stock" src="images/loader.gif" style="display:none" />
-                    <label class="labels" for="cantidad" style="width:70px">Cantidad: </label>                    
-                    <input type="text" name="cantidad" id="cantidad" value="0.00" class="ui-widget-content ui-corner-all text text-num" />
-                    <a href="javascript:" id="btn-add-ma" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a>                         
+                    <label class="labels" for="producto">Producto: </label>            
+                    <div class="ui-widget" style="display:inline-block">
+                        <?php echo $subproductosemi; ?>
+                    </div>                    
+                    <span>
+                        <label class="labels" for="precio" style="">Precio: </label>                    
+                        <input type="text" name="precio" id="precio" value="0.00" class="ui-widget-content ui-corner-all text text-num" />                    
+                        <label class="labels" for="stock" style="width:50px">Stock: </label>                    
+                        <input type="text" name="stock" id="stock" value="0.00" class="ui-widget-content ui-corner-all text text-num" readonly="readonly" />                
+                        <img id="load-stock" src="images/loader.gif" style="display:none" />
+                        <label class="labels" for="cantidad" style="width:70px">Cantidad: </label>                    
+                        <input type="text" name="cantidad" id="cantidad" value="0.00" class="ui-widget-content ui-corner-all text text-num" />
+                        <a href="javascript:" id="btn-add-ma" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a>                         
+                    </span>
                 </div>
             </fieldset>
             <div id="div-detalle">
@@ -100,7 +122,12 @@
                                 <td>&nbsp;</td>
                             </tr>
                             <tr>
-                                <td colspan="4" align="right"><b>IGV S/.</b></td>
+                                <td colspan="4" align="right" id="label_dscto"><b>Dscto S/.</b></td>
+                                <td align="right"><b>0.00</b></td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" align="right"><b>IGV (18%) S/.</b></td>
                                 <td align="right"><b>0.00</b></td>
                                 <td>&nbsp;</td>
                             </tr>
@@ -195,7 +222,7 @@
             <br/> 
                  <label class="labels">Monto: </label>
                  <input type="text" name="monto_efectivo" id="monto_efectivo" value="0.00"  class="ui-widget-content ui-corner-all text text-num" />
-                 S/. <a href="#" style="color:green">Agregar</a>
+                 S/. <a href="javascript:" id="add-fp" style="color:green">Agregar</a>
           </fieldset>
            <div class="contain" style="">
             <table id="table-detalle-pagos" class="ui-widget ui-widget-content" border="0" >
@@ -209,6 +236,18 @@
                 </thead> 
                 <tbody>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td align="right" colspan="2"><b>Total de Pago:</b></td>
+                        <td align="right"><b>0.00</b></td>
+                        <td>&nbsp;</td>                        
+                    </tr>
+                    <tr>
+                        <td align="right" colspan="2">Monto Faltante:</td>
+                        <td align="right">0.00</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </tfoot>
             </table>  
           </div>        
       </div>      

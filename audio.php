@@ -1,78 +1,204 @@
-<video autoplay id="tVideo"></video>
+<!doctype html>
  
-<script>
-    function getMedia () {
-        // Obtenemos el getUserMedia segun el navegador
-        navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-        // Solicitamos acceso
-        navigator.getUserMedia ( {
-            video: true, 
-            audio: true
-        }, function( oMedia ) {
-            // Conectamos la webcam con el <video>
-            var video = document.getElementById('tVideo');
-            video.src = window.URL.createObjectURL( oMedia );
-        }, getMedia );
-    }
-    getMedia ();
-</script>
-<!--  Botón Grabar / Parar -->
-<input type="button" id="boton" value="Grabar" onclick="GrabarOParar ()" />
-<script>
- function GrabarOParar ( ) {
-   // Si está grabando
-   if ( grabando ) {
-        // Parar de gravar y enviar por AJaX
-        EnviarPorAjax ( grabando.stop () );
-     // Marcar grabar a 0
-        grabando = 0;
-     // Volver a poner "Grabar" en el botón
-     document.getElementById ('boton') . value = 'Grabar';
-   } else {
-      device = document.getElementsByTagName('device')[0];
-      // Empezamos a grabar
-      grabando = device.data.record ();
-       // Ponemos "Parar" en el botón
-      document.getElementById ('boton') . value = 'Parar';
-   }
- }
- function EnviarPorAjax ( archivo ) {
-  // Leemos el archivo
-  var reader = new FileReader();
-  // Creamos conexión ajax 
-  reader.onload = function( binaryVideo ) { 
-    // Creamos el objeto AJAX
-     ajax = new XMLHttpRequest ();
-    // Indicamos el scripot de upload del servidor
-     ajax.open("post", "/videoupload.php", true);
-     ajax.setRequestHeader("Content-Type", "multipart/form-data");
-    // Enviamos el contenido del archivo de vídeo
-     ajax.send( binaryVideo.target.result )
-  }  
-  reader.readAsBinaryString(f); 
- }
- grabando = 0;
-</script>
-
-<!--  Botón Grabar / Parar -->
-<input type="button" id="boton" value="Conectar" onclick="ConectarPeer ()" />
-<!--  Vídeo de un usuario remoto -->
-<video id="suVideo" autoplay></video>
-<script>
-function ConectarPeer () {
-  // Conectar a una IP
-  var conexion = new ConnectionPeer(  '80.23....');
-  conexion.onconnect = function (event) {
-    // Enviar tu stream al otro
-    conexion.addStream( document.getElementsByTagName('device')[0].data );
-    // Recibir stream del otro
-    conexion.onstream = function (event) {
-       document.getElementById ('suVideo').src = conexion.remoteStreams[0].URL;
-    }
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>jQuery UI Autocomplete - Combobox</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script type="text/javascript" src="web/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="web/js/jquery-ui-1.10.3.custom.min.js"></script>    
+  <link rel="stylesheet" href="/resources/demos/style.css" />
+  <style>
+  .custom-combobox {
+    position: relative;
+    display: inline-block;
   }
-  // Conducimos el error
-  conexion.onerror = function ( event ) {
-    alert ( 'Imposible conectar con el usuario' );
+  .custom-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+    /* support: IE7 */
+    *height: 1.7em;
+    *top: 0.1em;
   }
-}
-</script>
+  .custom-combobox-input {
+    margin: 0;
+    padding: 0.3em;
+  }
+  </style>
+  <script>
+  (function( $ ) {
+    $.widget( "custom.combobox", {
+      _create: function() {
+        this.wrapper = $( "<span>" )
+          .addClass( "custom-combobox" )
+          .insertAfter( this.element );
+ 
+        this.element.hide();
+        this._createAutocomplete();
+        this._createShowAllButton();
+      },
+ 
+      _createAutocomplete: function() {
+        var selected = this.element.children( ":selected" ),
+          value = selected.val() ? selected.text() : "";
+ 
+        this.input = $( "<input>" )
+          .appendTo( this.wrapper )
+          .val( value )
+          .attr( "title", "" )
+          .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
+          .autocomplete({
+            delay: 0,
+            minLength: 0,
+            source: $.proxy( this, "_source" )
+          })
+          .tooltip({
+            tooltipClass: "ui-state-highlight"
+          });
+ 
+        this._on( this.input, {
+          autocompleteselect: function( event, ui ) {
+            ui.item.option.selected = true;
+            this._trigger( "select", event, {
+              item: ui.item.option
+            });
+          },
+ 
+          autocompletechange: "_removeIfInvalid"
+        });
+      },
+ 
+      _createShowAllButton: function() {
+        var input = this.input,
+          wasOpen = false;
+ 
+        $( "<a>" )
+          .attr( "tabIndex", -1 )
+          .attr( "title", "Show All Items" )
+          .tooltip()
+          .appendTo( this.wrapper )
+          .button({
+            icons: {
+              primary: "ui-icon-triangle-1-s"
+            },
+            text: false
+          })
+          .removeClass( "ui-corner-all" )
+          .addClass( "custom-combobox-toggle ui-corner-right" )
+          .mousedown(function() {
+            wasOpen = input.autocomplete( "widget" ).is( ":visible" );
+          })
+          .click(function() {
+            input.focus();
+ 
+            // Close if already visible
+            if ( wasOpen ) {
+              return;
+            }
+ 
+            // Pass empty string as value to search for, displaying all results
+            input.autocomplete( "search", "" );
+          });
+      },
+ 
+      _source: function( request, response ) {
+        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+        response( this.element.children( "option" ).map(function() {
+          var text = $( this ).text();
+          if ( this.value && ( !request.term || matcher.test(text) ) )
+            return {
+              label: text,
+              value: text,
+              option: this
+            };
+        }) );
+      },
+ 
+      _removeIfInvalid: function( event, ui ) {
+ 
+        // Selected an item, nothing to do
+        if ( ui.item ) {
+          return;
+        }
+ 
+        // Search for a match (case-insensitive)
+        var value = this.input.val(),
+          valueLowerCase = value.toLowerCase(),
+          valid = false;
+        this.element.children( "option" ).each(function() {
+          if ( $( this ).text().toLowerCase() === valueLowerCase ) {
+            this.selected = valid = true;
+            return false;
+          }
+        });
+ 
+        // Found a match, nothing to do
+        if ( valid ) {
+          return;
+        }
+ 
+        // Remove invalid value
+        this.input
+          .val( "" )
+          .attr( "title", value + " didn't match any item" )
+          .tooltip( "open" );
+        this.element.val( "" );
+        this._delay(function() {
+          this.input.tooltip( "close" ).attr( "title", "" );
+        }, 2500 );
+        this.input.data( "ui-autocomplete" ).term = "";
+      },
+ 
+      _destroy: function() {
+        this.wrapper.remove();
+        this.element.show();
+      }
+    });
+  })( jQuery );
+ 
+  $(function() {
+    $( "#combobox" ).combobox();
+    $( "#toggle" ).click(function() {
+      $( "#combobox" ).toggle();
+    });
+  });
+  </script>
+</head>
+<body>
+ 
+<div class="ui-widget">
+  <label>Your preferred programming language: </label>
+  <select id="combobox">
+    <option value="">Select one...</option>
+    <option value="ActionScript">ActionScript</option>
+    <option value="AppleScript">AppleScript</option>
+    <option value="Asp">Asp</option>
+    <option value="BASIC">BASIC</option>
+    <option value="C">C</option>
+    <option value="C++">C++</option>
+    <option value="Clojure">Clojure</option>
+    <option value="COBOL">COBOL</option>
+    <option value="ColdFusion">ColdFusion</option>
+    <option value="Erlang">Erlang</option>
+    <option value="Fortran">Fortran</option>
+    <option value="Groovy">Groovy</option>
+    <option value="Haskell">Haskell</option>
+    <option value="Java">Java</option>
+    <option value="JavaScript">JavaScript</option>
+    <option value="Lisp">Lisp</option>
+    <option value="Perl">Perl</option>
+    <option value="PHP">PHP</option>
+    <option value="Python">Python</option>
+    <option value="Ruby">Ruby</option>
+    <option value="Scala">Scala</option>
+    <option value="Scheme">Scheme</option>
+  </select>
+</div>
+<button id="toggle">Show underlying select</button>
+ 
+ 
+</body>
+</html>
