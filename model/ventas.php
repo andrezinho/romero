@@ -294,7 +294,38 @@ class Ventas extends Main
                        $monto_pago = $pagos->monto[$i];
                        do
                        {
-                          $s = "SELECT * from facturacion.movimientocuotas where idmovimiento = {$id}";
+                          $s = $this->db->prepare("SELECT * from facturacion.movimientocuotas 
+                                                  where idmovimiento = {$id} and estado = 0 
+                                                  order by idmovimientocuota asc limit 1");
+                          $s->execute();
+                          $row = $s->fetchObject();
+                          $mont_p = $row->monto-$row->monto_saldado;
+                          if($mont_p>$monto_pago)
+                          {
+                             $s1 = $this->db->prepare("UPDATE facturacion.movimientocuotas
+                                                        SET monto_saldado = monto_saldado + {$monto_pago}
+                                                       where idmovimientocuota = {$row->idmovimientocuota}");
+                             $s1->execute();
+                             $s2 = $this->db->prepare("INSERT INTO facturacion.mov_pagocuota 
+                                                      values({$idpd},{$row->idmovimientocuota})");
+                             $s2->execute();
+                             $monto_pago = 0;
+                          }
+                          else
+                          {                             
+                             $fecha = date('Y-m-d');
+                             $s1 = $this->db->prepare("UPDATE facturacion.movimientocuotas
+                                                        SET monto_saldado = monto_saldado + {$mont_p},
+                                                            estado = 1,
+                                                            fechapagoe = '{$fecha}'
+                                                       where idmovimientocuota = {$row->idmovimientocuota}");
+                             $s1->execute();
+                             $s2 = $this->db->prepare("INSERT INTO facturacion.mov_pagocuota 
+                                                      values({$idpd},{$row->idmovimientocuota})");
+                             $s2->execute();                            
+                             $monto_pago = $monto_pago - $mont_p;
+                          }
+
                        }
                        while($monto_pago>0);
                     }
