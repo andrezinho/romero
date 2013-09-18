@@ -90,5 +90,24 @@ class Tipodocumento extends Main
         $data = array('serie'=>$Serie,'numero'=>$Num);
         return $data;
     }
+
+    public function UpdateCorrelativo($idtp)
+    {
+        $s = $this->db->prepare("SELECT * from facturacion.correlativo where idtipodocumento = :id and idsucursal = :ids");
+        $s->bindParam(':id',$idtp,PDO::PARAM_INT);
+        $s->bindParam(':ids',$_SESSION['idsucursal'],PDO::PARAM_INT);
+        $s->execute();
+        $r = $s->fetchObject();
+        $vserie = $r->serie;
+        if($r->numero>=$r->valormaximo)
+            {$vs = $r->valorminimo;$vserie=$r->serie+1;}
+        else 
+            {$vs = $r->numero+$r->incremento;}
+        $s = $this->db->prepare("UPDATE facturacion.correlativo set numero = {$vs} , serie = {$vserie}
+                                where idtipodocumento = :id and idsucursal = :ids");
+        $s->bindParam(':id',$idtp,PDO::PARAM_INT);
+        $s->bindParam(':ids',$_SESSION['idsucursal'],PDO::PARAM_INT);
+        $s->execute();
+    }
 }
 ?>

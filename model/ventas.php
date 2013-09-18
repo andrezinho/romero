@@ -20,7 +20,8 @@ class Ventas extends Main
     
     function insert($_P ) 
     {
-        $obj_td = new Tipodocumento();
+        
+         $obj_td = new Tipodocumento();
       
          $prod = json_decode($_P['producto']);         
          $item = $prod->nitem;
@@ -123,6 +124,7 @@ class Ventas extends Main
             $stmt->execute();
             $id =  $this->IdlastInsert('facturacion.movimiento','idmovimiento');
 
+
             //Insertamos los detalles de la venta
             $detalle = $this->db->prepare("INSERT INTO facturacion.movimientodetalle(
                                             idmovimiento, idproducto, item, cantidad, precio)
@@ -145,8 +147,49 @@ class Ventas extends Main
                 }
             }
 
-            //Pagos
+            //Cuotas
+            if($idtipopago==2)
+            {
+                $estado = 0;
+                $observacion = "";
 
+                $cuotas = $this->db->prepare("INSERT INTO facturacion.movimientocuotas(
+                                                      idmovimiento, monto, monto_saldado, fechareg, 
+                                                      fechapago, estado, observacion, tipo)
+                                              VALUES (:p1, :p2, 0, :p4, 
+                                                      :p5, :p6, :p7, :p8);");                
+                //Inicial
+                $tipo = 1;
+                if($_P['inicial']>0)
+                {
+                   $cuotas->bindParam(':p1',$id,PDO::PARAM_INT);
+                   $cuotas->bindParam(':p2',$_P['inicial'],PDO::PARAM_INT);
+                   //$cuotas->bindParam(':p3','',PDO::PARAM_INT);
+                   $cuotas->bindParam(':p4',$fecha,PDO::PARAM_STR);
+                   $cuotas->bindParam(':p5',$fecha,PDO::PARAM_STR);
+                   $cuotas->bindParam(':p6',$estado,PDO::PARAM_INT);
+                   $cuotas->bindParam(':p7',$observacion,PDO::PARAM_STR);
+                   $cuotas->bindParam(':p8',$tipo,PDO::PARAM_INT);
+                   $cuotas->execute();
+                }
+
+                $tipo = 2;
+                foreach($_P['totalcouta'] as $k => $v)   
+                {
+                   
+                   $cuotas->bindParam(':p1',$id,PDO::PARAM_INT);
+                   $cuotas->bindParam(':p2',$v,PDO::PARAM_INT);
+                   //$cuotas->bindParam(':p3','',PDO::PARAM_INT);
+                   $cuotas->bindParam(':p4',$fecha,PDO::PARAM_STR);
+                   $cuotas->bindParam(':p5',$_P['fechacuota'][$k],PDO::PARAM_STR);
+                   $cuotas->bindParam(':p6',$estado,PDO::PARAM_INT);
+                   $cuotas->bindParam(':p7',$observacion,PDO::PARAM_STR);
+                   $cuotas->bindParam(':p8',$tipo,PDO::PARAM_INT);
+                   $cuotas->execute();
+                }
+            }
+
+            //Pagos
             $pagos = json_decode($_P['pagos']);         
             $item = $pagos->nitem;
             $total_pago = 0;
@@ -163,6 +206,7 @@ class Ventas extends Main
             $idtipodocumento = $_P['idtipodocumento'];
             
             $comprobante = $obj_td->GCorrelativo($idtipodocumento);
+            $obj_td->UpdateCorrelativo($idtipodocumento);
 
             $pago = $this->db->prepare("INSERT INTO facturacion.movimientospago(
                                     idmovimiento, fecha, total, descuento, observacion, 
@@ -180,6 +224,23 @@ class Ventas extends Main
             $pago->execute();
 
             $idp =  $this->IdlastInsert('facturacion.movimientospago','idmovimientopago');
+
+            //
+            if($idtipopago==1)
+            {
+              //Actualizamos las series y numero del documento generado
+              //echo "AAA".$idtipodocumento."AAA";
+              $updt_mov = $this->db->prepare("UPDATE facturacion.movimiento set documentoserie = :serie, 
+                                                            documentonumero = :numero,
+                                                            idtipodocumento = :idtd
+                                  where idmovimiento = :id");
+              $updt_mov->bindParam(':serie',$comprobante['serie'],PDO::PARAM_STR);
+              $updt_mov->bindParam(':numero',$comprobante['numero'],PDO::PARAM_STR);
+              $updt_mov->bindParam(':idtd',$idtipodocumento,PDO::PARAM_INT);
+              $updt_mov->bindParam(':id',$id,PDO::PARAM_INT);
+              $updt_mov->execute();
+            }
+
             $pagodetalle = $this->db->prepare("INSERT INTO facturacion.mov_pagodetalle(
                                                 idmovimientopago, idformapago, monto, nrotarjeta, nrocheque, 
                                                 bancocheque, fechavcheque, observacion, estado,nrovoucher)
@@ -208,6 +269,20 @@ class Ventas extends Main
                     $pagodetalle->bindParam(':p9',$estado,PDO::PARAM_INT);
                     $pagodetalle->bindParam(':p10',$pagos->nrovoucher[$i],PDO::PARAM_STR);
                     $pagodetalle->execute();
+
+                    if($idtipopago==2)
+                    {
+                       //Si es al credito se hace el pago de la inicial
+                       $idpd =  $this->IdlastInsert('facturacion.mov_pagodetalle','idmovimientopago');
+
+                       $monto_pago = $pagos->monto[$i];
+                       do
+                       {
+                          $s = "SELECT * from facturacion.movimientocuotas where idmovimiento = {$id}";
+                       }
+                       while($monto_pago>0);
+                    }
+
                 }
             }
 
