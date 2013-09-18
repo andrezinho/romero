@@ -286,7 +286,7 @@ class Ventas extends Main
                     $pagodetalle->bindParam(':p10',$pagos->nrovoucher[$i],PDO::PARAM_STR);
                     $pagodetalle->execute();
 
-                    /*if($idtipopago==2)
+                    if($idtipopago==2)
                     {
                        //Si es al credito se hace el pago de la inicial
                        $idpd =  $this->IdlastInsert('facturacion.mov_pagodetalle','idmovimientopago');
@@ -328,7 +328,7 @@ class Ventas extends Main
 
                        }
                        while($monto_pago>0);
-                    }*/
+                    }
 
                 }
             }
