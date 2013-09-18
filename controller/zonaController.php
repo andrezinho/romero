@@ -6,9 +6,10 @@ require_once '../model/zona.php';
 class ZonaController extends Controller
 {
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'s.idcargo','align'=>'center','width'=>'20'),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'s.descripcion','search'=>true),
-                        3 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
+                        1 => array('Name'=>'Codigo','NameDB'=>'s.idzona','align'=>'center','width'=>'40'),
+                        2 => array('Name'=>'Ubigeo','NameDB'=>'u.descripcion','search'=>true),
+                        3 => array('Name'=>'Zona','NameDB'=>'s.descripcion','search'=>true),
+                        4 => array('Name'=>'Estado','NameDB'=>'s.estado','width'=>'40','align'=>'center')
                      );
     
     public function index() 
@@ -47,9 +48,10 @@ class ZonaController extends Controller
     public function create()
     {
         $data = array();
-        $view = new View();                        
+        $view = new View();
+        $data['Distritos'] = $this->Select(array('id'=>'idubigeo','name'=>'idubigeo','text_null'=>'Seleccione...','table'=>'vista_distrito'));                                       
         $view->setData($data);
-        $view->setTemplate( '../view/cargo/_form.php' );
+        $view->setTemplate( '../view/zona/_form.php' );
         echo $view->renderPartial();
     }
 
@@ -58,10 +60,10 @@ class ZonaController extends Controller
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;        
-        $data['more_options'] = $this->more_options('area');
+        $data['obj'] = $obj;
+        $data['Distritos'] = $this->Select(array('id'=>'idubigeo','name'=>'idubigeo','text_null'=>'Seleccione...','table'=>'vista_distrito','code'=>$obj->idubigeo));                                       
         $view->setData($data);
-        $view->setTemplate( '../view/cargo/_form.php' );
+        $view->setTemplate( '../view/zona/_form.php' );
         echo $view->renderPartial();
         
     }
@@ -70,7 +72,7 @@ class ZonaController extends Controller
     {
         $obj = new Zona();
         $result = array();        
-        if ($_POST['idcargo']=='') 
+        if ($_POST['idzona']=='') 
             $p = $obj->insert($_POST);                        
         else         
             $p = $obj->update($_POST);                                

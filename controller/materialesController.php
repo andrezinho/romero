@@ -7,10 +7,9 @@ class MaterialesController extends Controller
 {   
     var $cols = array(
                         1 => array('Name'=>'Codigo','NameDB'=>'m.idmateriales','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'a.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Stock','NameDB'=>'m.stock','width'=>80,'align'=>'right'),
-                        4 => array('Name'=>'Unidad Medida','NameDB'=>'u.simbolo','search'=>true,'align'=>'center'),
-                        5 => array('Name'=>'Estado','NameDB'=>'a.estado','align'=>'center')
+                        2 => array('Name'=>'Descripcion','NameDB'=>'m.descripcion','width'=>250,'search'=>true),
+                        3 => array('Name'=>'Tipo Unidad Medida','NameDB'=>'t.descripcion','search'=>true,'align'=>'center'),
+                        4 => array('Name'=>'Estado','NameDB'=>'m.estado','align'=>'center')
                         
                      );
 

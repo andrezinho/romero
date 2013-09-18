@@ -5,8 +5,24 @@ class Ventas extends Main
 {    
     function indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$cols)
     {
-        $sql = "SELECT *
-                from facturacion.movimiento";                
+        $sql = "SELECT
+            m.idmovimiento,
+            c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno,
+            tpd.descripcion ,
+            m.documentonumero,
+            tpp.descripcion,
+            substr(cast(m.fecha as text),9,2)||'/'||substr(cast(m.fecha as text),6,2)||'/'||substr(cast(m.fecha as text),1,4),
+            m.total,        
+            case when m.idtipopago=2 then
+                '<a class=\"pagar box-boton boton-pay\" id=\"v-'||m.idmovimiento||'\" title=\"Pagar sus cuotas\" ></a>'
+            else '&nbsp;' end
+               
+            FROM
+            facturacion.movimiento AS m
+            INNER JOIN facturacion.movimientodetalle AS md ON m.idmovimiento = md.idmovimiento
+            INNER JOIN cliente AS c ON c.idcliente = m.idcliente
+            INNER JOIN facturacion.tipodocumento AS tpd ON tpd.idtipodocumento = m.idtipodocumento
+            INNER JOIN produccion.tipopago AS tpp ON tpp.idtipopago = m.idtipopago ";                
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 

@@ -1,16 +1,17 @@
 $(function() 
 {    
     $( "#descripcion" ).focus();
-    /*$( "#idperfil" ).css({'width':'210px'});*/
-    $("#div_activo").buttonset();
+    $( "#idubigeo" ).css({'width':'210px'});
+    $("#estados").buttonset();
 });
 
 function save()
 {
   bval = true;        
   bval = bval && $( "#descripcion" ).required();        
-  //bval = bval && $( "#orden" ).required();
-  var str = $("#frm-cargo").serialize();
+  bval = bval && $( "#idubigeo" ).required();
+  
+  var str = $("#frm_zona").serialize();
   if ( bval ) 
   {
       $.post('index.php',str,function(res)

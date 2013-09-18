@@ -81,7 +81,7 @@ class SubProductoSemi extends Main
         $sql = "SELECT idsubproductos_semi, descripcion from produccion.subproductos_semi ";
         if($idl!=null)
         {
-            $sql .= " WHERE idproductos_semi = {$idl}";
+            $sql .= " WHERE idproductos_semi = {$idl} AND idsubproductos_semi <> 1 ";
         }
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
@@ -105,7 +105,7 @@ class SubProductoSemi extends Main
                                             INNER JOIN produccion.subproductos_semi AS sps ON ps.idproductos_semi = sps.idproductos_semi
                                             
                                             WHERE {$field} ilike :query and ps.descripcion || ' ' || sps.descripcion <> ''
-                                                    AND ps.idproductos_semi <> 1
+                                                    AND ps.idsubproductos_semi <> 1
                                             limit 10");
         $statement->bindParam (":query", $query , PDO::PARAM_STR);
         $statement->execute();

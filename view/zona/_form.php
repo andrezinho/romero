@@ -3,15 +3,15 @@
 ?>
 
    
-<form id="frm-cargo" >
-    <input type="hidden" name="controller" value="Cargo" />
+<form id="frm_zona" >
+    <input type="hidden" name="controller" value="Zona" />
 
     <input type="hidden" name="action" value="save" />
-    
-        <label for="idcargo" class="labels">Codigo:</label>
-            <input id="idcargo" name="idcargo" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idcargo; ?>" readonly />
-        <br/>
+    <input id="idzona" name="idzona"  value="<?php echo $obj->idzona; ?>" type="hidden" />       
         
+        <label class="labels">Distrito</label>
+        <?php echo $Distritos; ?>
+         <br/>
         <label for="descripcion" class="labels">Descripcion:</label>
             <input id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
             <br>

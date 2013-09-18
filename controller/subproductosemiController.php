@@ -124,6 +124,7 @@ class SubProductoSemiController extends Controller
         }
         print_r(json_encode($result));
     }
+    
     public function getstock()
     {
         $obj = new SubProductoSemi();        
