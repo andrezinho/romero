@@ -23,7 +23,7 @@ class VentasController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
-
+        $data['script'] = "evt_index_ventas.js";
         //(nuevo,editar,eliminar,ver)
         $data['actions'] = array(true,true,true,false);
 
@@ -102,14 +102,28 @@ class VentasController extends Controller
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
+
     public function test()
     {
         print_r($_GET['producto']);
         //$a = json_decode($_GET['producto']);        
         //echo $a->descripcion[0];
     }
+
+    public function pagarcuota()
+    {
+        
+        $obj = new Ventas();
+        $data = array();
+        $view = new View();
+        $data['rowsd'] = $obj->ViewCuotas($_GET['id']);
+        $view->setData($data);
+        $view->setTemplate( '../view/ventas/_pagocuota.php' );
+        $view->setLayout( '../template/empty.php' );
+        echo $view->renderPartial();
     
-    }
+    }    
+}
  
 
 ?>
