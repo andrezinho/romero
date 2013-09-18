@@ -6,9 +6,9 @@ class HojaRuta extends Main
     {
         $sql = "SELECT
         h.idhojarutas,
+        z.descripcion || ' - ' || u.descripcion AS zonas,
         r.descripcion,
-        p.nombres || ' ' || p.apellidos AS personal,
-        z.descripcion || ' - ' || u.descripcion AS zonas,        
+        p.nombres || ' ' || p.apellidos AS personal,        
         substr(cast(h.fechareg as text),9,2)||'/'||substr(cast(h.fechareg as text),6,2)||'/'||substr(cast(h.fechareg as text),1,4)
         
         FROM

@@ -6,16 +6,15 @@ require_once '../model/ventas.php';
 class VentasController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Nro','NameDB'=>'m.idventas','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Fecha','NameDB'=>'m.descripcion','width'=>80,'search'=>true),
-                        3 => array('Name'=>'Comp.','NameDB'=>'mm.descripcion','search'=>true),
-                        4 => array('Name'=>'Serie','NameDB'=>'m.url'),
-                        5 => array('Name'=>'Numero','NameDB'=>'m.url'),
-                        6 => array('Name'=>'Cliente','NameDB'=>'m.controlador','width'=>70),
-                        7 => array('Name'=>'Total','NameDB'=>'m.estado','align'=>'center','width'=>70),
-                        8 => array('Name'=>'Estado','NameDB'=>'m.orden','align'=>'center','width'=>70),
-                        9 => array('Name'=>'Forma Pago','NameDB'=>'m.orden','align'=>'center','width'=>70),
-                        10 => array('Name'=>'Usuario','NameDB'=>'m.orden','align'=>'center','width'=>70)
+                        1 => array('Name'=>'Codigo','NameDB'=>'m.idmovimiento','align'=>'center','width'=>50),
+                        2 => array('Name'=>'Cliente','NameDB'=>"c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno",'width'=>150,'search'=>true),
+                        3 => array('Name'=>'Tipo documento.','NameDB'=>'tpd.descripcion','search'=>true,'width'=>80),
+                        4 => array('Name'=>'N° Recibo','NameDB'=>'m.documentonumero','search'=>true,'width'=>80),
+                        5 => array('Name'=>'Tipo Pago','NameDB'=>'tpp.descripcion','search'=>true,'width'=>80),
+                        6 => array('Name'=>'Fecha','NameDB'=>'m.fecha','width'=>70,'align'=>'center'),
+                        7 => array('Name'=>'Total','NameDB'=>'m.total','align'=>'right','width'=>70),
+                        8 => array('Name'=>'','NameDB'=>'-','align'=>'center','width'=>40)
+
                      );
     public function index() 
     {

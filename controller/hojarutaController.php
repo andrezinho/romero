@@ -7,9 +7,9 @@ class HojaRutaController extends Controller
 {
     var $cols = array(
                     1 => array('Name'=>'Codigo','NameDB'=>'h.idhojarutas','align'=>'center','width'=>'50'),
-                    2 => array('Name'=>'Ruta','NameDB'=>'r.descripcion','search'=>true),
-                    3 => array('Name'=>'Personal','NameDB'=>" 'p.nombres' || ' ' || 'p.apellidos' ",'search'=>true),                        
-                    4 => array('Name'=>'Zona','NameDB'=>"'z.descripcion || ' - ' || u.descripcion' ",'width'=>'120','align'=>'center'),
+                    2 => array('Name'=>'Zona','NameDB'=>"'z.descripcion || ' - ' || u.descripcion' ",'width'=>'120','align'=>'left'),
+                    3 => array('Name'=>'Ruta','NameDB'=>'r.descripcion','search'=>true),
+                    4 => array('Name'=>'Personal','NameDB'=>" 'p.nombres' || ' ' || 'p.apellidos' ",'search'=>true),                    
                     5 => array('Name'=>'Fecha','NameDB'=>'h.fechareg','width'=>'50','align'=>'center')
         );
     public function index() 

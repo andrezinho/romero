@@ -7,14 +7,11 @@ class Materiales extends Main
        $sql = "SELECT
         m.idmateriales,
         m.descripcion,
-        m.stock,
-        u.simbolo,
-        case m.estado when 1 then 'ACTIVO' else 'INCANTIVO' end,
-        m.idunidad_medida
-
+        t.descripcion,
+        m.estado
         FROM
         produccion.materiales AS m
-        INNER JOIN public.unidad_medida AS u ON u.idunidad_medida = m.idunidad_medida ";
+        INNER JOIN tipo_unidad AS t ON t.idtipo_unidad = m.idtipo_unidad ";
 
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
