@@ -57,10 +57,11 @@ class VentasController extends Controller
         $data['tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'...','table'=>'facturacion.vista_tipodoc','width'=>'120px'));
         $data['formapago'] = $this->Select(array('id'=>'idformapago','name'=>'idformapago','text_null'=>'','table'=>'formapago','width'=>'120px'));
         $data['formapago2'] = $this->Select(array('id'=>'idformapago2','name'=>'idformapago2','text_null'=>'','table'=>'formapago','width'=>'120px'));
-        $data['moneda'] = $this->Select(array('id'=>'idmoneda','name'=>'idmoneda','text_null'=>'','table'=>'vista_moneda','width'=>'120px','code'=>1,'disabled','disabled'));
+        $data['moneda'] = $this->Select(array('id'=>'idmoneda','name'=>'idmoneda','text_null'=>'','table'=>'vista_moneda','width'=>'120px','code'=>'1','disabled'=>'disabled'));
         $data['Almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>'produccion.vista_almacen','width'=>'120px'));
         $data['tipopago'] = $this->Select(array('id'=>'idtipopago','name'=>'idtipopago','text_null'=>'Seleccione...','table'=>'produccion.vista_tipopago'));       
         $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));
+        $data['subproductosemi'] = $this->Select(array('id'=>'idsubproductos_semi','name'=>'idsubproductos_semi','text_null'=>'...','table'=>'produccion.vista_subproductosemi'));
         $view->setData($data);
         $view->setTemplate( '../view/ventas/_form.php' );
         echo $view->renderPartial();
@@ -81,17 +82,16 @@ class VentasController extends Controller
     public function save()
     {
         $obj = new Ventas();
-        $result = array();        
-        if ($_POST['idventas']=='') 
-            $p = $obj->insert($_POST);                        
-        else         
-            $p = $obj->update($_POST);                                
-        if ($p[0])                
-            $result = array(1,'');                
-        else                 
+        $result = array();
+        if ($_POST['idventas']=='')
+            $p = $obj->insert($_POST);
+        else
+            $p = $obj->update($_POST);
+        if ($p[0]=="1")
+            $result = array(1,'');
+        else
             $result = array(2,$p[1]);
         print_r(json_encode($result));
-
     }
     public function delete()
     {
@@ -101,6 +101,12 @@ class VentasController extends Controller
         if ($p[0]) $result = array(1,$p[1]);
         else $result = array(2,$p[1]);
         print_r(json_encode($result));
+    }
+    public function test()
+    {
+        print_r($_GET['producto']);
+        //$a = json_decode($_GET['producto']);        
+        //echo $a->descripcion[0];
     }
     
     }

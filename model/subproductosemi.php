@@ -114,12 +114,13 @@ class SubProductoSemi extends Main
 
     function stock($idalmacenp,$idsps)
     {        
-        $stmt4 = $this->db->prepare("SELECT t.idp,t.c
+        $stmt4 = $this->db->prepare("SELECT t.idp,t.c,t.precio
                                     from (
-                                    SELECT max(idproduccion) as idp ,ctotal as c, item
-                                    FROM produccion.produccion_detalle
-                                    where idalmacen = :idal and idsubproductos_semi = :idsps
-                                    group by ctotal,item,idproduccion
+                                    SELECT max(pd.idproduccion) as idp ,pd.ctotal as c, pd.item, spd.precio
+                                    FROM produccion.produccion_detalle as pd
+                                    inner join produccion.subproductos_semi as spd on spd.idsubproductos_semi = pd.idsubproductos_semi
+                                    where pd.idalmacen = :idal and pd.idsubproductos_semi = :idsps
+                                    group by pd.ctotal,pd.item,pd.idproduccion, spd.precio
                                     order by idproduccion desc
                                     limit 1
                                     ) as t
@@ -127,8 +128,21 @@ class SubProductoSemi extends Main
         $stmt4->bindParam(':idal',$idalmacenp,PDO::PARAM_INT);
         $stmt4->bindParam(':idsps',$idsps,PDO::PARAM_INT);
         $stmt4->execute();
-        $row4 = $stmt4->fetchObject();                 
-        return $row4->c;
+        $row4 = $stmt4->fetchObject();   
+        $n = $stmt4->rowCount();
+        if($n>0)        
+        {
+            return array('stk'=>$row4->c,'price'=>$row4->precio);    
+        }
+        else 
+        {
+            $stmt = $this->db->prepare("SELECT precio from produccion.subproductos_semi where idsubproductos_semi = :idsps");
+            $stmt->bindParam(':idsps',$idsps,PDO::PARAM_INT);
+            $stmt->execute();
+            $row = $stmt->fetchObject();   
+            return array('stk'=>'0','price'=>$row->precio);
+        }
+        
     }
 }
 ?>

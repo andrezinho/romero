@@ -136,6 +136,7 @@ class Produccion extends Main
             if($prod->estado[$i])
                 $cont_prod ++;
          }
+
          //echo "item = ".$item;
          // for($i=0;$i<$item;$i++)
          // {            
@@ -163,7 +164,7 @@ class Produccion extends Main
         $fecha = date('Y-m-d');
         $referencia =  'SALIDAS';
         $estado = 1;
-        $idsucursal = 1;
+        $idsucursal = $_SESSION['idsucursal'];
         $usuarioreg = $_SESSION['idusuario'];
 
         $idtipodocumento = 7;        

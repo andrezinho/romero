@@ -22,7 +22,6 @@ class SubProductoSemiController extends Controller
         $data['titulo']="Catalogo de Productos";
         //(nuevo,editar,eliminar,ver)
         $data['actions'] = array(true,true,true,false);
-
         $view = new View();
         $view->setData($data);
         $view->setTemplate('../view/_indexGrid.php');
@@ -117,7 +116,7 @@ class SubProductoSemiController extends Controller
         {
             array_push($result, array(
                         "idsubproductos_semi"=>$val['idsubproductos_semi'],                                         
-                        "producto"=> strtoupper($val['producto']),
+                        "producto"=> strtoupper(rtrim($val['producto'])),
                         "precio"=>$val['precio']
                     )
                 );
@@ -129,8 +128,9 @@ class SubProductoSemiController extends Controller
     public function getstock()
     {
         $obj = new SubProductoSemi();        
-        $stock = $obj->stock($_GET['a'],$_GET['i']);
-        echo number_format($stock,2);
+        $data = $obj->stock($_GET['a'],$_GET['i']);
+        print_r(json_encode($data));
+        
     }
 }
 

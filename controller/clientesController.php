@@ -112,7 +112,7 @@ class ClientesController extends Controller
         $obj = new Clientes();
         $data = array();        
         $field = "c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno";
-        if($_GET['tipo']==1) $field = "c.dni";
+        if($_GET['tipo']==1) $field = "c.dni";            
         $value = $obj->get($_GET["term"],$field);
 
         $result = array();
