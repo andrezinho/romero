@@ -25,11 +25,8 @@ class VentasController extends Controller
         $data['controlador'] = $_GET['controller'];
         $data['script'] = "evt_index_ventas.js";
         //(nuevo,editar,eliminar,ver)
-<<<<<<< HEAD
-        $data['actions'] = array(true,false,true,false);
-=======
         $data['actions'] = array(true,true,false,true);
->>>>>>> 60b072bc3df203491e286e5570b2e735b80b7270
+
 
         $view = new View();
         $view->setData($data);
