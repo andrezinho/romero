@@ -46,3 +46,20 @@ legend { margin-left: 10px; padding: 2px; }
     -moz-border-radius: 1em 1em 1em 1em;
     border-radius: 1em 1em 1em 1em;
 }
+
+/*--- Reportes ---*/
+.resports{
+    margin: auto;
+    width: 100%
+    border: 2px solid #512610;
+    -moz-border-radius: 1em 1em 1em 1em;
+    border-radius: 1em 1em 1em 1em;
+}
+.resports legend{
+    font-size: 13px;
+    color: #ffffff;
+    padding: 5px;
+    background: #004B75;
+    -moz-border-radius: 1em 1em 1em 1em;
+    border-radius: 1em 1em 1em 1em;
+}

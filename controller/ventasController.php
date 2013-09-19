@@ -25,7 +25,11 @@ class VentasController extends Controller
         $data['controlador'] = $_GET['controller'];
         $data['script'] = "evt_index_ventas.js";
         //(nuevo,editar,eliminar,ver)
+<<<<<<< HEAD
         $data['actions'] = array(true,false,true,false);
+=======
+        $data['actions'] = array(true,true,false,true);
+>>>>>>> 60b072bc3df203491e286e5570b2e735b80b7270
 
         $view = new View();
         $view->setData($data);
@@ -79,6 +83,28 @@ class VentasController extends Controller
         $view->setTemplate( '../view/ventas/_form.php' );
         echo $view->renderPartial();
     }
+
+    public function view() 
+    {
+        $obj = new Ventas();
+        $data = array();
+        $view = new View();
+        $rows = $obj->edit($_GET['id']);
+        $data['obj'] = $rows;
+        $data['tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'...','table'=>'facturacion.vista_tipodoc','width'=>'120px','code'=>$rows->idtipodocumento));
+        $data['formapago'] = $this->Select(array('id'=>'idformapago','name'=>'idformapago','text_null'=>'','table'=>'formapago','width'=>'120px','code'=>$rows->idformapago));
+        $data['formapago2'] = $this->Select(array('id'=>'idformapago2','name'=>'idformapago2','text_null'=>'','table'=>'formapago','width'=>'120px'));
+        $data['moneda'] = $this->Select(array('id'=>'idmoneda','name'=>'idmoneda','text_null'=>'','table'=>'vista_moneda','width'=>'120px','code'=>'1','disabled'=>'disabled'));
+        $data['Almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>'produccion.vista_almacen','width'=>'120px','code'=>$rows->idalmacen));
+        $data['tipopago'] = $this->Select(array('id'=>'idtipopago','name'=>'idtipopago','text_null'=>'Seleccione...','table'=>'produccion.vista_tipopago','code'=>$rows->idtipopago));       
+        $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));
+        $data['subproductosemi'] = $this->Select(array('id'=>'idsubproductos_semi','name'=>'idsubproductos_semi','text_null'=>'...','table'=>'produccion.vista_subproductosemi','code'=>$rows->idsubproductos_semi));
+        $data['rowsd'] = $obj->getDetails($rows->idmovimiento);
+        $view->setData($data);
+        $view->setTemplate( '../view/ventas/_form.php' );
+        echo $view->renderPartial();
+    }
+
     public function save()
     {
         $obj = new Ventas();
@@ -93,6 +119,7 @@ class VentasController extends Controller
             $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
+
     public function delete()
     {
         $obj = new Ventas();
@@ -120,12 +147,14 @@ class VentasController extends Controller
         $data = array();
         $view = new View();
         $data['rowsd'] = $obj->ViewCuotas($_GET['id']);
+        $data['formapago2'] = $this->Select(array('id'=>'idformapago2','name'=>'idformapago2','text_null'=>'','table'=>'formapago','width'=>'120px'));
         $view->setData($data);
         $view->setTemplate( '../view/ventas/_pagocuota.php' );
-        $view->setLayout( '../template/empty.php' );
-        echo $view->renderPartial();
+        $view->setLayout( '../template/list.php' );
+        $view->render();
     
-    }    
+    }
+
 }
  
 
