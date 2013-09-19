@@ -52,16 +52,16 @@
                 <label class="labels" for="idtipodocumento">Documento: </label>      
                 <?php echo $tipodocumento; ?>
                 <label class="labels">N&deg;</label>
-                <input name="serie" value="" id="serie" title="Serie" type="text" class="ui-widget-content ui-corner-all text" style="width:40px;"  />-
-                <input name="numero" value="" id="numero" title="N&uacute;mero" type="text" class="ui-widget-content ui-corner-all text" style="width:70px;"  />
+                <input name="serie" value="<?php echo $obj->documentoserie; ?>" id="serie" title="Serie" type="text" class="ui-widget-content ui-corner-all text" style="width:40px;"  />-
+                <input name="numero" value="<?php echo $obj->documentonumero; ?>" id="numero" title="N&uacute;mero" type="text" class="ui-widget-content ui-corner-all text" style="width:70px;"  />
                 <label class="labels">Fecha Emision: </label>
                 <input type="text" name="fechaemision" id="fechaemision" value="<?php echo date('d/m/Y') ?>" class="ui-widget-content ui-corner-all text text-date" />
                 <br/>
                 <label class="labels">Cliente: </label>
-                <input name="idcliente" type="hidden" id="idcliente" value="" />  
-                <input type="text" name="ruc" id="ruc"  class="ui-widget-content ui-corner-all text" maxlength="11" size="11"  placeholder="DNI / RUC" />
-                <input type="text" id="cliente" name="cliente" class="ui-widget-content ui-corner-all text" title="Razon Social" style="width:250px;" placeholder="Nombre / Razon social" />        
-                <input type="text" id="direccion" name="direccion" class="ui-widget-content ui-corner-all text" title="Direccion"  style="width:326px;" placeholder="Direccion" />        
+                <input name="idcliente" type="hidden" id="idcliente" value="<?php echo $obj->idcliente; ?>" />  
+                <input type="text" name="ruc" id="ruc" value="<?php echo $obj->dni; ?>" class="ui-widget-content ui-corner-all text" maxlength="11" size="11"  placeholder="DNI / RUC" />
+                <input type="text" id="cliente" name="cliente" value="<?php echo $obj->nomcliente; ?>" class="ui-widget-content ui-corner-all text" title="Razon Social" style="width:250px;" placeholder="Nombre / Razon social" />        
+                <input type="text" id="direccion" name="direccion" value="<?php echo $obj->direccion; ?>" class="ui-widget-content ui-corner-all text" title="Direccion"  style="width:326px;" placeholder="Direccion" />        
                 <br/>
                 <label class="labels">Forma de Pago: </label>
                 <?php echo $formapago; ?>
@@ -108,12 +108,38 @@
                                 <th>Producto</th>
                                 <th align="center" width="80">Precio</th>
                                 <th align="center" width="80">Cantidad</th>                                
-                                <th align="center" width="80px">Importe S/.</th>
-                                <th width="20px">&nbsp;</th>
+                                <th align="center" width="80px">Importe S/.</th>                                
                             </tr>
                         </thead>  
                         <tbody>
-                                               
+                            <?php 
+                        if(count($rowsd)>0)
+                        {    
+                            foreach ($rowsd as $i => $r) 
+                            {
+                              
+                                ?>
+                                <tr class="tr-detalle">
+                                    <td align="left">
+                                        <?php echo $r['item']; ?>
+                                        <input type="hidden" name="item[]" value="<?php echo $r['item']; ?>" />
+                                    </td>
+                                    <td><?php echo $r['descripcion']; ?>
+                                        <input type="hidden" name="idproducto[]" value="<?php echo $r['idproducto']; ?>" />
+                                        <input type="hidden" name="producto[]" value="<?php echo $r['descripcion']; ?>" />                                        
+                                    </td>
+                                    <td align="right">
+                                        <?php echo $r['precio']; ?><input type="hidden" name="precio[]" value="<?php echo $r['preciocash']; ?>" />
+                                    </td>
+                                    <td align="right">
+                                        <?php echo $r['cantidad']; ?><input type="hidden" name="cantidad[]" value="<?php echo $r['cantidad']; ?>" />
+                                    </td>                                    
+                                    <td align="rigth"><?php echo number_format($r['importe'],2); ?></td>
+                                </tr>
+                                <?php    
+                            } 
+                        }
+                     ?>                                                           
                         </tbody>
                          <tfoot>
                             <tr>

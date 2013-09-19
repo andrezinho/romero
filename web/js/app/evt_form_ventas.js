@@ -254,7 +254,9 @@ $(function()
                                 validar_tabs(i);
                           }
                          });
+
     $( "#tabs" ).tabs( "option", "disabled", [ 1 ] );
+
     $("#btn-add-ma").click(function(){addnewproducto();});
     $("#table-detalle-venta").on('click','.item-mp',function(){
       var i = $(this).attr("id");
@@ -436,7 +438,8 @@ function save()
 
 function validar_tabs(i)
 {
-  var bval = true,
+  var 
+      bval = true,
       idfp = $("#idtipopago").val();
   bval = bval && $("#idtipopago").required();              
   if(!bval&&i!=0)

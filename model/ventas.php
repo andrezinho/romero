@@ -29,12 +29,68 @@ class Ventas extends Main
 
     function edit($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM seguridad.modulo WHERE idmodulo = :id");
+        $stmt = $this->db->prepare("SELECT
+            m.idmovimiento,
+            m.fecha,
+            m.idtipodocumento,
+            m.documentoserie,
+            m.documentonumero,
+            m.documentofecha,
+            m.idcliente,
+            m.idmoneda,
+            m.tipocambio,
+            m.subtotal,
+            m.porcentajeigv,
+            m.total,
+            m.pagoestado,
+            m.pagofecha,
+            m.estado,
+            m.idusuarioreg,
+            m.fechareg,
+            m.idusuarioanu,
+            m.fechaanu,
+            m.obs,
+            m.igv,
+            m.motivoanulacion,
+            m.tipodescuento,
+            m.idtipopago,
+            m.idalmacen,
+            m.descuento,
+            c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS nomcliente,
+            c.dni,
+            c.direccion
+            FROM
+            facturacion.movimiento AS m
+            INNER JOIN cliente AS c ON c.idcliente = m.idcliente
+
+            WHERE idmovimiento = :id ");
         $stmt->bindParam(':id', $id , PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchObject();
     }
     
+    function getDetails($id)
+    {
+        $stmt = $this->db->prepare("SELECT
+            md.item,
+            p.descripcion,
+            md.idproducto,
+            md.precio,
+            md.cantidad,
+            md.precio * md.cantidad AS importe
+            FROM
+            facturacion.movimiento AS m
+            INNER JOIN facturacion.movimientodetalle AS md ON m.idmovimiento = md.idmovimiento
+            INNER JOIN produccion.subproductos_semi AS p ON p.idsubproductos_semi = md.idproducto
+
+            WHERE md.idmovimiento = :id    
+            ORDER BY md.idmovimiento ");
+
+        $stmt->bindParam(':id', $id , PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     function insert($_P ) 
     {
         
