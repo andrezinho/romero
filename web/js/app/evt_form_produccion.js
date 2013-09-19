@@ -87,11 +87,11 @@ var materia =
   };
 var produccion = {
     item          : 0,
-    idps          : new Array(),
-    idsps         : new Array(),
-    descripcion   : new Array(),
+    idps          : new Array(), //idproducto_semi
+    idsps         : new Array(), //idsubproducto_semi
+    descripcion   : new Array(), //
     cantidad      : new Array(),
-    materiap      : new Array(),
+    materiap      : new Array(), //materiales usados para la fabricacion de estos
     estado        : new Array(),    
     nuevo         : function(idps,idsp,descripcion,cantidad,materia)
                     {

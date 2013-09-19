@@ -1,6 +1,7 @@
 <?php
 include_once("Main.php");
 include_once("movimiento.php");
+
 class Produccion extends Main
 {    
     //indexGridi -> Grilla del index de ingresos.
@@ -400,6 +401,129 @@ class Produccion extends Main
         }
 
     }    
+
+    function InsertProduccion($_P)
+    {
+
+        /* /
+        prod = {
+                    item          : 0,                    
+                    idsps         : array()
+                    descripcion   : array(), //
+                    cantidad      : array(),                    
+                    estado        : array(),
+                }
+            
+        / */
+        if(is_string($_P['prod']))
+            $prod = json_decode($_P['prod']);
+        else 
+            $prod = json_decode(json_encode($_P['prod']));
+
+        $item = $prod->item;
+        $cont_prod = 0;
+        for($i=0;$i<$item;$i++)
+        {
+           if($prod->estado[$i])
+               $cont_prod ++;
+        }
+
+        $fecha = date('Y-m-d');
+        $fechai=$_P['fechai'];
+        $fechaf=$_P['fechaf'];        
+        $estado=1;        
+        $idpersonal=$_P['idpersonal'];
+        $usuarioreg = $_SESSION['idusuario'];
+        $idalmacenp = $_P['idalmacen']; //Almacen de produccion ORIGGEN
+        $idalmacend = $_P['idalmacen']; //Almacen de produccion DESTINO
+        $idproducciontipo = $_P['idproducciontipo'];
+
+        $s = $this->db->prepare("SELECT descripcion,tipo FROM produccion.producciontipo
+                                    where idproducciontipo={$idproducciontipo}");
+        $s->execute();
+        $prod_tipo = $s->fetchObject();
+        $descripcion=$prod_tipo->descripcion.", Cod. Referencia: ".$_P['idreferencia'];
+
+        $sql="INSERT INTO produccion.produccion(
+                    descripcion, fechaini, fechafin, estado, idpersonal, idalmacen,fecha,usuarioreg,idalmacend,idproducciontipo)
+            VALUES (:p1, :p2, :p3, :p4,:p5,:p6,:p7,:p8,:p9,:p10)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':p1',$descripcion,PDO::PARAM_STR);
+        $stmt->bindParam(':p2',$fechai,PDO::PARAM_STR);
+        $stmt->bindParam(':p3',$fechaf,PDO::PARAM_STR);
+        $stmt->bindParam(':p4',$estado,PDO::PARAM_INT);
+        $stmt->bindParam(':p5',$idpersonal,PDO::PARAM_STR);
+        $stmt->bindParam(':p6',$idalmacenp,PDO::PARAM_INT);
+        $stmt->bindParam(':p7',$fecha,PDO::PARAM_STR);
+        $stmt->bindParam(':p8',$usuarioreg,PDO::PARAM_INT);
+        $stmt->bindParam(':p9',$idalmacend,PDO::PARAM_INT);
+        $stmt->bindParam(':p10',$idproducciontipo,PDO::PARAM_INT);
+        $stmt->execute();
+
+        $idprod =  $this->IdlastInsert('produccion.produccion','idproduccion');
+
+        if($cont_prod>0)
+        {
+
+            $stmt2  = $this->db->prepare('INSERT INTO produccion.produccion_detalle(
+                                        idproduccion, 
+                                        idsubproductos_semi, 
+                                        cantidad, 
+                                        stock, 
+                                        estado,
+                                        item,
+                                        ctotal,
+                                        idalmacen)
+                                        VALUES (:p1, :p2, :p3, :p4, :p5, :p6, :p7, :p8) ');
+
+            $stmt4 = $this->db->prepare("SELECT t.idp,t.c
+                                        from (
+                                        SELECT max(idproduccion) as idp ,ctotal as c, item
+                                        FROM produccion.produccion_detalle
+                                        where idalmacen = :idal and idsubproductos_semi = :idsps
+                                        group by ctotal,item,idproduccion
+                                        order by idproduccion desc
+                                        limit 1
+                                        ) as t
+                                        order by t.item,t.c");
+
+
+            $estado = 1;
+            //$items = 1;
+            $contador = 0;
+            for($i=0;$i<$item;$i++)
+            {
+                if($prod->estado[$i])                
+                {
+                    $contador +=1;
+                    $idsps = $prod->idsps[$i];
+                    $cantd = $prod->cantidad[$i];
+
+                    $stmt4->bindParam(':idal',$idalmacenp,PDO::PARAM_INT);
+                    $stmt4->bindParam(':idsps',$idsps,PDO::PARAM_INT);
+                    $stmt4->execute();
+                    $row4 = $stmt4->fetchObject();
+
+                    if($prod_tipo->tipo=='I')                
+                        $ctotal = (float)$row4->c + $cantd;
+                    else
+                        $ctotal = (float)$row4->c - $cantd;
+                    $stock=0; //Esto es el stock disponible para realizar acabados
+                    $stmt2->bindParam(':p1',$idprod,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p2',$idsps,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p3',$cantd,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p4',$stock,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p5',$estado,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p6',$contador,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p7',$ctotal,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p8',$idalmacenp,PDO::PARAM_INT);
+                    $stmt2->execute();   
+                }        
+                
+            }
+        }
+    }
+
     function update($_P ) 
     {
         $prod = json_decode($_P['prod']);

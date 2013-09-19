@@ -25,7 +25,7 @@ class VentasController extends Controller
         $data['controlador'] = $_GET['controller'];
         $data['script'] = "evt_index_ventas.js";
         //(nuevo,editar,eliminar,ver)
-        $data['actions'] = array(true,true,true,false);
+        $data['actions'] = array(true,false,true,false);
 
         $view = new View();
         $view->setData($data);
@@ -105,7 +105,10 @@ class VentasController extends Controller
 
     public function test()
     {
-        print_r($_GET['producto']);
+        $prod = array('item'=>0,'id'=>array(1,3,5));
+        $prod = json_decode(json_encode($prod));
+        echo $prod->item;
+        //print_r($_GET['producto']);
         //$a = json_decode($_GET['producto']);        
         //echo $a->descripcion[0];
     }

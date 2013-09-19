@@ -26,19 +26,7 @@ var producto =
                       }
 
                     },
-      valid       : function(idp)
-                    {
-                      var flag = true;
-                      for(i=0;i<this.nitem;i++)
-                       {                          
-                          if(this.estado[i])
-                          {
-                             if(this.idproducto[i]==idp) 
-                                flag = false;
-                          }
-                        }
-                        return flag;
-                    },
+      valid       : function(idp){var flag = true;for(i=0;i<this.nitem;i++){if(this.estado[i]){if(this.idproducto[i]==idp) flag = false;}} return flag;},
       listar      : function()
                     {
                        var html = "";
@@ -56,7 +44,8 @@ var producto =
                             html += '<td align="center">'+c.toFixed(2)+'</td>';
                             t = this.precio[i]*this.cantidad[i];
                             html += '<td align="right">'+t.toFixed(2)+'</td>';
-                            html += '<td><a id="item-'+i+'" class="item-mp box-boton boton-anular" href="#" title="Quitar" ></a></td>';
+                            html += '<td align="center"><a id="item-'+i+'-edi" class="item-mp-edi box-boton boton-edit" href="#" title="Editar" ></a></td>';
+                            html += '<td align="center"><a id="item-'+i+'-del" class="item-mp-del box-boton boton-anular" href="#" title="Quitar" ></a></td>';
                             html += "</tr>";
                             cont += 1;
 
@@ -65,26 +54,17 @@ var producto =
                        $("#table-detalle-venta").find('tbody').empty().append(html);
                        this.totales();
                     },
-      eliminar    : function(i)
-                    {
-                      this.estado[i] = false;                        
+      loader      : function(i)
+                    { 
+                      $("#idsubproductos_semi").val(this.idproducto[i]);
+                      $("#text_subproductosemi").val(this.producto[i]);
+                      $("#precio").val(this.precio[i]);
+                      $("#stock").val(this.stock[i]);
+                      $("#cantidad").val(this.cantidad[i]).focus();
+                      this.eliminar(i);
                     },
-      limpiar     : function()
-                    {   
-                        this.idproducto.clear();this.producto.clear();this.precio.clear();
-                        this.stock.clear();this.cantidad.clear();this.estado.clear();this.nitem = 0;
-                    },
-      //Obtenemos la cantidad total agregada en el detalle por producto
-      getTotalP   : function(idproducto)
-                    {
-                       var t = 0;
-                       for(i=0;i<this.nitem;i++)
-                       {
-                          if(this.estado[i]&&this.idproducto[i]==idproducto&&this.idalmacen[i]==idalmacen)                          
-                             t += parseFloat(this.cantidad[i]);                          
-                       }
-                        return t;
-                    },
+      eliminar    : function(i){this.estado[i] = false; this.listar();},
+      limpiar     : function(){this.idproducto.clear();this.producto.clear();this.precio.clear();this.stock.clear();this.cantidad.clear();this.estado.clear();this.nitem = 0;},            
       getNumItems : function(){var n = 0; for(i=0;i<this.nitem;i++){if(this.estado[i]) n += 1;} return n;},
       totales     : function()
                     {
@@ -256,11 +236,15 @@ $(function()
                          });
     $( "#tabs" ).tabs( "option", "disabled", [ 1 ] );
     $("#btn-add-ma").click(function(){addnewproducto();});
-    $("#table-detalle-venta").on('click','.item-mp',function(){
+    $("#table-detalle-venta").on('click','.item-mp-del',function(){
       var i = $(this).attr("id");
       i = i.split("-");
-      producto.eliminar(i[1]);
-      producto.listar();
+      producto.eliminar(i[1]);      
+    });
+    $("#table-detalle-venta").on('click','.item-mp-edi',function(){
+      var i = $(this).attr("id");
+      i = i.split("-");
+      producto.loader(i[1]);
     });
     $("#table-detalle-pagos").on('click','.item-fp',function(){
       var i = $(this).attr("id");
