@@ -117,10 +117,11 @@ class VentasController extends Controller
         $data = array();
         $view = new View();
         $data['rowsd'] = $obj->ViewCuotas($_GET['id']);
+        $data['formapago2'] = $this->Select(array('id'=>'idformapago2','name'=>'idformapago2','text_null'=>'','table'=>'formapago','width'=>'120px'));
         $view->setData($data);
         $view->setTemplate( '../view/ventas/_pagocuota.php' );
-        $view->setLayout( '../template/empty.php' );
-        echo $view->renderPartial();
+        $view->setLayout( '../template/list.php' );
+        $view->render();
     
     }    
 }

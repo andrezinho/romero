@@ -23,6 +23,7 @@ class Ventas extends Main
             INNER JOIN cliente AS c ON c.idcliente = m.idcliente
             INNER JOIN facturacion.tipodocumento AS tpd ON tpd.idtipodocumento = m.idtipodocumento
             INNER JOIN produccion.tipopago AS tpp ON tpp.idtipopago = m.idtipopago ";                
+        
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
@@ -75,10 +76,10 @@ class Ventas extends Main
               $t = $st+$tigv;
            }
            else
-           {
+            {
               $tigv = 0;
               $t = $st+$tigv;
-           } 
+            } 
          echo $st." - ".$dsct_val." - ".$tigv." - ".$t;          
          
          $idmoneda = 1; //Soles
@@ -382,26 +383,15 @@ class Ventas extends Main
     function ViewCuotas($id)
     {
         $stmt = $this->db->prepare("SELECT
-            p.idproforma,
-            dp.idproforma,
-            dp.idproducto,
-            dp.tipo,
-            tp.descripcion,
-            dp.preciocash,
-            dp.inicial,
-            dp.nromeses,
-            dp.cuota,
-            dp.cantidad,
-            dp.idfinanciamiento,
-            dp.producto
+            mc.monto,
+            substr(cast(mc.fechapago as text),9,2)||'/'||substr(cast(mc.fechapago as text),6,2)||'/'||substr(cast(mc.fechapago as text),1,4) AS fechapago,
+            mc.monto_saldado
             FROM
-            facturacion.proforma AS p
-            INNER JOIN facturacion.proformadetalle AS dp ON p.idproforma = dp.idproforma
-            INNER JOIN produccion.tipopago AS tp ON tp.idtipopago = dp.tipo
-            LEFT JOIN produccion.subproductos_semi AS pr ON pr.idsubproductos_semi = dp.idproducto
+            facturacion.movimiento AS m
+            INNER JOIN facturacion.movimientocuotas AS mc ON m.idmovimiento = mc.idmovimiento
 
-            WHERE dp.idproforma = :id AND tp.idtipopago=2 
-            ORDER BY dp.iddet_proforma ");
+            WHERE mc.idmovimiento = :id
+            ORDER BY mc.idmovimientocuota ");
         $stmt->bindParam(':id', $id , PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll();

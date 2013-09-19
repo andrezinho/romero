@@ -773,7 +773,6 @@ function clear_frm_pagos()
 }
 
 
-
   (function( $ ) {
     $.widget( "custom.combobox", {
       _create: function() {
