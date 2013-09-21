@@ -217,8 +217,13 @@ class ProduccionController extends Controller
 
     public function test()
     {
-        $a = json_decode($_GET['m']);        
-        echo $a->descripcion[0];
+        // $a = json_decode($_GET['m']);        
+        // echo $a->descripcion[0];
+
+        $prod = array('item'=>3,'idps'=>array(1,2,3),'idsps'=>array(5,6,7),'estado'=>array(true,false,true));
+        $_P['prod'] = $prod;
+        $obj = new Produccion();
+        $obj->InsertProduccion($_P);
     }
 
     //MOSTAR REPORTE

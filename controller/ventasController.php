@@ -27,6 +27,7 @@ class VentasController extends Controller
         //(nuevo,editar,eliminar,ver)
         $data['actions'] = array(true,true,false,true);
 
+
         $view = new View();
         $view->setData($data);
         $view->setTemplate('../view/_indexGrid.php');
@@ -128,7 +129,10 @@ class VentasController extends Controller
 
     public function test()
     {
-        print_r($_GET['producto']);
+        $prod = array('item'=>0,'id'=>array(1,3,5));
+        $prod = json_decode(json_encode($prod));
+        echo $prod->item;
+        //print_r($_GET['producto']);
         //$a = json_decode($_GET['producto']);        
         //echo $a->descripcion[0];
     }

@@ -1,6 +1,7 @@
 <?php
 include_once("Main.php");
 include_once("tipodocumento.php");
+include_once("produccion.php");
 class Ventas extends Main
 {    
     function indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$cols)
@@ -95,6 +96,7 @@ class Ventas extends Main
     {
         
          $obj_td = new Tipodocumento();
+         $obj_produccion = new Produccion();
       
          $prod = json_decode($_P['producto']);         
          $item = $prod->nitem;
@@ -197,6 +199,34 @@ class Ventas extends Main
             $stmt->execute();
             $id =  $this->IdlastInsert('facturacion.movimiento','idmovimiento');
 
+            
+            //Afectamos los stock de los producctos a vender
+            //(Asginamos los valores para enviar)
+            $_Pp = array();
+            $_Pp['fechai'] = date('Y-m-d');
+            $_Pp['fechaf'] = date('Y-m-d');;
+            $_Pp['idpersonal'] = $usuarioreg;
+            $_Pp['idalmacen'] = $idalmacen;
+            $_Pp['idalmacen'] = $idalmacen;
+            $_Pp['idproducciontipo'] = 3;
+            $_Pp['prod'] = array();
+            $_Pp['prod']['item'] = $cont;
+            $_Pp['idreferencia'] = $id;
+
+            $_Pp['prod']['idsps']=array();
+            $_Pp['prod']['cantidad']=array();
+            $_Pp['prod']['estado']=array();
+
+            for($i=0;$i<$item;$i++)
+             {
+                  if($prod->estado[$i])
+                  {
+                      $_Pp['prod']['idsps'][] = $prod->idproducto[$i];
+                      $_Pp['prod']['cantidad'][] = $prod->cantidad[$i];
+                      $_Pp['prod']['estado'][] = true;
+                  }
+             }
+            $obj_produccion->InsertProduccion($_Pp);
 
             //Insertamos los detalles de la venta
             $detalle = $this->db->prepare("INSERT INTO facturacion.movimientodetalle(
@@ -214,9 +244,6 @@ class Ventas extends Main
                     $detalle->bindParam(':p4',$prod->cantidad[$i],PDO::PARAM_INT);
                     $detalle->bindParam(':p5',$prod->precio[$i],PDO::PARAM_INT);
                     $detalle->execute();
-
-                    //Afectar stock de los productos
-                    //Aqui
                 }
             }
 

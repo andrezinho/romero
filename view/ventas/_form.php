@@ -107,8 +107,10 @@
                                 <th align="center" width="50">Item</th>
                                 <th>Producto</th>
                                 <th align="center" width="80">Precio</th>
-                                <th align="center" width="80">Cantidad</th>                                
-                                <th align="center" width="80px">Importe S/.</th>                                
+                                <th align="center" width="80">Cantidad</th> 
+                                <th align="center" width="80px">Importe S/.</th>
+                                <th width="40px" align="center"><p style="font-size:8px">EDITAR</p></th>
+                                <th width="40px" align="center"><p style="font-size:8px">QUITAR</p></th>
                             </tr>
                         </thead>  
                         <tbody>
