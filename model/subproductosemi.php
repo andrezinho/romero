@@ -136,7 +136,8 @@ class SubProductoSemi extends Main
         }
         else 
         {
-            $stmt = $this->db->prepare("SELECT precio from produccion.subproductos_semi where idsubproductos_semi = :idsps");
+            $stmt = $this->db->prepare("SELECT precio from produccion.subproductos_semi 
+                                        where idsubproductos_semi = :idsps");
             $stmt->bindParam(':idsps',$idsps,PDO::PARAM_INT);
             $stmt->execute();
             $row = $stmt->fetchObject();   

@@ -7,13 +7,15 @@ class VentasController extends Controller
 {   
     var $cols = array(
                         1 => array('Name'=>'Codigo','NameDB'=>'m.idmovimiento','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Cliente','NameDB'=>"c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno",'width'=>150,'search'=>true),
-                        3 => array('Name'=>'Tipo documento.','NameDB'=>'tpd.descripcion','search'=>true,'width'=>80),
-                        4 => array('Name'=>'N° Recibo','NameDB'=>'m.documentonumero','search'=>true,'width'=>80),
-                        5 => array('Name'=>'Tipo Pago','NameDB'=>'tpp.descripcion','search'=>true,'width'=>80),
-                        6 => array('Name'=>'Fecha','NameDB'=>'m.fecha','width'=>70,'align'=>'center'),
-                        7 => array('Name'=>'Total','NameDB'=>'m.total','align'=>'right','width'=>70),
-                        8 => array('Name'=>'','NameDB'=>'-','align'=>'center','width'=>40)
+                        2 => array('Name'=>'Cliente','NameDB'=>"c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno",'search'=>true),
+                        3 => array('Name'=>'Tipo documento.','NameDB'=>'tpd.descripcion','search'=>true,'width'=>50),
+                        4 => array('Name'=>'N° Recibo','NameDB'=>'m.documentonumero','search'=>true,'width'=>50,'align'=>'center'),
+                        5 => array('Name'=>'Tipo Pago','NameDB'=>'tpp.descripcion','search'=>true,'width'=>50,'align'=>'center'),
+                        6 => array('Name'=>'Fecha','NameDB'=>'m.fecha','width'=>50,'align'=>'center'),
+                        7 => array('Name'=>'Total','NameDB'=>'m.total','align'=>'right','width'=>50),
+                        8 => array('Name'=>'Estado','NameDB'=>'-','align'=>'center','width'=>50),
+                        9 => array('Name'=>'','NameDB'=>'-','align'=>'center','width'=>20),
+                        10 => array('Name'=>'','NameDB'=>'-','align'=>'center','width'=>20)
 
                      );
     public function index() 
@@ -145,12 +147,28 @@ class VentasController extends Controller
         $view = new View();
         $data['rowsd'] = $obj->ViewCuotas($_GET['id']);
         $data['formapago2'] = $this->Select(array('id'=>'idformapago2','name'=>'idformapago2','text_null'=>'','table'=>'formapago','width'=>'120px'));
+        $data['rowsv'] = $obj->edit($_GET['id']);
+        $data['rowsp'] = $obj->pagosEfectuados($_GET['id']);
+        $data['idmovimiento'] = $_GET['id'];
         $view->setData($data);
         $view->setTemplate( '../view/ventas/_pagocuota.php' );
         $view->setLayout( '../template/list.php' );
         $view->render();
     
     }
+
+    public function pay_cuotas()
+    {
+        $obj = new Ventas();
+        $result = array();        
+        $p = $obj->pay_cuotas($_POST);
+        
+        if ($p[0]=="1")
+            $result = array(1,'');
+        else
+            $result = array(2,$p[1]);
+        print_r(json_encode($result));
+    }  
 
 }
  

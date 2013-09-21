@@ -26,7 +26,7 @@ $(function()
       pagos.eliminar(i[1]);
       pagos.listar();
     });
-
+    $("#btn-pago").click(function(){save();})
     
 });
 
@@ -206,4 +206,42 @@ function clear_frm_pagos()
     $("#nrocheque").val("");
     $("#banco").val("");
     $("#fechav").val("");
+}
+function valid_tab3()
+{
+  var c = 0;
+  $("#table-detalle-pagos tbody tr").each(function(idx,j){c += 1;});
+  if(c==0)
+    return false;
+  else
+    return true;
+}
+function save()
+{
+
+   var tab = valid_tab3(); 
+  if(!tab)  
+    {
+      alert("Ingrese los pagos");
+      return false;
+    }
+    else
+    {
+
+      pagoss = json_encode(pagos); 
+      id = $("#idmov").val();
+      $.post('index.php','controller=ventas&action=pay_cuotas&pagos='+pagoss+'&id='+id,function(res)
+           {
+              if(res[0]==1)
+              {
+                  alert("Su pago se realizo correctamente");
+                  location.reload();
+              }
+              else
+              {
+                alert(res[1]);
+              }            
+          },'json');
+    }
+
 }

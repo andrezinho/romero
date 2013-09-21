@@ -93,7 +93,8 @@ class Tipodocumento extends Main
 
     public function UpdateCorrelativo($idtp)
     {
-        $s = $this->db->prepare("SELECT * from facturacion.correlativo where idtipodocumento = :id and idsucursal = :ids");
+        $s = $this->db->prepare("SELECT * from facturacion.correlativo 
+                                where idtipodocumento = :id and idsucursal = :ids");
         $s->bindParam(':id',$idtp,PDO::PARAM_INT);
         $s->bindParam(':ids',$_SESSION['idsucursal'],PDO::PARAM_INT);
         $s->execute();
@@ -103,8 +104,11 @@ class Tipodocumento extends Main
             {$vs = $r->valorminimo;$vserie=$r->serie+1;}
         else 
             {$vs = $r->numero+$r->incremento;}
-        $s = $this->db->prepare("UPDATE facturacion.correlativo set numero = {$vs} , serie = {$vserie}
-                                where idtipodocumento = :id and idsucursal = :ids");
+        $sql = "UPDATE facturacion.correlativo set numero = {$vs} , 
+                                    serie = {$vserie}
+                                where idtipodocumento = :id and idsucursal = :ids";
+                                
+        $s = $this->db->prepare($sql);
         $s->bindParam(':id',$idtp,PDO::PARAM_INT);
         $s->bindParam(':ids',$_SESSION['idsucursal'],PDO::PARAM_INT);
         $s->execute();
