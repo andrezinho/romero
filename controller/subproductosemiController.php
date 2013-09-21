@@ -7,9 +7,9 @@ class SubProductoSemiController extends Controller
 {
     var $cols = array(
                         1 => array('Name'=>'Codigo','NameDB'=>'p.idsubproductos_semi','align'=>'center','width'=>40),
-                        2 => array('Name'=>'Productos','NameDB'=>'ps.descripcion','width'=>100,'search'=>true),
-                        3 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','align'=>'left','search'=>true),
-                        4 => array('Name'=>'Precio','NameDB'=>'p.precio','align'=>'rigth'),                        
+                        2 => array('Name'=>'Productos','NameDB'=>'ps.descripcion','width'=>70,'search'=>true),
+                        3 => array('Name'=>'Descripcion','NameDB'=>'p.descripcion','width'=>220,'search'=>true),
+                        4 => array('Name'=>'Precio','NameDB'=>'p.precio','align'=>'rigth','width'=>70),                        
                         5 => array('Name'=>'Estado','NameDB'=>'p.estado','width'=>'30','align'=>'center','color'=>'#FFFFFF')
                      );
     public function index() 
@@ -132,6 +132,22 @@ class SubProductoSemiController extends Controller
         print_r(json_encode($data));
         
     }
+
+    //Para las consultas es decir reportes
+    public function load_stockprod()
+    {
+        $obj = new SubProductoSemi();
+        $data = array();
+        $view = new View();
+        $data['rowsd'] = $obj->ViewResultado($_GET['idalm']);
+        //$data['idalmacen']= $_GET['idalm'];
+        $view->setData($data);
+        $view->setTemplate( '../view/subproductosemi/_consulstock.php' );
+        echo $view->renderPartial();
+    }
+
+
+
 }
 
 ?>
