@@ -14,7 +14,10 @@ class Ventas extends Main
             tpp.descripcion,
             substr(cast(m.fecha as text),9,2)||'/'||substr(cast(m.fecha as text),6,2)||'/'||substr(cast(m.fecha as text),1,4),
             m.total,    
-            '',    
+            case m.estado when 1 then 'PAGADO'
+                          WHEN 2 then 'CON DEUDA'
+                          WHEN 3 then 'ANULADO'
+                  END,
             case when m.idtipopago=2 then
                 '<a class=\"pagar box-boton boton-pay\" id=\"v-'||m.idmovimiento||'\" title=\"Pagar sus cuotas\" ></a>'
             else '&nbsp;' end,
@@ -154,8 +157,7 @@ class Ventas extends Main
               $tigv = 0;
               $t = $st+$tigv;
             } 
-         //echo $st." - ".$dsct_val." - ".$tigv." - ".$t;          
-         
+
          $idmoneda = 1; //Soles
          $tipocambio=0;
          $fecha = date('Y-m-d');         
