@@ -667,7 +667,9 @@ class Ventas extends Main
     }
     
     function delete($p) 
-    {        
+    {  
+        
+        /*
         $objmov = new movimiento();
         $stmtd = $this->db->prepare("SELECT distinct idmovimiento
                 from produccion.movim_proddet as mp
@@ -688,6 +690,7 @@ class Ventas extends Main
             $r = $objmov->delete($r['idmovimiento']);
         }
         return $r;        
+        */
     }
 
     function ViewCuotas($id)
