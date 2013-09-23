@@ -49,6 +49,17 @@ class ConsultasController extends Controller
         $view->setLayout( '../template/Layout.php' );
         $view->render();
     }
+
+    public function stock() 
+    {        
+        $data = array();
+        $view = new View();
+        $data['almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'.: Seleccione :.','table'=>'produccion.vista_almacen'));
+        $view->setData($data);
+        $view->setTemplate( '../view/consultas/_stockproductos.php' );       
+        $view->setLayout( '../template/Layout.php' );
+        $view->render();
+    }
 }
 
 ?>

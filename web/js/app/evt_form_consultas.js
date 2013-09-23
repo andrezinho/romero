@@ -1,7 +1,7 @@
 $(function() 
 {   
     $("#fechad, #fechah").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
-    $( "#idpersonal" ).css({'width':'180px'});
+    $( "#idpersonal, #idalmacen" ).css({'width':'180px'});
     
     $( "#descripcion" ).focus();    
     $("#estados").buttonset();
@@ -13,6 +13,8 @@ $(function()
     $("#ingreso").on('click','#reporte_ing',function(){ReporteIngreso(); });
 
     $("#produccion").on('click','#reporte_pro',function(){ReporteProd(); });
+
+    $("#stock").on('click','#reporte_stock',function(){ReporteStock(); });
 
     //PROFORMAS - MOSTRAR DETALLE QUE SALE EN EL REPORTE
     $("#proform").on('click','#print_rpt',function(){
@@ -103,4 +105,22 @@ function ReporteProd()
     });
 }
 
+//STOCK DE PRODUCTOS
+function ReporteStock()
+{
+
+    if($("#idalmacen").val()=='')
+        {
+          idalm=0;
+        }else
+          {
+            idalm=$("#idalmacen").val();
+          }
+    //alert(idalm);
+    $.get('index.php','controller=subproductosemi&action=load_stockprod&idalm='+idalm,function(r){
+      
+      $("#load_resultado").empty().append(r);
+
+    });
+}
 
