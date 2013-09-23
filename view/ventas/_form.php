@@ -24,20 +24,25 @@
     <div id="tabs">
       <ul style="background:#DADADA !important; border:0 !important">
         <li><a href="#tabs-1">Registro Ventas</a></li>
+        <?php if($obj->idmovimiento==""){ ?>
         <li><a href="#tabs-2">Cronograma / Coutas</a></li>
         <li><a href="#tabs-3">Registro Pagos</a></li>
+        <?php } ?>
       </ul>
       <div id="tabs-1">
+        <?php if($obj->idmovimiento==""){ ?>
         <div class="ui-widget-content" style="text-align:right; background:#">
             <a href="#" style="color:green; font-weight:bold;">Agregar de Proforma: </a>
             <input type="text" name="nroproforma" id="nroproforma" class="ui-widget-content ui-corner-all text" placeholder="N° de Proforma" onkeypress="return permite(event,'num')" maxlength="10" />
             <a href="javascript:popup('index.php?controller=proforma&action=lista',870,350)" class="box-boton boton-search" title="buscar Proforma">&nbsp;</a>
             <a href="#" class="box-boton boton-ok" title="Cargar Datos"></a>            
         </div>
+        <?php }  ?>
         <fieldset class="ui-corner-all" style="padding: 2px 10px 7px">
               <legend>Datos Generales - Fecha <?php echo date('d/m/Y'); ?></legend>
                 <input type="hidden" name="controller" id="controller" value="ventas" />
                 <input type="hidden" name="action" id="action" value="save" />       
+                <input type="hidden" name="idventa" id="idventa" value="<?php echo $obj->idmovimiento; ?>" />       
                 <label class="labels" for="idalamacen">Almacen: </label>      
                 <?php echo $Almacen; ?>   
                 <!-- <label class="labels" for="fecha">Fecha: </label>      
@@ -45,9 +50,9 @@
                 <label class="labels" for="idtipopago">Tipo de Venta: </label>      
                 <?php echo $tipopago; ?>  
                 <label for="igv" class="labels" style="width:80px;">Afecto IGV:</label>
-                <?php $ck = ""; if($obj->afecto==1) $ck = "checked"; ?>
-                <input type="checkbox" name="aigv" id="aigv" value="1" <?php echo $ck; ?> />
-                <input type="hidden" name="igv_val" id="igv_val" value="<?php if($obj->igv!="") echo $obj->igv; else echo "18"; ?>" />      
+                <?php $ck = ""; if($obj->afectoigv==1) $ck = "checked"; ?>
+                <input type="checkbox" name="aigv" id="aigv" value="1" <?php echo $ck; ?> /> 18%
+                <input type="hidden" name="igv_val" id="igv_val" value="<?php if($obj->porcentajeigv!="") echo $obj->porcentajeigv; else echo "18"; ?>" />      
                 <br/>
                 <label class="labels" for="idtipodocumento">Documento: </label>      
                 <?php echo $tipodocumento; ?>
@@ -70,19 +75,25 @@
                 <label class="labels">Tipo de Cambio: </label>
                 <input name="tipo_cambio" value="0.00" id="tipo_cambio" title="Tipo de Cambio" type="text" class="ui-widget-content ui-corner-all text text-num" readonly="readonly"/>
                 <label class="labels" style="width:60px">Dscto: </label>
-                <input type="text" name="monto_descuento" id="monto_descuento" value="0.00"  title="Monto del descuento" class="ui-widget-content ui-corner-all text text-num" onkeypress="return permite(event,'num')" />
+                <input type="text" name="monto_descuento" id="monto_descuento" value="<?php if($obj->descuento!="") echo number_format($obj->descuento,2); else echo "0.00";  ?>"  title="Monto del descuento" class="ui-widget-content ui-corner-all text text-num" onkeypress="return permite(event,'num')" />
+                <?php 
+                $s1 = "selected";
+                $s2 = "";
+                if($obj->tipodescuento==2) { $s2 = "selected"; $s1 = ""; }
+                ?>
                 <select name="tipod" id="tipod">
-                    <option value="1">S/.</option>
-                    <option value="2">%</option>
+                    <option value="1" <?php echo $s1; ?> >S/.</option>
+                    <option value="2" <?php echo $s2; ?> >%</option>
                 </select>                
                 <br/>
                 <label class="labels">&nbsp; </label>
-                <textarea name="observacion" id="observacion" class="ui-widget-content ui-corner-all text"  title="Observaciones" rows="2" placeholder="Observacion" style="width:85%"></textarea>
+                <textarea name="observacion" id="observacion" class="ui-widget-content ui-corner-all text"  title="Observaciones" rows="2" placeholder="Observacion" style="width:85%"><?php echo $obj->obs; ?></textarea>
             </fieldset>
         </form>
-        <fieldset id="box-melamina" class="ui-corner-all" style="padding: 2px 10px 7px;">  
-                <legend>Detalle de la venta</legend>
-                <div id="box-1">
+        <?php $colspan=4; if($obj->idmovimiento!=""){ $style = "display:none";  $colspan=4; }?>
+        <fieldset id="box-melamina" class="ui-corner-all" style="padding: 2px 10px 7px; <?php echo $style; ?>">  
+                <legend>Detalle de la venta</legend>                
+                <div id="box-1"  >
                     <label class="labels" for="producto">Producto: </label>            
                     <div class="ui-widget" style="display:inline-block">
                         <?php echo $subproductosemi; ?>
@@ -109,66 +120,43 @@
                                 <th align="center" width="80">Precio</th>
                                 <th align="center" width="80">Cantidad</th> 
                                 <th align="center" width="80px">Importe S/.</th>
+                                <?php if($obj->idmovimiento==""){ ?>
                                 <th width="40px" align="center"><p style="font-size:8px">EDITAR</p></th>
                                 <th width="40px" align="center"><p style="font-size:8px">QUITAR</p></th>
+                                <?php } ?>
                             </tr>
                         </thead>  
-                        <tbody>
-                            <?php 
-                        if(count($rowsd)>0)
-                        {    
-                            foreach ($rowsd as $i => $r) 
-                            {
-                              
-                                ?>
-                                <tr class="tr-detalle">
-                                    <td align="left">
-                                        <?php echo $r['item']; ?>
-                                        <input type="hidden" name="item[]" value="<?php echo $r['item']; ?>" />
-                                    </td>
-                                    <td><?php echo $r['descripcion']; ?>
-                                        <input type="hidden" name="idproducto[]" value="<?php echo $r['idproducto']; ?>" />
-                                        <input type="hidden" name="producto[]" value="<?php echo $r['descripcion']; ?>" />                                        
-                                    </td>
-                                    <td align="right">
-                                        <?php echo $r['precio']; ?><input type="hidden" name="precio[]" value="<?php echo $r['preciocash']; ?>" />
-                                    </td>
-                                    <td align="right">
-                                        <?php echo $r['cantidad']; ?><input type="hidden" name="cantidad[]" value="<?php echo $r['cantidad']; ?>" />
-                                    </td>                                    
-                                    <td align="rigth"><?php echo number_format($r['importe'],2); ?></td>
-                                </tr>
-                                <?php    
-                            } 
-                        }
-                     ?>                                                           
+                        <tbody>                                             
                         </tbody>
+
                          <tfoot>
                             <tr>
-                                <td colspan="4" align="right"><b>SUB TOTAL S/.</b></td>
+                                <td colspan="<?php echo $colspan; ?>" align="right"><b>SUB TOTAL S/.</b></td>
                                 <td align="right"><b>0.00</b></td>
-                                <td>&nbsp;</td>
+                                <?php if($obj->idmovimiento==""){ ?><td>&nbsp;</td> <?php } ?>
                             </tr>
                             <tr>
-                                <td colspan="4" align="right" id="label_dscto"><b>Dscto S/.</b></td>
+                                <td colspan="<?php echo $colspan; ?>" align="right" id="label_dscto"><b>Dscto S/.</b></td>
                                 <td align="right"><b>0.00</b></td>
-                                <td>&nbsp;</td>
+                                <?php if($obj->idmovimiento==""){ ?><td>&nbsp;</td> <?php } ?>
                             </tr>
                             <tr>
-                                <td colspan="4" align="right"><b>IGV (18%) S/.</b></td>
+                                <td colspan="<?php echo $colspan; ?>" align="right"><b>IGV (18%) S/.</b></td>
                                 <td align="right"><b>0.00</b></td>
-                                <td>&nbsp;</td>
+                                <?php if($obj->idmovimiento==""){ ?><td>&nbsp;</td> <?php } ?>
                             </tr>
                             <tr>
-                                <td colspan="4" align="right"><b>TOTAL S/.</b></td>
+                                <td colspan="<?php echo $colspan; ?>" align="right"><b>TOTAL S/.</b></td>
                                 <td align="right"><b>0.00</b></td>
-                                <td>&nbsp;</td>
+                                <?php if($obj->idmovimiento==""){ ?><td>&nbsp;</td> <?php } ?>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
             </div> 
       </div>
+    <?php if($obj->idmovimiento==""){ ?>
+
       <div id="tabs-2">
             <fieldset>
             <legend>Datos de Generacion de Cronograma de Pago</legend>  
@@ -278,7 +266,8 @@
                 </tfoot>
             </table>  
           </div>        
-      </div>      
+      </div>  
+      <?php } ?>    
     </div>
 </form>
 </div>

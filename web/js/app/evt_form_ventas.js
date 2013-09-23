@@ -9,7 +9,7 @@ var producto =
       cantidad    : new Array(),
       estado      : new Array(),
       nuevo      : function(idproducto,producto,precio,stock,cantidad)
-                    { 
+                    {                       
                       if(this.valid(idproducto))
                       {
                           this.idproducto[this.nitem] = idproducto;
@@ -18,7 +18,7 @@ var producto =
                           this.stock[this.nitem] = stock;                                            
                           this.cantidad[this.nitem]  = cantidad;                      
                           this.estado[this.nitem] = true;
-                          this.nitem += 1;  
+                          this.nitem += 1;                               
                       }
                       else
                       {
@@ -29,12 +29,15 @@ var producto =
       valid       : function(idp){var flag = true;for(i=0;i<this.nitem;i++){if(this.estado[i]){if(this.idproducto[i]==idp) flag = false;}} return flag;},
       listar      : function()
                     {
-                       var html = "";
-                       var cont = 0;
+                       var html = "",
+                           cont = 0,          
+                           idv = $("#idventa").val();
                        for(i=0;i<this.nitem;i++)
-                       {                          
+                       {                 
+
                           if(this.estado[i])
                           {
+
                             html += '<tr>';
                             html += '<td align="center">'+(cont+1)+'</td>';                            
                             html += '<td>'+this.producto[i]+'</td>';                            
@@ -44,8 +47,11 @@ var producto =
                             html += '<td align="center">'+c.toFixed(2)+'</td>';
                             t = this.precio[i]*this.cantidad[i];
                             html += '<td align="right">'+t.toFixed(2)+'</td>';
-                            html += '<td align="center"><a id="item-'+i+'-edi" class="item-mp-edi box-boton boton-edit" href="#" title="Editar" ></a></td>';
-                            html += '<td align="center"><a id="item-'+i+'-del" class="item-mp-del box-boton boton-anular" href="#" title="Quitar" ></a></td>';
+                            if(idv=="")
+                            {
+                                html += '<td align="center"><a id="item-'+i+'-edi" class="item-mp-edi box-boton boton-edit" href="#" title="Editar" ></a></td>';
+                                html += '<td align="center"><a id="item-'+i+'-del" class="item-mp-del box-boton boton-anular" href="#" title="Quitar" ></a></td>';
+                            }                            
                             html += "</tr>";
                             cont += 1;
 
@@ -308,6 +314,10 @@ $(function()
             .append( "<a>"+item.nomcliente + "</a>" )
             .appendTo(ul);
       };    
+
+
+      //Metodos solo para la opcion ver
+      loadDetalles();
 
 });
 function load_correlativo(idtp)
@@ -759,6 +769,22 @@ function clear_frm_pagos()
   $("#fechav").val("");
 }
 
+
+function loadDetalles()
+{
+   var idm = $("#idventa").val();
+   if(idm!="")
+   {
+      $.get('index.php?controller=ventas&action=getDetails&idm='+idm,function(r){
+        $.each(r,function(k,p)
+        {          
+          producto.nuevo(p.idproducto,p.descripcion,p.precio,0,p.cantidad);
+        });
+        producto.listar();
+      },'json');
+   }
+  
+}
 
   (function( $ ) {
     $.widget( "custom.combobox", {
