@@ -124,16 +124,6 @@ class VentasController extends Controller
         print_r(json_encode($result));
     }
 
-    public function delete()
-    {
-        $obj = new Ventas();
-        $result = array();        
-        $p = $obj->delete($_GET['id']);
-        if ($p[0]) $result = array(1,$p[1]);
-        else $result = array(2,$p[1]);
-        print_r(json_encode($result));
-    }
-
     public function test()
     {
         $prod = array('item'=>0,'id'=>array(1,3,5));

@@ -640,57 +640,62 @@ class Ventas extends Main
       $n = $s->rowCount();
       return $n;
     }
-    function update($_P ) 
-    {
-        $sql = "UPDATE seguridad.modulo set  idpadre=:p1,
-                                   descripcion=:p2,
-                                   url=:p3,
-                                   estado=:p5,
-                                   orden=:p6,
-                                   controlador=:p7,
-                                   accion=:p8
-                       where idmodulo = :idmodulo";
-        $stmt = $this->db->prepare($sql);
-        if($_P['idpadre']==""){$_P['idpadre']=null;}        
-            $stmt->bindParam(':p1', $_P['idpadre'] , PDO::PARAM_INT);
-            $stmt->bindParam(':p2', $_P['descripcion'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p3', $_P['url'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p5', $_P['activo'] , PDO::PARAM_BOOL);
-            $stmt->bindParam(':p6', $_P['orden'] , PDO::PARAM_INT);
-            $stmt->bindParam(':idmodulo', $_P['idmodulo'] , PDO::PARAM_INT);
-            $stmt->bindParam(':p7', $_P['controlador'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p8', $_P['accion'] , PDO::PARAM_STR);   
-            
-        $p1 = $stmt->execute();
-        $p2 = $stmt->errorInfo();
-        return array($p1 , $p2[2]);
-    }
     
     function delete($p) 
     {  
-        
-        /*
-        $objmov = new movimiento();
-        $stmtd = $this->db->prepare("SELECT distinct idmovimiento
-                from produccion.movim_proddet as mp
-                    inner join produccion.produccion_detalle as pd
-                    on mp.idproduccion_detalle =
-                      pd.idproduccion_detalle
-                WHERE pd.idproduccion=:id");
-        $stmtd->bindParam(':id',$p,PDO::PARAM_INT);
-        $stmtd->execute();
+      $obj_produccion = new Produccion();
+      try 
+        {
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->db->beginTransaction();        
+            //Afectamos los stock de los producctos a vender
+            //(Asginamos los valores para enviar)
+            $s = $this->db->prepare("SELECT * from facturacion.movimiento 
+                                      WHERE idmovimiento = :id");
+            $s->bindParam(':id',$p,PDO::PARAM_INT);
+            $s->execute();
+            $r = $s->fetchObject();
 
-        //Anulamos la produccion
-        $stmtp = $this->db->prepare("UPDATE produccion.produccion set estado = 0 where idproduccion = :id");
-        $stmtp->bindParam(':id',$p,PDO::PARAM_INT);
-        $stmtp->execute();
+            $_Pp = array();
+            $_Pp['fechai'] = date('Y-m-d');
+            $_Pp['fechaf'] = date('Y-m-d');
+            $_Pp['idpersonal'] = $_SESSION['idusuario'];
+            $_Pp['idalmacen'] = $r->idalmacen;
+            $_Pp['idalmacen'] = $r->idalmacen;
+            $_Pp['idproducciontipo'] = 6;            
+            $_Pp['idreferencia'] = $r->idmovimiento;
 
-        foreach($stmtd->fetchAll() as $r)
-        {                
-            $r = $objmov->delete($r['idmovimiento']);
+            $sd = $this->db->prepare("SELECT * from facturacion.movimientodetalle
+                                      where idmovimiento = :id");
+            $sd->bindParam(':id',$p,PDO::PARAM_INT);
+            $sd->execute();
+            $cont = $sd->rowCount();
+            $_Pp['prod'] = array();
+            $_Pp['prod']['item'] = $cont;
+            $_Pp['prod']['idsps']=array();
+            $_Pp['prod']['cantidad']=array();
+            $_Pp['prod']['estado']=array();
+            foreach($sd->fetchAll() as $r)
+            {
+                $_Pp['prod']['idsps'][] = $r['idproducto'];
+                $_Pp['prod']['cantidad'][] = $r['cantidad'];
+                $_Pp['prod']['estado'][] = true;
+            }            
+            $obj_produccion->InsertProduccion($_Pp);
+
+            $s = $this->db->prepare("UPDATE facturacion.movimiento set estado = 3 
+                                    where idmovimiento = :id");
+            $s->bindParam(':id',$p,PDO::PARAM_INT);
+            $s->execute();
+
+            $this->db->commit();
+            return array('1','Bien!',$id);
         }
-        return $r;        
-        */
+        catch(PDOException $e)
+        {
+            $this->db->rollBack();
+            return array('2',$e->getMessage().$str,'');
+        }
     }
 
     function ViewCuotas($id)
