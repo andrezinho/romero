@@ -148,38 +148,7 @@ class SubProductoSemi extends Main
 
     function ViewResultado($id)
     {
-        //echo $id;
-        /*if($id!=0)
-        {   
-            $sql="SELECT
-                a.descripcion AS almacen,
-                ps.descripcion || ' ' || sps.descripcion AS producto,
-                t2.ctotal
-                from 
-                produccion.produccion_detalle as t2 INNER JOIN (
-                SELECT max(pd.idproduccion_detalle) as iddd,pd.idsubproductos_semi, pd.idalmacen 
-                FROM produccion.produccion_detalle as pd
-                GROUP BY pd.idsubproductos_semi,pd.idalmacen ) as t3 on t2.idproduccion_detalle = t3.iddd
-
-                INNER JOIN produccion.subproductos_semi AS sps ON sps.idsubproductos_semi = t2.idsubproductos_semi
-                INNER JOIN produccion.productos_semi AS ps ON ps.idproductos_semi = sps.idproductos_semi
-                INNER JOIN produccion.produccion AS p ON p.idproduccion = t2.idproduccion
-                INNER JOIN produccion.almacenes AS a ON a.idalmacen = p.idalmacen
-
-                WHERE
-                p.idalmacen = :id
-                ORDER BY
-                t2.idalmacen ";
-                $stmt = $this->db->prepare($sql);
-                $stmt->bindParam(':id', $id , PDO::PARAM_INT);                
-
-                $stmt->execute();
-                return $stmt->fetchAll();
-
-        }else
-            {   
-               */ 
-            
+                   
             $where='';
             //echo $id;
             if($id!=0)
@@ -223,8 +192,6 @@ class SubProductoSemi extends Main
             
             return $data;   
 
-            /*}*/
-        
     }
 
 }

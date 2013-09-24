@@ -716,6 +716,103 @@ class Ventas extends Main
         return $stmt->fetchAll();
     }
 
+<<<<<<< HEAD
+    //Reporte
+    function ViewResultado($_G)
+    {
+        $idpersonal =$_G['idper'];
+        $fechai = $this->fdate($_G['fechai'], 'EN');
+        $fechaf = $this->fdate($_G['fechaf'], 'EN');
+        
+        if($idpersonal==0)
+        {   
+            $sql="SELECT
+              m.idmovimiento,
+              c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS nomcliente,
+              tpd.descripcion AS tipodoc ,
+              m.documentonumero,
+              tpp.descripcion AS tipopag,
+              substr(cast(m.fecha as text),9,2)||'/'||substr(cast(m.fecha as text),6,2)||'/'||substr(cast(m.fecha as text),1,4) AS fechareg,
+              m.total 
+                 
+              FROM
+              facturacion.movimiento AS m
+              INNER JOIN facturacion.movimientodetalle AS md ON m.idmovimiento = md.idmovimiento
+              INNER JOIN cliente AS c ON c.idcliente = m.idcliente
+              INNER JOIN facturacion.tipodocumento AS tpd ON tpd.idtipodocumento = m.idtipodocumento
+              INNER JOIN produccion.tipopago AS tpp ON tpp.idtipopago = m.idtipopago
+
+              WHERE
+              m.fecha BETWEEN CAST(:p1 AS DATE) AND CAST(:p2 AS DATE) 
+              ORDER BY
+              m.idmovimiento ASC ";
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':p1', $fechai , PDO::PARAM_STR);
+            $stmt->bindParam(':p2', $fechaf, PDO::PARAM_STR);
+
+            $stmt->execute();
+            return $stmt->fetchAll();
+
+        }else
+            {   
+                $sql="SELECT
+                  m.idmovimiento,
+                  c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS nomcliente,
+                  tpd.descripcion AS tipodoc ,
+                  m.documentonumero,
+                  tpp.descripcion AS tipopag,
+                  substr(cast(m.fecha as text),9,2)||'/'||substr(cast(m.fecha as text),6,2)||'/'||substr(cast(m.fecha as text),1,4) AS fechareg,
+                  m.total 
+                     
+                  FROM
+                  facturacion.movimiento AS m
+                  INNER JOIN facturacion.movimientodetalle AS md ON m.idmovimiento = md.idmovimiento
+                  INNER JOIN cliente AS c ON c.idcliente = m.idcliente
+                  INNER JOIN facturacion.tipodocumento AS tpd ON tpd.idtipodocumento = m.idtipodocumento
+                  INNER JOIN produccion.tipopago AS tpp ON tpp.idtipopago = m.idtipopago
+
+                  WHERE
+                  m.fecha BETWEEN CAST(:p1 AS DATE) AND CAST(:p2 AS DATE) AND
+                  m.idusuarioreg= :id
+                  ORDER BY
+                  m.idmovimiento ASC ";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(':id', $idpersonal , PDO::PARAM_INT);
+                $stmt->bindParam(':p1', $fechai , PDO::PARAM_STR);
+                $stmt->bindParam(':p2', $fechaf, PDO::PARAM_STR);
+
+                $stmt->execute();
+                return $stmt->fetchAll();
+            }
+        
+
+    }
+    
+    // VER EL DETALLE DEL REPORTE
+    function rptDetails($id)
+    {
+        $stmt = $this->db->prepare("SELECT
+          sp.descripcion || ' ' || p.descripcion AS producto,
+          md.precio,
+          md.cantidad,
+          md.precio * md.cantidad AS importe
+
+          FROM
+          facturacion.movimiento AS m
+          INNER JOIN facturacion.movimientodetalle AS md ON m.idmovimiento = md.idmovimiento
+          INNER JOIN produccion.subproductos_semi AS p ON p.idsubproductos_semi = md.idproducto
+          INNER JOIN produccion.productos_semi AS sp ON sp.idproductos_semi = p.idproductos_semi
+
+          WHERE md.idmovimiento = :id
+
+          ORDER BY
+          md.idmovimiento ASC ");
+
+        $stmt->bindParam(':id', $id , PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+=======
     function pagosEfectuados($id)
     {
         $stmt = $this->db->prepare("SELECT  
@@ -757,6 +854,7 @@ class Ventas extends Main
                           'detalle'=>$stmt2->fetchAll());
         }
         return $data;
+>>>>>>> 33896b4c24c0724eaff72b5623b5024057dfb898
     }
 
 }
