@@ -716,7 +716,7 @@ class Ventas extends Main
         return $stmt->fetchAll();
     }
 
-<<<<<<< HEAD
+
     //Reporte
     function ViewResultado($_G)
     {
@@ -812,7 +812,7 @@ class Ventas extends Main
         $stmt->bindParam(':id', $id , PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll();
-=======
+    }
     function pagosEfectuados($id)
     {
         $stmt = $this->db->prepare("SELECT  
@@ -854,7 +854,7 @@ class Ventas extends Main
                           'detalle'=>$stmt2->fetchAll());
         }
         return $data;
->>>>>>> 33896b4c24c0724eaff72b5623b5024057dfb898
+
     }
 
 }

@@ -154,7 +154,7 @@ class VentasController extends Controller
     
     }
 
-<<<<<<< HEAD
+
     //REPORTES
     public function load_ventas()
     {
@@ -180,9 +180,9 @@ class VentasController extends Controller
         $view->render();
     }
 
-}
+
  
-=======
+
     public function pay_cuotas()
     {
         $obj = new Ventas();
@@ -195,7 +195,7 @@ class VentasController extends Controller
             $result = array(2,$p[1]);
         print_r(json_encode($result));
     }  
->>>>>>> 33896b4c24c0724eaff72b5623b5024057dfb898
+
 
     public function genDoc()
     {
