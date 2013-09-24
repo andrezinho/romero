@@ -1,9 +1,9 @@
 <?php
 require_once '../lib/controller.php';
 require_once '../lib/view.php';
-require_once '../model/ventas.php';
+require_once '../model/pagopersonal.php';
 
-class VentasController extends Controller 
+class PagoPersonalController extends Controller 
 {   
     var $cols = array(
                         1 => array('Name'=>'Codigo','NameDB'=>'m.idmovimiento','align'=>'center','width'=>50),
@@ -23,7 +23,7 @@ class VentasController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
-        $data['script'] = "evt_index_ventas.js";
+        //$data['script'] = "evt_index_ventas.js";
         //(nuevo,editar,eliminar,ver)
         $data['actions'] = array(true,true,false,true);
 
@@ -64,7 +64,7 @@ class VentasController extends Controller
         $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));
         $data['subproductosemi'] = $this->Select(array('id'=>'idsubproductos_semi','name'=>'idsubproductos_semi','text_null'=>'...','table'=>'produccion.vista_subproductosemi'));
         $view->setData($data);
-        $view->setTemplate( '../view/ventas/_form.php' );
+        $view->setTemplate( '../view/pagopersonal/_form.php' );
         echo $view->renderPartial();
     }
 
@@ -77,7 +77,7 @@ class VentasController extends Controller
         $data['obj'] = $obj;
         $data['ventassPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','table'=>'seguridad.vista_ventas','code'=>$obj->idpadre));
         $view->setData($data);
-        $view->setTemplate( '../view/ventas/_form.php' );
+        $view->setTemplate( '../view/pagopersonal/_form.php' );
         echo $view->renderPartial();
     }
 
@@ -98,7 +98,7 @@ class VentasController extends Controller
         $data['subproductosemi'] = $this->Select(array('id'=>'idsubproductos_semi','name'=>'idsubproductos_semi','text_null'=>'...','table'=>'produccion.vista_subproductosemi','code'=>$rows->idsubproductos_semi));
         $data['rowsd'] = $obj->getDetails($rows->idmovimiento);
         $view->setData($data);
-        $view->setTemplate( '../view/ventas/_form.php' );
+        $view->setTemplate( '../view/pagopersonal/_form.php' );
         echo $view->renderPartial();
     }
 

@@ -16,6 +16,8 @@ $(function()
 
     $("#stock").on('click','#reporte_stock',function(){ReporteStock(); });
 
+    $("#ventas").on('click','#reporte_vent',function(){ReporteVent(); });
+
     //PROFORMAS - MOSTRAR DETALLE QUE SALE EN EL REPORTE
     $("#proform").on('click','#print_rpt',function(){
         
@@ -124,3 +126,22 @@ function ReporteStock()
     });
 }
 
+//
+function ReporteVent()
+{
+  fechai=$("#fechad").val();
+  fechaf=$("#fechah").val();
+    if($("#idpersonal").val()=='')
+      {
+        idper=0
+      }else
+        {
+          idper=$("#idpersonal").val();
+        }
+    
+    $.get('index.php','controller=ventas&action=load_ventas&idper='+idper+'&fechai='+fechai+'&fechaf='+fechaf,function(r){
+      
+      $("#load_resultado").empty().append(r);
+
+    });
+}
