@@ -74,6 +74,7 @@ class Main extends Spdo {
         $r = $stmt->fetchObject();
         return $r->estado;
     }
+
     function more_options($name_controller)
     {
         $sql = "select idpadre from modulo where controlador = :name ";
@@ -118,6 +119,19 @@ class Main extends Spdo {
         }
         $sth->execute();
         return $sth->fetchAll();
+    }
+    function getAlmacenes($idsucursal)
+    {
+        $sth = $this->db->prepare("SELECT idalmacen,descripcion 
+                                    FROM produccion.almacenes
+                                    where idsucursal = ".$idsucursal."
+                                   order by 1");
+        $sth->execute();
+        $data = array();
+        foreach ($sth->fetchAll() as $key => $value) {
+            $data[] = array($value['idalmacen'],$value['descripcion']);
+        }
+        return $data;
     }
     public function ffecha($fecha){
         $nfecha = explode("/",$fecha);

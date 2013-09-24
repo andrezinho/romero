@@ -34,6 +34,11 @@ class Controller  {
         $view->setTemplate( '../view/_more_options.php' );
         return $view->renderPartial();
     }
+    public function getAlmacenes()
+    {
+        $obj = new Main(); 
+        return $obj->getAlmacenes($_SESSION['idsucursal']);
+    }
     public function Select($p) 
     {
         $obj = new Main();        
@@ -181,7 +186,7 @@ class Controller  {
         $a = array();
         foreach($array as $i => $v)
         {
-            $a[] = $v['Name'];
+            $a[] = "<b>".strtoupper($v['Name'])."</b>";
 
         }
         return $a;

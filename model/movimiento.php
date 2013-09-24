@@ -12,9 +12,8 @@ class movimiento extends Main
                         m.numero,                        
                         upper(p.razonsocial),
                         p.ruc,
-                        case m.afecto when 1 then '18%' else '' end,
-                        t.total as subtotal,
-                        cast(t.total*m.igv/100+t.total as numeric(18,2)) as total,
+                        case m.afecto when 1 then '18%' else '' end,                        
+                        cast(m.afecto*t.total*m.igv/100+t.total as numeric(18,2)) as total,
                         case m.estado when 1 then 'Activo'
                                       when 2 then 'Anulado'
                              else ''
@@ -35,7 +34,7 @@ class movimiento extends Main
                          inner join movimientostipo as mt on mt.idmovimientostipo = mst.idmovimientostipo
                          inner join facturacion.tipodocumento as td on td.idtipodocumento = m.idtipodocumento
                          inner join proveedor as p on p.idproveedor = m.idproveedor
-                         inner join (select idmovimiento,sum(precio*cantidad) as total
+                         inner join (select idmovimiento,sum(precio*ctotal) as total
                                     from movimientosdetalle
                                     group by idmovimiento) as t on t.idmovimiento = m.idmovimiento
                     WHERE mt.idmovimientostipo = 1 and autogen = 0 ";

@@ -31,12 +31,12 @@
       </ul>
       <div id="tabs-1">
         <?php if($obj->idmovimiento==""){ ?>
-        <div class="ui-widget-content" style="text-align:right; background:#">
+        <!-- <div class="ui-widget-content" style="text-align:right; background:#">
             <a href="#" style="color:green; font-weight:bold;">Agregar de Proforma: </a>
             <input type="text" name="nroproforma" id="nroproforma" class="ui-widget-content ui-corner-all text" placeholder="N° de Proforma" onkeypress="return permite(event,'num')" maxlength="10" />
             <a href="javascript:popup('index.php?controller=proforma&action=lista',870,350)" class="box-boton boton-search" title="buscar Proforma">&nbsp;</a>
             <a href="#" class="box-boton boton-ok" title="Cargar Datos"></a>            
-        </div>
+        </div> -->
         <?php }  ?>
         <fieldset class="ui-corner-all" style="padding: 2px 10px 7px">
               <legend>Datos Generales - Fecha <?php echo date('d/m/Y'); ?></legend>

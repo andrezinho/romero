@@ -2,7 +2,7 @@
 include_once("Main.php");
 include_once("movimiento.php");
 
-class Produccion extends Main
+class traslado extends Main
 {    
     //indexGridi -> Grilla del index de ingresos.
     function indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$cols)
@@ -10,12 +10,10 @@ class Produccion extends Main
         //Estados 0->anulado, 1->registrado, 2->finalizado, 
         $sql = "SELECT
                     p.idproduccion,
-                    '('||pt.descripcion||') '||upper(p.descripcion),
-                    upper(pe.nombres || ' ' || pe.apellidos) AS personal,
-                    a.descripcion,
+                    '('||pt.descripcion||') '||upper(p.descripcion),                    
                     substr(cast(p.fecha as text),9,2)||'/'||substr(cast(p.fecha as text),6,2)||'/'||substr(cast(p.fecha as text),1,4),
-                    '<p style=\"color:green\">'||substr(cast(p.fechaini as text),9,2)||'/'||substr(cast(p.fechaini as text),6,2)||'/'||substr(cast(p.fechaini as text),1,4)||'</p>',
-                    '<p style=\"color:red\">'||substr(cast(p.fechafin as text),9,2)||'/'||substr(cast(p.fechafin as text),6,2)||'/'||substr(cast(p.fechafin as text),1,4)||'</p>',                    
+                    a.descripcion,
+                    a2.descripcion,
                     case p.estado when 1 then 'REGISTRADO'
                                   when 2 then 'FINALIZADO'                                   
                                   WHEN 0 THEN 'ANULADO'
@@ -40,32 +38,13 @@ class Produccion extends Main
                 produccion.produccion AS p
                 INNER JOIN public.personal AS pe ON pe.idpersonal = p.idpersonal 
                 inner join produccion.almacenes as a on a.idalmacen = p.idalmacen
+                inner join produccion.almacenes as a2 on a2.idalmacen = p.idalmacend
                 inner join produccion.producciontipo as pt on pt.idproducciontipo = p.idproducciontipo
-                WHERE p.idproducciontipo=1";
+                WHERE p.idproducciontipo=2 ";
         //echo $sql;
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
-    function indexGridList($page,$limit,$sidx,$sord,$filtro,$query,$cols)
-    {
-        //Estados 0->anulado, 1->registrado, 2->finalizado, 
-        $sql = "SELECT  dp.idproduccion_detalle,
-                        ps.descripcion||' '||sps.descripcion as producto,
-                        (dp.totalp) as cantidad,
-                        dp.stock,
-                        p.fechaini,
-                        p.fechafin,
-                        a.descripcion,  
-                        pp.nombres||' '||pp.apellidos as responsable
-                     from produccion.produccion_detalle as dp inner join
-                        produccion.produccion as p on p.idproduccion = dp.idproduccion
-                        inner join produccion.subproductos_semi as sps on sps.idsubproductos_semi = dp.idsubproductos_semi
-                        inner join produccion.productos_semi as ps on ps.idproductos_semi = sps.idproductos_semi
-                        inner join produccion.almacenes as a on a.idalmacen = p.idalmacen 
-                        inner join personal as pp on p.idpersonal = pp.idpersonal
-                     where p.estado = 2 ";
-     
-        return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
-    }
+
     function edit($id)
     {
         $stmt = $this->db->prepare("SELECT

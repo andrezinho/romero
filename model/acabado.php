@@ -139,7 +139,8 @@ class acabado extends Main
             $idacabado =  $this->IdlastInsert('produccion.acabado','idacabado');
 
 
-            $stmt = $this->db->prepare("UPDATE produccion.produccion_detalle set stock = stock - :c 
+            $stmt = $this->db->prepare("UPDATE produccion.produccion_detalle 
+                                                set stock = stock - :c
                                         where idproduccion_detalle = :id");
             $stmt->bindParam(':c',$cantidad,PDO::PARAM_INT);
             $stmt->bindParam(':id',$idproduccion_detalle,PDO::PARAM_INT);
@@ -178,7 +179,7 @@ class acabado extends Main
 
     function update($_P ) 
     {
-        die("AA");
+        die;
     }
     
     function delete($p) 
@@ -197,7 +198,8 @@ class acabado extends Main
             $idpd = $r->idproduccion_detalle;
 
             $stmt = $this->db->prepare("UPDATE produccion.produccion_detalle 
-                                                set stock = stock + {$cant}
+                                                set stock = stock + {$cant},
+                                                    cantidad = cantidad - {$cant}
                                         where idproduccion_detalle = {$idpd}");
             $stmt->execute();
 
@@ -218,12 +220,59 @@ class acabado extends Main
 
     function end($p)
     {
-        $stmt = $this->db->prepare("UPDATE produccion.acabado set estado = 2
-                                    where idacabado = :id and estado = 1");
-        $stmt->bindParam(':id',$p,PDO::PARAM_INT);
-        $r = $stmt->execute();
-        if($r) return array("1",'Ok, este acabado fue finalizada');
-            else return array("2",'Ha ocurrido un error, porfavor intentelo nuevamente');
+        try 
+        {
+            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->db->beginTransaction();
+
+            $stmt = $this->db->prepare("UPDATE produccion.acabado set estado = 2
+                                        where idacabado = :id and estado = 1");
+            $stmt->bindParam(':id',$p,PDO::PARAM_INT);
+            $r = $stmt->execute();
+
+            $s = $this->db->prepare("SELECT a.cantidad,a.idproduccion_detalle, pd.idalmacen, 
+                                            pd.idsubproductos_semi
+                                    from produccion.acabado as a inner join produccion.produccion_detalle as pd
+                                        on pd.idproduccion_detalle = a.idproduccion_detalle
+                                     where a.idacabado = :id ");
+            $s->bindParam(':id',$p,PDO::PARAM_INT);
+            $s->execute();
+            $row = $s->fetchObject();
+
+            $s2 = $this->db->prepare("UPDATE produccion.produccion_detalle 
+                                            set cantidad = cantidad + ".$row->cantidad.",
+                                                ctotal = ctotal + ".$row->cantidad."
+                                            WHERE idproduccion_detalle = ".$row->idproduccion_detalle);
+
+            //Verifico si ese detalle de produccion fue el ultimo para ese producto y almacen            
+            $s3 = $this->db->prepare("SELECT max(idproduccion_detalle) as ipd
+                                     FROM produccion.produccion_detalle
+                                     WHERE idalmacen = ".$row->idalmacen." 
+                                            and idsubproductos_semi=".$row->idsubproductos_semi);
+            $s3->execute();
+            $row2 = $s3->fetchObject();
+            if($row2->ipd!=$row->idproduccion_detalle)
+            {
+                $s4 = $this->db->prepare("UPDATE produccion.produccion_detalle 
+                                    set ctotal = ctotal + ".$row->cantidad."
+                                 WHERE idproduccion_detalle = ".$row2->ipd);
+                $s4->execute();
+                    
+            }
+            
+
+            $s2->execute();
+
+            $this->db->commit();
+            return array("1",'Ok, este acabado fue finalizada');
+        }
+        catch(PDOException $e)
+        {
+            $this->db->rollBack();
+            return array('2',$e->getMessage().$str,'');            
+        }
+
+
     }
 }
 ?>

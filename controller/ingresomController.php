@@ -13,11 +13,10 @@ class ingresomController extends Controller
                         6 => array('Name'=>'Numero','NameDB'=>'m.numero','align'=>'center','width'=>90),                        
                         7 => array('Name'=>'Razon Social','NameDB'=>'p.razonsocial','align'=>'left'),
                         8 => array('Name'=>'RUC','NameDB'=>'p.ruc','align'=>'center','width'=>95),
-                        9 => array('Name'=>'IGV','NameDB'=>'-','align'=>'center','width'=>50),
-                        10 => array('Name'=>'Sub Total','NameDB'=>'-','align'=>'right','width'=>100),
-                        11 => array('Name'=>'Total','NameDB'=>'-','align'=>'right','width'=>100),
+                        9 => array('Name'=>'IGV','NameDB'=>'-','align'=>'center','width'=>50),                        
+                        11 => array('Name'=>'Total S/.','NameDB'=>'-','align'=>'right','width'=>100),
                         12 => array('Name'=>'Estado','NameDB'=>'-','align'=>'center','width'=>60),
-                        13 => array('Name'=>'&nbsp','NameDB'=>'-','align'=>'center','width'=>30)
+                        13 => array('Name'=>'','NameDB'=>'-','align'=>'center','width'=>30)
                      );
     public function index() 
     {
@@ -26,7 +25,7 @@ class ingresomController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
-        $data['titulo'] = "Ingresos de Material";
+        $data['titulo'] = "Ingresos de Producto por Produccion";
         $data['script'] = "evt_index_ingresom.js";
         //(nuevo,editar,eliminar,ver,anular,imprimir)
         $data['actions'] = array(true,false,false,true,false,true);
@@ -58,7 +57,10 @@ class ingresomController extends Controller
         $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
         $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));
         $data['tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'...','table'=>'facturacion.vista_tipodocumento','width'=>'80px'));
-        $data['almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px'));        
+        
+        $rowsal = $this->getAlmacenes();
+        $data['almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>$rowsal,'width'=>'120px'));        
+
         $data['formapago'] = $this->Select(array('id'=>'idformapagao','name'=>'idformapago','text_null'=>'--Seleccione--','table'=>'produccion.tipopago','width'=>'120px'));        
         $data['tipomov'] = $this->Select(array('id'=>'idmovimientosubtipo','name'=>'idmovimientosubtipo','text_null'=>'--Seleccione--','table'=>'vista_tipoingresos','width'=>'200px'));        
         $view->setData($data);
@@ -77,7 +79,8 @@ class ingresomController extends Controller
         $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
         $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));
         $data['tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'...','table'=>'facturacion.vista_tipodocumento','width'=>'80px','code'=>$rows->idtipodocumento,'disabled'=>'disabled'));
-        $data['almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$rows->idalmacen,'disabled'=>'disabled'));        
+        $rowsal = $this->getAlmacenes();
+        $data['almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>$rowsal,'width'=>'120px','code'=>$rows->idalmacen,'disabled'=>'disabled'));        
         $data['formapago'] = $this->Select(array('id'=>'idformapagao','name'=>'idformapago','text_null'=>'','table'=>'produccion.tipopago','width'=>'120px','code'=>$rows->idformapago,'disabled'=>'disabled'));        
 
         $data['rowsd'] = $obj->getDetails($rows->idmovimiento);
@@ -117,13 +120,6 @@ class ingresomController extends Controller
         {
             $result = array(2,"Esta operacion no se puede realizar.");
         }
-        // $result = array();        
-        // if ($_POST['idmovimiento']=='') 
-        //     $p = $obj->insert($_POST);                        
-        // else         
-        //     $p = $obj->update($_POST);
-        // if ($p[0]=="1") $result = array(1,'');                
-        //     else $result = array(2,$p[1]);
         print_r(json_encode($result));
     }
     

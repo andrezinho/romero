@@ -1,8 +1,6 @@
 <?php  include("../lib/helpers.php"); 
        include("../view/header_form.php");
 ?>
-
-   
 <form id="frm" >
     <input type="hidden" name="controller" value="Sucursal" />
 
