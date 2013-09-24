@@ -1,15 +1,26 @@
 $(function() 
 {	
-    
     $("#list").on('click','.pagar',function(){
-            
         var i = $(this).attr("id");
         i = i.split('-');
-        id = i[1];
-        //alert(id);
-        var ventana=popup('index.php?controller=ventas&action=pagarcuota&id='+id, 950, 400); 
-        ventana.focus();
-        //href="javascript:popup('index.php?controller=ingresom&action=detalle&id=<?php echo $id; ?>',870,350)" 
+        id = i[1];        
+        var ventana=popup('index.php?controller=ventas&action=pagarcuota&id='+id, 950, 460); 
+        ventana.focus();        
+    });
+
+    $("#list").on('click','.anular',function()
+    {
+      var i = $(this).attr("id");
+      i = i.split('-');
+      i = i[1];
+      if(confirm('Realmente deseas anular esta venta con codigo '+i+'?'))
+      {     
+        $.post('index.php','controller=ventas&action=anular&i='+i,function(r)
+        {
+          if(r[0]==1) gridReload();
+            else alert('Ha ocurrido un error, vuelve a intentarlo.');
+        },'json');
+      }
     });
     
     $("#idformapago2").change(function(){change_fp();});
@@ -19,14 +30,35 @@ $(function()
     $("#add-fp").click(function(){
         addFormaPago();
     });
+    $("#btn-gen-d").click(function(){
+        var bval = true;
+        bval = bval && $("#idtipodocumento").required();
+        if(bval)
+        {
+           var idd = $("#idtipodocumento").val(),
+               id = $("#idmov").val();
+            $.post('index.php','controller=ventas&action=genDoc&idd='+idd+'&id='+id,function(res)
+              {
+                 if(res[0]==1)
+                  {
+                      alert("Se ha generado el comprobante correctamente");
+                      location.reload();
+                  }
+                  else
+                  {
+                    alert(res[1]);
+                  }            
+            },'json')
 
+        }
+    });
     $("#table-detalle-pagos").on('click','.item-fp',function(){
       var i = $(this).attr("id");
       i = i.split("-");
       pagos.eliminar(i[1]);
       pagos.listar();
     });
-
+    $("#btn-pago").click(function(){save();})
     
 });
 
@@ -206,4 +238,42 @@ function clear_frm_pagos()
     $("#nrocheque").val("");
     $("#banco").val("");
     $("#fechav").val("");
+}
+function valid_tab3()
+{
+  var c = 0;
+  $("#table-detalle-pagos tbody tr").each(function(idx,j){c += 1;});
+  if(c==0)
+    return false;
+  else
+    return true;
+}
+function save()
+{
+
+   var tab = valid_tab3(); 
+  if(!tab)  
+    {
+      alert("Ingrese los pagos");
+      return false;
+    }
+    else
+    {
+
+      pagoss = json_encode(pagos); 
+      id = $("#idmov").val();
+      $.post('index.php','controller=ventas&action=pay_cuotas&pagos='+pagoss+'&id='+id,function(res)
+           {
+              if(res[0]==1)
+              {
+                  alert("Su pago se realizo correctamente");
+                  location.reload();
+              }
+              else
+              {
+                alert(res[1]);
+              }            
+          },'json');
+    }
+
 }

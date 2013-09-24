@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"mar",
+				"margin-bottom"
+			],
+			[
 				"num",
 				"number_format"
 			],
@@ -216,10 +220,18 @@
 			}
 		},
 		{
+			"file": "view/consultas/_proformas.php",
+			"settings":
+			{
+				"buffer_size": 1702,
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "view/consultas/_stockproductos.php",
 			"settings":
 			{
-				"buffer_size": 1228,
+				"buffer_size": 1173,
 				"line_ending": "Windows"
 			}
 		},
@@ -235,7 +247,7 @@
 			"file": "controller/subproductosemiController.php",
 			"settings":
 			{
-				"buffer_size": 5813,
+				"buffer_size": 5870,
 				"line_ending": "Windows"
 			}
 		},
@@ -243,15 +255,7 @@
 			"file": "model/subproductosemi.php",
 			"settings":
 			{
-				"buffer_size": 9191,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "model/produccion.php",
-			"settings":
-			{
-				"buffer_size": 36307,
+				"buffer_size": 8290,
 				"line_ending": "Windows"
 			}
 		},
@@ -259,7 +263,7 @@
 			"file": "view/subproductosemi/_consulstock.php",
 			"settings":
 			{
-				"buffer_size": 2135,
+				"buffer_size": 2129,
 				"line_ending": "Windows"
 			}
 		}
@@ -291,8 +295,10 @@
 	},
 	"file_history":
 	[
-		"/C/xampp/htdocs/romero/model/proformas.php",
 		"/C/xampp/htdocs/romero/controller/proformasController.php",
+		"/C/xampp/htdocs/romero/model/produccion.php",
+		"/C/xampp/htdocs/romero/view/subproductosemi/_form.php",
+		"/C/xampp/htdocs/romero/model/proformas.php",
 		"/C/xampp/htdocs/romero/view/consultas/_proformas - copia.php",
 		"/C/xampp/htdocs/romero/controller/ventasController.php",
 		"/C/xampp/htdocs/romero/model/ventas.php",
@@ -318,7 +324,6 @@
 		"/C/xampp/htdocs/romero/web/js/app/evt_index_ingresom.js",
 		"/C/xampp/htdocs/romero/web/js/app/evt_index_verificacion.js",
 		"/C/xampp/htdocs/romero/web/js/app/evt_index_produccion.js",
-		"/C/xampp/htdocs/romero/model/produccion.php",
 		"/C/xampp/htdocs/romero/lib/Spdo.php",
 		"/C/xampp/htdocs/romero/controller/acabadoController.php",
 		"/C/xampp/htdocs/modulos/encuestas/controllers/cEncuesta.php",
@@ -397,7 +402,6 @@
 		"/C/xampp/htdocs/romero/model/areas.php",
 		"/C/xampp/htdocs/romero/controller/UbigeoController.php",
 		"/C/xampp/htdocs/romero/model/caja.php",
-		"/C/xampp/htdocs/romero/view/subproductosemi/_form.php",
 		"/C/xampp/htdocs/romero/controller/correlativosController.php",
 		"/C/xampp/htdocs/consorcio/transacciones/ventas/proforma/guardar.php",
 		"/C/xampp/htdocs/romero/web/css/layout.css",
@@ -709,7 +713,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 6,
 			"sheets":
 			[
 				{
@@ -725,8 +729,8 @@
 						"selection":
 						[
 							[
-								2041,
-								2048
+								402,
+								416
 							]
 						],
 						"settings":
@@ -735,27 +739,27 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 294.0,
+						"translation.x": 170.0,
+						"translation.y": 45.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "view/consultas/_stockproductos.php",
+					"file": "view/consultas/_proformas.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1228,
+						"buffer_size": 1702,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								665,
-								665
+								1239,
+								1247
 							]
 						],
 						"settings":
@@ -772,6 +776,35 @@
 				},
 				{
 					"buffer": 2,
+					"file": "view/consultas/_stockproductos.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1173,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								888,
+								888
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
 					"file": "web/js/app/evt_form_consultas.js",
 					"semi_transient": false,
 					"settings":
@@ -783,8 +816,8 @@
 						"selection":
 						[
 							[
-								2887,
-								2887
+								2836,
+								2845
 							]
 						],
 						"settings":
@@ -794,84 +827,26 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1302.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "controller/subproductosemiController.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5813,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5654,
-								5654
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1554.0,
+						"translation.y": 1310.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "model/subproductosemi.php",
+					"file": "controller/subproductosemiController.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9191,
+						"buffer_size": 5870,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5343,
-								5378
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 37.0,
-						"translation.y": 1363.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "model/produccion.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 36307,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10123,
-								10132
+								5621,
+								5626
 							]
 						],
 						"settings":
@@ -881,7 +856,36 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 9618.0,
+						"translation.y": 1485.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "model/subproductosemi.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8290,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8278,
+								8278
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1980.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -892,15 +896,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2135,
+						"buffer_size": 2129,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								2003,
+								2003
 							]
 						],
 						"settings":
