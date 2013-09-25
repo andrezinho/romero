@@ -6,23 +6,17 @@ class PagoPersonal extends Main
     function indexGrid($page,$limit,$sidx,$sord,$filtro,$query,$cols)
     {
         $sql = "SELECT
-            m.idmovimiento,
-            c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno,
-            tpd.descripcion ,
-            m.documentonumero,
-            tpp.descripcion,
-            substr(cast(m.fecha as text),9,2)||'/'||substr(cast(m.fecha as text),6,2)||'/'||substr(cast(m.fecha as text),1,4),
-            m.total,        
-            case when m.idtipopago=2 then
-                '<a class=\"pagar box-boton boton-pay\" id=\"v-'||m.idmovimiento||'\" title=\"Pagar sus cuotas\" ></a>'
-            else '&nbsp;' end
-               
-            FROM
-            facturacion.movimiento AS m
-            INNER JOIN facturacion.movimientodetalle AS md ON m.idmovimiento = md.idmovimiento
-            INNER JOIN cliente AS c ON c.idcliente = m.idcliente
-            INNER JOIN facturacion.tipodocumento AS tpd ON tpd.idtipodocumento = m.idtipodocumento
-            INNER JOIN produccion.tipopago AS tpp ON tpp.idtipopago = m.idtipopago ";                
+        pa.idpagos,
+        p.dni,
+        p.nombres || ' ' || p.apellidos,
+        pa.motivo,
+        pa.importe,
+        pa.nrorecibo,
+        substr(cast(pa.fechacancelacion as text),9,2)||'/'||substr(cast(pa.fechacancelacion as text),6,2)||'/'||substr(cast(pa.fechacancelacion as text),1,4)
+
+        FROM
+        produccion.pagos AS pa
+        INNER JOIN personal AS p ON p.idpersonal = pa.idpersonal ";                
         
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
@@ -93,7 +87,22 @@ class PagoPersonal extends Main
 
     function insert($_P ) 
     {
-        
+        $stmt = $this->db->prepare("INSERT INTO produccion.pagos(
+            nrorecibo, fechacancelacion, importe, pagomes, pagoanio, 
+            idpersonal, horapago, motivo) 
+                    VALUES(:p1,:p2,:p3,:p4,:p5, :p6, :p7, :p8)");
+        $stmt->bindParam(':p1', $_P['nrorecibo'] , PDO::PARAM_STR);
+        $stmt->bindParam(':p2', $_P['fechacancelacion'] , PDO::PARAM_STR);
+        $stmt->bindParam(':p3', $_P['montopag'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p4', $_P['mes'] , PDO::PARAM_STR);
+        $stmt->bindParam(':p5', $_P['anio'] , PDO::PARAM_STR);
+        $stmt->bindParam(':p6', $_P['idpersonal'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p7', $_P['horapago'] , PDO::PARAM_STR);
+        $stmt->bindParam(':p8', $_P['motivopago'] , PDO::PARAM_STR);
+
+        $p1 = $stmt->execute();
+        $p2 = $stmt->errorInfo();
+        return array($p1 , $p2[2]);
          
     }
 
@@ -245,6 +254,9 @@ class PagoPersonal extends Main
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+
+
 
 }
 ?>

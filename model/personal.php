@@ -125,5 +125,55 @@ class Personal extends Main
         return $statement->fetchAll();
     }
 
+    function viewTrab($Gets)
+    {
+        //echo $id= $Gets['mes'];
+        $produccion="SELECT
+            pro.descripcion AS produccion,
+            substr(cast(pro.fechaini as text),9,2)||'/'||substr(cast(pro.fechaini as text),6,2)||'/'||substr(cast(pro.fechaini as text),1,4) AS fechaini,
+            substr(cast(pro.fechafin as text),9,2)||'/'||substr(cast(pro.fechafin as text),6,2)||'/'||substr(cast(pro.fechafin as text),1,4) as fechafin,
+            tpp.descripcion,
+            pro.fecha
+            FROM
+            personal AS p
+            INNER JOIN produccion.produccion AS pro ON p.idpersonal = pro.idpersonal
+            INNER JOIN produccion.producciontipo AS tpp ON tpp.idproducciontipo = pro.idproducciontipo
+            WHERE
+            pro.idpersonal= :id and  extract(YEAR FROM pro.fecha)=:p2 AND extract(MONTH FROM pro.fecha)=:p1 ";
+
+            $stmt = $this->db->prepare($produccion);
+            $stmt->bindParam(':id', $Gets['idpersonal'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p1', $Gets['mes'] , PDO::PARAM_STR);
+            $stmt->bindParam(':p2', $Gets['anio'] , PDO::PARAM_STR);
+
+            $stmt->execute();
+            $produccion= $stmt->fetchAll();
+        
+        $acabado="SELECT
+            a.cantidad,
+            ps.descripcion || ' ' || sps.descripcion AS producto,
+            a.idpersonal,
+            substr(cast(a.fechaini as text),9,2)||'/'||substr(cast(a.fechaini as text),6,2)||'/'||substr(cast(a.fechaini as text),1,4) AS fechaini,
+            substr(cast(a.fechafin as text),9,2)||'/'||substr(cast(a.fechafin as text),6,2)||'/'||substr(cast(a.fechafin as text),1,4) as fechafin          
+          
+            FROM
+            personal AS p
+            INNER JOIN produccion.acabado AS a ON p.idpersonal = a.idpersonal
+            INNER JOIN produccion.produccion_detalle AS prod ON prod.idproduccion_detalle = a.idproduccion_detalle
+            INNER JOIN produccion.subproductos_semi AS sps ON sps.idsubproductos_semi = prod.idsubproductos_semi
+            INNER JOIN produccion.productos_semi AS ps ON ps.idproductos_semi = sps.idproductos_semi
+            WHERE
+            a.idpersonal= :id and  extract(YEAR from a.fecha)=:p2 AND extract(MONTH from a.fecha)=:p1 ";
+
+            $stmt1 = $this->db->prepare($acabado);
+            $stmt->bindParam(':id', $Gets['idpersonal'] , PDO::PARAM_INT);
+            $stmt->bindParam(':p1', $Gets['mes'] , PDO::PARAM_STR);
+            $stmt->bindParam(':p2', $Gets['anio'] , PDO::PARAM_STR);
+
+            $stmt1->execute();
+            $acabado=$stmt1->fetchAll();
+
+            return array($produccion , $acabado);
+    }
 }
 ?>

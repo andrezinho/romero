@@ -124,6 +124,20 @@ class PersonalController extends Controller
         print_r(json_encode($result));
     }
     
+    //
+    public function VerTrabajo()
+    {
+        $obj = new Personal();
+        $data = array();
+        $view = new View();
+        $ro = $obj->viewTrab($_GET);
+        $data['produccion'] = $ro[0];
+        $data['acabado'] = $ro[1];
+        $view->setData($data);
+        $view->setTemplate( '../view/pagopersonal/_datoshist.php' );
+        $view->setLayout( '../template/empty.php' );
+        echo $view->renderPartial();
+    }
 }
  
 

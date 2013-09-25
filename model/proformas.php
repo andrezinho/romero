@@ -430,14 +430,5 @@ class Proformas extends Main
             return array($cabecera , $detalle);
     }
 
-    //Imprimir reporte
-    /*function printer_rpt($rpt)
-    {
-
-    }*/
-
-
-
-
 }
 ?>

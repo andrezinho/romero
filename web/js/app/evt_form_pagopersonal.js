@@ -1,7 +1,7 @@
 $(function() 
 {   
     $("#tabs").tabs();
-
+    $("#mes, #meses").css({'width':'180px'});
     $("#dni").autocomplete({
         minLength: 0,
         source: 'index.php?controller=personal&action=get&tipo=1',
@@ -23,5 +23,50 @@ $(function()
             .append( "<a>"+ item.dni +" - " + item.nompersonal + "</a>" )
             .appendTo(ul);
       };
+
+    $("#meses").change(function(){
+        load_trabajo($(this).val()); 
+    });      
+
 });
 
+
+function load_trabajo(mes)
+{
+  //alert('');
+  idpersonal= $("#idpersonal").val();
+  anio= $("#anios").val();
+  //alert(mes);
+  $.get('index.php','controller=personal&action=VerTrabajo&idpersonal='+idpersonal+'&mes='+mes+'&anio='+anio,function(r){
+
+    $("#divLoadTrabajo").empty().append(r);
+
+  });
+}
+
+function save()
+{
+  bval = true;        
+  bval = bval && $( "#dni" ).required();
+  bval = bval && $( "#montopag" ).required();
+  bval = bval && $("#mes").required();
+  bval = bval && $("#anio").required();
+  
+  var str = $("#frm_pagoxpersonal").serialize();
+  if ( bval ) 
+  {
+      $.post('index.php',str,function(res)
+      {
+        if(res[0]==1){
+          $("#box-frm").dialog("close");
+          gridReload(); 
+        }
+        else
+        {
+          alert(res[1]);
+        }
+        
+      },'json');
+  }
+  return false;
+}

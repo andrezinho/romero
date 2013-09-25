@@ -9,7 +9,7 @@
         <input type="hidden" name="action" value="save" />
     
         <label for="idproforma" class="labels">Codigo:</label>
-        <input id="idproforma" name="idproforma" value="<?php echo $obj->idproforma; ?>" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" readonly />        
+        <input id="idproforma" name="idproforma" value="<?php echo $obj->idproforma; ?>" class="text ui-widget-content ui-corner-all" style=" width: 100px; text-align: left;" readonly />
         
         <label class="labels" style="70px;">N&deg;</label>
         <input name="serie" id="serie" title="Serie" value="<?php echo $obj->serie; ?>" type="text" class="ui-widget-content ui-corner-all text" style="width:40px;"  />-

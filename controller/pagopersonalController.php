@@ -6,14 +6,13 @@ require_once '../model/pagopersonal.php';
 class PagoPersonalController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'m.idmovimiento','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Cliente','NameDB'=>"c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno",'width'=>150,'search'=>true),
-                        3 => array('Name'=>'Tipo documento.','NameDB'=>'tpd.descripcion','search'=>true,'width'=>80),
-                        4 => array('Name'=>'N° Recibo','NameDB'=>'m.documentonumero','search'=>true,'width'=>80),
-                        5 => array('Name'=>'Tipo Pago','NameDB'=>'tpp.descripcion','search'=>true,'width'=>80),
-                        6 => array('Name'=>'Fecha','NameDB'=>'m.fecha','width'=>70,'align'=>'center'),
-                        7 => array('Name'=>'Total','NameDB'=>'m.total','align'=>'right','width'=>70),
-                        8 => array('Name'=>'','NameDB'=>'-','align'=>'center','width'=>40)
+                        1 => array('Name'=>'Codigo','NameDB'=>'pa.idpagos','align'=>'center','width'=>50),
+                        2 => array('Name'=>'DNI Personal','NameDB'=>'p.dni','width'=>80,'search'=>true),
+                        3 => array('Name'=>'Personal','NameDB'=>"p.nombres || ' ' || p.apellidos",'search'=>true,'width'=>150),
+                        4 => array('Name'=>'Motivo','NameDB'=>'pa.motivo','search'=>true,'width'=>180),
+                        5 => array('Name'=>'Monto Pago','NameDB'=>'pa.importe','width'=>80,'align'=>'right'),
+                        6 => array('Name'=>'N° Recibo','NameDB'=>'pa.nrorecibo','width'=>70,'align'=>'center'),
+                        7 => array('Name'=>'Fecha Canc.','NameDB'=>'pa.fechacancelacion','align'=>'center','width'=>70)
 
                      );
     public function index() 
@@ -36,7 +35,7 @@ class PagoPersonalController extends Controller
     }
     public function indexGrid() 
     {
-        $obj = new Ventas();  
+        $obj = new PagoPersonal();  
               
         $page = (int)$_GET['page'];
         $limit = (int)$_GET['rows']; 
@@ -55,14 +54,6 @@ class PagoPersonalController extends Controller
     {
         $data = array();
         $view = new View();
-        $data['tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'...','table'=>'facturacion.vista_tipodoc','width'=>'120px'));
-        $data['formapago'] = $this->Select(array('id'=>'idformapago','name'=>'idformapago','text_null'=>'','table'=>'formapago','width'=>'120px'));
-        $data['formapago2'] = $this->Select(array('id'=>'idformapago2','name'=>'idformapago2','text_null'=>'','table'=>'formapago','width'=>'120px'));
-        $data['moneda'] = $this->Select(array('id'=>'idmoneda','name'=>'idmoneda','text_null'=>'','table'=>'vista_moneda','width'=>'120px','code'=>'1','disabled'=>'disabled'));
-        $data['Almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>'produccion.vista_almacen','width'=>'120px'));
-        $data['tipopago'] = $this->Select(array('id'=>'idtipopago','name'=>'idtipopago','text_null'=>'Seleccione...','table'=>'produccion.vista_tipopago'));       
-        $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));
-        $data['subproductosemi'] = $this->Select(array('id'=>'idsubproductos_semi','name'=>'idsubproductos_semi','text_null'=>'...','table'=>'produccion.vista_subproductosemi'));
         $view->setData($data);
         $view->setTemplate( '../view/pagopersonal/_form.php' );
         echo $view->renderPartial();
@@ -70,12 +61,11 @@ class PagoPersonalController extends Controller
 
     public function edit() 
     {
-        $obj = new Ventas();
+        $obj = new PagoPersonal();
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
         $data['obj'] = $obj;
-        $data['ventassPadres'] = $this->Select(array('id'=>'idpadre','name'=>'idpadre','table'=>'seguridad.vista_ventas','code'=>$obj->idpadre));
         $view->setData($data);
         $view->setTemplate( '../view/pagopersonal/_form.php' );
         echo $view->renderPartial();
@@ -83,20 +73,11 @@ class PagoPersonalController extends Controller
 
     public function view() 
     {
-        $obj = new Ventas();
+        $obj = new PagoPersonal();
         $data = array();
         $view = new View();
         $rows = $obj->edit($_GET['id']);
         $data['obj'] = $rows;
-        $data['tipodocumento'] = $this->Select(array('id'=>'idtipodocumento','name'=>'idtipodocumento','text_null'=>'...','table'=>'facturacion.vista_tipodoc','width'=>'120px','code'=>$rows->idtipodocumento));
-        $data['formapago'] = $this->Select(array('id'=>'idformapago','name'=>'idformapago','text_null'=>'','table'=>'formapago','width'=>'120px','code'=>$rows->idformapago));
-        $data['formapago2'] = $this->Select(array('id'=>'idformapago2','name'=>'idformapago2','text_null'=>'','table'=>'formapago','width'=>'120px'));
-        $data['moneda'] = $this->Select(array('id'=>'idmoneda','name'=>'idmoneda','text_null'=>'','table'=>'vista_moneda','width'=>'120px','code'=>'1','disabled'=>'disabled'));
-        $data['Almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>'produccion.vista_almacen','width'=>'120px','code'=>$rows->idalmacen));
-        $data['tipopago'] = $this->Select(array('id'=>'idtipopago','name'=>'idtipopago','text_null'=>'Seleccione...','table'=>'produccion.vista_tipopago','code'=>$rows->idtipopago));       
-        $data['Financiamiento'] = $this->Select(array('id'=>'idfinanciamiento','name'=>'idfinanciamiento','text_null'=>'Seleccione...','table'=>'facturacion.vista_financiamiento'));
-        $data['subproductosemi'] = $this->Select(array('id'=>'idsubproductos_semi','name'=>'idsubproductos_semi','text_null'=>'...','table'=>'produccion.vista_subproductosemi','code'=>$rows->idsubproductos_semi));
-        $data['rowsd'] = $obj->getDetails($rows->idmovimiento);
         $view->setData($data);
         $view->setTemplate( '../view/pagopersonal/_form.php' );
         echo $view->renderPartial();
@@ -104,9 +85,9 @@ class PagoPersonalController extends Controller
 
     public function save()
     {
-        $obj = new Ventas();
+        $obj = new PagoPersonal();
         $result = array();
-        if ($_POST['idventas']=='')
+        if ($_POST['idpagos']=='')
             $p = $obj->insert($_POST);
         else
             $p = $obj->update($_POST);
@@ -176,6 +157,7 @@ class PagoPersonalController extends Controller
         $view->setLayout( '../template/list.php' );
         $view->render();
     }
+
 
 }
  
