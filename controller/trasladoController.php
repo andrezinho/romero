@@ -11,8 +11,7 @@ class trasladoController extends Controller
                         4 => array('Name'=>'Almacen Origen','NameDB'=>'a.descripcion','align'=>'left','width'=>100,'search'=>true),
                         5 => array('Name'=>'Almacen Destino','NameDB'=>'a.descripcion','align'=>'left','width'=>100,'search'=>true),
                         6 => array('Name'=>'Estado','NameDB'=>'p.estado','align'=>'center','width'=>80),
-                        7 => array('Name'=>'','NameDB'=>'','align'=>'center','width'=>20),
-                        8 => array('Name'=>'','NameDB'=>'','align'=>'center','width'=>20)
+                        7 => array('Name'=>'','NameDB'=>'','align'=>'center','width'=>20)                        
                      );
     public function index() 
     {
@@ -52,8 +51,7 @@ class trasladoController extends Controller
         $data['colsModels'] = $this->getColsModel($this->cols_list);        
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols_list)));
         $data['controlador'] = $_GET['controller'];
-        $data['titulo'] = "Produccion de Muebeles finalizadas";
-        $data['script'] = "evt_index_produccion.js";
+        $data['titulo'] = "TRASLADOS";        
         $data['actions'] = array(false,false,false,false,false);
         $view = new View();
         $view->setData($data);
@@ -67,13 +65,15 @@ class trasladoController extends Controller
         $data = array();
         $view = new View();
         $data['ProductoSemi'] = $this->Select(array('id'=>'idproductos_semi','name'=>'idproductos_semi','text_null'=>'Seleccione...','table'=>'produccion.vista_productosemi','width'=>'120px'));
-        $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px'));        
-        $data['almacenme'] = $this->Select(array('id'=>'idalmacenme','name'=>'idalmacenme','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px'));        
+        $data['almacend'] = $this->Select(array('id'=>'idalmacend','name'=>'idalmacend','text_null'=>'','table'=>'produccion.almacenes','width'=>'160px'));                
+        $rowsal = $this->getAlmacenes();
+        $data['almacen'] = $this->Select(array('id'=>'idalmacen','name'=>'idalmacen','text_null'=>'','table'=>$rowsal,'width'=>'160px'));
         $data['idmadera'] = $this->Select(array('id'=>'idmadera','name'=>'idmadera','text_null'=>'Seleccione...','table'=>'produccion.vista_madera','width'=>'220px'));
         $data['linea'] = $this->Select(array('id'=>'idlinea','name'=>'idlinea','text_null'=>'Elija Linea...','table'=>'produccion.vista_linea','width'=>'100px'));
         $data['idmelamina'] = $this->Select(array('id'=>'idmelamina','name'=>'idmelamina','text_null'=>'Seleccione...','table'=>'produccion.vista_melamina','width'=>'120px'));
+        $data['subproductosemi'] = $this->Select(array('id'=>'idsubproductos_semi','name'=>'idsubproductos_semi','text_null'=>'...','table'=>'produccion.vista_subproductosemi'));
         $view->setData($data);
-        $view->setTemplate( '../view/produccion/_form.php' );
+        $view->setTemplate( '../view/traslado/_form.php' );
         echo $view->renderPartial();
     }
 
@@ -98,7 +98,7 @@ class trasladoController extends Controller
             else 
                 $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$obj->idalmacen));                        
             $view->setData($data);
-            $view->setTemplate( '../view/produccion/_form.php' );
+            $view->setTemplate( '../view/traslado/_form.php' );
             echo $view->renderPartial();
         }
         else
@@ -130,7 +130,7 @@ class trasladoController extends Controller
         else 
             $data['almacenma'] = $this->Select(array('id'=>'idalmacenma','name'=>'idalmacenma','text_null'=>'','table'=>'produccion.almacenes','width'=>'120px','code'=>$obj->idalmacen));                        
         $view->setData($data);
-        $view->setTemplate( '../view/produccion/_form.php' );
+        $view->setTemplate( '../view/traslado/_form.php' );
         echo $view->renderPartial();
     }
     public function save()
@@ -178,15 +178,6 @@ class trasladoController extends Controller
         print_r(json_encode($result));
     }
 
-    public function end()
-    {
-        $obj = new traslado();
-        $result = array();        
-        $p = $obj->end($_POST['i']);
-        if ($p[0]=="1") $result = array(1,$p[1]);
-        else $result = array(2,$p[1]);
-        print_r(json_encode($result));
-    }
 
     public function test()
     {
@@ -199,29 +190,6 @@ class trasladoController extends Controller
         $obj->InsertProduccion($_P);
     }
 
-    //MOSTAR REPORTE
-    function load_traslado()
-    {
-        $obj = new traslado();
-        $data = array();
-        $view = new View();
-        $data['rowsd'] = $obj->ViewResultados($_GET);
-        $view->setData($data);
-        $view->setTemplate( '../view/produccion/_consulproduc.php' );
-        echo $view->renderPartial();
-    }
-
-    //MOSTRAR DETALLE DE LOS REPORTES
-    public function detalle()
-    {
-        $obj = new traslado();
-        $data = array();
-        $view = new View();
-        $data['rowsd'] = $obj->rptDetails($_GET['id']);
-        $view->setData($data);
-        $view->setTemplate( '../view/produccion/_rptDetalle.php' );
-        $view->setLayout( '../template/list.php' );
-        $view->render();
-    }
+    
 }
 ?>

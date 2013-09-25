@@ -91,7 +91,7 @@
             </fieldset>
         </form>
         <?php $colspan=4; if($obj->idmovimiento!=""){ $style = "display:none";  $colspan=4; }?>
-        <fieldset id="box-melamina" class="ui-corner-all" style="padding: 2px 10px 7px; <?php echo $style; ?>">  
+         <fieldset id="box-melamina" class="ui-corner-all" style="padding: 2px 10px 7px; <?php echo $style; ?>">  
                 <legend>Detalle de la venta</legend>                
                 <div id="box-1"  >
                     <label class="labels" for="producto">Producto: </label>            
@@ -105,7 +105,7 @@
                         <input type="text" name="stock" id="stock" value="0.00" class="ui-widget-content ui-corner-all text text-num" readonly="readonly" />                
                         <img id="load-stock" src="images/loader.gif" style="display:none" />
                         <label class="labels" for="cantidad" style="width:70px">Cantidad: </label>                    
-                        <input type="text" name="cantidad" id="cantidad" value="0.00" class="ui-widget-content ui-corner-all text text-num" />
+                        <input type="text" name="cantidad" id="cantidad" value="0.00" class="ui-widget-content ui-corner-all text text-num" onkeypress="enter(event);return permite(event,'num');" />
                         <a href="javascript:" id="btn-add-ma" class="fm-button ui-state-default ui-corner-all fm-button-icon-right ui-reset"><span class="ui-icon ui-icon-plusthick"></span>Agregar</a>                         
                     </span>
                 </div>

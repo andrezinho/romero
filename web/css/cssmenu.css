@@ -12,9 +12,10 @@
       color: #ffffff;
       font-size: 12px;
       font-weight: normal;
-      /*text-transform: lowercase;*/
+      text-transform: uppercase;
       padding: 5px 8px;
       text-shadow: 1px 1px 0 rgba(0, 39, 121, 0.77);
+      font-weight: bold !important;
    }
    
    nav.head_nav ul li.home a {

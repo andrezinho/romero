@@ -554,10 +554,17 @@ function loadstock()
             $("#stock").val(data.stk);
             $("#precio").val(data.price);
             $("#cantidad").focus();
-       },'json')
+       },'json');
     }
 }
-
+function enter(evt)
+{
+    var keyPressed = (evt.which) ? evt.which : event.keyCode
+    if (keyPressed==13)
+    {
+        addnewproducto();
+    }
+}
 function addnewproducto()
 {
   bval = true;
