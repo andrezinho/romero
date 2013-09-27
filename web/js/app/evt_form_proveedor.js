@@ -1,20 +1,19 @@
 $(function() 
 {   
-    idd=$( "#Departamento" ).val();
-    iddist=$( "#iddist" ).val();
-    //alert(idd);
-    if(idd=='')
-        {
-            //alert(idd);
-            idd=210000;           
-            load_dep(idd);
-        }//else
-          //  {
-          //      if(iddist!= '')
-          //          {
-                        
-          //          }
-          //  }
+    var idd='',
+        idubigeo=$( "#idubigeo" ).val();    
+
+    if(idubigeo!="")    
+    {
+        idd = idubigeo.substring(0,2)+'0000';        
+        load_dep(idd);        
+    }
+    else
+    {
+      idd='210000';           
+      load_dep(idd);
+    }
+    
     
     
     $( "#nombres" ).focus();
@@ -23,11 +22,12 @@ $(function()
     $( "#idprovincia" ).css({'width':'210px'});
     $("#estados").buttonset();
            
-    //$("#fechanaci").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
+    $("#fechanaci").datepicker({dateFormat:'dd/mm/yy','changeMonth':true,'changeYear':true});
     $("#Departamento").change(function(){
-      idd=$(this).val();
-      
-      $.get('index.php','controller=Ubigeo&action=Provincia&idd='+idd,function(r){
+      idd=$(this).val();      
+      alert("A");
+      $.get('index.php','controller=Ubigeo&action=Provincia&idd='+idd,function(r)
+      {        
           var html = '';
           $.each(r,function(i,j){
             html += '<option value="'+j.codigo+'">'+j.descripcion+'</option>'
@@ -36,8 +36,9 @@ $(function()
           $("#idprovincia").empty().append(html);
           IdPro=$("#idprovincia").val();
           loadDistrito(IdPro);
-      },'json');
-    });
+      });
+
+    },'json');
 
 });
 
@@ -47,11 +48,27 @@ function load_dep(idd)
     $.get('index.php','controller=Ubigeo&action=Provincia&idd='+idd,function(r){
           var html = '';
           $.each(r,function(i,j){
-            html += '<option value="'+j.codigo+'">'+j.descripcion+'</option>'
-            //alert(html);
-          })
+            html += '<option value="'+j.codigo+'">'+j.descripcion+'</option>'            
+          });
           $("#idprovincia").empty().append(html);
-          IdPro=$("#idprovincia").val();
+          //"210601"
+
+          idubigeo=$( "#idubigeo" ).val();   
+          if(idubigeo!="")
+          {
+              IdPro = idubigeo.substring(0,4)+'00'; 
+              
+          }
+          else
+          {
+               if(idd=='210000')
+                IdPro = '210600';
+              else
+                IdPro=$("#idprovincia").val();        
+          }
+            
+
+          $("#idprovincia").val(IdPro);
           loadDistrito(IdPro);
       },'json');
 }
@@ -63,18 +80,31 @@ $("#idprovincia").change(function(){
 
 function loadDistrito(IdPro)
 {
-      //$("#idprovincia").change(function(){
-      //idd1=$(this).val();
+      
       $.get('index.php','controller=Ubigeo&action=Distrito&idd1='+IdPro,function(r){
           var html = '';
           $.each(r,function(i,j){
-            html += '<option value="'+j.codigo+'">'+j.descripcion+'</option>'
-            //alert(html);
+            html += '<option value="'+j.codigo+'">'+j.descripcion+'</option>'            
           })
           $("#iddistrito").empty().append(html);
 
+          idubigeo=$( "#idubigeo" ).val();   
+
+          if(idubigeo!="")
+          {              
+            $("#iddistrito").val(idubigeo);
+          }
+          else
+          {
+            if(IdPro == '210600')
+            $("#iddistrito").val("210601")
+          }
+
+
+          
+
       },'json');
-   // });
+   
 
 }
 function save()

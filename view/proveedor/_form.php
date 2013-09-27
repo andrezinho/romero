@@ -51,7 +51,7 @@
         <select id="idprovincia" name="idprovincia" class="ui-widget-content ui-corner-all">            
         </select>
         <br/>
-
+        <input type="hidden" name="idubigeo" id="idubigeo" value="<?php echo $obj->idubigeo; ?>" />
         <label for="distrito" class="labels">Distrito:</label>        
         <select id="iddistrito" name="iddistrito" class="ui-widget-content ui-corner-all">            
         </select>
