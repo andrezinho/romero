@@ -9,22 +9,17 @@ class HojaRuta extends Main
         z.descripcion || ' - ' || u.descripcion AS zonas,
         r.descripcion,
         p.nombres || ' ' || p.apellidos AS personal,        
-        substr(cast(h.fechareg as text),9,2)||'/'||substr(cast(h.fechareg as text),6,2)||'/'||substr(cast(h.fechareg as text),1,4)
-        
+        substr(cast(h.fechareg as text),9,2)||'/'||substr(cast(h.fechareg as text),6,2)||'/'||substr(cast(h.fechareg as text),1,4)        
         FROM
         hojarutas AS h
         INNER JOIN personal AS p ON p.idpersonal = h.idpersonal
         INNER JOIN zona AS z ON z.idzona = h.idzona
         INNER JOIN ubigeo AS u ON u.idubigeo = z.idubigeo
-<<<<<<< HEAD
-        INNER JOIN rutas AS r ON r.idrutas = h.idrutas ";    
-=======
-        INNER JOIN rutas AS r ON r.idrutas = h.idrutas     
+        INNER JOIN rutas AS r ON r.idrutas = h.idrutas         
         INNER JOIN sucursales AS s ON s.idsucursal = h.idsucursal 
-        WHERE
-        s.idsucursal = ".$_SESSION['idsucursal'];
+        WHERE s.idsucursal = ".$_SESSION['idsucursal'];
 
->>>>>>> da84e1ba5b591457fdcd3e8dd31bec8cdd317e84
+
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
