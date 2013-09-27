@@ -29,8 +29,8 @@ class Verificacion extends Main
         FROM
         facturacion.solicitud AS s
         INNER JOIN sucursales AS su ON su.idsucursal = s.idsucursal
-        INNER JOIN cliente AS c ON c.idcliente = s.idcliente ";
-        //echo $sql;
+        INNER JOIN cliente AS c ON c.idcliente = s.idcliente 
+        WHERE s.idsucursal = ".$_SESSION['idsucursal'];
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 

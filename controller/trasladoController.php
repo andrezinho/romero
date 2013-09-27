@@ -21,8 +21,8 @@ class trasladoController extends Controller
         $data['cmb_search'] = $this->Select(array('id'=>'fltr','name'=>'fltr','text_null'=>'','table'=>$this->getColsSearch($this->cols)));
         $data['controlador'] = $_GET['controller'];
         $data['titulo'] = "TRASLADO DE MUEBLES";
-        $data['script'] = "evt_index_produccion.js";        
-        $data['actions'] = array(true,true,false,true,false);
+        $data['script'] = "evt_index_traslado.js";        
+        $data['actions'] = array(true,false,false,true,false);
         $view = new View();
         $view->setData($data);
         $view->setTemplate('../view/_indexGrid.php');

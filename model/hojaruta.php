@@ -17,8 +17,7 @@ class HojaRuta extends Main
         INNER JOIN zona AS z ON z.idzona = h.idzona
         INNER JOIN ubigeo AS u ON u.idubigeo = z.idubigeo
         INNER JOIN rutas AS r ON r.idrutas = h.idrutas ";    
-            
-            return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
+        return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
     function edit($id ) {

@@ -29,8 +29,10 @@ class Ventas extends Main
             INNER JOIN facturacion.movimientodetalle AS md ON m.idmovimiento = md.idmovimiento
             INNER JOIN cliente AS c ON c.idcliente = m.idcliente
             INNER JOIN facturacion.tipodocumento AS tpd ON tpd.idtipodocumento = m.idtipodocumento
-            INNER JOIN produccion.tipopago AS tpp ON tpp.idtipopago = m.idtipopago ";                
-        
+            INNER JOIN produccion.tipopago AS tpp ON tpp.idtipopago = m.idtipopago 
+            inner join produccion.almacenes as a on a.idalmacen = m.idalmacen 
+            WHERE a.idsucursal = ".$_SESSION['idsucursal'];                
+        //echo $sql;
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 

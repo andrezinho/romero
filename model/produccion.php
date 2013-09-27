@@ -41,7 +41,7 @@ class Produccion extends Main
                 INNER JOIN public.personal AS pe ON pe.idpersonal = p.idpersonal 
                 inner join produccion.almacenes as a on a.idalmacen = p.idalmacen
                 inner join produccion.producciontipo as pt on pt.idproducciontipo = p.idproducciontipo
-                WHERE p.idproducciontipo=1";
+                WHERE p.idproducciontipo=1 and a.idsucursal = ".$_SESSION['idsucursal'];
         //echo $sql;
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
@@ -62,7 +62,7 @@ class Produccion extends Main
                         inner join produccion.productos_semi as ps on ps.idproductos_semi = sps.idproductos_semi
                         inner join produccion.almacenes as a on a.idalmacen = p.idalmacen 
                         inner join personal as pp on p.idpersonal = pp.idpersonal
-                     where p.estado = 2 ";
+                     where p.estado = 2 and a.idsucursal = ".$_SESSION['idsucursal'];
      
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
@@ -409,7 +409,9 @@ class Produccion extends Main
         $idpersonal=$_P['idpersonal'];
         $usuarioreg = $_SESSION['idusuario'];
         $idalmacenp = $_P['idalmacen']; //Almacen de produccion ORIGGEN
-        $idalmacend = $_P['idalmacen']; //Almacen de produccion DESTINO
+        if($_P['idalmacend']=="") 
+            $_P['idalmacend'] = $_P['idalmacend'];
+        $idalmacend = $_P['idalmacend']; //Almacen de produccion DESTINO
         $idproducciontipo = $_P['idproducciontipo'];
 
         $s = $this->db->prepare("SELECT descripcion,tipo FROM produccion.producciontipo
@@ -474,7 +476,10 @@ class Produccion extends Main
                     $idsps = $prod->idsps[$i];
                     $cantd = $prod->cantidad[$i];
 
-                    $stmt4->bindParam(':idal',$idalmacenp,PDO::PARAM_INT);
+                    $idalm = $idalmacenp;
+                    if(isset($prod->idalmacen[$i])&&$prod->idalmacen[$i]!="")
+                        $idalm = $prod->idalmacen[$i];
+                    $stmt4->bindParam(':idal',$idalm,PDO::PARAM_INT);
                     $stmt4->bindParam(':idsps',$idsps,PDO::PARAM_INT);
                     $stmt4->execute();
                     $row4 = $stmt4->fetchObject();
@@ -491,7 +496,7 @@ class Produccion extends Main
                     $stmt2->bindParam(':p5',$estado,PDO::PARAM_INT);
                     $stmt2->bindParam(':p6',$contador,PDO::PARAM_INT);
                     $stmt2->bindParam(':p7',$ctotal,PDO::PARAM_INT);
-                    $stmt2->bindParam(':p8',$idalmacenp,PDO::PARAM_INT);
+                    $stmt2->bindParam(':p8',$idalm,PDO::PARAM_INT);
                     $stmt2->bindParam(':p9',$cantd,PDO::PARAM_INT);
                     $stmt2->execute();
                 }        

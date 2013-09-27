@@ -24,7 +24,8 @@ class Proformas extends Main
             else '&nbsp;' end    
             FROM facturacion.proforma AS p
             INNER JOIN cliente AS c ON c.idcliente = p.idcliente
-            INNER JOIN sucursales AS s ON s.idsucursal = p.idsucursal ";
+            INNER JOIN sucursales AS s ON s.idsucursal = p.idsucursal 
+            WHERE s.idsucursal = ".$_SESSION['idsucursal'];
         //echo $sql;    
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
