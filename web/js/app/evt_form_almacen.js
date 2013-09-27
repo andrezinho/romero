@@ -1,6 +1,7 @@
 $(function() 
 {    
-    $( "#descripcion" ).focus();    
+    $( "#descripcion" ).focus
+    $( "#idsucursal" ).css({'width':'210px'});   
     $("#estados").buttonset();
 });
 

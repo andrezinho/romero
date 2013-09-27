@@ -6,11 +6,12 @@ require_once '../model/almacen.php';
 class AlmacenController extends Controller 
 {   
     var $cols = array(
-                        1 => array('Name'=>'Codigo','NameDB'=>'a.idalmacen','align'=>'center','width'=>50),
-                        2 => array('Name'=>'Descripcion','NameDB'=>'a.descripcion','width'=>250,'search'=>true),
-                        3 => array('Name'=>'Direccion','NameDB'=>'a.direccion','search'=>true),
-                        4 => array('Name'=>'Telefono','NameDB'=>'a.telefono','align'=>'center'),
-                        5 => array('Name'=>'Estado','NameDB'=>'a.estado','align'=>'center')
+                        1 => array('Name'=>'Codigo','NameDB'=>'a.idalmacen','align'=>'center','width'=>60),
+                        2 => array('Name'=>'Sucursal','NameDB'=>'s.descripcion','width'=>200,'search'=>true),
+                        3 => array('Name'=>'Almacen','NameDB'=>'a.descripcion','width'=>190,'search'=>true),
+                        4 => array('Name'=>'Direccion','NameDB'=>'a.direccion','width'=>180),
+                        5 => array('Name'=>'Telefono','NameDB'=>'a.telefono','align'=>'left','width'=>80),
+                        6 => array('Name'=>'Estado','NameDB'=>'a.estado','align'=>'center','width'=>80)
                         
                      );
 
@@ -51,6 +52,7 @@ class AlmacenController extends Controller
     {
         $data = array();
         $view = new View();
+        $data['idsucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','text_null'=>'Seleccione...','table'=>'vista_sucursal'));
         $view->setData($data);
         $view->setTemplate( '../view/almacen/_form.php' );
         echo $view->renderPartial();
@@ -63,6 +65,7 @@ class AlmacenController extends Controller
         $view = new View();
         $obj = $obj->edit($_GET['id']);
         $data['obj'] = $obj;
+        $data['idsucursal'] = $this->Select(array('id'=>'idsucursal','name'=>'idsucursal','table'=>'vista_sucursal','code'=>$obj->idsucursal));   
         $view->setData($data);
         $view->setTemplate( '../view/almacen/_form.php' );
         echo $view->renderPartial();

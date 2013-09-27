@@ -1,7 +1,7 @@
 <?php
-require_once '../lib/controller.php';
-require_once '../lib/view.php';
-require_once '../model/personal.php';
+    require_once '../lib/controller.php';
+    require_once '../lib/view.php';
+    require_once '../model/personal.php';
 
 class PersonalController extends Controller 
 {   
@@ -124,7 +124,7 @@ class PersonalController extends Controller
         print_r(json_encode($result));
     }
     
-    //
+    //Ver historial de trabajo para los pagos
     public function VerTrabajo()
     {
         $obj = new Personal();
@@ -138,6 +138,31 @@ class PersonalController extends Controller
         $view->setLayout( '../template/empty.php' );
         echo $view->renderPartial();
     }
+
+    //Ver historial de pagos
+    public function VerPagos()
+    {
+        /*$obj = new Personal();
+        $data = array();
+        $view = new View();
+        $ro = $obj->viewPag($_GET);
+        $data['produccion'] = $ro[0];
+        $data['acabado'] = $ro[1];
+        $view->setData($data);
+        $view->setTemplate( '../view/pagopersonal/_datoshist.php' );
+        $view->setLayout( '../template/empty.php' );
+        echo $view->renderPartial();*/
+
+        $obj = new Personal();
+        $data = array();
+        $view = new View();
+        $data['rowsd'] = $obj->viewPag($_GET);
+        $view->setData($data);
+        $view->setTemplate( '../view/pagopersonal/_pagoshist.php' );
+        $view->setLayout( '../template/empty.php' );
+        echo $view->renderPartial();
+    }
+
 }
  
 

@@ -1,7 +1,8 @@
 $(function() 
 {   
     $("#tabs").tabs();
-    $("#mes, #meses").css({'width':'180px'});
+    $("#mes, #meses, #pagmeses").css({'width':'180px'});
+
     $("#dni").autocomplete({
         minLength: 0,
         source: 'index.php?controller=personal&action=get&tipo=1',
@@ -26,20 +27,37 @@ $(function()
 
     $("#meses").change(function(){
         load_trabajo($(this).val()); 
-    });      
+    });
+
+    $("#pagmeses").change(function(){
+        load_pagos($(this).val()); 
+    });
 
 });
 
 
 function load_trabajo(mes)
 {
-  //alert('');
+  
   idpersonal= $("#idpersonal").val();
   anio= $("#anios").val();
-  //alert(mes);
+
   $.get('index.php','controller=personal&action=VerTrabajo&idpersonal='+idpersonal+'&mes='+mes+'&anio='+anio,function(r){
 
     $("#divLoadTrabajo").empty().append(r);
+
+  });
+}
+
+function load_pagos(mes)
+{
+  
+  idpersonal= $("#idpersonal").val();
+  anio= $("#aniospag").val();
+  
+  $.get('index.php','controller=personal&action=VerPagos&idpersonal='+idpersonal+'&mes='+mes+'&anio='+anio,function(r){
+
+    $("#divLoadPagos").empty().append(r);
 
   });
 }

@@ -58,8 +58,7 @@ class CargoController extends Controller
         $data = array();
         $view = new View();
         $obj = $obj->edit($_GET['id']);
-        $data['obj'] = $obj;        
-        $data['more_options'] = $this->more_options('area');
+        $data['obj'] = $obj;
         $view->setData($data);
         $view->setTemplate( '../view/cargo/_form.php' );
         echo $view->renderPartial();

@@ -6,12 +6,16 @@ class Almacen extends Main
     {
        $sql = "SELECT
             a.idalmacen,
+            s.descripcion,
             a.descripcion,
             a.direccion,
             a.telefono,
-            case a.estado when 1 then 'ACTIVO' else 'INCANTIVO' end            
+            case a.estado when 1 then 'ACTIVO' else 'INCANTIVO' end
+
             FROM
-            produccion.almacenes AS a ";
+            produccion.almacenes AS a
+            LEFT JOIN sucursales AS s ON s.idsucursal = a.idsucursal ";
+
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
@@ -25,13 +29,15 @@ class Almacen extends Main
     
     function insert($_P ) 
     {
-        $stmt = $this->db->prepare("INSERT INTO produccion.almacenes(descripcion,direccion,telefono,estado)
-                                    values(:p1,:p2,:p3,:p4) ");
+        $stmt = $this->db->prepare("INSERT INTO produccion.almacenes(descripcion,direccion,telefono,
+                        estado,idsucursal)
+                    values(:p1,:p2,:p3,:p4 ,:p5) ");
         //if($_P['descripcion']==""){$_P['descripcion']=null;}        
-        $stmt->bindParam(':p1', $_P['descripcion'] , PDO::PARAM_STR);       
+        $stmt->bindParam(':p1', $_P['descripcion'] , PDO::PARAM_STR);
         $stmt->bindParam(':p2', $_P['direccion'] , PDO::PARAM_STR);
         $stmt->bindParam(':p3', $_P['telefono'] , PDO::PARAM_STR);
-        $stmt->bindParam(':p4', $_P['activo'] , PDO::PARAM_INT);        
+        $stmt->bindParam(':p4', $_P['activo'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p5', $_P['idsucursal'] , PDO::PARAM_INT);
         
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
@@ -46,7 +52,9 @@ class Almacen extends Main
                 set descripcion=:p1,
                     direccion=:p2,
                     telefono=:p3,
-                    estado =:p4             
+                    estado =:p4,
+                    idsucursal = :p5
+                                
                 WHERE idalmacen = :idalmacen ";
         $stmt = $this->db->prepare($sql);
             
@@ -54,6 +62,7 @@ class Almacen extends Main
             $stmt->bindParam(':p2', $_P['direccion'] , PDO::PARAM_STR);
             $stmt->bindParam(':p3', $_P['telefono'] , PDO::PARAM_STR);
             $stmt->bindParam(':p4', $_P['activo'] , PDO::PARAM_INT); 
+            $stmt->bindParam(':p5', $_P['idsucursal'] , PDO::PARAM_INT);
 
             $stmt->bindParam(':idalmacen', $_P['idalmacen'] , PDO::PARAM_INT);
 

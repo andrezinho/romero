@@ -16,7 +16,15 @@ class HojaRuta extends Main
         INNER JOIN personal AS p ON p.idpersonal = h.idpersonal
         INNER JOIN zona AS z ON z.idzona = h.idzona
         INNER JOIN ubigeo AS u ON u.idubigeo = z.idubigeo
+<<<<<<< HEAD
         INNER JOIN rutas AS r ON r.idrutas = h.idrutas ";    
+=======
+        INNER JOIN rutas AS r ON r.idrutas = h.idrutas     
+        INNER JOIN sucursales AS s ON s.idsucursal = h.idsucursal 
+        WHERE
+        s.idsucursal = ".$_SESSION['idsucursal'];
+
+>>>>>>> da84e1ba5b591457fdcd3e8dd31bec8cdd317e84
         return $this->execQuery($page,$limit,$sidx,$sord,$filtro,$query,$cols,$sql);
     }
 
@@ -73,8 +81,8 @@ class HojaRuta extends Main
     function insert($_P ) {
 
         $sql="INSERT INTO hojarutas(
-            idrutas, idpersonal, idzona, fechareg) 
-                    VALUES(:p1,:p2,:p3,:p4)" ;
+            idrutas, idpersonal, idzona, fechareg, idsucursal) 
+                    VALUES(:p1,:p2,:p3,:p4, :p5)" ;
 
         $stmt = $this->db->prepare($sql);
         try 
@@ -87,6 +95,7 @@ class HojaRuta extends Main
             $stmt->bindParam(':p2', $_P['idpersonal'] , PDO::PARAM_INT);
             $stmt->bindParam(':p3', $_P['idzona'] , PDO::PARAM_INT);
             $stmt->bindParam(':p4', $_P['fechareg'], PDO::PARAM_INT);
+            $stmt->bindParam(':p5', $_SESSION['idsucursal'], PDO::PARAM_INT);
 
             $stmt->execute();
             $id =  $this->IdlastInsert('hojarutas','idhojarutas');

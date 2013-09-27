@@ -24,67 +24,28 @@ class PagoPersonal extends Main
     function edit($id)
     {
         $stmt = $this->db->prepare("SELECT
-            m.idmovimiento,
-            m.fecha,
-            m.idtipodocumento,
-            m.documentoserie,
-            m.documentonumero,
-            m.documentofecha,
-            m.idcliente,
-            m.idmoneda,
-            m.tipocambio,
-            m.subtotal,
-            m.porcentajeigv,
-            m.total,
-            m.pagoestado,
-            m.pagofecha,
-            m.estado,
-            m.idusuarioreg,
-            m.fechareg,
-            m.idusuarioanu,
-            m.fechaanu,
-            m.obs,
-            m.igv,
-            m.motivoanulacion,
-            m.tipodescuento,
-            m.idtipopago,
-            m.idalmacen,
-            m.descuento,
-            c.nombres || ' ' || c.apepaterno || ' ' || c.apematerno AS nomcliente,
-            c.dni,
-            c.direccion
-            FROM
-            facturacion.movimiento AS m
-            INNER JOIN cliente AS c ON c.idcliente = m.idcliente
+            p.idpagos,
+            per.idpersonal,
+            per.dni,
+            per.nombres || ' ' || per.apellidos AS personal,
+            p.nrorecibo,
+            p.motivo,
+            p.fechacancelacion,
+            p.importe,
+            p.horapago,
+            p.pagomes,
+            p.pagoanio
 
-            WHERE idmovimiento = :id ");
+            FROM
+            produccion.pagos AS p
+            INNER JOIN personal AS per ON per.idpersonal = p.idpersonal
+
+            WHERE p.idpagos = :id ");
         $stmt->bindParam(':id', $id , PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchObject();
     }
     
-    function getDetails($id)
-    {
-        $stmt = $this->db->prepare("SELECT
-            md.item,
-            p.descripcion,
-            md.idproducto,
-            md.precio,
-            md.cantidad,
-            md.precio * md.cantidad AS importe
-            FROM
-            facturacion.movimiento AS m
-            INNER JOIN facturacion.movimientodetalle AS md ON m.idmovimiento = md.idmovimiento
-            INNER JOIN produccion.subproductos_semi AS p ON p.idsubproductos_semi = md.idproducto
-
-            WHERE md.idmovimiento = :id    
-            ORDER BY md.idmovimiento ");
-
-        $stmt->bindParam(':id', $id , PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt->fetchAll();
-    }
-
     function insert($_P ) 
     {
         $stmt = $this->db->prepare("INSERT INTO produccion.pagos(
@@ -108,25 +69,24 @@ class PagoPersonal extends Main
 
     function update($_P ) 
     {
-        $sql = "UPDATE seguridad.modulo set  idpadre=:p1,
-                                   descripcion=:p2,
-                                   url=:p3,
-                                   estado=:p5,
-                                   orden=:p6,
-                                   controlador=:p7,
-                                   accion=:p8
-                       where idmodulo = :idmodulo";
+        $sql = "UPDATE produccion.pagos
+                   SET  nrorecibo= :p1,
+                        importe= :p3, pagomes= :p4, 
+                       pagoanio= :p5, idpersonal= :p6, 
+                       motivo= :p8
+                 WHERE idpagos = :idpagos";
         $stmt = $this->db->prepare($sql);
-        if($_P['idpadre']==""){$_P['idpadre']=null;}        
-            $stmt->bindParam(':p1', $_P['idpadre'] , PDO::PARAM_INT);
-            $stmt->bindParam(':p2', $_P['descripcion'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p3', $_P['url'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p5', $_P['activo'] , PDO::PARAM_BOOL);
-            $stmt->bindParam(':p6', $_P['orden'] , PDO::PARAM_INT);
-            $stmt->bindParam(':idmodulo', $_P['idmodulo'] , PDO::PARAM_INT);
-            $stmt->bindParam(':p7', $_P['controlador'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p8', $_P['accion'] , PDO::PARAM_STR);   
-            
+               
+        $stmt->bindParam(':p1', $_P['nrorecibo'] , PDO::PARAM_STR);
+        //$stmt->bindParam(':p2', $_P['fechacancelacion'] , PDO::PARAM_STR);
+        $stmt->bindParam(':p3', $_P['montopag'] , PDO::PARAM_INT);
+        $stmt->bindParam(':p4', $_P['mes'] , PDO::PARAM_STR);
+        $stmt->bindParam(':p5', $_P['anio'] , PDO::PARAM_STR);
+        $stmt->bindParam(':p6', $_P['idpersonal'] , PDO::PARAM_INT);
+        //$stmt->bindParam(':p7', $_P['horapago'] , PDO::PARAM_STR);
+        $stmt->bindParam(':p8', $_P['motivopago'] , PDO::PARAM_STR);
+        $stmt->bindParam(':idpagos', $_P['idpagos'] , PDO::PARAM_INT);
+           
         $p1 = $stmt->execute();
         $p2 = $stmt->errorInfo();
         return array($p1 , $p2[2]);
