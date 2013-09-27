@@ -166,14 +166,40 @@ class Personal extends Main
             a.idpersonal= :id and  extract(YEAR from a.fecha)=:p2 AND extract(MONTH from a.fecha)=:p1 ";
 
             $stmt1 = $this->db->prepare($acabado);
-            $stmt->bindParam(':id', $Gets['idpersonal'] , PDO::PARAM_INT);
-            $stmt->bindParam(':p1', $Gets['mes'] , PDO::PARAM_STR);
-            $stmt->bindParam(':p2', $Gets['anio'] , PDO::PARAM_STR);
+            $stmt1->bindParam(':id', $Gets['idpersonal'] , PDO::PARAM_INT);
+            $stmt1->bindParam(':p1', $Gets['mes'] , PDO::PARAM_STR);
+            $stmt1->bindParam(':p2', $Gets['anio'] , PDO::PARAM_STR);
 
             $stmt1->execute();
             $acabado=$stmt1->fetchAll();
 
             return array($produccion , $acabado);
+    }
+
+    function viewPag($Gets)
+    {
+        $sql="SELECT
+            pa.motivo,
+            pa.nrorecibo,
+            pa.importe,
+            substr(cast(pa.fechacancelacion as text),9,2)||'/'||substr(cast(pa.fechacancelacion as text),6,2)||'/'||substr(cast(pa.fechacancelacion as text),1,4) AS fechacancelacion,
+            pa.horapago
+            
+            FROM
+            produccion.pagos AS pa
+            INNER JOIN personal AS pe ON pe.idpersonal = pa.idpersonal
+            WHERE
+            pa.idpersonal= :id and  extract(YEAR from pa.fechacancelacion)=:p2 AND extract(MONTH from pa.fechacancelacion)=:p1 ";
+
+        $stmt1 = $this->db->prepare($sql);
+        $stmt1->bindParam(':id', $Gets['idpersonal'] , PDO::PARAM_INT);
+        $stmt1->bindParam(':p1', $Gets['mes'] , PDO::PARAM_STR);
+        $stmt1->bindParam(':p2', $Gets['anio'] , PDO::PARAM_STR);
+
+        $stmt1->execute();
+        return $stmt1->fetchAll();
+
+
     }
 }
 ?>

@@ -33,6 +33,7 @@ class PagoPersonalController extends Controller
         $view->setlayout('../template/layout.php');
         $view->render();
     }
+    
     public function indexGrid() 
     {
         $obj = new PagoPersonal();  

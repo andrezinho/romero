@@ -5,10 +5,12 @@
 <div style="padding:10px 20px">
 <form id="frm" >
     <input type="hidden" name="controller" value="Almacen" />
-    <input type="hidden" name="action" value="save" /> 
+    <input type="hidden" name="action" value="save" />
+   
+    <input type="hidden" id="idalmacen" name="idalmacen" value="<?php echo $obj->idalmacen; ?>" />
 
-    <label for="idalmacen" class="labels">Codigo:</label>
-    <input id="idalmacen" name="idalmacen" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->idalmacen; ?>" readonly />
+    <label for="idalmacen" class="labels">Sucursal:</label>
+    <?php echo $idsucursal; ?>
 
     <label for="descripcion" class="labels">Descripcion:</label>
     <input type="text" id="descripcion" maxlength="100" name="descripcion" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->descripcion; ?>" />
