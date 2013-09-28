@@ -84,6 +84,7 @@
                 <label for="nivel" class="labeles">Nivel Educacion:</label>        
                 <?php echo $NivelEducacion; ?>
                 
+                <input type="hidden" name="idubigeo" id="idubigeo" value="<?php echo $obj->idubigeo; ?>" />
                 <label for="Departamento" class="labeles">Departamento:</label>
                 <?php echo $Departamento; ?>
                 <br/>
