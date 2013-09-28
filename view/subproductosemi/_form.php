@@ -16,9 +16,9 @@
         <div id="tabs-1">
             <label for="productos_semi" class="labels">Producto Semi</label>
             <?php echo $productos_semi; ?>
-
-            <label for="descripcion" class="labeles">Descripcion:</label>
-            <input id="descripcion" maxlength="100" name="descripcion" value="<?php echo $obj->descripcion; ?>" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" />
+            <br/>
+            <label for="descripcion" class="labels">Descripcion:</label>
+            <input id="descripcion" maxlength="150" name="descripcion" value="<?php echo $obj->descripcion; ?>" onkeypress="return permite(event,'num_car');" class="text ui-widget-content ui-corner-all" style=" width: 480px; text-align: left;" />
             <br/>
             
             <label for ="factores" class="labels">Factor</label>
