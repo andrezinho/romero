@@ -57,7 +57,7 @@
                         <li><a href="#tabs-2">Melamina</a></li>
                     </ul>
                     <div id="tabs-1">
-                        <div>Agregar la el tipo y la cantidad de <b>Madera</b> a emplear para la produccion.</div>
+                        <div>Agregar el tipo y la cantidad de <b>Madera</b> a emplear para la produccion.</div>
                         <label>Madera: </label>                             
                         <?php echo $idmadera; ?>
                         <span id="label-stock-ma" class="box-info">Stock Max: * pies</span>

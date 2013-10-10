@@ -28,7 +28,7 @@
     <input type="text" id="valormaximo" maxlength="100" name="valormaximo" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->valormaximo; ?>" />
     <br />
     
-    <label for="valorminimo" class="labels">Valor Míximo:</label>
+    <label for="valorminimo" class="labels">Valor Mínimo:</label>
     <input type="text" id="valorminimo" maxlength="100" name="valorminimo" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->valorminimo; ?>" />
     
     <label for="incremento" class="labels">Incremento:</label>

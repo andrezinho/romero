@@ -50,9 +50,11 @@ class Financiamiento extends Main
             $stmt->bindParam(':p3', $_P['inicial'] , PDO::PARAM_INT);
             $stmt->bindParam(':p4', $_P['activo'] , PDO::PARAM_INT);
             $stmt->execute();
-            $id =  $this->lastInsertId('facturacion.financiamiento','idfinanciamiento');
-            $row = $stmt->fetchAll();
 
+            $id =  $this->IdlastInsert('facturacion.financiamiento','idfinanciamiento');
+            
+            $row = $stmt->fetchAll();
+            //echo $id;
             $stmt2  = $this->db->prepare("INSERT INTO facturacion.financiamientofactor(
                             idfinanciamiento, meses,factor)
                         VALUES ( :p1, :p2, :p3) ");

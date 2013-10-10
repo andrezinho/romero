@@ -32,9 +32,12 @@ class Personal extends Main
     
     function insert($_P ) 
     {
-        $stmt = $this->db->prepare("INSERT INTO personal(dni, nombres, apellidos, telefono, direccion, sexo, idestado_civil,
+        //echo $ver= $_P['telefono'];
+        $sql="INSERT INTO personal(dni, nombres, apellidos, telefono, direccion, sexo, idestado_civil,
                         estado,idarea,idcargo,idperfil, usuario,clave,ruc)
-                        values(:p1,:p2,:p3,:p5,:p6,:p7,:p8,:p9,:p10,:p11,:p12,:p13, :p14)");
+                        values(:p1,:p2,:p3,:p4,:p5,:p6,:p7,:p8,:p9,:p10,:p11,:p12,:p13, :p14)";
+
+        $stmt = $this->db->prepare($sql);
              
         $stmt->bindParam(':p1', $_P['dni'] , PDO::PARAM_STR);
         $stmt->bindParam(':p2', $_P['nombres'] , PDO::PARAM_STR);

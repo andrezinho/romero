@@ -31,9 +31,9 @@ class Madera extends Main
     {
         $tipopro=1;
         $idmaderb= 1;
-        $stmt = $this->db->prepare("INSERT into produccion.producto(tipoproducto,descripcion,idmaderba,
+        $stmt = $this->db->prepare("INSERT into produccion.producto(idtipoproducto,descripcion,idmaderba,
                                     precio_u,idunidad_medida,stock,estado)
-                                    values(:p1,:p2,:p3,:p5,:p6,:p7)");
+                                    values(:p1,:p2,:p3,:p4,:p5,:p6,:p7)");
               
         $stmt->bindParam(':p1', $tipopro , PDO::PARAM_INT);
         $stmt->bindParam(':p2', $_P['descripcion'] , PDO::PARAM_STR);

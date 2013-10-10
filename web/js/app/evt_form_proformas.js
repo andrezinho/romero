@@ -6,6 +6,7 @@ $(function()
     
     //Generar correlativo
     load_correlativo();
+    
     $("#idtipopago").change(function(){
         load_campos($(this).val()); 
     });

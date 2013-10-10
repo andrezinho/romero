@@ -23,7 +23,7 @@
         <input type="text" id="apellidos" name="apellidos" onkeypress="return permite(event,'car');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->apellidos; ?>" />
         <br/>    
 
-        <label for="telefono" class="labels">Telefono:</label>
+        <label for="telefonoss" class="labels">Telefono:</label>
         <input type="text" id="telefono" name="telefono" onkeypress="return permite(event,'num');" class="text ui-widget-content ui-corner-all" style=" width: 200px; text-align: left;" value="<?php echo $obj->telefono; ?>" />
         
         <label for="fechanaci" class="labels">Fecha Nac:</label>
